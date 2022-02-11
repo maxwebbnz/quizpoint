@@ -14,12 +14,19 @@ let cls = {
         code.innerHTML = currentClass.code
             // set background image
         let lengthofPosts = Object.keys(classList[_inf].posts).length;
+        // check if user has looked into other posts...
+        let posts = document.getElementById('posts');
+        let countPosts = posts.getElementsByTagName('div').length;
 
+        if (countPosts > 0) {
+            posts.innerHTML = ""
+        }
         if (lengthofPosts > 0) {
             console.log("I have posts")
             this.posts(_inf);
         } else {
             console.log("I have no posts")
+            document.getElementById('posts').innerHTML = 'No activity'
         }
     },
     /**==============================================

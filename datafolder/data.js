@@ -9,7 +9,7 @@ let classList = [{
                 "author": "Alan McIlwaine",
                 "content": "HELLO I LIKE JASON!!!",
             },
-            "2": {
+            "b": {
                 "author": "Alan McIlwaine",
                 "content": "HELLO I LIKE JASON T!!!",
             },
@@ -22,8 +22,10 @@ let classList = [{
         "image": "https://media.istockphoto.com/photos/field-full-of-green-grass-and-hills-picture-id146766798?k=20&m=146766798&s=612x612&w=0&h=UQulU1Miuimu96r1yApRgBiwXcUGgeUhFgH3kuHWOEc=",
         "teacher": "Max Webb",
         "posts": {
-            "author": this.teacher,
-            "content": "HELLO I LIKE JASON!!!",
+            "a": {
+                "author": "Max webb",
+                "content": "HELLO I LIKE JASON!!!",
+            },
         }
     },
     {
@@ -43,8 +45,10 @@ let classList = [{
         "code": "A",
 
         "posts": {
-            "author": this.teacher,
-            "content": "HELLO I LIKE JASON!!!",
+            "a": {
+                "author": this.teacher,
+                "content": "HELLO I LIKE JASON!!!",
+            },
         }
     },
     {
@@ -52,10 +56,11 @@ let classList = [{
         "image": "https://media.istockphoto.com/photos/field-full-of-green-grass-and-hills-picture-id146766798?k=20&m=146766798&s=612x612&w=0&h=UQulU1Miuimu96r1yApRgBiwXcUGgeUhFgH3kuHWOEc=",
         "teacher": "Katie Long",
         "code": "A",
-
         "posts": {
-            "author": this.teacher,
-            "content": "HELLO I LIKE JASON!!!",
+            "a": {
+                "author": this.teacher,
+                "content": "HELLO I LIKE JASON!!!",
+            },
         }
     },
     {
@@ -65,8 +70,10 @@ let classList = [{
         "code": "A",
 
         "posts": {
-            "author": this.teacher,
-            "content": "HELLO I LIKE JASON!!!",
+            "a": {
+                "author": this.teacher,
+                "content": "HELLO I LIKE JASON!!!",
+            },
         }
     }
 ]

@@ -51,13 +51,14 @@
     align-items: center;
 }
 
-#homePage{
-    display:none;
+#homePage {
+    display: block;
 }
 
 #profile {
     color: white;
 }
-#classContainer{
-    margin-left:30vh
+
+#classContainer {
+    margin-left: 30vh
 }

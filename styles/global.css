@@ -51,6 +51,10 @@
     align-items: center;
 }
 
+#homePage{
+    display:none;
+}
+
 #profile {
     color: white;
 }

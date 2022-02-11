@@ -1,3 +1,4 @@
+
 .card{ 
     width:20rem;
     height:20rem;
@@ -27,4 +28,7 @@
 #classContainer{
     margin-left: 10rem;
     margin-right:10rem;
+}
+.animate__animated.animate__fadeInLeft {
+    --animate-duration:1000ms;
 }

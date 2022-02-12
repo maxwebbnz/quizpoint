@@ -15,6 +15,13 @@ let classList = [{
             },
 
         },
+        "quizes": {
+            "0001": {
+                "assignedby": "Alan",
+                "due": "16th Feb",
+                "code": "0001"
+            },
+        },
     },
     {
         "classroom": "13COMP",
@@ -79,10 +86,23 @@ let classList = [{
 ]
 
 let quizes = [{
-    "0001": {
-        "name": "The monster is here!",
-        "author": "Mr Alan the Monster",
-        "scorerequired": "100",
-        "questions": [{ "question": "What is Max's last name?", "answer": "Webb" }, { "question": "What is Max's last name?", "answer": "Webb" }],
-    }
+    "name": "The monster is here!",
+    code: "axy",
+    "author": "Mr Alan the Monster",
+    "scorerequired": "100",
+    "questions": [{ "question": "What is Max's last name?", "answer": "Webb" }, { "question": "What is Max's last names?", "answer": "Webb" }],
+}, {
+    "name": "The monster is here!",
+    code: "ddd",
+    "author": "Mr Alan the Monster",
+    "scorerequired": "100",
+    "questions": [{ "question": "What is Max's last name?", "answer": "Webb" }, { "question": "What is Max's last name?", "answer": "Webbs" }],
 }]
+
+let user = {
+    "name": "Max Webb",
+    "assigned": {
+        "9PTEC": "axy",
+        "13DTEC": "dad"
+    }
+}

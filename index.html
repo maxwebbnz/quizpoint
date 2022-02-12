@@ -72,6 +72,9 @@
         </div>
     </div>
     <div id="classPage" class="animate__animated animate__fadeInLeft">
+        <div class="alert alert-primary" style="width: 80%;" role="alert">
+            You have quizzes to complete... <a href="#" onclick="quiz.showQuiz()">Start now</a>
+        </div>
         <div class="heading">
             <h3 id="className"></h3>
             <h5><span id="classTeacher"></span> | Code: <span id="classCode"></span></h5>
@@ -106,30 +109,52 @@
     </div>
     <!-- Quiz Section -->
     <div id="quizview">
-        <h1 class="header">Quiz: <span id="quiz-title"> Monster Man</span></h1>
-        <div class="progress">
-            <div class="progress-bar w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="quizestodo" id="quizdue">
+            <h4>Quizes to do</h4>
+            <table class="table table-responsive qzTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Quiz Name</th>
+                        <th scope="col">Assigned By</th>
+                        <th scope="col">Quiz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Names</td>
+                        <td>John Norris</td>
+                        <td>
+                            <a href="#" onclick="quiz.start('axy')">Start Quiz</a> </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="quizbox">
-            <h3 style="color: grey">Question <span id="quiz-qsnum">2</span></h3>
-            <h2 class="question"><span id="quiz-qscnt">What is the name?</span></h2>
-            <div id="quiz-qsanswers" class="question-answer">
-                <!-- if answer is text based -->
-                <div style="display:block;" class="quiz-txtanswerbox form-group " id="quiz-txtanswer">
-                    <label for="quiz"></label>
-                    <input type="text" class="form-control" name="" id="quiz-qsanswer" aria-describedby="helpId" placeholder="Answer here">
+        <div id="qz" style="display: none;">
+            <h1 class="header">Quiz: <span id="quiz-title"> Monster Man</span></h1>
+            <div class="progress">
+                <div class="progress-bar w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="quizbox">
+                <h3 style="color: grey">Question <span id="quiz-qsnum">2</span></h3>
+                <h2 class="question"><span id="quiz-qscnt">What is the name?</span></h2>
+                <div id="quiz-qsanswers" class="question-answer">
+                    <!-- if answer is text based -->
+                    <div style="display:block;" class="quiz-txtanswerbox form-group " id="quiz-txtanswer">
+                        <label for="quiz"></label>
+                        <input type="text" class="form-control" name="" id="quiz-qsanswer" aria-describedby="helpId" placeholder="Answer here">
+                    </div>
                 </div>
+                <!-- if answer is pre selected... -->
+                <div class="quiz-multichoiceanswer" style="display:none;" id="quiz-multichoice">
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                </div>
+                <a class="btn btn-secondary quiz-next" href="#" role="button" id="quiz-submit">Next</a>
             </div>
-            <!-- if answer is pre selected... -->
-            <div class="quiz-multichoiceanswer" style="display:none;" id="quiz-multichoice">
-                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
-            </div>
-            <a class="btn btn-secondary quiz-next" href="#" role="button" id="quiz-submit">Next</a>
         </div>
     </div>
     <!-- Teaching Suite... -->

@@ -77,3 +77,12 @@ let classList = [{
         }
     }
 ]
+
+let quizes = [{
+    "0001": {
+        "name": "The monster is here!",
+        "author": "Mr Alan the Monster",
+        "scorerequired": "100",
+        "questions": [{ "question": "What is Max's last name?", "answer": "Webb" }, { "question": "What is Max's last name?", "answer": "Webb" }],
+    }
+}]

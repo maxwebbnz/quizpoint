@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="../styles/classpage.css">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/teachingpanel.css">
+    <link rel="stylesheet" href="../styles/quizview.css">
     <!-- Scripts -->
     <!-- data dummy -->
     <script src="datafolder/data.js"></script>
@@ -31,10 +32,11 @@
     <script src="class/cls.handler.js"></script>
     <!-- UI -->
     <script defer src="../ui/global.js"></script>
-    <title>Title</title>
+    <title>Safety360</title>
 </head>
 <header>
     <h5 style="margin-top:2%; padding-left:2%;" onclick="openNav()"><i class="bi bi-list"></i></h5>
+
     <hr style="margin-top:2%;">
 </header>
 <side-nav>
@@ -94,6 +96,31 @@
             </div>
         </div>
     </div>
+    <!-- Quiz Section -->
+    <div id="quizview">
+        <h1 class="header">Quiz: <span id="quiz-title"> Monster Man</span></h1>
+        <div class="quizbox">
+            <h3 style="color: grey">Question <span id="quiz-qsnum">2</span></h3>
+            <h2 class="question"><span id="quiz-qscnt">What is the name?</span></h2>
+            <div id="quiz-qsanswers" class="question-answer">
+                <!-- if answer is text based -->
+                <div style="display:none;" class="quiz-txtanswerbox form-group " id="quiz-txtanswer">
+                    <label for="quiz"></label>
+                    <input type="text" class="form-control" name="" id="quiz-qsanswer" aria-describedby="helpId" placeholder="Answer here">
+                </div>
+            </div>
+            <!-- if answer is pre selected... -->
+            <div class="quiz-multichoiceanswer" id="quiz-multichoice">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Your mum</button>
+            </div>
+            <a class="btn btn-secondary quiz-next" href="#" role="button" id="quiz-submit">Next</a>
+        </div>
+    </div>
     <!-- Teaching Suite... -->
     <div id="teachingsuite">
         <div class="header">
@@ -140,38 +167,6 @@
     </div>
 
 
-
-
-    <!-- Modals... -->
-    <!-- Teaching Suite/AdminSuite User popover -->
-    <!-- Modal -->
-    <!-- Modal -->
-    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><span id="username">Max Webb</span></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-                </div>
-                <div class="modal-body user-body">
-                    <img style="width: 150px; height: 150px; margin-right: 20px;" src="https://humanimals.co.nz/wp-content/uploads/2019/11/blank-profile-picture-973460_640.png" alt="" srcset="">
-                    <div class="info">
-                        <p><span id="username">Name: Max Webb</span></p>
-                        <p><span id="email">Classes Enrolled:</span></p>
-                        <p><span id="username">Max Webb</span></p>
-
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
     </script>
 </body>

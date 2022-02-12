@@ -53,11 +53,10 @@
 
 #homePage {
     display: none;
-    ;
 }
 
 #teachingsuite {
-    display: block;
+    display: none;
 }
 
 #profile {

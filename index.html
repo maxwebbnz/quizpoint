@@ -16,8 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.all.min.js"></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js" integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous"></script>
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +59,7 @@
         <hr style="color: white; ">
         <a href="javascript:void(0) " class="closebtn " onclick="closeNav() ">&times;</a>
         <a href="# " onclick="switchScreen('classPage' , 'homePage')">My Classes</a>
-        <a href="# ">Teaching Suite</a>
+        <a href="# " onclick="switchScreen('homePage' , 'teachingsuite')">Teaching Suite</a>
         <a href="# " onclick="switchScreen('homePage', 'classPage')">Test Classroom</a>
     </div>
 </side-nav>
@@ -158,7 +158,7 @@
         </div>
     </div>
     <!-- Teaching Suite... -->
-    <div id="teachingsuite">
+    <div id="teachingsuite" class="animate__animated animate__fadeInLeft">
         <div class="header">
             <div class="h4">Welcome, <span id="username">Max</span></div>
         </div>
@@ -181,7 +181,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Max Webb</td>
+                                <td><a href="#" onclick='$("#ts_userModal").modal("show");'>Max Webb</a></td>
                                 <td>18205mw@hvhs.school.nz</td>
                                 <td>9PTEC</td>
                             </tr>
@@ -200,11 +200,55 @@
                 </div>
             </div>
         </div>
+
     </div>
-
-
-    <script>
-    </script>
 </body>
+<div class='modal fade' id='ts_userModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalTitle">User Information</h5>
+                <button type="button" style="border: none; background-color: white;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-circle"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col ts_userModal-userinfo">
+                            <p><b>Name:</b> <input style="display: none;" placeholder="First Name Last Name" id="pp_input-name"></input><span style="display: block;" id="ts_modal-name">Max Webb</span> </p>
+                            <p id="errorMessage_name" style='display:none' style="color: red">Please make sure you have included your first and last name</p>
+                            <p><b>Email:</b><input style="display: none;" placeholder="example@example.com" id="pp_input-email"></input> <span id="ts_modal-email">18205mw@hvhs.school.nz</span> </p>
+                            <p id="errorMessage_email" style='display:none' style="color: red">Something is wrong with this email, double check it!</p>
+                            <hr>
+                        </div>
+                        <div class="col col-lg-2">
+                            <img id="pp_avatar" width="100" height="100" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255634-stock-illustration-avatar-icon-male-profile-gray.jpg" alt="Profile" class="rounded-circle">
+                        </div>
+                    </div>
+                </div>
+                <h5>Assigned Quizzes</h5>
+                <table class="table table-responsive ts_userModal-quiztable">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Quiz Name</th>
+                            <th scope="col">Assigned By</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Names</td>
+                            <td>John Norris</td>
+                            <td>
+                                <a href="#" onclick="">Actions</a> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p style="color: white;">User added on: 16th of Feb</p>
+        </div>
+    </div>
+</div>
 
 </html>

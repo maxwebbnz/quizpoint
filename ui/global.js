@@ -15,11 +15,7 @@ function openNav() {
 /* Set the width of the side navigation to 0 */
 function closeNav() {
     document.getElementById("sidenav").style.width = "0";
-} /* Set the width of the side navigation to 0 */
-function closeNav() {
-    document.getElementById("sidenav").style.width = "0";
 }
-
 //When the website loads, scan the classList variable and turn those fields into cards
 window.onload = function() {
     classroomContainer.updateClasses(classList);

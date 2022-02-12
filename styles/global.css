@@ -52,6 +52,11 @@
 }
 
 #homePage {
+    display: none;
+    ;
+}
+
+#teachingsuite {
     display: block;
 }
 

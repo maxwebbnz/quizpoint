@@ -1,0 +1,36 @@
+.header {
+    margin-left: 10%;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.line {
+    width: 90%;
+    margin: auto;
+}
+
+.classes {
+    margin-left: 10%;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.studentList {
+    margin-left: 10%;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.stdTable {
+    width: 90%;
+}
+
+.modal {
+    display: block;
+}
+
+#exampleModal {
+    display: block;
+}
+
+.user-body {}

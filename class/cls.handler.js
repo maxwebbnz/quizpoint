@@ -75,10 +75,30 @@ let cls = {
             post.appendChild(header)
             post.appendChild(content)
             posts.appendChild(post)
-
         }
+    },
+    add: function() {
+        // display ui first
+        Swal.mixin({
+            input: 'text',
+            confirmButtonText: 'Next &rarr;',
+            showCancelButton: true,
+        }).queue([{
+            title: 'Enroll in a class',
+            text: 'Please enter your class code'
+        }]).then((result) => {
+            if (result.value) {
+                console.log(result.value[0])
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error!',
+                    text: "Class not found",
 
-
-
+                })
+            }
+        })
     }
+
+
 }

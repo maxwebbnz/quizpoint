@@ -15,6 +15,9 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.all.min.js"></script>
+
+
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,9 +40,12 @@
     <title>Safety360</title>
 </head>
 <header>
-    <h5 style="margin-top:2%; padding-left:2%;" onclick="openNav()"><i class="bi bi-list"></i></h5>
+    <div class="nav">
+        <h5 style="margin-top:2%; padding-left:2%;" onclick="openNav()"><i class="bi bi-list"></i></h5>
+        <h5 onclick="cls.add()" style="margin-top:2%; margin-left: 90%; padding-left:2%;"> <i class="bi bi-plus-square"></i></h5>
+    </div>
+    <hr style="margin-top:0%;">
 
-    <hr style="margin-top:2%;">
 </header>
 <side-nav>
     <div id="sidenav" class="sidenav">

@@ -52,7 +52,7 @@
 }
 
 #homePage {
-    display: none;
+    display: block;
 }
 
 #teachingsuite {
@@ -65,4 +65,8 @@
 
 #classContainer {
     margin-left: 30vh
+}
+
+#quizview {
+    display: none;
 }

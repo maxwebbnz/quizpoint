@@ -42,7 +42,9 @@
     margin-left: 50px;
 }
 
-
+.nav i {
+    margin-bottom:2%;
+}
 /* profile section */
 
 #profile img {

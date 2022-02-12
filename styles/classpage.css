@@ -6,10 +6,14 @@
     display: none;
 }
 
+#className, #classTeacher, #classCode, #classCodeText{
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),0px 8px 13px rgba(0,0,0,0.1),0px 18px 23px rgba(0,0,0,0.1);
+}
+
 .heading {
     width: 80%;
     height: 70%;
-    padding-top: 15%;
+    padding-top: 10%;
     padding-bottom: 10px;
     padding-left: 20px;
     background-image: url('https://st2.depositphotos.com/6672578/10091/i/600/depositphotos_100912942-stock-photo-woodwork-workshop-wall-with-many.jpg');
@@ -28,6 +32,10 @@
     grid-template-columns: 1fr 3fr;
 }
 
+.headerPost{
+    margin-left:0%;
+}
+
 .username {
     padding-left: 9px;
     padding-top: 10%;
@@ -41,6 +49,17 @@
     margin-left: 5%;
     width: 65%;
 }
+
+.todo h5{
+    margin-top:7%;
+    font-size:x-large;
+}
+
+.newsfeed h5{
+    margin-top:4%;
+    font-size:x-large;
+}
+
 
 .post {
     background-color: #eeeeee;

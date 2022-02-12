@@ -4,7 +4,7 @@ let numq = 0;
 
 let quiz = {
     showQuiz: function() {
-        switchScreen("classPage", "quizview")
+        switchScreen("quizview")
         let usrAgn = user.assigned;
         let assignedWork = [];
         Object.entries(usrAgn).forEach(entry => {

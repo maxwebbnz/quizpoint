@@ -38,3 +38,14 @@
 .animate__animated.animate__fadeInLeft {
     --animate-duration: 1000ms;
 }
+
+.createClassCard{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:500%;
+}
+
+.createClassCard p{
+    font-size:33%;
+}

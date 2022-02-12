@@ -23,6 +23,7 @@ window.onload = function() {
 
 //Array with all the card properties
 let classCardArray;
+let createClassCardFlag = true;
 
 //Object array thing
 let classroomContainer = {
@@ -42,8 +43,10 @@ let classroomContainer = {
         let cardTitle = document.createElement("p");
         let cardImg = document.createElement("img");
         let cardFooter = document.createElement("div");
+        let createClassCard = document.createElement("div");
+        let createClassCardTitle = document.createElement("p");
         //Edit the class and properties of each section of the card
-        card.className = "card g-col-6 g-col-md-4 animate__animated animate__fadeInLeft";
+        card.className = "card g-col-6 g-col-md-4";
         cardBody.className = "card-body";
         cardTitle.className = "card-title text-center";
         cardTitle.innerText = classroom.classroom;
@@ -51,6 +54,11 @@ let classroomContainer = {
         cardImg.className = "card-img-top rounded";
         cardFooter.className = "card-footer text-muted";
         cardFooter.innerText = classroom.teacher;
+        createClassCard.className = "card g-col-6 g-col-md-4 createClassCard"
+        createClassCard.innerText = "+";
+        createClassCardTitle.innerText ="Create Class"
+
+
         cardBody.onclick = function() {
             cls.show(classList.indexOf(classroom))
         }
@@ -61,14 +69,21 @@ let classroomContainer = {
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardFooter);
         card.appendChild(cardBody);
+        //Card to create classes on the home screen, if statement makes only 1 appear
+        if (createClassCardFlag === true){
+            createClassCard.appendChild(createClassCardTitle);
+            classCardArray.appendChild(createClassCard);
+            createClassCardFlag = false;
+        }
         classCardArray.appendChild(card);
     },
 }
 
 
 //Switch screen
-function switchScreen(_switchFrom, _switchTo) {
-    document.getElementById(_switchFrom).style.display = "none";
+function switchScreen(_switchTo) {
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("teachingsuite").style.display = "none";
+    document.getElementById("classPage").style.display = "none";
     document.getElementById(_switchTo).style.display = "block";
-
 }

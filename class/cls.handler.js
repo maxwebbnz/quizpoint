@@ -1,6 +1,6 @@
 let cls = {
     show: function(_inf) {
-        switchScreen('homePage', 'classPage')
+        switchScreen('classPage')
         console.log(_inf)
         let currentClass = classList[_inf]
         console.log(currentClass)

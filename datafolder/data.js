@@ -99,10 +99,38 @@ let quizes = [{
     "questions": [{ "question": "What is Max's last name?", "answer": "Webb" }, { "question": "What is Max's last name?", "answer": "Webbs" }],
 }]
 
-let user = {
-    "name": "Max Webb",
-    "assigned": {
-        "9PTEC": "axy",
-        "13DTEC": "dad"
+let user = [{
+        "name": "Max Webb",
+        "email": '18205mw@hvhs.school.nz',
+        "schoolid": '18205mw',
+        "img": 'thisisanmimage.png',
+        "classes": {
+            "9PTEC": {
+                "name": "9PTEC",
+                "code": "a129pc",
+                "teacher": "John Norris",
+                "assignedWork": {
+                    "9PTEC": "axy",
+                }
+            }
+        }
+    },
+    {
+        "name": "John Norris",
+        "email": 'jn@hvhs.school.nz',
+        "schoolid": 'john.norris',
+        "img": 'thisisanmimage.png',
+        "classesOwned": {
+            "9PTEC": {
+                "name": "9PTEC",
+                "code": "a129pc",
+                "teacher": "John Norris",
+                "quizzes": [
+                    "axy", "pxy", "dxy"
+                ]
+            }
+        }
     }
-}
+]
+
+let currentUser = user[0]

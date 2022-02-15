@@ -7,6 +7,10 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.leftside {
+    display: grid;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -43,8 +47,10 @@
 }
 
 .nav i {
-    margin-bottom:2%;
+    margin-bottom: 2%;
 }
+
+
 /* profile section */
 
 #profile img {
@@ -54,11 +60,11 @@
 }
 
 #homePage {
-    display: block;
+    display: none;
 }
 
 #teachingsuite {
-    display: none;
+    display: block;
 }
 
 #profile {
@@ -71,4 +77,8 @@
 
 #quizview {
     display: none;
+}
+
+#ts_userModal {
+    display: block;
 }

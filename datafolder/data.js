@@ -103,7 +103,7 @@ let user = [{
         "name": "Max Webb",
         "email": '18205mw@hvhs.school.nz',
         "schoolid": '18205mw',
-        "img": 'thisisanmimage.png',
+        "img": 'https://humanimals.co.nz/wp-content/uploads/2019/11/blank-profile-picture-973460_640.png',
         "classes": {
             "9PTEC": {
                 "name": "9PTEC",
@@ -119,7 +119,7 @@ let user = [{
         "name": "John Norris",
         "email": 'jn@hvhs.school.nz',
         "schoolid": 'john.norris',
-        "img": 'thisisanmimage.png',
+        "img": 'https://humanimals.co.nz/wp-content/uploads/2019/11/blank-profile-picture-973460_640.png',
         "classesOwned": {
             "9PTEC": {
                 "name": "9PTEC",

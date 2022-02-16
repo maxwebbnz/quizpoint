@@ -100,6 +100,7 @@ let quizes = [{
 }]
 
 let user = [{
+    "101": {
         "name": "Max Webb",
         "email": '18205mw@hvhs.school.nz',
         "schoolid": '18205mw',
@@ -115,7 +116,7 @@ let user = [{
             }
         }
     },
-    {
+    "102": {
         "name": "John Norris",
         "email": 'jn@hvhs.school.nz',
         "schoolid": 'john.norris',
@@ -130,7 +131,19 @@ let user = [{
                 ]
             }
         }
-    }
-]
+    },
+}]
 
 let currentUser = user[0]
+    // mock data for displaying visual attrubiutes
+let listOfUsersInClass = [
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+    { "name": "Max Webb", "userId": "101" },
+]

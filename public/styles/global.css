@@ -3,6 +3,9 @@
 
 /* thanks w3... */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
     font-family: 'Montserrat', sans-serif;
 }

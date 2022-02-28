@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 let currentQuiz = []
-let currentQuestion;
+let currentQuestion = 0;
 
 let qz_load = {
     getQuiz: function() {
@@ -18,7 +18,7 @@ let qz_load = {
                     currentQuiz.push(questionsArray[i])
                 }
                 // set current quesiton
-                currentQuestion = 3;
+                currentQuestion = currentQuestion + 1;
             }
         });
     }

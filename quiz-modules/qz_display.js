@@ -22,6 +22,17 @@ let qz_display = {
         if (currentQuiz[currentQuestion].type == "textinput") {
             // show text input
             $('#qz-inputType-inputfield').show()
+            let btn = document.createElement("button");
+            btn.innerHTML = "Next";
+            btn.id = "qz-btn-textinput"
+            btn.type = "button";
+            btn.onclick = function() {
+                    qz_answer.ans($('#qz-inputfield').val(), "textinput")
+                }
+                // btn.onclick = qz_check.checkAns(choice)
+            btn.name = "textinput";
+            document.body.appendChild(btn);
+
         } else if (currentQuiz[currentQuestion].type == "multichoice") {
             // find all choices in database, and then make it that way
             for (var i = 0; i < currentQuiz[currentQuestion].choices.length; i++) {
@@ -36,7 +47,7 @@ let qz_display = {
                     btn.id = "qz-btn"
                     btn.type = "button";
                     btn.onclick = function() {
-                            qz_answer.ans(choice)
+                            qz_answer.ans(choice, "multichoice")
                         }
                         // btn.onclick = qz_check.checkAns(choice)
                     btn.name = choice;

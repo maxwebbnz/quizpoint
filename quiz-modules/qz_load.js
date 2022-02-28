@@ -20,6 +20,7 @@ let qz_load = {
                 // set current quesiton
                 currentQuestion = currentQuestion + 1;
             }
+            qz_display.start()
         });
     }
 }

@@ -1,4 +1,8 @@
-let usrInput = "max s"
+/*
+ * Copyright (c) 2021 Max Webb
+ * All rights reserved.
+ */
+
 
 let qz_check = {
     checkAns: function(_a, _t) {

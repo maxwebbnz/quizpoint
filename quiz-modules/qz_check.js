@@ -26,7 +26,7 @@ let qz_check = {
                     let kywrd = currentQuiz[currentQuestion].keywords[i]
                     console.log(kywrd)
                     if (lowerCaseA.includes(kywrd)) {
-                        keywordsCorrect = wordsCorrect + 1;
+                        keywordsCorrect = keywordsCorrect + 1;
                     }
                 }
                 if (keywordsCorrect >= currentQuiz[currentQuestion].minKeyWords) {
@@ -37,16 +37,17 @@ let qz_check = {
             } else {
                 // console.log(answerSplit)
                 let wordsCorrect = 0;
-                if (wordsCorrect >= currentQuiz[currentQuestion].minKeyWords) {
-                    return true
-                } else {
-                    return false
-                }
+
                 for (var i = 0; i < answerSplit.length; i++) {
                     console.log(lowerCaseA.includes(answerSplit[i]))
                     if (lowerCaseA.includes(answerSplit[i])) {
                         wordsCorrect = wordsCorrect + 1;
                     }
+                }
+                if (wordsCorrect >= 1) {
+                    return true
+                } else {
+                    return false
                 }
             }
 

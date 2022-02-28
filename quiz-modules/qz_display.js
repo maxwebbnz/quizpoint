@@ -35,6 +35,10 @@ let qz_display = {
                     btn.innerHTML = choice;
                     btn.id = "qz-btn"
                     btn.type = "button";
+                    btn.onclick = function() {
+                            qz_answer.ans(choice)
+                        }
+                        // btn.onclick = qz_check.checkAns(choice)
                     btn.name = choice;
                     document.body.appendChild(btn);
                 }

@@ -14,6 +14,9 @@ let qz_check = {
                 return false
             }
         } else if (_t == "textinput") {
+            if (currentQuiz[currentQuestion].keywords == "") {
+
+            }
             let lowerCaseA = _a.toLowerCase()
             let wordsCorrect = 0;
             let lcans = currentQuiz[currentQuestion].answer

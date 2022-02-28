@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 QuizPoint
+ * All rights reserved.
+ */
 $("#advance").on("click", function() {
 
 });

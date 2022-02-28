@@ -1,6 +1,10 @@
 /*
- * Copyright (c) 2021 Max Webb
+ * Copyright (c) 2022 QuizPoint
  * All rights reserved.
+ */
+/*
+ * Copyright (c) 2021 Max Webb
+ * All rights reserved. 
  */
 /**========================================================================
  *                           Debug Module

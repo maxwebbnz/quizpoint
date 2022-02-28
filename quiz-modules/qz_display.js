@@ -1,8 +1,7 @@
 /*
- * Copyright (c) 2022 Max Webb
+ * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
-
 let qz_display = {
     start: function() {
         // quickly hide things again

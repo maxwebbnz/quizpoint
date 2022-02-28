@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Max Webb
+ * Copyright (c) 2021-2022 QuizPoint
  * All rights reserved.
  */
 let qz_answer = {

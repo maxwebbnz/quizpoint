@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        let defaultPath = "/schools/hvhs/"
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Firebase + Firebase Modules -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+    <!-- Modules -->
+    <!-- Debug Module -->
+    <script src="misc-modules/debug.js"></script>
+    <!-- Firebase -->
+    <script src="firebase-modules/fb_init.js"></script>
+    <!-- DOM -->
+    <script src="dom-modules/dom_onload.js"></script>
+    <script src="quiz-modules/qz_load.js"></script>
+    <script src="quiz-modules/qz_display.js"></script>
+    <title>Title</title>
+</head>
+
+<body>
+    <div id="qz-display">
+        <span id="qz-title"></span>
+        <span id="qz-image"></span>
+        <div id="qz-input">
+            <div id="qz-inputType-inputfield" style="display: none;">
+                <div class="form-group">
+                    <label for=""></label>
+                    <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                    <small id="helpId" class="form-text text-muted">Help text</small>
+                </div>
+            </div>
+            <div id="multichoice">
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

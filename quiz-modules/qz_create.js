@@ -70,6 +70,6 @@ let qz_create = {
     }
 }
 
-$('.mooo').click(function() {
-    $('.mooo').not(this).prop('checked', false);
-});
+// $('.mooo').click(function() {
+//     $('.mooo').not(this).prop('checked', false);
+// });

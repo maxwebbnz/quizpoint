@@ -5,7 +5,6 @@
     <script>
         let defaultPath = "/schools/hvhs/"
     </script>
-    <link rel="stylesheet" href="style/progressbar.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -34,38 +33,40 @@
     <script src="quiz-modules/qz_answer.js"></script>
     <script src="quiz-modules/qz_check.js"></script>
     <script src="quiz-modules/qz_progress.js"></script>
+
     <title>Title</title>
 </head>
 
 <body>
+    <link rel="stylesheet" href="style/progressbar.css">
+
     <button onclick="qz_load.getQuiz()">Load Quiz</button>
     <div id="qz-display">
-        <ol class="ProgressBar">
-            <li class="ProgressBar-step" name="1">
-                <svg id="questionProgress" onclick="qz_progress.revert(1)" class="ProgressBar-icon"><use xlink:href="#checkmark-bold"/></svg>
+        <ol class="ProgressBar" id="prog">
+            <!-- <li class="ProgressBar-step" name="1">
+                <svg id="questionProgress" onclick="qz_progress.revert(1)" class="ProgressBar-icon"></svg>
                 <span class="ProgressBar-stepLabel">1</span>
             </li>
             <li class="ProgressBar-step" name="2">
-                <svg id="questionProgress" onclick="qz_progress.revert(2)" class="ProgressBar-icon"><use xlink:href="#checkmark-bold"/></svg>
+                <svg id="questionProgress" onclick="qz_progress.revert(2)" class="ProgressBar-icon"></svg>
                 <span class="ProgressBar-stepLabel">1</span>
             </li>
             <li class="ProgressBar-step" name="3">
-                <svg id="questionProgress" onclick="qz_progress.revert(3)" class="ProgressBar-icon"><use xlink:href="#checkmark-bold"/></svg>
+                <svg id="questionProgress" onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
                 <span class="ProgressBar-stepLabel">1</span>
             </li>
             <li class="ProgressBar-step" id="questionProgress" name="4">
-                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"><use xlink:href="#checkmark-bold"/></svg>
+                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
                 <span class="ProgressBar-stepLabel">1</span>
             </li>
             <li class="ProgressBar-step" id="questionProgress" name="4">
-                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"><use xlink:href="#checkmark-bold"/></svg>
+                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
                 <span class="ProgressBar-stepLabel">1</span>
-            </li>
-            <li class="ProgressBar-step" id="questionProgress" name="4">
-                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"><use xlink:href="#checkmark-bold"/></svg>
+            </li>-->
+            <!-- <li class="ProgressBar-step" id="questionProgress" name="4">
+                <svg id="questionProgress" onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
                 <span class="ProgressBar-stepLabel">1</span>
-            </li>
-
+            </li> -->
 
         </ol>
 

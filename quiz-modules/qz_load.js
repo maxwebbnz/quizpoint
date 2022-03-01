@@ -4,6 +4,7 @@
  */
 let currentQuiz = []
 let currentQuestion = 0;
+let questionsCorrect = 0;
 
 let qz_load = {
     getQuiz: function() {

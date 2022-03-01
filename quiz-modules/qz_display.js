@@ -28,7 +28,9 @@ let qz_display = {
         } else {
             image.src = currentQuiz[currentQuestion].attr("src", image)
         }
-        // checking input type
+        // minus one due to an empty object in  array ._.
+        qz_display.generateProgress(currentQuiz.length - 1, currentQuiz)
+            // checking input type
         if (currentQuiz[currentQuestion].type == "textinput") {
             // show text input
             $('#qz-inputType-inputfield').show()
@@ -127,6 +129,54 @@ let qz_display = {
                 }
             }
 
+        }
+    },
+    /**========================================================================
+     **                           Generate
+     *?  What does it do? Generates progress bar steps for each question
+     *@param _amount amount of questions (int)  
+     *@param _questionName
+     *@return n/a
+     *========================================================================**/
+    generateProgress: function(_amount, _questions) {
+        console.log("Generating progress bar...")
+            // short hand expressions for variables parsed...
+        let am = _amount
+        let qn = _questions
+        for (var i = 1; i < currentQuiz.length; i++) {
+            console.log(currentQuiz[i])
+            let li = document.createElement('li')
+            li.className = 'ProgressBar-step'
+            li.id = 'questionProgress'
+            li.name = i
+
+            let div = document.createElement('div')
+                // div.className = 'icon'
+
+            let svgs = document.createElement('svg')
+            svgs.id = "questionProgress"
+            svgs.onclick = function() {
+                qz_progress.revert(i)
+            }
+            svgs.className = 'icon'
+                // svgs.style = "width: 90%"
+
+
+            let span = document.createElement('span')
+            span.className = 'ProgressBar-stepLabel'
+            span.innerHTML = i
+            $('.ProgressBar').append(li)
+            $(div).append(svgs)
+            $(li).append(div)
+
+            $(li).append(span)
+
+        }
+        var $bar = $(".ProgressBar");
+        if ($bar.children(".is-current").length > 0) {
+            $bar.children(".is-current").removeClass("is-current").addClass("is-complete").next().addClass("is-current");
+        } else {
+            $bar.children().first().addClass("is-current");
         }
     }
 }

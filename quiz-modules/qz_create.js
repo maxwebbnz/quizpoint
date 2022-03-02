@@ -3,6 +3,19 @@
  * All rights reserved.
  */
 
+// for creating a cache of progress as the user creates new questions
+/*
+should return the following:
+---
+        0: (4) ['adad', 'textinput', 'ada', input]
+        1: (4) ['adadsss', 'textinput', 'adass', input]
+        length: 2
+        [[Prototype]]: Array(0)
+---
+this will allow easy storing of questions from a firebase point of view (can just do a for loop over the length of the questions, and they already have an id....)
+*/
+let questionCache = []
+
 let qz_create = {
     /**========================================================================
      **                           pullDOM
@@ -25,6 +38,15 @@ let qz_create = {
         var table = document.getElementById("qz_questionTable"); // find table to append to
         var clone = row.cloneNode(true); // copy children too
         clone.id = "question" + count; // change id or other attributes/contents
+        this.updateQuestions(count);
+        // reset values before appending HTML (i.e question row had values in it, we don't need to clone that over because it is a new question.)
+        clone.childNodes[1].childNodes[0].value = ""
+        clone.childNodes[3].childNodes[1].childNodes[1].childNodes[1].checked = false;
+        clone.childNodes[3].childNodes[3].childNodes[1].childNodes[1].checked = false;
+        clone.childNodes[3].childNodes[5].childNodes[1].childNodes[1].checked = false;
+        clone.childNodes[5].childNodes[0].value = ""
+        clone.childNodes[7].childNodes[0].value = ""
+
         table.appendChild(clone); // add new row to end of table
     },
     /**========================================================================
@@ -34,11 +56,17 @@ let qz_create = {
      *@param name type  
      *@return type
      *========================================================================**/
-    updateQuestions: function() {
-        let currentRow = document.getElementById('question').getElementsByTagName('td')
-            // let cq be current question
-        let cQ = []
-            // get DOM objects
+    updateQuestions: function(_qnum) {
+        let currentRow
+        if (_qnum == 2) {
+            currentRow = document.getElementById('question').getElementsByTagName('td')
+        } else {
+            let actualRowID = _qnum - 1
+            currentRow = document.getElementById('question' + actualRowID).getElementsByTagName('td')
+
+        }
+        // let cq be current question
+        // get DOM objects
         let quizTitle = currentRow[0].childNodes[0].value
         let quizInputType = [currentRow[1].childNodes[1].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[3].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[5].childNodes[1].childNodes[1].checked]
         let answer = currentRow[2].childNodes[0].value
@@ -62,10 +90,14 @@ let qz_create = {
         } else if (k == 2) {
             quizInput = 'image'
         }
-        // push to cQ array ready to save to firebase.
+        let cQ = []
+
+        // push to cQ array ready to push to cache.
         cQ.push(quizTitle, quizInput, answer, keywords)
             // testing purposes, console logging answer.
         console.log(cQ)
+            // push to cache
+        questionCache.push(cQ)
 
     }
 }

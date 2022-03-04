@@ -2,6 +2,10 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+
+//! top level variables for firebase should go here
+let user;
+
 function fb_init() {
     const firebaseConfig = {
         apiKey: "AIzaSyByeEa_02Ilck48qdVip1zJc8kpWuBy2bU",

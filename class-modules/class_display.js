@@ -21,7 +21,8 @@ cls.display = {
      *@return type
      *=============================================**/
     loadHome: function() {
-        // check if user is enrolled in any classes
+        let clsList = []
+            // check if user is enrolled in any classes
         if (user.classes.notEnrolled) {
             // echo to console
             console.log('User is not enrolled in any classess...')
@@ -31,11 +32,13 @@ cls.display = {
             $('#' + currentPage).append(`<p>${user.name}, you do not have any classes!</p>`)
         } else {
             // let a be class 
-            for (a in user.classes) {
-                // read from javascript
-                let classObject;
-                fetchData()
-                async function fetchData() {
+
+
+            fetchData()
+            console.log(clsList)
+
+            async function fetchData() {
+                for (a in user.classes) {
                     var path = firebase.database().ref(defaultPath + '/classes/' + a)
                     path.on('value', (snapshot) => {
                         if (snapshot.val() == null) {
@@ -43,13 +46,16 @@ cls.display = {
                         } else {
                             const data = snapshot.val();
                             // classObject = data;
+                            clsList.push(data)
+                            console.log(data)
                             cls.display.createClassCard(data)
+
+
                         }
                     });
                 }
-
-
             }
+
 
         }
     },
@@ -68,15 +74,16 @@ cls.display = {
                     <div class="card-body">
                         <h5 class="card-title">${_classObject.className}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${_classObject.classCreator}</h6>
-                        <a href="#" class="card-link" id="classCard-a" data-class="${_classObject.code}">View Class</a>
+                        <a href="#" class="card-link" id="classCard-a-${_classObject.code}" data-class="${_classObject.code}">View Class</a>
                     </div>
                     </div>`
             //* append current page (classPage) with html generated
 
         $('#' + currentPage).append(html)
             // listen for clicks on link, if it is pressed, show class page
-        $('#classCard-a').on("click", function() {
+        $(`#classCard-a-${_classObject.code}`).on("click", function() {
             cls.display.loadClassPage(this.dataset.class)
+
         });
 
     },

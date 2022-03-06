@@ -89,6 +89,15 @@ fb.auth = {
                 const userData = snapshot.val();
                 user = userData;
                 console.log("fb.loadUser | Loaded User " + user.name)
+                if (user.role === 'student') {
+                    ui.navigate.to('homePage-authed_student')
+                    cls.display.loadHome();
+
+                } else if (user.role === 'teacher') {
+                    ui.navigate.to('homePage-authed_teacher')
+                    cls.display.loadHome();
+
+                }
             }
         });
     },

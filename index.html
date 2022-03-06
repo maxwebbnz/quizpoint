@@ -28,13 +28,14 @@
     <!-- Firebase -->
     <script src="firebase-modules/fb_init.js"></script>
     <script src="firebase-modules/fb_user.js"></script>
-
     <script src="firebase-modules/fb_read.js"></script>
     <script src="firebase-modules/fb_auth.js"></script>
-
     <script src="firebase-modules/fb_init.js"></script>
-    <!-- DOM -->
+    <!-- Class -->
+    <script src="class-modules/class_display.js"></script>
+    <!-- DOM and UI -->
     <script src="dom-modules/dom_onload.js"></script>
+    <script src="ui-modules/ui_navigate.js"></script>
     <!-- Quiz -->
     <script src="quiz-modules/qz_load.js"></script>
     <script src="quiz-modules/qz_display.js"></script>
@@ -48,10 +49,18 @@
 <body>
     <link rel="stylesheet" href="style/progressbar.css">
     <link rel="stylesheet" href="style/table.css">
-    <div class="d-grid gap-2">
-        <button type="button" name="" id="" class="btn btn-primary" onclick="fb.auth.login(google)">Login</button>
+    <div id="landingPage">
+        <div class="d-grid gap-2">
+            <button type="button" name="" id="" class="btn btn-primary" onclick="fb.auth.login(google)">Login</button>
+        </div>
     </div>
-    <div class="viewQuizModule" style="display: none;">
+    <div class="homePage" id="homePage-authed_student" style="display: none;">
+        <h2>Your Classes</h2>
+    </div>
+    <div class="homePage" id="homePage-authed_teacher" style="display: none;">
+        <h2>Your Classes (teacher)</h2>
+    </div>
+    <div class="viewQuizModule" id="viewQuiz" style="display: none;">
         <button onclick="qz_load.getQuiz()">Load Quiz</button>
         <div id="qz-display">
             <ol class="ProgressBar" id="prog">

@@ -4,7 +4,7 @@
  */
 
 //! top level variables for firebase should go here
-let user;
+// let user;
 
 function fb_init() {
     const firebaseConfig = {

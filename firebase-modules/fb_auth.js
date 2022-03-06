@@ -5,7 +5,7 @@
 
 //? in debugging mode, localhost:port is the way to get authentication to work
 
-
+let user;
 let google = 'google';
 let office = 'office';
 let provider;
@@ -29,7 +29,6 @@ fb.auth = {
             if (_user) {
                 // user is already loggedin
                 fb.auth.loadUser(_user.uid, _user)
-
             } else if (!_user) {
                 if (_provider == google) {
                     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -69,6 +68,7 @@ fb.auth = {
                         picture: _userObj.photoURL,
                         studentID: _userObj.email.split('@')[0],
                         role: 'student',
+                        uid: _uid,
                         classes: {
                             notEnrolled: true
                         },
@@ -83,8 +83,8 @@ fb.auth = {
                     }
                     // store data to firebase
                 firebase.database().ref(db).set(userObject);
-                console.log("fb.loadUser | Loaded User and registered user " + user.name)
-
+                console.log("fb.loadUser | Loaded User and registered user " + userObject.name)
+                this.loadUser(userObject.uid, userObject)
             } else {
                 const userData = snapshot.val();
                 user = userData;

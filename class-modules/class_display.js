@@ -96,7 +96,8 @@ cls.display = {
         let html = `<h2>${classRef.className}</h2>
         <h5>Taughet by ${classRef.classCreator}`
         $('#classpage_authed_student').append(html)
-        qz.loadActive.match(user.uid, _classId)
+        let quizzesActive = qz.loadActive.match(user.uid, _classId)
+        console.log(quizzesActive)
         ui.navigate.to('classpage_authed_student')
     }
 }

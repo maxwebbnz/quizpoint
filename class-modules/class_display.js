@@ -2,7 +2,8 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
-
+let quizAssigned = [];
+let quicCompleted = [];
 //! class won't work in js since it is taken...
 let cls = {}
     /**========================================================================
@@ -90,14 +91,15 @@ cls.display = {
      *@param name type  
      *@return type
      *=============================================**/
-    loadClassPage: function(_classId) {
+    loadClassPage: async function(_classId) {
         let classRef = user.classes[_classId]
         console.log(`cls.display.loadClassPage | Showing page information for ${_classId}`)
         let html = `<h2>${classRef.className}</h2>
         <h5>Taughet by ${classRef.classCreator}`
         $('#classpage_authed_student').append(html)
-        let quizzesActive = qz.loadActive.match(user.uid, _classId)
-        console.log(quizzesActive)
+
+        qz.loadActive.match(user.uid, _classId)
+            //* let a be current quiz
         ui.navigate.to('classpage_authed_student')
     }
 }

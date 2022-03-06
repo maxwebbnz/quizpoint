@@ -21,6 +21,9 @@ cls.display = {
      *@return type
      *=============================================**/
     loadHome: function() {
+        // clear html component from other classes
+        $('#homePage-authed_student-class').html('')
+
         let clsList = []
             // check if user is enrolled in any classes
         if (user.classes.notEnrolled) {
@@ -31,12 +34,9 @@ cls.display = {
                 // i just thought that was easier
             $('#' + currentPage).append(`<p>${user.name}, you do not have any classes!</p>`)
         } else {
-            // let a be class 
-
-
             fetchData()
-            console.log(clsList)
-
+                // async to make it wait before moving on, it needs to await data
+                // let a be class 
             async function fetchData() {
                 for (a in user.classes) {
                     var path = firebase.database().ref(defaultPath + '/classes/' + a)
@@ -47,16 +47,13 @@ cls.display = {
                             const data = snapshot.val();
                             // classObject = data;
                             clsList.push(data)
+                            user.classes[data.code] = data
                             console.log(data)
                             cls.display.createClassCard(data)
-
-
                         }
                     });
                 }
             }
-
-
         }
     },
     /**==============================================
@@ -78,8 +75,7 @@ cls.display = {
                     </div>
                     </div>`
             //* append current page (classPage) with html generated
-
-        $('#' + currentPage).append(html)
+        $('#homePage-authed_student-class').append(html)
             // listen for clicks on link, if it is pressed, show class page
         $(`#classCard-a-${_classObject.code}`).on("click", function() {
             cls.display.loadClassPage(this.dataset.class)
@@ -95,7 +91,12 @@ cls.display = {
      *@return type
      *=============================================**/
     loadClassPage: function(_classId) {
+        let classRef = user.classes[_classId]
         console.log(`cls.display.loadClassPage | Showing page information for ${_classId}`)
-
+        let html = `<h2>${classRef.className}</h2>
+        <h5>Taughet by ${classRef.classCreator}`
+        $('#classpage_authed_student').append(html)
+        qz.loadActive.match(user.uid, _classId)
+        ui.navigate.to('classpage_authed_student')
     }
 }

@@ -14,7 +14,7 @@ let fb = {
     //_data = data being written in database e.g Name, Role, Email
     write: (_path, _id, _data) => {
         //? should include default path..
-        firebase.database().ref(defaultPath + '/' + _path + '/' + _id).set(_data, writeError);
+        firebase.database().ref(defaultPath + '/' + _path + '/' + _id).update(_data, writeError);
 
         //Error handler, prompt user with an error if something went wrong
         function writeError(error) {

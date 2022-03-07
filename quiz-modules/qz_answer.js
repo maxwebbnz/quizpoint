@@ -9,11 +9,17 @@ let qz_answer = {
             console.log("ANSWER IS CORRECT!")
                 // we would store record to user here
                 // userStoreTo.quiz(currentQuiz,currentQuestion, _e)
+            fb.write(`users`, user.uid + `/quizzes/active/${currentQuizId}/answers/`, {
+                [currentQuestion]: _e
+            })
             qz_progress.next()
             questionsCorrect = questionsCorrect + 1;
             qz_display.nextQuestion();
         } else {
             console.log("ANSWER IS WRONG!")
+            fb.write(`users`, user.uid + `/quizzes/active/${currentQuizId}/answers/`, {
+                [currentQuestion]: _e
+            })
             qz_progress.next()
             qz_display.nextQuestion();
         }

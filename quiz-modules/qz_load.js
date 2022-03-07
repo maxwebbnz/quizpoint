@@ -7,8 +7,8 @@ let currentQuestion = 0;
 let questionsCorrect = 0;
 
 let qz_load = {
-    getQuiz: function() {
-        var db = firebase.database().ref(defaultPath + '/quizzes/0001')
+    getQuiz: function(_qzid) {
+        var db = firebase.database().ref(defaultPath + '/quizzes/' + _qzid)
         db.once('value', (snapshot) => {
             if (snapshot.val() == null) {
                 console.log("QUIZ NOT THERE!!!")

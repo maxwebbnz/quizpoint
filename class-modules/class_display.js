@@ -4,6 +4,7 @@
  */
 let quizAssigned = [];
 let quicCompleted = [];
+let currentClassId;
 //! class won't work in js since it is taken...
 let cls = {}
     /**========================================================================
@@ -92,12 +93,16 @@ cls.display = {
      *@return type
      *=============================================**/
     loadClassPage: async function(_classId) {
+        quizAssigned.length = 0
+        quicCompleted.length = 0
+        $('#classPageHeader').empty()
+
+        currentClassId = _classId
         let classRef = user.classes[_classId]
         console.log(`cls.display.loadClassPage | Showing page information for ${_classId}`)
         let html = `<h2>${classRef.className}</h2>
         <h5>Taughet by ${classRef.classCreator}`
-        $('#classpage_authed_student').append(html)
-
+        $('#classPageHeader').append(html)
         qz.loadActive.match(user.uid, _classId)
             //* let a be current quiz
         ui.navigate.to('classpage_authed_student')

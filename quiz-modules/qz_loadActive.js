@@ -3,9 +3,11 @@
  * All rights reserved.
  */
 let qz = {}
-
+let currentQuizId;
 qz.loadActive = {
     match: async function(_uid, _cid) {
+        $(`#classpage_authed_student-quizassigned`).empty()
+
         let classQuiz = [];
         let userQuiz = [];
         let matchedQuiz = []
@@ -72,15 +74,12 @@ qz.loadActive = {
                                         </div>`
                             $(`#classpage_authed_student-quizassigned`).append(html)
                             $(`#quizCard-a-${id}`).on("click", function() {
-                                console.log('starting quiz')
-
+                                qz_load.getQuiz(id)
+                                currentQuizId = id
                             });
                         }
                     });
-
-
                 }
-
             });
         }
         return;

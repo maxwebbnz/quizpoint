@@ -2,7 +2,21 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+/**========================================================================
+ **                           qz_display
+ *?  What does it do? For displaying quizzes to client
+ *@param name type  
+ *@param name type  
+ *@return type
+ *========================================================================**/
 let qz_display = {
+    /**==============================================
+     **              start
+     *?  What does it do? Starts quiz, and sets everything up
+     *@param name type  
+     *@param name type  
+     *@return type
+     *=============================================**/
     start: function() {
         // quickly hide things again
         $('#classpage_authed_student').hide()
@@ -77,9 +91,14 @@ let qz_display = {
             }
 
         }
-        // qz_progress.next()
-
     },
+    /**==============================================
+     **              nextQuestion
+     *?  What does it do? Skips to the next question
+     *@param name type  
+     *@param name type  
+     *@return type
+     *=============================================**/
     nextQuestion: function() {
         // quickly hide things again
         $('#qz-inputType-inputfield').hide()

@@ -93,18 +93,22 @@ cls.display = {
      *@return type
      *=============================================**/
     loadClassPage: async function(_classId) {
+        // empty out elements before starting
         quizAssigned.length = 0
         quicCompleted.length = 0
         $('#classPageHeader').empty()
-
+            // for other functions if needbe (i.e qz_turnedin.quiz)
         currentClassId = _classId
         let classRef = user.classes[_classId]
+            // echo to consle
         console.log(`cls.display.loadClassPage | Showing page information for ${_classId}`)
+            // set html element up
         let html = `<h2>${classRef.className}</h2>
         <h5>Taughet by ${classRef.classCreator}`
         $('#classPageHeader').append(html)
+            // find active quizzes
         qz.loadActive.match(user.uid, _classId)
-            //* let a be current quiz
+            // navigate to class page for student
         ui.navigate.to('classpage_authed_student')
     }
 }

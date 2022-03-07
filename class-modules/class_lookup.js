@@ -45,6 +45,7 @@ cls.lookup = {
                         if (snapshot.exists()) {
                             // push to array
                             usersSearched.push(snapshot.val())
+                            generate(usersSearched)
                         } else {
                             // dun dun dunnnnn
                             console.log("No data available");

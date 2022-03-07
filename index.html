@@ -21,7 +21,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
     <!-- SWALLLL -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!-- PDF -->
+    <script src="report-modules/jspdf.umd.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
     <!-- Modules -->
     <!-- Debug Module -->
     <script src="misc-modules/debug.js"></script>
@@ -46,6 +48,9 @@
     <script src="quiz-modules/qz_turnin.js"></script>
     <script src="quiz-modules/qz_progress.js"></script>
     <script src="quiz-modules/qz_create.js"></script>
+    <!-- Reporting -->
+    <script src="report-modules/report_pdf.js">
+    </script>
     <title>Title</title>
 </head>
 
@@ -160,13 +165,37 @@
         </table>
 
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <div class="reportSummaryTables">
+        <table class="" id="currentReport">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Progress</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row ">Max Webb</td>
+                    <td>9PTEC</td>
+                    <td style="background-color: red;">Completed</td>
+                </tr>
+                <tr>
+                    <td scope="row ">Max Webb</td>
+                    <td>9PTEC</td>
+                    <td style="background-color: red;">Not Completed</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js "></script>
 </body>
 
-<svg xmlns="http://www.w3.org/2000/svg">
-  <symbol id="checkmark-bold" viewBox="0 0 24 24">
-    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/>
+<svg xmlns="http://www.w3.org/2000/svg ">
+  <symbol id="checkmark-bold " viewBox="0 0 24 24 ">
+    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z "/>
   </symbol>
 </svg>
 

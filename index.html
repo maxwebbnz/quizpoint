@@ -33,6 +33,7 @@
     <script src="firebase-modules/fb_init.js"></script>
     <!-- Class -->
     <script src="class-modules/class_display.js"></script>
+    <script src="class-modules/class_lookup.js"></script>
     <!-- DOM and UI -->
     <script src="dom-modules/dom_onload.js"></script>
     <script src="ui-modules/ui_navigate.js"></script>
@@ -64,42 +65,18 @@
         <h2>Your Classes (teacher)</h2>
     </div>
     <div class="classPage" id="classpage_authed_student" style="display: none;">
-        <!-- <h2>9PTEC</h2> -->
         <div class="classPageHeader" id="classPageHeader"></div>
         <h4>Active Quizzes</h4>
         <div class="quizAssigned" id="classpage_authed_student-quizassigned">
-
+        </div>
+        <h4>Turned-in Quizzes</h4>
+        <div class="quizAssigned" id="classpage_authed_student-quizassigned">
         </div>
     </div>
     <div class="viewQuizModule" id="viewQuiz" style="display: none;">
         <button onclick="qz_load.getQuiz()">Load Quiz</button>
         <div id="qz-display">
             <ol class="ProgressBar" id="prog">
-                <!-- <li class="ProgressBar-step" name="1">
-                <svg id="questionProgress" onclick="qz_progress.revert(1)" class="ProgressBar-icon"></svg>
-                <span class="ProgressBar-stepLabel">1</span>
-            </li>
-            <li class="ProgressBar-step" name="2">
-                <svg id="questionProgress" onclick="qz_progress.revert(2)" class="ProgressBar-icon"></svg>
-                <span class="ProgressBar-stepLabel">1</span>
-            </li>
-            <li class="ProgressBar-step" name="3">
-                <svg id="questionProgress" onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
-                <span class="ProgressBar-stepLabel">1</span>
-            </li>
-            <li class="ProgressBar-step" id="questionProgress" name="4">
-                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
-                <span class="ProgressBar-stepLabel">1</span>
-            </li>
-            <li class="ProgressBar-step" id="questionProgress" name="4">
-                <svg onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
-                <span class="ProgressBar-stepLabel">1</span>
-            </li>-->
-                <!-- <li class="ProgressBar-step" id="questionProgress" name="4">
-                <svg id="questionProgress" onclick="qz_progress.revert(3)" class="ProgressBar-icon"></svg>
-                <span class="ProgressBar-stepLabel">1</span>
-            </li> -->
-
             </ol>
 
             <span id="qz-title"></span>

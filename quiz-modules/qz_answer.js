@@ -12,6 +12,9 @@ let qz_answer = {
             fb.write(`users`, user.uid + `/quizzes/active/${currentQuizId}/answers/`, {
                 [currentQuestion]: _e
             })
+            fb.write(`users`, user.uid + `/quizzes/active/${currentQuizId}/`, {
+                progress: currentQuestion
+            })
             qz_progress.next()
             questionsCorrect = questionsCorrect + 1;
             qz_display.nextQuestion();
@@ -19,6 +22,9 @@ let qz_answer = {
             console.log("ANSWER IS WRONG!")
             fb.write(`users`, user.uid + `/quizzes/active/${currentQuizId}/answers/`, {
                 [currentQuestion]: _e
+            })
+            fb.write(`users`, user.uid + `/quizzes/active/${currentQuizId}/`, {
+                progress: currentQuestion
             })
             qz_progress.next()
             qz_display.nextQuestion();

@@ -7,7 +7,6 @@ let currentQuizId;
 qz.loadActive = {
     match: async function(_uid, _cid) {
         $(`#classpage_authed_student-quizassigned`).empty()
-
         let classQuiz = [];
         let userQuiz = [];
         let matchedQuiz = []

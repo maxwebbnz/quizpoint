@@ -48,9 +48,12 @@
     <script src="quiz-modules/qz_turnin.js"></script>
     <script src="quiz-modules/qz_progress.js"></script>
     <script src="quiz-modules/qz_create.js"></script>
+    <!-- Teaching Suite -->
+    <script src="teachingsuite-modules/ts_viewquiz.js"></script>
     <!-- Reporting -->
-    <script src="report-modules/report_pdf.js">
+    <script src="report-modules/report_pdf.js"></script>
     </script>
+    <link rel="stylesheet" href="safety360.css">
     <title>Title</title>
 </head>
 
@@ -187,7 +190,38 @@
                 </tr>
             </tbody>
         </table> -->
+    <!-- </div> -->
+    <div class="classGradesView" id="teachingsuite_classviewbyquiz-authed">
+        <ul class="list-group" id="teachingsuite_classList">
+            <h4>View Results for: 0001</h4>
 
+        </ul>
+        <div class="classGradeViewQuizResults" id="resultsspace">
+            <h4>Max Webb's results</h4>
+            <div id="resultList">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>User Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td scope="row"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js "></script>

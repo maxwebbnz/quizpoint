@@ -36,3 +36,12 @@ body {
     font-size: 22px;
     padding-left: 50px;
 }
+
+#teachingsuite_classviewbyquiz-authed {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.classGradeViewQuizResults {
+    margin-left: 20px;
+}

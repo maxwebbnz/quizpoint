@@ -2,9 +2,6 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
-$("#advance").on("click", function() {
-
-});
 
 $("#previous").on("click", function() {
     var $bar = $(".ProgressBar");

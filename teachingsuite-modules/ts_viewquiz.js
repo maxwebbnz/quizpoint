@@ -44,10 +44,14 @@ ts.viewquiz = {
     },
     result: function(_studentObject, _quiz) {
         console.log(_studentObject)
+        let answers = []
         var userPath = firebase.database().ref(`${defaultPath}/users/${_studentObject.uid}/quizzes/active/${_quiz}`)
         userPath.once('value', (snapshot) => {
             if (snapshot.exists()) {
                 console.log(snapshot.val())
+                answers.push(snapshot.val().answers)
+                    // fetch quiz information to show information
+                console.log(answers)
             } else {
                 alert("error")
             }

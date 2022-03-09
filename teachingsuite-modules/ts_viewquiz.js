@@ -44,6 +44,7 @@ ts.viewquiz = {
                         } else {
                             // add current quiz to the array created eariler
                             currentQuizInReview.push(snapshot.val())
+                            console.log(currentQuizInReview)
                                 // create head content for table
                             let thead = '<tr>'
                             let headerContent = ''
@@ -105,8 +106,7 @@ ts.viewquiz = {
 
                                     // display ticks
                                     htmls += `                        <td>
-                            <i data-bs-toggle="tooltip" data-bs-placement="top" title="We cannot show you information" class="bi bi-x-lg"></i>
-                        </td>`
+${i}                        </td>`
                                 }
                                 // add to html
                                 $('#viewQuizResultTable tbody').append(htmls)
@@ -122,7 +122,7 @@ ts.viewquiz = {
                                             } else {
                                                 console.log("USer has not done " + i)
                                                 htmlsEnd += `                        <td id="cross">
-                            <i data-bs-toggle="tooltip" data-bs-placement="top" title="We cannot show you information" class="bi bi-x-lg"></i>
+                            <i data-bs-toggle="tooltip" data-bs-placement="top" title="Question: ${currentQuizInReview[0].questions[i].question} Answer: No Answer" class="bi bi-x-lg"></i>
                         </td>`
                                                     // htmls.concat(htmlsEnd, "</tr>");
 

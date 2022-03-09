@@ -175,15 +175,15 @@ ts.viewquiz = {
 `
                             } else if (snapshot.val().progress == Math.round((lengt - 1) / 2)) {
                                 console.log("This user has nearly completed the quiz")
-                                htmls += `<td style="background-color: orange ; width:50%;">Not Complete <button type="button" name="" id="" class="btn btn-primary"><i class="bi bi-bell"></i> Remind Student</button></td>`
+                                htmls += `<td style="background-color: orange ; width:50%;">Not Complete <button type="button" name="" id="remindStudentButton" class="btn btn-primary"><i class="bi bi-bell"></i> Remind Student</button></td>`
 
                             } else if (snapshot.val().progress == 1) {
                                 console.log("User has barely completed the quiz")
-                                htmls += `<td style="background-color: orange ;">Not Complete <button type="button" name="" id="" class="btn btn-primary"><i class="bi bi-bell"></i> Remind Student</button></td>`
+                                htmls += `<td style="background-color: orange ;">Not Complete <button type="button" name="" id="remindStudentButton" class="btn btn-primary"><i class="bi bi-bell"></i> Remind Student</button></td>`
 
                             } else if (snapshot.val().progress < (lengt - 1)) {
                                 console.log("User has barely completed the quiz, therefore is an imcomplete")
-                                htmls += `<td style="background-color: red ;">Incomplete <button type="button" name="" id="" class="btn btn-primary"><i class="bi bi-bell"></i> Remind Student</button></td>`
+                                htmls += `<td style="background-color: red ;">Incomplete <button type="button" name="" id="remindStudentButton" class="btn btn-primary"><i class="bi bi-bell"></i> Remind Student</button></td>`
                             }
 
                             // htmls += '</tr>'
@@ -226,13 +226,14 @@ ts.viewquiz = {
         })
 
     },
-    copyTable: function() {
+    exportTableToExcel: function() {
         myTable = document.getElementById("viewQuizResultTable");
         myClone = myTable.cloneNode(true);
         myClone.id = 'excelTable'
         myClone.style = 'display: none;'
         document.body.appendChild(myClone);
         $('#excelTable #tick').replaceWith("<td>Yes</td>");
+        $('#excelTable #cross').replaceWith("<td>No</td>");
         $('#excelTable #cross').replaceWith("<td>No</td>");
         let fileName = prompt("What do you want to call this excel file?", "report")
             // Acquire Data (reference to the HTML table)
@@ -249,5 +250,40 @@ ts.viewquiz = {
 
         // Package and Release Data (`writeFile` tries to write and save an XLSB file)
         XLSX.writeFile(workbook, `${fileName}.xlsb`);
-    }
+    },
+    exportTableToPDF: function() {
+        myTable = document.getElementById("viewQuizResultTable");
+        myClone = myTable.cloneNode(true);
+        myClone.id = 'excelTable'
+        myClone.style = 'display: none;'
+        document.body.appendChild(myClone);
+        $('#excelTable #tick').replaceWith("<td>Yes</td>");
+        $('#excelTable #cross').replaceWith("<td>No</td>");
+        $('#excelTable #remindStudentButton').replaceWith("");
+        //*create new jspdf
+        var doc = new jspdf.jsPDF()
+            //* start pdf declare
+            //*header rows
+
+        //*doc.autotable module
+        doc.autoTable({
+                html: '#excelTable',
+                startY: 30,
+                theme: 'grid',
+                styles: {
+                    minCellHeight: 10
+                }
+            }) //*create report header
+        const d = new Date();
+
+        doc.text("Report - Results for Health and Safety Pt 1 in 9PTEC", 20, 10);
+        doc.setFontSize(9);
+
+        doc.text(`QuizPoint`, 10, 280);
+
+        //? this is here as a place holder
+        let reportName = 'resultsforhealthandsafety_9PTEC'
+            //* save pdf to user.
+        doc.save(`report_${reportName}.pdf`)
+    },
 }

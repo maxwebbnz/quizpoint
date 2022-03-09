@@ -25,6 +25,7 @@
     <script src="report-modules/jspdf.umd.js"></script>
     <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
     <!-- DataTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
@@ -200,8 +201,8 @@
     <!-- </div> -->
     <div class="classGradesView" id="teachingsuite_classviewbyquiz-authed">
         <h4 id="classGradeView-header"></h4>
-        <button type="button" name="" id="" class="btn btn-primary" onclick="ts.viewquiz.copyTable()" btn-lg btn-block ">Export Spreadsheet</button>
-        <button type="button " name=" " id=" " class="btn btn-primary " btn-lg btn-block">Export PDF</button>
+        <button type="button" name="" id="" class="btn btn-primary" onclick="ts.viewquiz.exportTableToExcel()" btn-lg btn-block ">Export Spreadsheet</button>
+        <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToPDF() "btn-lg btn-block">Export PDF</button>
         <div style="background-color: white;" class="table">
             <table id="viewQuizResultTable" class="table">
                 <thead>

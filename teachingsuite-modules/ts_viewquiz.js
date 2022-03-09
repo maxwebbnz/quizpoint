@@ -210,6 +210,12 @@ ${i}                        </td>`
         })
 
     },
+    /**======================
+     *!  (Depreciated)
+     ** result
+     *@param name type  
+     *@return type
+     *========================**/
     result: function(_studentObject, _quiz) {
         console.log(_studentObject)
         let answers = []
@@ -226,6 +232,13 @@ ${i}                        </td>`
         })
 
     },
+    /**========================================================================
+     **                           ExportTableToExcel
+     *?  What does it do? Exports a table from the dom to an html element.
+     *@param name type  
+     *@param name type  
+     *@return type
+     *========================================================================**/
     exportTableToExcel: function() {
         myTable = document.getElementById("viewQuizResultTable");
         myClone = myTable.cloneNode(true);
@@ -251,6 +264,13 @@ ${i}                        </td>`
         // Package and Release Data (`writeFile` tries to write and save an XLSB file)
         XLSX.writeFile(workbook, `${fileName}.xlsb`);
     },
+    /**========================================================================
+     **                           ExportTabletoPDF
+     *?  What does it do? Exporting HTML Table to a pdf 
+     *@param name type  
+     *@param name type  
+     *@return type
+     *========================================================================**/
     exportTableToPDF: function() {
         myTable = document.getElementById("viewQuizResultTable");
         myClone = myTable.cloneNode(true);

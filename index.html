@@ -24,6 +24,13 @@
     <!-- PDF -->
     <script src="report-modules/jspdf.umd.js"></script>
     <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <!-- DataTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+
     <!-- Modules -->
     <!-- Debug Module -->
     <script src="misc-modules/debug.js"></script>
@@ -192,21 +199,19 @@
         </table> -->
     <!-- </div> -->
     <div class="classGradesView" id="teachingsuite_classviewbyquiz-authed">
-        <ul class="list-group" id="teachingsuite_classList">
-            <h4>View Results for: 0001</h4>
+        <h4 id="classGradeView-header"></h4>
+        <button type="button" name="" id="" class="btn btn-primary" onclick="ts.viewquiz.copyTable()" btn-lg btn-block ">Export Spreadsheet</button>
+        <button type="button " name=" " id=" " class="btn btn-primary " btn-lg btn-block">Export PDF</button>
+        <div style="background-color: white;" class="table">
+            <table id="viewQuizResultTable" class="table">
+                <thead>
 
-        </ul>
-        <div class="classGradeViewQuizResults" id="resultsspace">
-            <h4>Max Webb's results</h4>
-            <hr>
-            <div id="resultList">
-                <div class="result1">
-                    <h6>Question 1: What is your name?</h6>
-                    <p>User Answer: Max Webb </p>
-                    <p>Correct Answer: Max Well James</p>
-                    <hr>
-                </div>
-            </div>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>

@@ -2,7 +2,7 @@
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
-import { getDatabase, ref, set, onValue } from "firebase/database"
+import { getDatabase, ref, set, onValue, update } from "firebase/database"
 import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
@@ -24,25 +24,31 @@ const analytics = getAnalytics(app);
 const scanForSignIn = getAuth();
 const db = getDatabase();
 const auth = getAuth();
+let defaultPath = "/schools/hvhs";
 
-//Write data to Google Firebase
-function writeData(_path, _subPath, _uid, _function) {
-    console.log("Writing To: " + _path + "/" + _uid);
-    const db = getDatabase();
-    set(ref(db, _path + "/" + _uid + "/" + _subPath), (_function));
-    }
-
-function readAllData(_path, _subPath, _processData){
-    const readDataRef = ref(db, _path + "/" + _uid + "/" + _subPath);
-    onValue(readDataRef, (dataRecieved) => {
-    if (dataRecieved.val() == null) return console.log("No Record Found")
-    if (dataRecieved) return _processData(dataRecieved)})
-    }
-
-function readData(_path, _subPath, _uid, _processData){
-    const readDataRef = ref(db, _path + "/" + _uid + "/" + _subPath);
-    onValue(readDataRef, (dataRecieved) => {
-    if (dataRecieved.val() == null) return console.log("No Record Found")
-    if (dataRecieved) return _processData(dataRecieved)
-    })
-    }
+let fb = {
+//Write data to firebase
+//_path = directory in firebase e.g users, NOTE: defaultPath already has /schools/hvhs inputted
+//_id = id of document, e.g uid from Google Login, class Id
+//_data = data being written in database, ideally an array e.g name, role, email
+    write: (_path, _id, _data) => {
+        console.log("fb.write: Path: " + _path + "/" + _id + " Data: " + _data);
+        const db = getDatabase();
+        update(ref(db, defaultPath + '/' + _path + '/' + _id), (_data));
+    },
+//Read data in firebase
+//_path = directory in firebase e.g users, NOTE: defaultPath already has /schools/hvhs inputted
+//_id = id of document, e.g uid from Google Login, class Id
+    read: (_path, _id) => {
+        console.log("fb.read: Reading " + _path);
+        const readDataRef = ref(db, defaultPath + "/" + _path + "/" + _id);
+        onValue(readDataRef, (dataRecieved) => {
+        if (dataRecieved.val() == null) return console.log("fb.read: No record found at " + _path);
+        if (dataRecieved){
+            let data = dataRecieved.val();
+            console.log(data)
+            return data;
+            }
+        })
+    },
+}

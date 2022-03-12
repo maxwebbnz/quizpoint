@@ -23,6 +23,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- PDF -->
     <script src="report-modules/jspdf.umd.js"></script>
+    <script src="report-modules/pdfjs-html.js"></script>
     <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
@@ -58,6 +59,7 @@
     <script src="quiz-modules/qz_create.js"></script>
     <!-- Teaching Suite -->
     <script src="teachingsuite-modules/ts_viewquiz.js"></script>
+    <script src="teachingsuite-modules/ts_viewstudent.js"></script>
     <!-- Reporting -->
     <script src="report-modules/report_pdf.js"></script>
     </script>
@@ -199,7 +201,7 @@
             </tbody>
         </table> -->
     <!-- </div> -->
-    <div class="classGradesView" id="teachingsuite_classviewbyquiz-authed">
+    <div class="classGradesView" id="teachingsuite_classviewbyquiz-authed" style="display: block;">
         <h4 id="classGradeView-header"></h4>
         <button type="button" name="" id="" class="btn btn-primary" onclick="ts.viewquiz.exportTableToExcel()" btn-lg btn-block ">Export Spreadsheet</button>
         <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToPDF() "btn-lg btn-block">Export PDF</button>
@@ -214,6 +216,45 @@
             </table>
 
         </div>
+    </div>
+    <div class="viewStudentInformation" id="teachingsuite_classviewbystudent-authed">
+
+        <!-- <div id="studentInfoModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg" id="studentInfoModalContentAppend">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Max Webb - 18205mw</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>Student Results</p>
+                        <button>Export Results</button>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Quiz</td>
+                                    <td>Score</td>
+                                    <td>Completion</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr scope="row">
+                                    <td>Health and Safety Part 1</td>
+                                    <td>9/10</td>
+                                    <td>Completed <button>View Results</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> -->
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js "></script>

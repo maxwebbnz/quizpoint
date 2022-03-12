@@ -5,5 +5,7 @@
 
 $(document).ready(function() {
     fb_init()
+        // $('#studentInfoModal').modal('show');
+
 
 })

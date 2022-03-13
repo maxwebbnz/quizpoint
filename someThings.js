@@ -5,7 +5,7 @@
 // someThings.js
 
 (function() {
-    var fb = {
+    var email = {
         hello: function(_param) {
             console.log(_param)
         }

@@ -17,11 +17,11 @@
     },
     "homepage": "https://github.com/maxwebbnz/Safety360#readme",
     "dependencies": {
+        "colors": "file:../colors",
         "ejs": "^3.1.6",
         "express": "^4.17.3",
+        "nodemailer": "^6.7.2",
         "nodemon": "^2.0.15",
-        "socket.io": "^4.4.1",
-        "colors": "file:../colors"
-
+        "socket.io": "^4.4.1"
     }
 }

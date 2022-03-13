@@ -1,0 +1,48 @@
+body {
+    background-color: #6FA8DC;
+}
+
+.generic-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 60px;
+    width: 90%;
+    font-size: 31px;
+}
+
+.generic-header-blue {
+    background-color: #4E83C2;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+}
+
+.generic-header {
+    margin-top: 9%;
+    color: white;
+    padding-left: 20px;
+    width: 100%;
+    border-top-left-radius: 60px;
+    background-color: #4E83C2;
+}
+
+.generic-content {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.generic-text {
+    font-size: 22px;
+    padding-left: 50px;
+}
+
+
+/* #teachingsuite_classviewbyquiz-authed {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.classGradeViewQuizResults {
+    margin-left: 20px;
+} */

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Firebase + Firebase Modules -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+    <title>Title</title>
+</head>
+
+<body>
+    <div class="jumbotron" style="margin-left: auto; margin-right: auto">
+        <h1 class="display-3 d-flex justify-content-center">You have been invited to
+            <%= name %>
+        </h1>
+        <p class="lead d-flex justify-content-center">Jumbo helper text</p>
+        <hr class="my-2 d-flex justify-content-center">
+        <p class="d-flex justify-content-center">More info</p>
+        <p class="lead d-flex justify-content-center">
+            <a class="btn btn-primary btn-lg" role="button " onclick="fb.auth.login(google)">Join Class</a>
+        </p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js "></script>
+</body>
+<script>
+    var inviteID = <%- JSON.stringify(name) %>; // test is now a valid js object
+    let defaultPath = "/schools/hvhs/"
+    $(document).ready(function() {
+        fb_init()
+    })
+
+    function fb_init() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyByeEa_02Ilck48qdVip1zJc8kpWuBy2bU",
+            authDomain: "quizpoint-nz.firebaseapp.com",
+            databaseURL: "https://quizpoint-nz-default-rtdb.firebaseio.com",
+            projectId: "quizpoint-nz",
+            storageBucket: "quizpoint-nz.appspot.com",
+            messagingSenderId: "235262689225",
+            appId: "1:235262689225:web:148b6dd89f8ebc4ab4b218",
+            measurementId: "G-J7VPX0FG0L"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        console.log("fb_init | Connected to " + firebaseConfig.projectId + "'s Firebase Project", "info")
+    }
+
+    /*
+     * Copyright (c) 2022 QuizPoint
+     * All rights reserved.
+     */
+
+    //! do not need to declare
+    // let firebase = firebase.database;
+    let fb = []
+
+    fb = {
+
+        //Write user data to firebase 
+        //_path = directory in firebase e.g /hvhs/users/
+        //_id = id of document, e.g uid from Google Login, class id
+        //_data = data being written in database e.g Name, Role, Email
+        write: (_path, _id, _data) => {
+            //? should include default path..
+            firebase.database().ref(defaultPath + '/' + _path + '/' + _id).update(_data, writeError);
+
+            //Error handler, prompt user with an error if something went wrong
+            function writeError(error) {
+                if (error) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Write Error',
+                        showConfirmButton: true,
+                    })
+                }
+            }
+        },
+
+        //Read data from firebase consistently for updates
+        readListener: (_path, _id, _functionToProcessData) => {
+            let listener = firebase.database().ref(_path + '/' + _id);
+            listener.on('value', (snapshot) => {
+                let data = snapshot.val()
+                _functionToProcessData();
+            })
+        },
+
+        //Read data once from firebase 
+
+        //! I couldnt get this working Alan? It wouldn't return data when i tried returning data to see if user exists...
+        readOnce: (_path, _id) => {
+            firebase.database().ref(_path + '/' + _id).once("value", readError);
+            //Error handler prompt user with an error if something went wrong 
+            function readError(error) {
+                if (error) {
+                    console.log(error)
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Read Error',
+                        showConfirmButton: true
+                    })
+                }
+            }
+        }
+    }
+
+    // need to auth user first...
+    /*
+     * Copyright (c) 2022 QuizPoint
+     * All rights reserved.
+     */
+
+    //? in debugging mode, localhost:port is the way to get authentication to work
+    let user;
+    let google = 'google';
+    let office = 'office';
+    let provider;
+    /**========================================================================
+     **                           fb.auth
+     *?  What does it do? Performs authentication based methods for program
+     *@param name type  
+     *@param name type  
+     *@return type
+     *========================================================================**/
+    fb.auth = {
+        /**==============================================
+         **              Login
+         *?  What does it do? Logs in user with provider base
+         *@param name type  
+         *@param name type  
+         *@return type
+         *=============================================**/
+        login: function(_provider) {
+            firebase.auth().onAuthStateChanged(function(_user) {
+                if (_user) {
+                    // user is already loggedin
+                    fb.auth.loadUser(_user.uid, _user)
+                } else if (!_user) {
+                    if (_provider == google) {
+                        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                            .then(function() {
+                                provider = new firebase.auth.GoogleAuthProvider();
+                                console.log("fb_auth | Starting Authentication process", "info")
+                                return firebase.auth().signInWithPopup(provider).then(function(result) {
+                                        var token = result.credential.accessToken;
+                                        let fb_result = result.user;
+                                        fb.auth.loadUser(result.user.uid, result.user)
+                                        console.log(fb_result)
+                                    })
+                                    .catch(function(error) {
+                                        // Handle Errors here.
+                                        var errorCode = error.code;
+                                        var errorMessage = error.message;
+                                    });
+                            })
+                    }
+                }
+            });
+        },
+        /**==============================================
+         **              Load User
+         *?  What does it do? Loads user for program, and also registers if needbe
+         *@param name type  
+         *@param name type  
+         *@return type
+         *=============================================**/
+        loadUser(_uid, _userObj) {
+            var db = firebase.database().ref(defaultPath + '/users/' + _uid)
+            db.once('value', (snapshot) => {
+                if (snapshot.val() == null) {
+                    let userObject = {
+                            name: _userObj.displayName,
+                            email: _userObj.email,
+                            picture: _userObj.photoURL,
+                            studentID: _userObj.email.split('@')[0],
+                            role: 'student',
+                            uid: _uid,
+                            classes: {
+                                notEnrolled: true
+                            },
+                            quizzes: {
+                                active: {
+                                    notEnrolled: true
+                                },
+                                turnedin: {
+                                    notEnrolled: true
+                                }
+                            },
+                        }
+                        // store data to firebase
+                    firebase.database().ref(db).set(userObject);
+                    console.log("fb.loadUser | Loaded User and registered user " + userObject.name)
+                    this.loadUser(userObject.uid, userObject)
+                } else {
+                    const userData = snapshot.val();
+                    user = userData;
+                    console.log("fb.loadUser | Loaded User " + user.name)
+                    fb.write(`users`, user.uid + `/classes/${inviteID}`, {
+                        code: inviteID
+                    })
+                    fb.write(`classes`, user.uid + `/classes/${inviteID}/students`, {
+                        [userData.uid]: userData.uid
+                    })
+                }
+            });
+        },
+        /**==============================================
+         **              Logout
+         *?  What does it do? Logs out user no matter there provider
+         *@param name type  
+         *@param name type  
+         *@return type
+         *=============================================**/
+        logout: function() {
+            firebase.auth().signOut().then(() => {
+                // alert.success("You signed out!")
+                location.reload();
+            }).catch((error) => {
+                console.log("auth.logout | ", error)
+                    // alert.warn("We couldn't log you out, please try again'")
+            });
+        }
+    }
+</script>
+
+</html>

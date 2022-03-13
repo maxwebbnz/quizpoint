@@ -18,17 +18,27 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
     <title>Title</title>
 </head>
+<header>
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
+        <a class="navbar-brand" href="#" style="margin-left:20px">QuizPoint</a>
+        <ul class="nav navbar-nav">
+
+        </ul>
+    </nav>
+</header>
 
 <body>
-    <div class="jumbotron" style="margin-left: auto; margin-right: auto">
+    <div style="margin-top: 20px" class="jumbotron" style="margin-left: auto; margin-right: auto">
         <h1 class="display-3 d-flex justify-content-center">You have been invited to
             <%= name %>
         </h1>
-        <p class="lead d-flex justify-content-center">Jumbo helper text</p>
+        <p class="lead d-flex justify-content-center">You have been invited by
+            <%= teacherName%> to join this class.
+        </p>
         <hr class="my-2 d-flex justify-content-center">
-        <p class="d-flex justify-content-center">More info</p>
+        <p class="d-flex justify-content-center">To join, please sign in.</p>
         <p class="lead d-flex justify-content-center">
-            <a class="btn btn-primary btn-lg" role="button " onclick="fb.auth.login(google)">Join Class</a>
+            <a class="btn btn-primary btn-lg" role="button " onclick="fb.auth.login(google)">Sign In</a>
         </p>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
@@ -214,7 +224,7 @@
                     fb.write(`users`, user.uid + `/classes/${inviteID}`, {
                         code: inviteID
                     })
-                    fb.write(`classes`, user.uid + `/classes/${inviteID}/students`, {
+                    fb.write(`classes`, `/${inviteID}/students`, {
                         [userData.uid]: userData.uid
                     })
                 }

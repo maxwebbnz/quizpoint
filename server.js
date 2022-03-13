@@ -23,10 +23,11 @@ app.get('/', (req, res) => {
         res.send('index')
     })
     //? Main Application
-app.get('/invite/:classId', (req, res) => {
+app.get('/invite/:classId%:teacherId', (req, res) => {
     currentClassId = req.params.classId
     res.render('templates/invite', {
-        name: req.params.classId
+        name: req.params.classId,
+        teacherName: req.params.teacherId
     });
 
 })

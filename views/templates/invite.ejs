@@ -29,8 +29,8 @@
 
 <body>
     <div style="margin-top: 20px" class="jumbotron" style="margin-left: auto; margin-right: auto">
-        <h1 class="display-3 d-flex justify-content-center">You have been invited to
-            <%= name %>
+        <h1 class="display-3 d-flex justify-content-center">You have been invited to a class (
+            <%= name %> )
         </h1>
         <p class="lead d-flex justify-content-center">You have been invited by
             <%= teacherName%> to join this class.
@@ -62,7 +62,6 @@
             appId: "1:235262689225:web:148b6dd89f8ebc4ab4b218",
             measurementId: "G-J7VPX0FG0L"
         };
-
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         console.log("fb_init | Connected to " + firebaseConfig.projectId + "'s Firebase Project", "info")

@@ -1,7 +1,10 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Max Webb
  * All rights reserved.
  */
+
+var socket = io();
+
 let ts = {}
 async function studentName(studentID) {
     var res = '';
@@ -442,4 +445,12 @@ ${i}                        </td>`
             //* save pdf to user.
         doc.save(`report_${reportName}.pdf`)
     },
+    remindStudent: function() {
+        console.log('Emailing Student')
+        socket.emit('emailReminder', {
+            studentName: "Max Webb",
+            email: "18205mw@hvhs.school.nz"
+        });
+
+    }
 }

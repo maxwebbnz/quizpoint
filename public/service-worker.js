@@ -1,7 +1,15 @@
 /*
- * Copyright (c) 2022 Max Webb
+ * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+
+/**========================================================================
+ **                           Service Worker.js
+ *?  Worker that performs listener events for the progressive web app installs
+ *@param name type  
+ *@param name type  
+ *@return type
+ *========================================================================**/
 const CACHE_NAME = 'offline';
 const OFFLINE_URL = 'offline.html';
 

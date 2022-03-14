@@ -16,6 +16,13 @@ this will allow easy storing of questions from a firebase point of view (can jus
 */
 let questionCache = []
 
+/**========================================================================
+ **                           qz_create
+ *?  Handles all creating of quizzes in the teaching suite.
+ *@param name type  
+ *@param name type  
+ *@return type
+ *========================================================================**/
 let qz_create = {
     /**========================================================================
      **                           pullDOM

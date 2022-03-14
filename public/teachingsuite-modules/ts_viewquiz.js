@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2022 Max Webb
+ * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
 
-var socket = io();
+// var socket = io();
 
 let ts = {}
 async function studentName(studentID) {
@@ -411,6 +411,12 @@ ${i}                        </td>`
      *@return type
      *========================================================================**/
     exportTableToPDF: function() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = dd + '/' + mm + '/' + yyyy;
+
         myTable = document.getElementById("viewQuizResultTable");
         myClone = myTable.cloneNode(true);
         myClone.id = 'excelTable'
@@ -420,7 +426,10 @@ ${i}                        </td>`
         $('#excelTable #cross').replaceWith("<td>No</td>");
         $('#excelTable #remindStudentButton').replaceWith("");
         //*create new jspdf
-        var doc = new jspdf.jsPDF()
+        var doc = new jspdf.jsPDF({
+                orientation: 'l',
+                format: 'a4'
+            })
             //* start pdf declare
             //*header rows
 
@@ -437,6 +446,8 @@ ${i}                        </td>`
 
         doc.text("Report - Results for Health and Safety Pt 1 in 9PTEC", 20, 10);
         doc.setFontSize(9);
+
+        doc.text("Generated on " + today, 20, 15);
 
         doc.text(`QuizPoint`, 10, 280);
 

@@ -1,7 +1,15 @@
 /*
- * Copyright (c) 2022 Max Webb
+ * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+
+/**========================================================================
+ **                           App.js
+ *? Performs steps and helps install PWA (progressive web application)
+ *@param name type  
+ *@param name type  
+ *@return type
+ *========================================================================**/
 const divInstall = document.getElementById('installContainer');
 const butInstall = document.getElementById('butInstall');
 

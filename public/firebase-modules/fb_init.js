@@ -6,6 +6,10 @@
 //! top level variables for firebase should go here
 // let user;
 
+/**==============================================
+ **              fb_init
+ *?  Loads firebase and setups information 
+ *=============================================**/
 function fb_init() {
     const firebaseConfig = {
         apiKey: "AIzaSyByeEa_02Ilck48qdVip1zJc8kpWuBy2bU",

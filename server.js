@@ -1,18 +1,18 @@
 /*
- * Copyright (c) 2022 Max Webb
+ * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
 
-
+//*Base Declerations
 const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const nodemailer = require('nodemailer');
+let currentClassId;
 
-var fb = require("./someThings");
-var nodemailer = require('nodemailer');
 //* Email Settings
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -24,16 +24,20 @@ var transporter = nodemailer.createTransport({
 
 // allow main application to run
 app.use(express.static('public'));
-
-let currentClassId;
+// set view engine for templating
 app.set('view engine', 'ejs');
 
 //? Main Application
 app.get('/', (req, res) => {
-        res.send('index')
-    })
-    //? Main Application
+    res.send('index')
+})
 
+/**==============================================
+ **              Invite Handler
+ *?  Performs invite requests for users who do not exist (yet)
+ *@param req paramters  
+ *@param res paramters  
+ *=============================================**/
 app.get('/invite/:classId%:teacherId', (req, res) => {
     currentClassId = req.params.classId
     res.render('templates/invite', {
@@ -44,15 +48,17 @@ app.get('/invite/:classId%:teacherId', (req, res) => {
 })
 
 
-
+// on a new user connection
 io.on('connection', (socket) => {
     console.log('a user connected');
 });
 
+/**======================
+ **   Listener for Connections
+ *========================**/
 io.on('connection', (socket) => {
     socket.on('joinClass', (msg) => {
         console.log(msg)
-        fb.read(currentClassId)
     });
 
     socket.on('emailInvite', (msg) => {
@@ -110,6 +116,7 @@ io.on('connection', (socket) => {
     });
 });
 
+//* Final Part of the puzzel, listen for connections on port 3000 
 server.listen(3000, () => {
     console.log('listening on *:3000');
 });

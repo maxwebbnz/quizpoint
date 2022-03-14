@@ -3,8 +3,26 @@
  * All rights reserved.
  */
 
-
+/**=======================
+ * !      DEPRECIATED
+ *  
+ *  
+ *========================**/
+/**========================================================================
+ **                           qz_check
+ *?  Checks Answer
+ *@param name type  
+ *@param name type  
+ *@return type
+ *========================================================================**/
 let qz_check = {
+    /**==============================================
+     **              Check Ans
+     *?  Checks answer from user, 
+     *@param name type  
+     *@param name type  
+     *@return type
+     *=============================================**/
     checkAns: function(_a, _t) {
         if (_t == "multichoice") {
             console.log("Checking answer of " + _a)

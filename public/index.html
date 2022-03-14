@@ -1,75 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
+/* * Copyright (c) 2022 Max Webb * All rights reserved. */
+<script>
+    let defaultPath = "/schools/hvhs/"
+</script>
+<link rel="manifest" href="/manifest.json">
+<script src="app.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
 
-<head>
-    <script>
-        let defaultPath = "/schools/hvhs/"
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="Description" content="Enter your description here" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+<!-- Firebase + Firebase Modules -->
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+<!-- SWALLLL -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- PDF -->
+<script src="report-modules/jspdf.umd.js"></script>
+<script src="report-modules/pdfjs-html.js"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+<!-- DataTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
-    <!-- Firebase + Firebase Modules -->
-    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
-    <!-- SWALLLL -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- PDF -->
-    <script src="report-modules/jspdf.umd.js"></script>
-    <script src="report-modules/pdfjs-html.js"></script>
-    <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    <!-- DataTable -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 
-    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
-
-    <!-- Modules -->
-    <!-- Debug Module -->
-    <script src="misc-modules/debug.js"></script>
-    <!-- Firebase -->
-    <script src="firebase-modules/fb_init.js"></script>
-    <script src="firebase-modules/fb_user.js"></script>
-    <script src="firebase-modules/fb_read.js"></script>
-    <script src="firebase-modules/fb_auth.js"></script>
-    <script src="firebase-modules/fb_init.js"></script>
-    <!-- Class -->
-    <script src="class-modules/class_display.js"></script>
-    <script src="class-modules/class_lookup.js"></script>
-    <!-- DOM and UI -->
-    <script src="dom-modules/dom_onload.js"></script>
-    <script src="ui-modules/ui_navigate.js"></script>
-    <!-- Quiz -->
-    <script src="quiz-modules/qz_load.js"></script>
-    <script src="quiz-modules/qz_loadActive.js"></script>
-    <script src="quiz-modules/qz_display.js"></script>
-    <script src="quiz-modules/qz_answer.js"></script>
-    <script src="quiz-modules/qz_check.js"></script>
-    <script src="quiz-modules/qz_turnin.js"></script>
-    <script src="quiz-modules/qz_progress.js"></script>
-    <script src="quiz-modules/qz_create.js"></script>
-    <!-- Teaching Suite -->
-    <script src="teachingsuite-modules/ts_viewquiz.js"></script>
-    <script src="teachingsuite-modules/ts_viewstudent.js"></script>
-    <!-- Reporting -->
-    <script src="report-modules/report_pdf.js"></script>
-    </script>
-    <link rel="stylesheet" href="safety360.css">
-    <title>Title</title>
+<!-- Modules -->
+<!-- Debug Module -->
+<script src="misc-modules/debug.js"></script>
+<!-- Firebase -->
+<script src="firebase-modules/fb_init.js"></script>
+<script src="firebase-modules/fb_user.js"></script>
+<script src="firebase-modules/fb_read.js"></script>
+<script src="firebase-modules/fb_auth.js"></script>
+<script src="firebase-modules/fb_init.js"></script>
+<!-- Class -->
+<script src="class-modules/class_display.js"></script>
+<script src="class-modules/class_lookup.js"></script>
+<!-- DOM and UI -->
+<script src="dom-modules/dom_onload.js"></script>
+<script src="ui-modules/ui_navigate.js"></script>
+<!-- Quiz -->
+<script src="quiz-modules/qz_load.js"></script>
+<script src="quiz-modules/qz_loadActive.js"></script>
+<script src="quiz-modules/qz_display.js"></script>
+<script src="quiz-modules/qz_answer.js"></script>
+<script src="quiz-modules/qz_check.js"></script>
+<script src="quiz-modules/qz_turnin.js"></script>
+<script src="quiz-modules/qz_progress.js"></script>
+<script src="quiz-modules/qz_create.js"></script>
+<!-- Teaching Suite -->
+<script src="teachingsuite-modules/ts_viewquiz.js"></script>
+<script src="teachingsuite-modules/ts_viewstudent.js"></script>
+<!-- Reporting -->
+<script src="report-modules/report_pdf.js"></script>
+</script>
+<link rel="stylesheet" href="safety360.css">
+<title>Title</title>
 </head>
 
 <body>
+    <p id="requireHTTPS" class="hidden">
+        <b>STOP!</b> This page <b>must</b> be served over HTTPS. Please <a>reload this page via HTTPS</a>.
+    </p>
+    <div id="installContainer" class="hidden">
+        <button id="butInstall" type="button">
+        Install
+      </button>
+    </div>
     <link rel="stylesheet" href="style/progressbar.css">
     <link rel="stylesheet" href="style/table.css">
     <div id="landingPage">

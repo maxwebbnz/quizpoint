@@ -47,7 +47,16 @@ app.get('/invite/:classId%:teacherId', (req, res) => {
 
 })
 
-
+/**==============================================
+ **              404
+ *?  Renders 404 page
+ *@param name type  
+ *@param name type  
+ *@return type
+ *=============================================**/
+app.get('*', function(req, res) {
+    res.render('templates/404', { page: req })
+});
 // on a new user connection
 io.on('connection', (socket) => {
     console.log('a user connected');

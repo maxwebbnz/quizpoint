@@ -1,5 +1,8 @@
 body {
     background-color: #6FA8DC;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    margin-left: 200px
 }
 
 .generic-container {
@@ -87,4 +90,115 @@ body {
 
 .filterByField {
     margin-left: 20%;
+}
+
+.homePageGrid {
+    display: grid;
+    grid-template-columns: 3fr 1fr
+}
+
+.signInButton-Google {
+    background-color: white;
+    border: 0px;
+    border-radius: 30px;
+    filter: drop-shadow(0 0 0.3rem black);
+}
+
+.action {
+    margin: auto;
+    width: 80%;
+}
+
+.signInButton-Office {
+    margin-top: 20px;
+    background-color: black;
+    color: white;
+    border: 0px;
+    border-radius: 30px;
+    filter: drop-shadow(0 0 0.3rem black);
+}
+
+.parent {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.image1 {
+    position: relative;
+    top: 0;
+    left: 0;
+    /* border: 1px red solid; */
+}
+
+.image2 {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    margin-left: 20%;
+    /* border: 1px green solid; */
+}
+
+.sidenav {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.links {
+    margin-top: 10%;
+}
+
+.active {
+    background-color: #4E83C2 !important;
+}
+
+.sidenav-btn {
+    border: 0;
+    background-color: #7CA5D9;
+    width: 90%;
+    padding-left: 0px;
+    height: 10%;
+    font-size: 20px;
+    margin-bottom: 20px;
+    border-radius: 0px 60px 60px 0;
+    /* top-left top-right bottom-right bottom-left. */
+}
+
+.sidenav .footer {
+    margin-top: 110%;
+    margin-left: 4%;
+}
+
+@media only screen and (min-width: 1200px) {}
+
+@media only screen and (min-width: 992px) {
+    .sidenav {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #FFFFFF;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+    .sidenav .footer {
+        margin-top: 70%;
+        margin-left: 4%;
+    }
 }

@@ -14,8 +14,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://www.marvinj.org/releases/marvinj-1.0.js"></script>
 <!-- <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script> -->
-
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
 <!-- Firebase + Firebase Modules -->
 <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
@@ -68,93 +73,136 @@
 <script src="report-modules/report_pdf.js"></script>
 </script>
 <link rel="stylesheet" href="safety360.css">
-<title>Title</title>
+<title>QuizPoint</title>
 </head>
+<div class="sidenav">
+    <div class="userProfilePicture">
+        <img src="media/dummy.jpg" id=a lt="" class="rounded center">
+    </div>
+    <div class="links">
+        <button class="sidenav-btn active">
+            <i class="bi bi-house-door"></i> Home
+        </button>
+        <button class="sidenav-btn" id="teacherHidden">
+            <i class="bi bi-gear-wide-connected"></i> Teaching
+        </button>
+        <button class="sidenav-btn">
+            <i class="bi bi-box-arrow-left"></i> Logout
+        </button>
+    </div>
+    <div class="footer">
+        <p>QuizPoint <a href="https://github.com/maxwebbnz/quizpoint">v0.1</a></p>
+    </div>
+</div>
 
 <body>
-    <p id="requireHTTPS" class="hidden">
+    <p id="requireHTTPS " class="hidden ">
         <b>STOP!</b> This page <b>must</b> be served over HTTPS. Please <a>reload this page via HTTPS</a>.
     </p>
-    <div id="installContainer" class="hidden">
-        <button id="butInstall" type="button">
+    <div id="installContainer " class="hidden ">
+        <button id="butInstall " type="button ">
         Install
       </button>
     </div>
-    <link rel="stylesheet" href="style/progressbar.css">
-    <link rel="stylesheet" href="style/table.css">
-    <div id="landingPage">
-        <div class="d-grid gap-2">
-            <button type="button" name="" id="" class="btn btn-primary" onclick="fb.auth.login(google)">Login</button>
+    <link rel="stylesheet " href="style/progressbar.css ">
+    <link rel="stylesheet " href="style/table.css ">
+    <div id="landingPage " style='display: none;height: 100%; padding-bottom: 0px;' class="homePageGrid ">
+        <div class=" backgroundImage-landingpage ">
+            <img src="media/background.jpg " alt=" " id="schoolMedia-background " width="100% " height="100% ">
+        </div>
+        <div class="action ">
+            <h1>QuizPoint</h1>
+            <hr class="my-4 ">
+            <h4>Please sign in</h4>
+            <button class="signInButton-Google " onclick="fb.auth.login(google) "><i class="bi bi-google " ></i> Sign in with Google</button>
+            <button class="signInButton-Office "><i class="bi bi-microsoft " style="color:white "></i> Sign in with Office 365</button>
         </div>
     </div>
-    <div class="homePage" id="homePage-authed_student" style="display: none;">
-        <h2>Your Classes</h2>
-        <div class="" id="homePage-authed_student-class"></div>
     </div>
-    <div class="homePage" id="homePage-authed_teacher" style="display: none;">
+
+    <div class="homePage " id="homePage-authed_student " style="display: block; ">
+        <div class="homePageHeader " style="color: white; ">
+            <h2 class="d-flex justify-content-center ">Your Classes</h2>
+        </div>
+        <div class=" " id="homePage-authed_student-class " style="height: 20% ">
+            <!-- <div class="card " style="width: 18rem; ">
+                <div class="parent ">
+                    <img src="https://wallpaperaccess.com/full/1249894.jpg " class="card-img image1 " alt="... ">
+                    <img src="https://api.time.com/wp-content/uploads/2017/12/terry-crews-person-of-year-2017-time-magazine-2.jpg " alt="Profile Image " width="40% " class="rounded-circle image2 ">
+                </div>
+
+                <div class="card-body " style="text-align: center; ">
+                    <h3>9PTEC</h3>
+                    <p class="card-text ">Taught by Alan</p>
+                </div>
+             -->
+        </div>
+
+    </div>
+    <div class="homePage " id="homePage-authed_teacher " style="display: none; ">
         <h2>Your Classes (teacher)</h2>
     </div>
-    <div class="classPage" id="classpage_authed_student" style="display: none;">
-        <div class="classPageHeader" id="classPageHeader"></div>
+    <div class="classPage " id="classpage_authed_student " style="display: none; ">
+        <div class="classPageHeader " id="classPageHeader "></div>
         <h4>Active Quizzes</h4>
-        <div class="quizAssigned" id="classpage_authed_student-quizassigned">
+        <div class="quizAssigned " id="classpage_authed_student-quizassigned ">
         </div>
         <h4>Turned-in Quizzes</h4>
-        <div class="quizAssigned" id="classpage_authed_student-quizassigned">
+        <div class="quizAssigned " id="classpage_authed_student-quizassigned ">
         </div>
     </div>
-    <div class="viewQuizModule" id="viewQuiz" style="display: none;">
-        <button onclick="qz_load.getQuiz()">Load Quiz</button>
-        <div id="qz-display">
-            <ol class="ProgressBar" id="prog">
+    <div class="viewQuizModule " id="viewQuiz " style="display: none; ">
+        <button onclick="qz_load.getQuiz() ">Load Quiz</button>
+        <div id="qz-display ">
+            <ol class="ProgressBar " id="prog ">
             </ol>
 
-            <span id="qz-title"></span>
-            <span id="qz-image"></span>
-            <div id="qz-input">
-                <div id="qz-inputType-inputfield" style="display: none;">
-                    <div class="form-group">
-                        <label for=""></label>
-                        <input type="text" class="form-control" name="" id="qz-inputfield" aria-describedby="helpId" placeholder="">
-                        <small id="helpId" class="form-text text-muted">Help text</small>
+            <span id="qz-title "></span>
+            <span id="qz-image "></span>
+            <div id="qz-input ">
+                <div id="qz-inputType-inputfield " style="display: none; ">
+                    <div class="form-group ">
+                        <label for=" "></label>
+                        <input type="text " class="form-control " name=" " id="qz-inputfield " aria-describedby="helpId " placeholder=" ">
+                        <small id="helpId " class="form-text text-muted ">Help text</small>
                     </div>
                 </div>
-                <div id="multichoice">
+                <div id="multichoice ">
 
                 </div>
             </div>
         </div>
     </div>
-    <div class="createQuizModule" style="margin: auto; padding-left: 2%; padding-right: 2%; display: none;">
+    <div class="createQuizModule " style="margin: auto; padding-left: 2%; padding-right: 2%; display: none; ">
         <h3>Create a Quiz</h3>
-        <div class="mb-3">
-            <label for="" class="form-label">Quiz Name</label>
-            <input type="textk" class="form-control form-control-sm" name="" id="qz_nameInput" aria-describedby="helpId" placeholder="">
-            <small id="helpId" class="form-text text-muted">Health and Safety</small>
+        <div class="mb-3 ">
+            <label for=" " class="form-label ">Quiz Name</label>
+            <input type="textk " class="form-control form-control-sm " name=" " id="qz_nameInput " aria-describedby="helpId " placeholder=" ">
+            <small id="helpId " class="form-text text-muted ">Health and Safety</small>
         </div>
-        <div class="mb-3">
-            <label for="" class="form-label">Quiz Description</label>
-            <input type="textk" class="form-control form-control-sm" name="" id="qz_descInput" aria-describedby="qz_deschelp" placeholder="">
-            <small id="qz_deschelp" class="form-text text-muted">Health and Safety quiz for Year 9s</small>
+        <div class="mb-3 ">
+            <label for=" " class="form-label ">Quiz Description</label>
+            <input type="textk " class="form-control form-control-sm " name=" " id="qz_descInput " aria-describedby="qz_deschelp " placeholder=" ">
+            <small id="qz_deschelp " class="form-text text-muted ">Health and Safety quiz for Year 9s</small>
         </div>
-        <div class="mb-3">
-            <label for="" class="form-label">Resubmisson allowed?</label>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="" id="qz_resubAllowed" value="true" checked>
-                <label class="form-check-label" for="">
+        <div class="mb-3 ">
+            <label for=" " class="form-label ">Resubmisson allowed?</label>
+            <div class="form-check ">
+                <input type="checkbox " class="form-check-input " name=" " id="qz_resubAllowed " value="true " checked>
+                <label class="form-check-label " for=" ">
                 Allowed
               </label>
             </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="" id="qz_resubNotAllowed" value="false">
-                <label class="form-check-label" for="">
+            <div class="form-check ">
+                <input type="checkbox " class="form-check-input " name=" " id="qz_resubNotAllowed " value="false ">
+                <label class="form-check-label " for=" ">
                 Not Allowed
               </label>
             </div>
         </div>
         <hr>
-        <h5>Questions <i class="bi bi-plus" onclick="qz_create.newRow()"></i></h5>
-        <table class="table" id="qz_questionTable">
+        <h5>Questions <i class="bi bi-plus " onclick="qz_create.newRow() "></i></h5>
+        <table class="table " id="qz_questionTable ">
             <thead>
                 <tr>
                     <th>Question Name</th>
@@ -164,61 +212,38 @@
                 </tr>
             </thead>
             <tbody>
-                <tr id="question">
-                    <td><input type="text" placeholder="What is the quiz?"></td>
+                <tr id="question ">
+                    <td><input type="text " placeholder="What is the quiz? "></td>
                     <td>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="" id="qz_questionTextInput" value="false">Text Input
+                        <div class="form-check form-check-inline ">
+                            <label class="form-check-label ">
+                            <input class="form-check-input " type="checkbox " name=" " id="qz_questionTextInput " value="false ">Text Input
                         </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="" id="qz_questionInputMulti" value="false">Multi Choice
+                        <div class="form-check form-check-inline ">
+                            <label class="form-check-label ">
+                            <input class="form-check-input " type="checkbox " name=" " id="qz_questionInputMulti " value="false ">Multi Choice
                         </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="" id="qz_questionInputImage" value="false">Image Upload
+                        <div class="form-check form-check-inline ">
+                            <label class="form-check-label ">
+                            <input class="form-check-input " type="checkbox " name=" " id="qz_questionInputImage " value="false ">Image Upload
                         </label>
                         </div>
                     </td>
-                    <td><input type="text" placeholder="The Quiz"></td>
-                    <td><input type="text" placeholder="Seperate Keywords with a space" style="width: 80%;"></td>
+                    <td><input type="text " placeholder="The Quiz "></td>
+                    <td><input type="text " placeholder="Seperate Keywords with a space " style="width: 80%; "></td>
                 </tr>
             </tbody>
         </table>
 
     </div>
-    <!-- <div class="reportSummaryTables">
-        <table class="" id="currentReport">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Class</th>
-                    <th>Progress</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td scope="row ">Max Webb</td>
-                    <td>9PTEC</td>
-                    <td style="background-color: red;">Completed</td>
-                </tr>
-                <tr>
-                    <td scope="row ">Max Webb</td>
-                    <td>9PTEC</td>
-                    <td style="background-color: red;">Not Completed</td>
-                </tr>
-            </tbody>
-        </table> -->
-    <!-- </div> -->
-    <div class="classGradesView" id="teachingsuite_classviewbyquiz-authed" style="display: block;">
-        <h4 id="classGradeView-header"></h4>
-        <button type="button" name="" id="" class="btn btn-primary" onclick="ts.viewquiz.exportTableToExcel()" btn-lg btn-block ">Export Spreadsheet</button>
-        <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToPDF() "btn-lg btn-block">Export PDF</button>
-        <div style="background-color: white;" class="table">
-            <table id="viewQuizResultTable" class="table">
+    <div class="classGradesView " id="teachingsuite_classviewbyquiz-authed " style="display: none; ">
+        <h4 id="classGradeView-header "></h4>
+        <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToExcel() ">Export Spreadsheet</button>
+        <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToPDF() ">Export PDF</button>
+        <div style="background-color: white; " class="table ">
+            <table id="viewQuizResultTable " class="table ">
                 <thead>
 
                 </thead>
@@ -229,66 +254,29 @@
 
         </div>
     </div>
-    <div class="viewStudentInformation" id="teachingsuite_classviewbystudent-authed">
-
-        <!-- <div id="studentInfoModal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg" id="studentInfoModalContentAppend">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Max Webb - 18205mw</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                    </div>
-                    <div class="modal-body">
-                        <p>Student Results</p>
-                        <button>Export Results</button>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <td>Quiz</td>
-                                    <td>Score</td>
-                                    <td>Completion</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr scope="row">
-                                    <td>Health and Safety Part 1</td>
-                                    <td>9/10</td>
-                                    <td>Completed <button>View Results</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div> -->
+    <div class="viewStudentInformation " id="teachingsuite_classviewbystudent-authed ">
     </div>
 
-    <div class="filterByField" id="tcs_filter">
+    <div class="filterByField hidden " id="tcs_filter ">
 
-        <div class="searchStudentContainer">
+        <div class="searchStudentContainer ">
             <h6>Search</h6>
-            <div class="form-group">
-                <label for="">Search for a student</label>
-                <input type="text" id="tcs_filterField" class="form-control form-control-sm" style="width: 50%" name="" aria-describedby="helpId" placeholder="">
-                <small id="helpId" class="form-text text-muted">E.g Max Webb <i>or</i> 18205mw</small>
+            <div class="form-group ">
+                <label for=" ">Search for a student</label>
+                <input type="text " id="tcs_filterField " class="form-control form-control-sm " style="width: 50% " name=" " aria-describedby="helpId " placeholder=" ">
+                <small id="helpId " class="form-text text-muted ">E.g Max Webb <i>or</i> 18205mw</small>
             </div>
         </div>
-        <div class="searchByField" id="">
+        <div class="searchByField " id=" ">
             <h4>Search Results</h4>
-            <div id="searchResults">
+            <div id="searchResults ">
 
             </div>
         </div>
     </div>
-    <div style="background-color: white;" class="hidden viewClassList" id="ts_classlist">
+    <div style="background-color: white; " class="hidden viewClassList " id="ts_classlist ">
         <h4>Teachers:</h4>
-        <table class="table" id="classlist_teacherTable">
+        <table class="table " id="classlist_teacherTable ">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -301,7 +289,7 @@
         </table>
 
         <h4>Students:</h4>
-        <table class="table" id="classlist_studentTable">
+        <table class="table " id="classlist_studentTable ">
             <thead>
                 <tr>
                     <th>Name</th>

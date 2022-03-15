@@ -75,7 +75,7 @@
 <link rel="stylesheet" href="safety360.css">
 <title>QuizPoint</title>
 </head>
-<div class="sidenav">
+<div class="sidenav hidden">
     <div class="userProfilePicture">
         <img src="media/dummy.jpg" id=a lt="" class="rounded center">
     </div>
@@ -83,8 +83,7 @@
         <button class="sidenav-btn active">
             <i class="bi bi-house-door"></i> Home
         </button>
-        <button class="sidenav-btn" id="teacherHidden">
-            <i class="bi bi-gear-wide-connected"></i> Teaching
+        <i class="bi bi-gear-wide-connected"></i> Teaching
         </button>
         <button class="sidenav-btn">
             <i class="bi bi-box-arrow-left"></i> Logout
@@ -93,6 +92,29 @@
     <div class="footer">
         <p>QuizPoint <a href="https://github.com/maxwebbnz/quizpoint">v0.1</a></p>
     </div>
+</div>
+<div class="sidenav teachingsuiteNav">
+    <div class="userProfilePicture">
+        <img src="media/dummy.jpg" id=a lt="" class="rounded center">
+    </div>
+    <div class="links">
+        <button class="sidenav-btn active">
+            <i class="bi bi-bar-chart"></i> Summary
+        </button>
+        <button class="sidenav-btn ">
+        <i class="bi bi-collection"></i> Classes
+        </button>
+        <button class="sidenav-btn ">
+        <i class="bi bi-people"></i> Students
+        </button>
+        <button class="sidenav-btn ">
+        <i class="bi bi-ui-checks-grid"></i> Quizzes
+        </button>
+        <button class="sidenav-btn">
+            <i class="bi bi-box-arrow-left"></i> Home
+        </button>
+    </div>
+
 </div>
 
 <body>
@@ -120,7 +142,7 @@
     </div>
     </div>
 
-    <div class="homePage " id="homePage-authed_student " style="display: block; ">
+    <div class="homePage " id="homePage-authed_student " style="display: none; ">
         <div class="homePageHeader " style="color: white; ">
             <h2 class="d-flex justify-content-center ">Your Classes</h2>
         </div>
@@ -303,6 +325,214 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js "></script>
+    <!-- TEACHING SUITE! -->
+    <div class="teachingsuite" id="tcs">
+        <div class="summaryPage hidden" id="tcs_summaryPage">
+            <div class="summaryPageHeader " style="color: white; ">
+                <h2 class="d-flex justify-content-center ">Welcome, <span id="user-displayName">Max Webb</span></h2>
+            </div>
+            <div class="summaryPageQuickActions">
+                <h2 class="d-flex justify-content-center">Quick Actions</h2>
+                <div class="d-flex justify-content-center quickActionGrid">
+                    <button class="generic-button" id="tcs_assignQuiz">Assign Quiz</button>
+                    <button class="generic-button" id="tcs_assignQuiz">Search for a student</button>
+                    <button class="generic-button" id="tcs_assignQuiz">View Class Results</button>
+                </div>
+            </div>
+        </div>
+        <div class="classesPageTCS hidden" id="tcs_classpage">
+            <div class="classPageHeader " style="color: white; ">
+                <h2 class="d-flex justify-content-center ">Classes</h2>
+            </div>
+            <div class="classPageContent">
+                <button class="generic-button sml">Create Class</button>
+                <div class="classPageCards" id="tcs_classcards">
+                    <!-- Alan, class cards can go here! -->
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos tenetur id sint quasi quia distinctio exercitationem quo sequi, et est fugiat recusandae mollitia assumenda impedit voluptates. Facere qui inventore eveniet.</p>
+                </div>
+            </div>
+        </div>
+        <div class="studentPage" id="tcs_studentPage">
+            <div class="studentPageHeader " style="color: white; ">
+                <h2 class="d-flex justify-content-center ">Students</h2>
+            </div>
+            <div class="studentPageContent">
+                <div class="studentPage-filter">
+                    <h4>Filter by Group</h4>
+                    <button class="generic-button selected">Students you teach</button>
+                    <button class="generic-button">Students by class</button>
+                </div>
+                <div class="generic-container" style="margin-top: 0%;">
+                    <div class="generic-header-blue">
+                        Student List
+                    </div>
+                    <div class="generic-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Enrolled In</th>
+                                    <th>Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">Max Webb</td>
+                                    <td>9PTEC</td>
+                                    <td>View Details</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <svg xmlns="http://www.w3.org/2000/svg ">

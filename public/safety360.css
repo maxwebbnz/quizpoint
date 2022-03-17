@@ -1,3 +1,5 @@
+
+
 body {
     background-color: #6FA8DC;
     /* overflow: hidden; */
@@ -239,6 +241,10 @@ body {
     margin-top: 0%;
 }
 
+/* Create Class */
+.createClassModalOptions{
+    padding-top: 1%;
+}
 
 /* Summary Page */
 

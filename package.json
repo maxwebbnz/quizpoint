@@ -17,6 +17,8 @@
     },
     "homepage": "https://github.com/maxwebbnz/Safety360#readme",
     "dependencies": {
+        "@material/data-table": "^13.0.0",
+        "@sendgrid/mail": "^7.6.2",
         "colors": "file:../colors",
         "ejs": "^3.1.6",
         "express": "^4.17.3",

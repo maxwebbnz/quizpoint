@@ -35,8 +35,8 @@ app.get('/', (req, res) => {
 /**==============================================
  **              Invite Handler
  *?  Performs invite requests for users who do not exist (yet)
- *@param req paramters  
- *@param res paramters  
+ *@param req paramters
+ *@param res paramters
  *=============================================**/
 app.get('/invite/:classId%:teacherId', (req, res) => {
     currentClassId = req.params.classId
@@ -50,8 +50,8 @@ app.get('/invite/:classId%:teacherId', (req, res) => {
 /**==============================================
  **              404
  *?  Renders 404 page
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *=============================================**/
 app.get('*', function(req, res) {
@@ -70,31 +70,31 @@ io.on('connection', (socket) => {
         console.log(msg)
     });
 
-    socket.on('emailInvite', (msg) => {
-        console.log('Email to ' + msg)
-            // fb.read(currentClassId)
-        var mailOptions = {
-            from: '18205mw@hvhs.school.nz',
-            to: msg.email,
+    socket.on('emailInvite', (msgs) => {
+        // fb.read(currentClassId)
+
+        const sgMail = require('@sendgrid/mail')
+        sgMail.setApiKey('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')
+        const msg = {
+            to: msgs.email, // Change to your recipient
+            from: "maxwebblighting@gmail.com", // Change to your verified sender
             subject: 'You have been invited to a class',
-            html: `<h1>QuizPoint</h1>
-                Hello ${msg.studentName},
-                
-                You have been invited to join QuizPoint, please go to the following link
+            templateId: 'd-5850f451eab84a7a8c3fb53821991715',
+            dynamicTemplateData: {
+                inviteURL: `localhost/invite/${msgs.classId}%${msgs.teacher}`,
+                name: msgs.name,
+            },
+        }
+        sgMail
+            .send(msg)
+            .then(() => {
+                console.log('Email sent to ' + msgs.email)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
 
-                <a href="localhost/invite/${msg.classId}%${msg.teacher}">Join Class</a>
 
-                Thanks,
-                QuizPoint
-            `
-        };
-        transporter.sendMail(mailOptions, function(error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
 
     });
     socket.on('emailReminder', (msg) => {
@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
             subject: 'You have been invited to a class',
             html: `<h1>QuizPoint</h1>
                 Hello ${msg.studentName},
-                
+
                 You have quizzes overdue, please complete them as soon as possible
                 <a href="localhost">Go To Class point</a>
 
@@ -125,7 +125,7 @@ io.on('connection', (socket) => {
     });
 });
 
-//* Final Part of the puzzel, listen for connections on port 3000 
+//* Final Part of the puzzel, listen for connections on port 3000
 server.listen(3000, () => {
     console.log('listening on *:3000');
 });

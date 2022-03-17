@@ -6,8 +6,8 @@
 /**========================================================================
  **                           App.js
  *? Performs steps and helps install PWA (progressive web application)
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 const divInstall = document.getElementById('installContainer');
@@ -34,3 +34,6 @@ if (window.location.protocol === 'http:') {
     link.href = window.location.href.replace('http://', 'https://');
     requireHTTPS.classList.remove('hidden');
 }
+
+import {MDCDataTable} from '@material/data-table';
+const dataTable = new MDCDataTable(document.querySelector('.mdc-data-table'));

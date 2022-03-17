@@ -1,87 +1,91 @@
-/*
- * Copyright (c) 2022 QuizPoint
- * All rights reserved.
- */
+<head>
+    <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
 
-<html>
+    <script>
+        let defaultPath = "/schools/hvhs/"
+        const socket = io();
+    </script>
+    <link rel="manifest" href="manifest.json">
 
-<script>
-    let defaultPath = "/schools/hvhs/"
-</script>
-<link rel="manifest" href="manifest.json">
-<!-- <script src="app.js" defer></script> -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="Description" content="Enter your description here" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://www.marvinj.org/releases/marvinj-1.0.js"></script>
-<!-- Material UI -->
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-<!-- <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script> -->
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
-<!-- Firebase + Firebase Modules -->
-<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
-<!-- SWALLLL -->
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- PDF -->
-<script src="report-modules/jspdf.umd.js"></script>
-<script src="report-modules/pdfjs-html.js"></script>
-<script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-<!-- DataTable -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
-<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <!-- <script src="app.js" defer></script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.marvinj.org/releases/marvinj-1.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <!-- Material UI -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <!-- <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script> -->
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <!-- Firebase + Firebase Modules -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+    <!-- SWALLLL -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- PDF -->
+    <script src="report-modules/jspdf.umd.js"></script>
+    <script src="report-modules/pdfjs-html.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+    <!-- DataTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
-<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <script src="https://unpkg.com/papaparse@5.3.1/papaparse.min.js"></script>
 
-<!-- Modules -->
-<!-- Debug Module -->
-<script src="misc-modules/debug.js"></script>
-<!-- Firebase -->
-<script src="firebase-modules/fb_init.js"></script>
-<script src="firebase-modules/fb_user.js"></script>
-<script src="firebase-modules/fb_read.js"></script>
-<script src="firebase-modules/fb_auth.js"></script>
-<script src="firebase-modules/fb_init.js"></script>
-<!-- Class -->
-<script src="class-modules/class_display.js"></script>
-<script src="class-modules/class_lookup.js"></script>
-<!-- DOM and UI -->
-<script src="dom-modules/dom_onload.js"></script>
-<script src="ui-modules/ui_navigate.js"></script>
-<!-- Quiz -->
-<script src="quiz-modules/qz_load.js"></script>
-<script src="quiz-modules/qz_loadActive.js"></script>
-<script src="quiz-modules/qz_display.js"></script>
-<script src="quiz-modules/qz_answer.js"></script>
-<script src="quiz-modules/qz_check.js"></script>
-<script src="quiz-modules/qz_turnin.js"></script>
-<script src="quiz-modules/qz_progress.js"></script>
-<script src="quiz-modules/qz_create.js"></script>
-<!-- Teaching Suite -->
-<script src="teachingsuite-modules/ts_viewquiz.js"></script>
-<script src="teachingsuite-modules/ts_searchstudent.js"></script>
-<script src="teachingsuite-modules/ts_viewstudent.js"></script>
-<script src="teachingsuite-modules/ts_viewclasslist.js"></script>
-<!-- Reporting -->
-<script src="report-modules/report_pdf.js"></script>
-</script>
-<link rel="stylesheet" href="safety360.css">
-<title>QuizPoint</title>
+    <!-- Modules -->
+    <!-- Debug Module -->
+    <script src="misc-modules/debug.js"></script>
+    <!-- Firebase -->
+    <script src="firebase-modules/fb_init.js"></script>
+    <script src="firebase-modules/fb_user.js"></script>
+    <script src="firebase-modules/fb_read.js"></script>
+    <script src="firebase-modules/fb_auth.js"></script>
+    <script src="firebase-modules/fb_init.js"></script>
+    <!-- Class -->
+    <script src="class-modules/class_display.js"></script>
+    <script src="class-modules/class_lookup.js"></script>
+    <!-- DOM and UI -->
+    <script src="dom-modules/dom_onload.js"></script>
+    <script src="ui-modules/ui_navigate.js"></script>
+    <!-- Quiz -->
+    <script src="quiz-modules/qz_load.js"></script>
+    <script src="quiz-modules/qz_loadActive.js"></script>
+    <script src="quiz-modules/qz_display.js"></script>
+    <script src="quiz-modules/qz_answer.js"></script>
+    <script src="quiz-modules/qz_check.js"></script>
+    <script src="quiz-modules/qz_turnin.js"></script>
+    <script src="quiz-modules/qz_progress.js"></script>
+    <script src="quiz-modules/qz_create.js"></script>
+    <!-- Teaching Suite -->
+    <script src="teachingsuite-modules/ts_viewquiz.js"></script>
+    <script src="teachingsuite-modules/ts_searchstudent.js"></script>
+    <script src="teachingsuite-modules/ts_viewstudent.js"></script>
+    <script src="teachingsuite-modules/ts_viewclasslist.js"></script>
+    <script src="teachingsuite-modules/ts_createclass.js"></script>
+    <!-- Reporting -->
+    <script src="report-modules/report_pdf.js"></script>
+    <script src="validate.js"></script>
+
+    <link rel="stylesheet" href="safety360.css">
+    <title>QuizPoint</title>
 </head>
 <div class="sidenav hidden">
     <div class="userProfilePicture">
@@ -92,7 +96,7 @@
             <i class="bi bi-house-door"></i> Home
         </button>
         <button class="sidenav-btn">
-        <i class="bi bi-gear-wide-connected"></i> Teaching
+            <i class="bi bi-gear-wide-connected"></i> Teaching
 
         </button>
         </button>
@@ -113,13 +117,13 @@
             <i class="bi bi-bar-chart"></i> Summary
         </button>
         <button class="sidenav-btn ">
-        <i class="bi bi-collection"></i> Classes
+            <i class="bi bi-collection"></i> Classes
         </button>
         <button class="sidenav-btn">
-        <i class="bi bi-people"></i> Students
+            <i class="bi bi-people"></i> Students
         </button>
         <button class="sidenav-btn">
-        <i class="bi bi-ui-checks-grid"></i> Quizzes
+            <i class="bi bi-ui-checks-grid"></i> Quizzes
         </button>
         <button class="sidenav-btn">
             <i class="bi bi-box-arrow-left"></i> Home
@@ -134,8 +138,8 @@
     </p>
     <div id="installContainer " class="hidden ">
         <button id="butInstall " type="button ">
-        Install
-      </button>
+            Install
+        </button>
     </div>
     <link rel="stylesheet " href="style/progressbar.css ">
     <link rel="stylesheet " href="style/table.css ">
@@ -147,8 +151,10 @@
             <h1>QuizPoint</h1>
             <hr class="my-4">
             <h4>Please sign in</h4>
-            <button class="signInButton-Google" onclick="fb.auth.login(google) "><i class="bi bi-google" ></i> Sign in with Google</button>
-            <button class="signInButton-Office"><i class="bi bi-microsoft " style="color:white "></i> Sign in with Office 365</button>
+            <button class="signInButton-Google" onclick="fb.auth.login(google) "><i class="bi bi-google"></i> Sign in
+                with Google</button>
+            <button class="signInButton-Office"><i class="bi bi-microsoft " style="color:white "></i> Sign in with
+                Office 365</button>
         </div>
     </div>
     </div>
@@ -223,14 +229,14 @@
             <div class="form-check ">
                 <input type="checkbox " class="form-check-input " name=" " id="qz_resubAllowed " value="true " checked>
                 <label class="form-check-label " for=" ">
-                Allowed
-              </label>
+                    Allowed
+                </label>
             </div>
             <div class="form-check ">
                 <input type="checkbox " class="form-check-input " name=" " id="qz_resubNotAllowed " value="false ">
                 <label class="form-check-label " for=" ">
-                Not Allowed
-              </label>
+                    Not Allowed
+                </label>
             </div>
         </div>
         <hr>
@@ -250,18 +256,21 @@
                     <td>
                         <div class="form-check form-check-inline ">
                             <label class="form-check-label ">
-                            <input class="form-check-input " type="checkbox " name=" " id="qz_questionTextInput " value="false ">Text Input
-                        </label>
+                                <input class="form-check-input " type="checkbox " name=" " id="qz_questionTextInput "
+                                    value="false ">Text Input
+                            </label>
                         </div>
                         <div class="form-check form-check-inline ">
                             <label class="form-check-label ">
-                            <input class="form-check-input " type="checkbox " name=" " id="qz_questionInputMulti " value="false ">Multi Choice
-                        </label>
+                                <input class="form-check-input " type="checkbox " name=" " id="qz_questionInputMulti "
+                                    value="false ">Multi Choice
+                            </label>
                         </div>
                         <div class="form-check form-check-inline ">
                             <label class="form-check-label ">
-                            <input class="form-check-input " type="checkbox " name=" " id="qz_questionInputImage " value="false ">Image Upload
-                        </label>
+                                <input class="form-check-input " type="checkbox " name=" " id="qz_questionInputImage "
+                                    value="false ">Image Upload
+                            </label>
                         </div>
                     </td>
                     <td><input type="text " placeholder="The Quiz "></td>
@@ -274,7 +283,8 @@
     <div class="classGradesView hidden" id="teachingsuite_classviewbyquiz-authed ">
         <h4 id="classGradeView-header "></h4>
         <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToExcel() ">Export Spreadsheet</button>
-        <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToPDF() ">Export PDF</button>
+        <button type="button " name=" " id=" " class="btn btn-primary " onclick="ts.viewquiz.exportTableToPDF() ">Export
+            PDF</button>
         <div style="background-color: white; " class="table ">
             <table id="viewQuizResultTable" class="table">
                 <thead>
@@ -356,14 +366,45 @@
                 <h2 class="d-flex justify-content-center ">Classes</h2>
             </div>
             <div class="classPageContent">
-                <button class="generic-button sml">Create Class</button>
+                <button class="generic-button sml" onclick="ts.createClass.displayModal()">Create Class</button>
+                <!-- Create Class Modal -->
+                <!-- Button trigger modal -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="tcs_createClassModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="false" style="display: block;">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Create a Class</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body createClassModalOptions">
+                                <h4>Class Name*</h4>
+                                <input type="text" name="" id="tcs_createClassModal-inputName" placeholder="9PTEC 2022">
+                                <h4 style="margin-top: 2%">Class Subject*</h4>
+                                <input type="text" name="" id="tcs_createClassModal-inputSubject" placeholder="Hard Technology">
+                                <h4 style="margin-top: 2%">Class Teachers</h4>
+                                <input type="text" name="" id="tcs_createClassModal-inputTeachers" placeholder="Katie Long, Bryan Gillies, John Norris">
+                                <h4 style="margin-top: 3%">Add Students*</h4>
+                                <h4 style="margin-top: 2%">Add via CSV</h4>
+                                <div class="input-group">
+                                    <input style='width: 2%;' type="file" class="form-control" id="studentImportCSV" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                </div>
+                                <!-- <button class="generic-button">Add by Classroom</button> -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="ts.createClass.store()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="classPageCards" id="tcs_classcards">
-                    <!-- Alan, class cards can go here! -->
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos tenetur id sint quasi quia distinctio exercitationem quo sequi, et est fugiat recusandae mollitia assumenda impedit voluptates. Facere qui inventore eveniet.</p>
                 </div>
             </div>
         </div>
-        <div class="studentPage" id="tcs_studentPage">
+        <div class="studentPage hidden" id="tcs_studentPage">
             <div class="studentPageHeader" style="color: white; ">
                 <h2 class="d-flex justify-content-center ">Students</h2>
             </div>
@@ -398,6 +439,8 @@
                 <h2 class="d-flex justify-content-center ">Quizzes</h2>
             </div>
             <div class="quizPageContent ">
+                <button class="generic-button sml" onclick="ts.createClass.displayModal()">Create Quiz</button>
+
                 <h4 class="d-flex justify-content-center">Currently Assigned</h4>
                 <div id="tcs_quizCurrentlyAssignedToStudents">
 
@@ -412,12 +455,13 @@
         </div>
     </div>
     </div>
+
 </body>
 
 <svg xmlns="http://www.w3.org/2000/svg">
-  <symbol id="checkmark-bold " viewBox="0 0 24 24 ">
-    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z "/>
-  </symbol>
+    <symbol id="checkmark-bold " viewBox="0 0 24 24 ">
+        <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z " />
+    </symbol>
 </svg>
 
 </html>

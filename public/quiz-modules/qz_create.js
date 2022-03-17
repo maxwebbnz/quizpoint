@@ -19,8 +19,8 @@ let questionCache = []
 /**========================================================================
  **                           qz_create
  *?  Handles all creating of quizzes in the teaching suite.
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 let qz_create = {
@@ -35,8 +35,8 @@ let qz_create = {
     /**========================================================================
      **                           newRow
      *?  What does it do? Create a new row in table
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *========================================================================**/
     newRow: function() {
@@ -45,22 +45,21 @@ let qz_create = {
         var table = document.getElementById("qz_questionTable"); // find table to append to
         var clone = row.cloneNode(true); // copy children too
         clone.id = "question" + count; // change id or other attributes/contents
+        clone.style = 'margin-top: 100px'
         this.updateQuestions(count);
         // reset values before appending HTML (i.e question row had values in it, we don't need to clone that over because it is a new question.)
         clone.childNodes[1].childNodes[0].value = ""
         clone.childNodes[3].childNodes[1].childNodes[1].childNodes[1].checked = false;
         clone.childNodes[3].childNodes[3].childNodes[1].childNodes[1].checked = false;
-        clone.childNodes[3].childNodes[5].childNodes[1].childNodes[1].checked = false;
         clone.childNodes[5].childNodes[0].value = ""
-        clone.childNodes[7].childNodes[0].value = ""
 
         table.appendChild(clone); // add new row to end of table
     },
     /**========================================================================
      **                           Update Questions
      *?  What does it do?
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *========================================================================**/
     updateQuestions: function(_qnum) {
@@ -75,9 +74,9 @@ let qz_create = {
         // let cq be current question
         // get DOM objects
         let quizTitle = currentRow[0].childNodes[0].value
-        let quizInputType = [currentRow[1].childNodes[1].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[3].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[5].childNodes[1].childNodes[1].checked]
+        let quizInputType = [currentRow[1].childNodes[1].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[3].childNodes[1].childNodes[1].checked]
         let answer = currentRow[2].childNodes[0].value
-        let keywords = currentRow[3].childNodes[0]
+            // let keywords = currentRow[3].childNodes[0]
             // let k be a placeholder (would of been quizInputType but that wouldnt work)
         let k;
         // quizInputType was taken, this will have to do
@@ -100,7 +99,7 @@ let qz_create = {
         let cQ = []
 
         // push to cQ array ready to push to cache.
-        cQ.push(quizTitle, quizInput, answer, keywords)
+        cQ.push(quizTitle, quizInput, answer)
             // testing purposes, console logging answer.
         console.log(cQ)
             // push to cache

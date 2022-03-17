@@ -74,7 +74,6 @@ io.on('connection', (socket) => {
         // fb.read(currentClassId)
 
         const sgMail = require('@sendgrid/mail')
-        sgMail.setApiKey('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')
         const msg = {
             to: msgs.email, // Change to your recipient
             from: "maxwebblighting@gmail.com", // Change to your verified sender

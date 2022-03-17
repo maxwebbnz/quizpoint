@@ -187,6 +187,7 @@ body {
     left: 0;
     background-color: #FFFFFF;
     overflow-x: hidden;
+    overflow-y: hidden;
     padding-top: 20px;
 }
 

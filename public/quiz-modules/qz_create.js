@@ -97,12 +97,11 @@ let qz_create = {
                 k = i
             }
         }
-        let quizHasMedia = false;
+        let quizHasMedia = true;
         // 0 = text input, 1 = multi choice, 3 = image
         if (k == 0) {
             quizInput = 'multichoice'
         } else if (k == 1) {
-            quizHasMedia = true;
             quizInput = 'image'
             quizMedia = imageMedia
         } else if (k == 2) {
@@ -112,10 +111,13 @@ let qz_create = {
 
         if (quizHasMedia) {
             if (quizInput == 'image') {
-                cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
+                // cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
+                uploadImage(imageMedia)
 
             } else {
-                cQ.push(quizTitle, quizInput, quizMedia, answer)
+                // cQ.push(quizTitle, quizInput, quizMedia, answer)
+                uploadImage(imageMedia)
+
             }
 
         } else {
@@ -128,15 +130,60 @@ let qz_create = {
 
 
         }
+        async function uploadImage(_mediaFile) {
+            console.log('performing image upload')
+            const ref = firebase.storage().ref();
+            const file = _mediaFile
+            const name = newQuizID + '-MediaUpload-' + _qnum;
+            const metadata = {
+                contentType: file.type
+            };
+            const task = ref.child(name).put(file, metadata);
+            await task
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    console.log(url);
+                    mediaUploadURL = url;
+                })
+            let qizName = document.getElementById('tcs_createquiz-inputName').value
+            let qizDesc = document.getElementById('tcs_createquiz-inputDesc').value
+            questionCache.push(cQ)
+            fb.write('quizzes', 'cache/placeholderuid', {
+                [newQuizID]: {
+                    name: qizName,
+                    description: qizDesc,
+                    questions: {
+                        [_qnum - 1]: {
+                            title: quizTitle,
+                            inputtype: quizInput,
+                            media: mediaUploadURL,
+                            answer: answer
+                        }
+                    }
 
+                }
+            })
+        }
         // push to cQ array ready to push to cache.
         // testing purposes, console logging answer.
         console.log(cQ)
             // push to cache
+            // get other html elements for caching
+        let qizName = document.getElementById('tcs_createquiz-inputName').value
+        let qizDesc = document.getElementById('tcs_createquiz-inputDesc').value
         questionCache.push(cQ)
         fb.write('quizzes', 'cache/placeholderuid', {
             [newQuizID]: {
-                name: "Max Webb"
+                name: qizName,
+                description: qizDesc,
+                questions: {
+                    [_qnum - 1]: {
+                        title: quizTitle,
+                        inputtype: quizInput,
+                        answer: answer
+                    }
+                }
+
             }
         })
 

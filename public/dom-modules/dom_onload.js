@@ -6,6 +6,6 @@
 $(document).ready(function() {
     fb_init()
         // $('#studentInfoModal').modal('show');
-    $("#tcs_createQuizModal").modal("show");
+    // $("#tcs_createQuizModal").modal("show");
 
 })

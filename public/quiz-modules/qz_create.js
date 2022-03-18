@@ -14,6 +14,9 @@ should return the following:
 ---
 this will allow easy storing of questions from a firebase point of view (can just do a for loop over the length of the questions, and they already have an id....)
 */
+
+let newQuizID = 'QUIZ_' + generatePushID();
+
 let questionCache = []
 
 /**========================================================================
@@ -40,6 +43,12 @@ let qz_create = {
      *@return type
      *========================================================================**/
     newRow: function() {
+        let inputName = document.getElementById('tcs-createquiz-inputQuestionTitle').value
+        let inputMulti = document.getElementById('tcs-createquiz-checkBoxMulti').selected
+        let inputImage = document.getElementById('tcs-createquiz-checkBoxImage').selected
+        let inputFile = document.getElementById('tcs-createquiz-inputFile')
+        let inputAns = document.getElementById('tcs-createquiz-inputQuestion-answers').value
+
         var count = $('#qz_questionTable tr').length;
         var row = document.getElementById("question"); // find row to copy
         var table = document.getElementById("qz_questionTable"); // find table to append to
@@ -52,7 +61,6 @@ let qz_create = {
         clone.childNodes[3].childNodes[1].childNodes[1].childNodes[1].checked = false;
         clone.childNodes[3].childNodes[3].childNodes[1].childNodes[1].checked = false;
         clone.childNodes[5].childNodes[0].value = ""
-
         table.appendChild(clone); // add new row to end of table
     },
     /**========================================================================
@@ -75,7 +83,8 @@ let qz_create = {
         // get DOM objects
         let quizTitle = currentRow[0].childNodes[0].value
         let quizInputType = [currentRow[1].childNodes[1].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[3].childNodes[1].childNodes[1].checked]
-        let answer = currentRow[2].childNodes[0].value
+        let answer = currentRow[3].childNodes[0].value
+        let imageMedia = currentRow[2].childNodes[0].files[0]
             // let keywords = currentRow[3].childNodes[0]
             // let k be a placeholder (would of been quizInputType but that wouldnt work)
         let k;
@@ -88,22 +97,51 @@ let qz_create = {
                 k = i
             }
         }
+        let quizHasMedia = false;
         // 0 = text input, 1 = multi choice, 3 = image
         if (k == 0) {
-            quizInput = 'textinput'
-        } else if (k == 1) {
             quizInput = 'multichoice'
-        } else if (k == 2) {
+        } else if (k == 1) {
+            quizHasMedia = true;
             quizInput = 'image'
+            quizMedia = imageMedia
+        } else if (k == 2) {
+            quizInput = 'lol'
         }
         let cQ = []
 
+        if (quizHasMedia) {
+            if (quizInput == 'image') {
+                cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
+
+            } else {
+                cQ.push(quizTitle, quizInput, quizMedia, answer)
+            }
+
+        } else {
+            if (quizInput == 'image') {
+                cQ.push(quizTitle, quizInput, 'userRequired')
+
+            } else {
+                cQ.push(quizTitle, quizInput, answer)
+            }
+
+
+        }
+
         // push to cQ array ready to push to cache.
-        cQ.push(quizTitle, quizInput, answer)
-            // testing purposes, console logging answer.
+        // testing purposes, console logging answer.
         console.log(cQ)
             // push to cache
         questionCache.push(cQ)
+        fb.write('quizzes', 'cache/placeholderuid', {
+            [newQuizID]: {
+                name: "Max Webb"
+            }
+        })
+
+        // then update cache of current quiz information.
+
 
     }
 }

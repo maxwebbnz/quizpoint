@@ -5,6 +5,5 @@
 ts.createQuiz = {
     displayModal: function() {
         $("#tcs_createQuizModal").modal("show");
-
-    }
+    },
 }

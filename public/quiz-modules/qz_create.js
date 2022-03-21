@@ -59,15 +59,15 @@ let qz_create = {
         clone.style = 'margin-top: 100px'
         console.log(clone.childNodes)
         this.updateQuestions(count);
-        // reset values before appending HTML (i.e question row had values in it, we don't need to clone that over because it is a new question.)
+        $(clone.childNodes[9].childNodes[2]).remove()
+            // reset values before appending HTML (i.e question row had values in it, we don't need to clone that over because it is a new question.)
         clone.childNodes[1].childNodes[0].value = ""
         clone.childNodes[3].childNodes[1].childNodes[1].childNodes[1].checked = false;
-        $(clone.childNodes[9].childNodes[2]).remove()
-
         clone.childNodes[3].childNodes[3].childNodes[1].childNodes[1].checked = false;
         clone.childNodes[5].childNodes[0].value = ""
         clone.childNodes[7].childNodes[0].value = ""
         $('#qz_questionTable tbody').append(clone); // add new row to end of table
+        $('.flexdatalist:last').flexdatalist();
 
     },
     /**========================================================================
@@ -367,6 +367,38 @@ let qz_create = {
 
 
         // then update cache of current quiz information.
+
+
+    },
+    /**==============================================
+     **              Save Quiz
+     *?  What does it do? Saves quiz to directory
+     *@param name type
+     *@param name type
+     *@return type
+     *=============================================**/
+    saveQuiz: function() {
+        console.log("qz.create.saveQuiz() | Running")
+            // store old quiz
+
+        let oldQuiz;
+        const dbRef = firebase.database().ref();
+        dbRef.child(`${defaultPath}/quizzes/cache/${'placeholderuid'}/`).child(newQuizID).get().then((snapshot) => {
+            if (snapshot.exists()) {
+                oldQuiz = snapshot.val()
+                fb.write('quizzes', newQuizID, oldQuiz)
+                console.log("Success!")
+                    // now delete cache, quiz is now complete
+                firebase.database().ref(`${defaultPath}/quizzes/cache/${'placeholderuid'}/${newQuizID}`).remove()
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+
+
+        // now write to level up (/quizzes/)
 
 
     }

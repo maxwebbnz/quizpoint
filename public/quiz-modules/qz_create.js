@@ -18,6 +18,7 @@ this will allow easy storing of questions from a firebase point of view (can jus
 let newQuizID = 'QUIZ_' + generatePushID();
 let quizHasMedia = false;
 let questionCache = []
+$('#tcs-createquiz-inputQuestion-keywords').flexdatalist();
 
 /**========================================================================
  **                           qz_create
@@ -26,6 +27,7 @@ let questionCache = []
  *@param name type
  *@return type
  *========================================================================**/
+
 let qz_create = {
     /**========================================================================
      **                           pullDOM
@@ -55,13 +57,18 @@ let qz_create = {
         var clone = row.cloneNode(true); // copy children too
         clone.id = "question" + count; // change id or other attributes/contents
         clone.style = 'margin-top: 100px'
+        console.log(clone.childNodes)
         this.updateQuestions(count);
         // reset values before appending HTML (i.e question row had values in it, we don't need to clone that over because it is a new question.)
         clone.childNodes[1].childNodes[0].value = ""
         clone.childNodes[3].childNodes[1].childNodes[1].childNodes[1].checked = false;
+        $(clone.childNodes[9].childNodes[2]).remove()
+
         clone.childNodes[3].childNodes[3].childNodes[1].childNodes[1].checked = false;
         clone.childNodes[5].childNodes[0].value = ""
-        table.appendChild(clone); // add new row to end of table
+        clone.childNodes[7].childNodes[0].value = ""
+        $('#qz_questionTable tbody').append(clone); // add new row to end of table
+
     },
     /**========================================================================
      **                           Update Questions
@@ -87,7 +94,10 @@ let qz_create = {
         let quizTitle = currentRow[0].childNodes[0].value
         let quizInputType = [currentRow[1].childNodes[1].childNodes[1].childNodes[1].checked, currentRow[1].childNodes[3].childNodes[1].childNodes[1].checked]
         let answer = currentRow[3].childNodes[0].value
+        console.log(currentRow)
+        let keywords = $(currentRow[4].childNodes[1]).flexdatalist('value')
         let imageMedia = currentRow[2].childNodes[0].files[0]
+        console.log(keywords)
             // let keywords = currentRow[3].childNodes[0]
             // let k be a placeholder (would of been quizInputType but that wouldnt work)
         let k;
@@ -192,9 +202,14 @@ let qz_create = {
                                     answer: 'userRequired'
                                 }
                             }
-
                         }
                     })
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/1/choices/', {
+                            i: keywords[i]
+                        })
+                    }
                 } else {
                     console.log(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1)
                     firebase.database().ref(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1).update({
@@ -209,6 +224,12 @@ let qz_create = {
 
                         }
                     });
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1 + '/choices/', {
+                            i: keywords[i]
+                        })
+                    }
 
                 }
             } else {
@@ -229,6 +250,12 @@ let qz_create = {
 
                         }
                     })
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/1/choices/', {
+                            [i]: keywords[i]
+                        })
+                    }
                 } else {
                     console.log(newQuizID)
                     console.log(actualRowID)
@@ -245,6 +272,12 @@ let qz_create = {
 
                         }
                     });
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1 + '/choices/', {
+                            [i]: keywords[i]
+                        })
+                    }
 
                 }
             }
@@ -273,6 +306,12 @@ let qz_create = {
 
                         }
                     })
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/1/choices/', {
+                            [i]: keywords[i]
+                        })
+                    }
                 } else {
                     fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/', {
                         [_qnum - 1]: {
@@ -299,6 +338,13 @@ let qz_create = {
 
                         }
                     })
+
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/1/choices/', {
+                            [i]: keywords[i]
+                        })
+                    }
                 } else {
                     fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/', {
                         [_qnum - 1]: {
@@ -307,6 +353,12 @@ let qz_create = {
                             answer: answer
                         }
                     })
+                    for (var i = 0; i < keywords.length; i++) {
+                        console.log("adding choice " + keywords[i])
+                        fb.write('quizzes', 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1 + '/choices/', {
+                            [i]: keywords[i]
+                        })
+                    }
                 }
             }
         }
@@ -322,4 +374,5 @@ let qz_create = {
 
 // $('.mooo').click(function() {
 //     $('.mooo').not(this).prop('checked', false);
+// }); $('.mooo').not(this).prop('checked', false);
 // });

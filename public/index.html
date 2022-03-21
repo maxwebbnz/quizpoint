@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
+    <!-- tags -->
+    <link href="external-libs/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
+    <script src="external-libs/jquery.flexdatalist.min.js"></script>
     <script src="https://www.marvinj.org/releases/marvinj-1.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
@@ -468,7 +472,8 @@
                                                 <th>Question Name*</th>
                                                 <th>Question Type*</th>
                                                 <th>Question Media</th>
-                                                <th>Answer, seperate with comma</th>
+                                                <th>Answer</th>
+                                                <th>Keywords (seperate with comma)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -488,6 +493,8 @@
                                                 </td>
                                                 <td><input type="file" name="" id="tcs_createquiz-inputFile"></td>
                                                 <td><input type="text" placeholder="The Quiz" id="tcs-createquiz-inputQuestion-answers"></td>
+                                                <td>
+                                                    <input type="text" placeholder="A,b,c,d" id="tcs-createquiz-inputQuestion-keywords" class="flexdatalist" placeholder='Programming language name' data-min-length='1' multiple='multiple' list='languages' name='language12'></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -512,7 +519,8 @@
                 </div>
                 <!-- Quiz Card Here Alan.. -->
                 <div class="card g-col-6 g-col-md-4" id="dummyClass">
-                    <img id="cardBackgroundImage" class="card-img-top" src="./media/dummyClassImage.jpg" alt="Card image cap">    <div class="card-body">
+                    <img id="cardBackgroundImage" class="card-img-top" src="./media/dummyClassImage.jpg" alt="Card image cap">
+                    <div class="card-body">
                         <h3 class="card-title text-center">13TEMP</h3>
                         <p class="card-text text-center">Alan McIlwaine</p>
                     </div>

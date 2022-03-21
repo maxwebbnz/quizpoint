@@ -445,89 +445,126 @@
         </div>
         <div class="quizPage" id="tcs_quizPage">
             <div class="quizPageHeader" style="color: white; ">
-                <h2 class="d-flex justify-content-center ">Quizzes</h2>
+                <h2 class="d-flex justify-content-center ">Quizzes <i class="bi bi-exclamation-triangle" id="tcs_createQuiz-cachedQuizzes" style="margin-left: 5px; display: none;"></i></h2>
             </div>
             <div class="quizPageContent ">
                 <button class="generic-button" onclick="ts.createQuiz.displayModal()">Create Quiz</button>
-                <!-- Button trigger modal -->
-                <!-- Modal -->
-                <div class="modal fade" id="tcs_createQuizModal" tabindex="-1" role="dialog" aria-labelledby="createQuizModal" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Create a Quiz</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h6>Quiz Name</h6>
-                                <input type="text" name="" id="tcs_createquiz-inputName" placeholder='Health and Safety Pt2'>
-                                <h6>Quiz Description</h6>
-                                <input type="text" name="" id="tcs_createquiz-inputDesc" placeholder="Safety Quiz about Tools">
-                                <h5 style="margin-top: 2%">Questions <i class="bi bi-plus" onclick="qz_create.newRow()"></i></h5>
-                                <hr>
-                                <div class="createQuizQuestionDiv" id="tcs_createquiz-tableDiv">
-                                    <table class="table" id="qz_questionTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Question Name*</th>
-                                                <th>Question Type*</th>
-                                                <th>Question Media</th>
-                                                <th>Answer</th>
-                                                <th>Keywords (seperate with comma)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr id="question">
-                                                <td><input type="text" placeholder="What is the quiz?" style="width:150px;" id="tcs-createquiz-inputQuestionTitle"></td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
+            </div>
+            <!-- Button trigger modal -->
+            <!-- Create Quiz Modal -->
+            <div class="modal fade" id="tcs_createQuizModal" tabindex="-1" role="dialog" aria-labelledby="createQuizModal" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Create a Quiz</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6>Quiz Name</h6>
+                            <input type="text" name="" id="tcs_createquiz-inputName" placeholder='Health and Safety Pt2'>
+                            <h6>Quiz Description</h6>
+                            <input type="text" name="" id="tcs_createquiz-inputDesc" placeholder="Safety Quiz about Tools">
+                            <h5 style="margin-top: 2%">Questions <i class="bi bi-plus" onclick="qz_create.newRow()"></i></h5>
+                            <hr>
+                            <div class="createQuizQuestionDiv" id="tcs_createquiz-tableDiv">
+                                <table class="table" id="qz_questionTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Question Name*</th>
+                                            <th>Question Type*</th>
+                                            <th>Question Media</th>
+                                            <th>Answer</th>
+                                            <th>Keywords (seperate with comma)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="question">
+                                            <td><input type="text" placeholder="What is the quiz?" style="width:150px;" id="tcs-createquiz-inputQuestionTitle"></td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" name="" id="tcs-createquiz-checkBoxMulti" value="false">Multi Choice
                         </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" name=""  value="false"  id="tcs-createquiz-checkBoxImage">Image Upload
                         </label>
-                                                    </div>
-                                                </td>
-                                                <td><input type="file" name="" id="tcs_createquiz-inputFile"></td>
-                                                <td><input type="text" placeholder="The Quiz" id="tcs-createquiz-inputQuestion-answers"></td>
-                                                <td>
-                                                    <input type="text" placeholder="A,b,c,d" id="tcs-createquiz-inputQuestion-keywords" class="flexdatalist" placeholder='Programming language name' data-min-length='1' multiple='multiple' list='languages' name='language12'></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                </div>
+                                            </td>
+                                            <td><input type="file" name="" id="tcs_createquiz-inputFile"></td>
+                                            <td><input type="text" placeholder="The Quiz" id="tcs-createquiz-inputQuestion-answers"></td>
+                                            <td>
+                                                <input type="text" placeholder="A,b,c,d" id="tcs-createquiz-inputQuestion-keywords" class="flexdatalist" placeholder='Programming language name' data-min-length='1' multiple='multiple' list='languages' name='language12'></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- Cached Quiz View Modal -->
 
-                <h4 class="d-flex justify-content-center">Currently Assigned</h4>
-                <div id="tcs_quizCurrentlyAssignedToStudents">
-
-                </div>
-                <h4 class="d-flex justify-content-center">Not Assigned</h4>
-
-                <div id="tcs_quizCurrentlyNotAssignedToStudents">
-
-                </div>
-                <!-- Quiz Card Here Alan.. -->
-                <div class="card g-col-6 g-col-md-4" id="dummyClass">
-                    <img id="cardBackgroundImage" class="card-img-top" src="./media/dummyClassImage.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h3 class="card-title text-center">13TEMP</h3>
-                        <p class="card-text text-center">Alan McIlwaine</p>
+            <!-- Modal -->
+            <div class="modal fade" id="tcs_cachedQuizModal" tabindex="-1" role="dialog" aria-labelledby="cachedQuizModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Unsaved Quizzes</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table" id="tcs_cachedQuizModal-table">
+                                <thead>
+                                    <tr>
+                                        <td>Quiz Name</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>Health and Safety</td>
+                                    <td>
+                                        <a href="#" onclick="console.log('view')">Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" onclick="console.log('delete')">Delete</a>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
                     </div>
                 </div>
-                <!-- Original Structure from - https://getbootstrap.com/docs/4.0/components/card/ -->
             </div>
+
+
+            <h4 class="d-flex justify-content-center">Currently Assigned</h4>
+            <div id="tcs_quizCurrentlyAssignedToStudents">
+
+            </div>
+            <h4 class="d-flex justify-content-center">Not Assigned</h4>
+
+            <div id="tcs_quizCurrentlyNotAssignedToStudents">
+
+            </div>
+            <!-- Quiz Card Here Alan.. -->
+            <div class="card g-col-6 g-col-md-4" id="dummyClass">
+                <img id="cardBackgroundImage" class="card-img-top" src="./media/dummyClassImage.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h3 class="card-title text-center">13TEMP</h3>
+                    <p class="card-text text-center">Alan McIlwaine</p>
+                </div>
+            </div>
+            <!-- Original Structure from - https://getbootstrap.com/docs/4.0/components/card/ -->
         </div>
+    </div>
     </div>
     </div>
 

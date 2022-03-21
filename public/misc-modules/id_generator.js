@@ -2,6 +2,13 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+
+/**========================================================================
+ **                           Generate Push ID
+ *?  What does it do? Generates push ids for firebase records (i.e quizzes, classes, users, etc.)
+ *@return type
+ *@credit mikelehen https://gist.github.com/mikelehen/3596a30bd69384624c11
+ *========================================================================**/
 generatePushID = (function() {
     var PUSH_CHARS =
         "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";

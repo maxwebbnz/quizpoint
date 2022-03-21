@@ -3,6 +3,10 @@
  * All rights reserved.
  */
 
+/**========================================================================
+ **                           DOM_ONload
+ *?  What does it do? Runs events that must be triggered when the document is loaded
+ *========================================================================**/
 $(document).ready(function() {
     fb_init()
         // $('#studentInfoModal').modal('show');

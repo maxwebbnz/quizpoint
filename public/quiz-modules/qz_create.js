@@ -16,7 +16,7 @@ this will allow easy storing of questions from a firebase point of view (can jus
 */
 
 let newQuizID = 'QUIZ_' + generatePushID();
-
+let quizHasMedia = false;
 let questionCache = []
 
 /**========================================================================
@@ -71,8 +71,10 @@ let qz_create = {
      *@return type
      *========================================================================**/
     updateQuestions: function(_qnum) {
+        console.log("updateQuestions() " + _qnum)
         let currentRow
         let actualRowID;
+
         if (_qnum == 2) {
             currentRow = document.getElementById('question').getElementsByTagName('td')
         } else {
@@ -92,13 +94,14 @@ let qz_create = {
         // quizInputType was taken, this will have to do
         let quizInput
             // run for each type of quiz input (3)
+
         for (var i = 0; i < quizInputType.length; i++) {
             // if that input is selected, set k to that number
             if (quizInputType[i] == true) {
                 k = i
             }
         }
-        let quizHasMedia = false;
+        quizHasMedia = true;
         // 0 = text input, 1 = multi choice, 3 = image
         if (k == 0) {
             quizInput = 'multichoice'
@@ -115,22 +118,36 @@ let qz_create = {
                 if (quizInput == 'image') {
                     // cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
                     uploadImage(imageMedia)
-
                 } else {
                     // cQ.push(quizTitle, quizInput, quizMedia, answer)
                     uploadImage(imageMedia)
-
+                }
+            } else {
+                if (quizInput == 'image') {
+                    // cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
+                    uploadQuestionToCache(true)
+                } else {
+                    // cQ.push(quizTitle, quizInput, quizMedia, answer)
+                    uploadQuestionToCache(false)
                 }
             }
         } else {
-            if ($(`#question${actualRowID} #tcs_createquiz-inputFile`).prop('files').length == 0) {
+            console.log(_qnum + " actualRowID")
+            if ($(`#question${actualRowID} #tcs_createquiz-inputFile`).prop('files').length !== 0) {
                 if (quizInput == 'image') {
-                    cQ.push(quizTitle, quizInput, 'userRequired')
-                    uploadQuestionToCache()
-
+                    // cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
+                    uploadImage(imageMedia, true)
                 } else {
-                    cQ.push(quizTitle, quizInput, answer)
-                    uploadQuestionToCache()
+                    // cQ.push(quizTitle, quizInput, quizMedia, answer)
+                    uploadImage(imageMedia, false)
+                }
+            } else {
+                if (quizInput == 'image') {
+                    // cQ.push(quizTitle, quizInput, quizMedia, 'userRequired')
+                    uploadQuestionToCache(true)
+                } else {
+                    // cQ.push(quizTitle, quizInput, quizMedia, answer)
+                    uploadQuestionToCache(false)
                 }
             }
         }
@@ -156,68 +173,145 @@ let qz_create = {
                 .catch(console.error);
         }
 
-        function updateCacheAfterImage(_url) {
+        function updateCacheAfterImage(_url, _bool) {
             let qizName = document.getElementById('tcs_createquiz-inputName').value
             let qizDesc = document.getElementById('tcs_createquiz-inputDesc').value
             questionCache.push(cQ)
-            if (_qnum == 2) {
-                fb.write('quizzes', 'cache/placeholderuid', {
-                    [newQuizID]: {
-                        name: qizName,
-                        description: qizDesc,
-                        questions: {
-                            [1]: {
-                                title: quizTitle,
-                                inputtype: quizInput,
-                                media: _url,
-                                answer: answer
+            if (_bool) {
+                if (_qnum == 2) {
+                    console.log('cache/placeholderuid/' + _qnum)
+                    fb.write('quizzes', 'cache/placeholderuid', {
+                        [newQuizID]: {
+                            name: qizName,
+                            description: qizDesc,
+                            questions: {
+                                [1]: {
+                                    title: quizTitle,
+                                    inputtype: quizInput,
+                                    media: _url,
+                                    answer: 'userRequired'
+                                }
                             }
+
                         }
+                    })
+                } else {
+                    console.log(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1)
+                    firebase.database().ref(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1).update({
+                        title: quizTitle,
+                        inputtype: quizInput,
+                        media: _url,
+                        answer: 'userRequired'
+                    }, (error) => {
+                        if (error) {
+                            console.log(error)
+                        } else {
 
-                    }
-                })
+                        }
+                    });
+
+                }
             } else {
-                firebase.database().ref(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + _qnum - 1).update({
-                    title: quizTitle,
-                    inputtype: quizInput,
-                    media: _url,
-                    answer: answer
-                }, (error) => {
-                    if (error) {
-                        console.log(error)
-                    } else {
+                if (_qnum == 2) {
+                    console.log('cache/placeholderuid/' + _qnum)
+                    fb.write('quizzes', 'cache/placeholderuid', {
+                        [newQuizID]: {
+                            name: qizName,
+                            description: qizDesc,
+                            questions: {
+                                [1]: {
+                                    title: quizTitle,
+                                    inputtype: quizInput,
+                                    media: _url,
+                                    answer: answer
+                                }
+                            }
 
-                    }
-                });
+                        }
+                    })
+                } else {
+                    console.log(newQuizID)
+                    console.log(actualRowID)
+                    console.log(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + actualRowID)
+                    firebase.database().ref(defaultPath + 'quizzes/cache/placeholderuid/' + newQuizID + '/questions/' + actualRowID).update({
+                        title: quizTitle,
+                        inputtype: quizInput,
+                        media: _url,
+                        answer: answer
+                    }, (error) => {
+                        if (error) {
+                            console.log(error)
+                        } else {
 
+                        }
+                    });
+
+                }
             }
-
         }
         // push to cQ array ready to push to cache.
         // testing purposes, console logging answer.
-        function uploadQuestionToCache() {
+        function uploadQuestionToCache(_bool) {
             let qizName = document.getElementById('tcs_createquiz-inputName').value
             let qizDesc = document.getElementById('tcs_createquiz-inputDesc').value
             questionCache.push(cQ)
-            console.log('upload to question')
-            fb.write('quizzes', 'cache/placeholderuid', {
-                [newQuizID]: {
-                    name: qizName,
-                    description: qizDesc,
-                    questions: {
+            console.log('cache/placeholderuid/' + _qnum - 1)
+            if (_bool) {
+                if (_qnum == 2) {
+                    console.log('cache/placeholderuid/' + _qnum)
+                    fb.write('quizzes', 'cache/placeholderuid', {
+                        [newQuizID]: {
+                            name: qizName,
+                            description: qizDesc,
+                            questions: {
+                                [1]: {
+                                    title: quizTitle,
+                                    inputtype: quizInput,
+                                    answer: 'userRequired'
+                                }
+                            }
+
+                        }
+                    })
+                } else {
+                    fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/', {
+                        [_qnum - 1]: {
+                            title: quizTitle,
+                            inputtype: quizInput,
+                            answer: 'userRequired'
+                        }
+                    })
+                }
+            } else {
+                if (_qnum == 2) {
+                    console.log('cache/placeholderuid/' + _qnum)
+                    fb.write('quizzes', 'cache/placeholderuid', {
+                        [newQuizID]: {
+                            name: qizName,
+                            description: qizDesc,
+                            questions: {
+                                [1]: {
+                                    title: quizTitle,
+                                    inputtype: quizInput,
+                                    answer: answer
+                                }
+                            }
+
+                        }
+                    })
+                } else {
+                    fb.write('quizzes', 'cache/placeholderuid/' + newQuizID + '/questions/', {
                         [_qnum - 1]: {
                             title: quizTitle,
                             inputtype: quizInput,
                             answer: answer
                         }
-                    }
-
+                    })
                 }
-            })
+            }
         }
-        console.log(cQ)
-            // push to cache
-            // get other html elements for caching
+        // push to cache
+        // get other html elements for caching
 
 
         // then update cache of current quiz information.

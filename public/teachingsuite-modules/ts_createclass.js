@@ -119,7 +119,13 @@ ts.createClass = {
                                     ['placeholderUID']: 'placeholderUID'
                                 }
                             })
-                            // load users path.
+                            // need to store this class in the teachers path.
+                        fb.write("users", 'u0lMN5qOyRNpkRgOyeyQ4woNHRu1' + '/classes', {
+                            [newClassId]: {
+                                code: newClassId,
+                            },
+                        });
+                        // load users path
                         var usersPath = firebase.database().ref(defaultPath + "users").orderByChild("studentID").limitToLast(10);
                         // get data from path
                         usersPath.once("value").then((_snapshot) => {
@@ -139,7 +145,6 @@ ts.createClass = {
                                             [newClassId]: {
                                                 code: newClassId,
                                             },
-
                                         });
                                         // add them also to class rec as a reference
                                         fb.write("classes", newClassId, {

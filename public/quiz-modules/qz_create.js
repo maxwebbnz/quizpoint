@@ -71,20 +71,20 @@ let qz_create = {
         $("#tcs_cachedQuizModal").modal("show");
         //* log for testing reasons
         console.log(_allcached)
-            // for each value in the object, use val as reference
-        Object.values(_allcached).forEach(val => {
+        $.each(_allcached, function(key, value) {
+            // let key be the quiz name and value be the object
             //* log for testing purposes
-            console.log(val)
+            console.log(value)
                 // setup html row for table
             let html = `<tr>
-            <td>${val.name}</td>
-            <td><a href="#" onclick="qz_create.editCachedQuiz(${val})">Edit</a></td>
-            <td><a href="#" onclick="qz_create.deleteCachedQuiz(${val})">Delete</a></td>
+            <td>${value.name}</td>
+            <td><a href="#" onclick="qz_create.editCachedQuiz(${key})">Edit</a></td>
+            <td><a href="#" onclick="qz_create.deleteCachedQuiz(${key})">Delete</a></td>
             </tr>
             `
                 // append to table
             $('#tcs_cachedQuizModal-table tbody').append(html)
-        })
+        });
     },
     /**========================================================================
      **                           pullDOM

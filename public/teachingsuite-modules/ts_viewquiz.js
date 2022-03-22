@@ -3,43 +3,53 @@
  * All rights reserved.
  */
 
-// var socket = io();
-
+/**=======================
+ *     All teacher
+ * modules will exist in side
+ *?       ts
+ *========================**/
 let ts = {}
-async function studentName(studentID) {
+
+/**==============================================
+ **              studentName
+ *?  What does it do? Waits for a reference to the users name.
+ *@param name type
+ *@return type
+ *=============================================**/
+async function studentName(_studentID) {
+    // base declerations
     var res = '';
-
-    var Current_Price_Open_ref = firebase.database().ref(`${defaultPath}/users/${studentID}`)
-
-    var snapshot = await Current_Price_Open_ref.once('value');
-
+    // user record
+    var usersPath = firebase.database().ref(`${defaultPath}/users/${_studentID}`)
+        // wait for this value
+    var snapshot = await usersPath.once('value');
+    // if snapshot exists
     if (snapshot.exists()) {
+        // return result of user name
         var val = snapshot.val().name;
         res = `${val}`;
 
     } else {
         res = 'NA';
     }
-    console.log(res)
     return res;
 }
 /**========================================================================
  **                           viewQuiz
  *?  What does it do? Controls the viewing of quiz by student result in TS
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 ts.viewquiz = {
     /**==============================================
      **              classList
      *?  What does it do? The brains of the viewing quiz results by student
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     classList: function(_clsid, _qzid) {
-        // echo to console
         console.log('ts.viewQuiz | Viewing ' + _clsid)
             // setup current quiz array
         let currentQuizInReview = []
@@ -56,9 +66,7 @@ ts.viewquiz = {
                 for (a in snapshot.val()) {
                     studentUIDs.push(a)
                 }
-                console.log(studentUIDs)
                 let classObject = snapshot.val()
-                console.log(classObject)
                     // need to load the quiz information for displaying title and knowing how many questions are there
                 var l = firebase.database().ref(defaultPath + '/quizzes/' + _qzid);
                 l.once('value', (snapshot) => {
@@ -87,6 +95,7 @@ ts.viewquiz = {
                             }
                             // status (colour)
                             thead += `<th style="width: 50%;">Status</th></tr>`
+                                // append headers to table
                             $('#viewQuizResultTable thead').append(thead)
 
                         }
@@ -129,7 +138,7 @@ ${i}                        </td>`
 
                             } else {
 
-
+                                //
                                 for (var i = 0; i < currentQuizInReview[0].questions.length; i++) {
                                     if (snapshot.val().progress < currentQuizInReview[0].questions.length) {
                                         if (typeof snapshot.val().answers[i] !== 'undefined') { console.log('The user has completed question ' + i) } else {
@@ -352,7 +361,7 @@ ${i}                        </td>`
     /**======================
      *!  (Depreciated)
      ** result
-     *@param name type  
+     *@param name type
      *@return type
      *========================**/
     result: function(_studentObject, _quiz) {
@@ -374,8 +383,8 @@ ${i}                        </td>`
     /**========================================================================
      **                           ExportTableToExcel
      *?  What does it do? Exports a table from the dom to an html element.
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *========================================================================**/
     exportTableToExcel: function() {
@@ -405,9 +414,9 @@ ${i}                        </td>`
     },
     /**========================================================================
      **                           ExportTabletoPDF
-     *?  What does it do? Exporting HTML Table to a pdf 
-     *@param name type  
-     *@param name type  
+     *?  What does it do? Exporting HTML Table to a pdf
+     *@param name type
+     *@param name type
      *@return type
      *========================================================================**/
     exportTableToPDF: function() {

@@ -11,7 +11,7 @@
  **                           assignQuiz
  *?  What does it do? Houses all modules that are used to assign students quizzes
  *========================================================================**/
-
+let currentQuizToAssign = ''
 ts.assignQuiz = {
     /**==============================================
      **              showModal
@@ -24,7 +24,8 @@ ts.assignQuiz = {
         _quizKey = 'QUIZ_-MyeZhMAweDRg-YsIc7E'
         console.log("ts.assignQuiz.showModal() | Showing modal to assign for " + _quizKey)
         $("#tcs_assignQuizModal").modal("show");
-
+        tcs.assignQuiz.fetchTeachersClasses();
+        currentQuizToAssign = _quizKey
     },
     /**==============================================
      **              fetchTeachersClasses
@@ -64,7 +65,9 @@ ts.assignQuiz = {
                                 key: snapshot.key,
                                 name: snapshot.val().className
                             }
-                            console.log(newClassObject)
+                            let option = `<option value="${newClassObject.key}">${newClassObject.name}</option>`
+                            $('#tcs_assignQuizModal-selectedClass').append(option)
+                                // end of function.
                         } else {
                             // no data
                             console.log('no snapshot')
@@ -72,8 +75,21 @@ ts.assignQuiz = {
                     })
 
                 }
+                $('#tcs_assignQuizModal-save').on('click', function() {
+                    ts.assignQuiz.assign($('#tcs_assignQuizModal-selectedClass').val())
+                })
 
             }
         })
+    },
+    /**==============================================
+     **              assign
+     *?  What does it do? Does the actual assigning of data to students and class
+     *@param name type
+     *@param name type
+     *@return type
+     *=============================================**/
+    assign: function(_classId) {
+        console.log("Assigning all students in " + _classId + " with a quiz!")
     }
 }

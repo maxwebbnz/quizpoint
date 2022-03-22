@@ -11,7 +11,7 @@
  **                           assignQuiz
  *?  What does it do? Houses all modules that are used to assign students quizzes
  *========================================================================**/
-let currentQuizToAssign = ''
+let currentQuizToAssign;
 ts.assignQuiz = {
     /**==============================================
      **              showModal
@@ -24,7 +24,7 @@ ts.assignQuiz = {
         _quizKey = 'QUIZ_-MyeZhMAweDRg-YsIc7E'
         console.log("ts.assignQuiz.showModal() | Showing modal to assign for " + _quizKey)
         $("#tcs_assignQuizModal").modal("show");
-        tcs.assignQuiz.fetchTeachersClasses();
+        ts.assignQuiz.fetchTeachersClasses();
         currentQuizToAssign = _quizKey
     },
     /**==============================================
@@ -91,5 +91,48 @@ ts.assignQuiz = {
      *=============================================**/
     assign: function(_classId) {
         console.log("Assigning all students in " + _classId + " with a quiz!")
+            // write to class to add to active quizzes
+        fb.write('classes', _classId + '/quizzes/active/' + currentQuizToAssign, {
+                code: currentQuizToAssign,
+                progress: 0
+            })
+            // get all students in that class
+        let classPath = firebase.database().ref(`${defaultPath}/classes/${_classId}/`)
+        classPath.once('value', (snapshot) => {
+                if (snapshot.val()) {
+                    // students exist
+                    console.log(snapshot.val().students)
+                    $.each(snapshot.val().students, function(key) {
+                        // let key be the class id
+                        //* log for testing purposes
+                        console.log(key)
+                            // then, write to each user path with a new quiz due.
+                        fb.write('users', key + '/quizzes/active/' + currentQuizToAssign, {
+                            code: currentQuizToAssign,
+                            progress: 0
+                        })
+                    });
+                } else {
+                    // no students
+                    console.log('no students')
+                }
+            })
+            // hide elements
+        $("#tcs_assignQuizModal").modal("hide");
+        // remove options
+        $('#tcs_assignQuizModal-selectedClass').empty()
+    },
+    /**==============================================
+     **              closeModal
+     *?  What does it do? Handles closing of modal, and resetting of elements.
+     *@param name type
+     *@param name type
+     *@return type
+     *=============================================**/
+    close: function() {
+        // hide elements
+        $("#tcs_assignQuizModal").modal("hide");
+        // remove options
+        $('#tcs_assignQuizModal-selectedClass').empty()
     }
 }

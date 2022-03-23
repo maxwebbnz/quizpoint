@@ -5,17 +5,17 @@
 
 /**========================================================================
  **                           View Student
- *?  Displays student information in a modal for teacher to view or use data to export.
- *@param name type  
- *@param name type  
+ *?  Displays student info in a modal for teacher to view or export data.
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 ts.viewstudent = {
     /**==============================================
      **              Load Information
-     *?  Does bulk of the work for the loading of the user information
-     *@param name type  
-     *@param name type  
+     *?  Loads user information
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     loadInformation: function(_studentUID) {
@@ -108,7 +108,7 @@ ts.viewstudent = {
                                             correct += 1
                                         }
                                     }
-                                    // add to table 
+                                    // add to table
                                     //? e.g 9/10
                                     tableRow += `<td>${correct}/${(printQzAmount)}</td>`
                                         // check progress and display relevant category
@@ -197,10 +197,10 @@ ts.viewstudent = {
     },
     /**==============================================
      **              PDF
-     *?  What does it do? Creates PDF of user results
-     *@param name type  
-     *@param _studentName string  
-     *@param _studentId string  
+     *?  Creates PDF of user results
+     *@param name type
+     *@param _studentName string
+     *@param _studentId string
      *@return none type
      *=============================================**/
     pdf: function(_studentName, _studentID) {
@@ -221,7 +221,7 @@ ts.viewstudent = {
         myClone.style = 'display: none;'
             // add it to the HTML body
         document.body.appendChild(myClone);
-        // get rid of buttons 
+        // get rid of buttons
         $('#studentResultExport #remindStudentButton').replaceWith("");
         //*create new jspdf
         var doc = new jspdf.jsPDF()

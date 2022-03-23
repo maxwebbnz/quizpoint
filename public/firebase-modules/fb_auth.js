@@ -12,16 +12,16 @@ let provider;
 /**========================================================================
  **                           fb.auth
  *?  What does it do? Performs authentication based methods for program
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 fb.auth = {
     /**==============================================
      **              Login
      *?  What does it do? Logs in user with provider base
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     login: function(_provider) {
@@ -55,8 +55,8 @@ fb.auth = {
     /**==============================================
      **              Load User
      *?  What does it do? Loads user for program, and also registers if needbe
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     loadUser(_uid, _userObj) {
@@ -105,8 +105,8 @@ fb.auth = {
     /**==============================================
      **              Logout
      *?  What does it do? Logs out user no matter there provider
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     logout: function() {

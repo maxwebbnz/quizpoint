@@ -89,38 +89,63 @@ ts.assignQuiz = {
      *@param name type
      *@return type
      *=============================================**/
-    assign: function(_classId) {
+    assign: function(_classId, _className) {
         console.log("Assigning all students in " + _classId + " with a quiz!")
+        try {
             // write to class to add to active quizzes
-        fb.write('classes', _classId + '/quizzes/active/' + currentQuizToAssign, {
-                code: currentQuizToAssign,
-                progress: 0
+            fb.write('classes', _classId + '/quizzes/active/' + currentQuizToAssign, {
+                    code: currentQuizToAssign,
+                    progress: 0
+                })
+                // get all students in that class
+            let classPath = firebase.database().ref(`${defaultPath}/classes/${_classId}/`)
+            classPath.once('value', (snapshot) => {
+                    if (snapshot.val()) {
+                        // students exist
+                        console.log(snapshot.val().students)
+                        $.each(snapshot.val().students, function(key) {
+                            // let key be the class id
+                            //* log for testing purposes
+                            console.log(key)
+                                // then, write to each user path with a new quiz due.
+                            fb.write('users', key + '/quizzes/active/' + currentQuizToAssign, {
+                                code: currentQuizToAssign,
+                                progress: 0
+                            })
+                        });
+                    } else {
+                        // no students
+                        console.log('no students')
+                    }
+                })
+                // hide elements
+            $("#tcs_assignQuizModal").modal("hide");
+            // remove options
+            $('#tcs_assignQuizModal-selectedClass').empty()
+                // success!
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Quiz assigned to class',
+                showConfirmButton: false,
+                timer: 1500
             })
-            // get all students in that class
-        let classPath = firebase.database().ref(`${defaultPath}/classes/${_classId}/`)
-        classPath.once('value', (snapshot) => {
-                if (snapshot.val()) {
-                    // students exist
-                    console.log(snapshot.val().students)
-                    $.each(snapshot.val().students, function(key) {
-                        // let key be the class id
-                        //* log for testing purposes
-                        console.log(key)
-                            // then, write to each user path with a new quiz due.
-                        fb.write('users', key + '/quizzes/active/' + currentQuizToAssign, {
-                            code: currentQuizToAssign,
-                            progress: 0
-                        })
-                    });
-                } else {
-                    // no students
-                    console.log('no students')
-                }
-            })
-            // hide elements
-        $("#tcs_assignQuizModal").modal("hide");
-        // remove options
-        $('#tcs_assignQuizModal-selectedClass').empty()
+
+            // if error occurs
+        } catch (_error) {
+            // log to console
+            console.log(_error)
+                // styled alert
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "We couldn't assign your quiz",
+                    footer: 'Please try again later.'
+                })
+                // close window
+            ts.assignQuiz.close()
+        }
+
     },
     /**==============================================
      **              closeModal

@@ -76,8 +76,20 @@ cls.display = {
                         <a href="#" class="card-link" id="classCard-a-${_classObject.code}" data-class="${_classObject.code}">View Class</a>
                     </div>
                     </div>`
+
+        let newClassCardDesign = `
+            <div class="card col-sm-6" style='margin-bottom: 2%;' id="classId-${_classObject.code}">
+                <img id="cardBackgroundImage" class="card-img-top" src="./media/dummyClassImage.jpg" alt="Class image for on card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">${_classObject.className}</h3>
+                    <p class="card-text text-center">${_classObject.classCreator}</p>
+                </div>
+                    <a href="#" class="card-link text-center" id="classCard-a-${_classObject.code}" data-class="${_classObject.code}">View Class</a>
+            </div>
+
+                    `
             //* append current page (classPage) with html generated
-        $('#homePage-authed_student-class').append(html)
+        $('#homePage-authed_student-class').append(newClassCardDesign)
             // listen for clicks on link, if it is pressed, show class page
         $(`#classCard-a-${_classObject.code}`).on("click", function() {
             cls.display.loadClassPage(this.dataset.class)
@@ -111,10 +123,10 @@ cls.display = {
             // navigate to class page for student
         ui.navigate.to('classpage_authed_student')
     },
-    loadQuizProgressBar: function(){
+    loadQuizProgressBar: function() {
         let ctx = document.getElementById('quizProgress').getContext('2d');
         let quizData = {
-            labels:[
+            labels: [
                 'Turned In',
                 'Not Completed',
             ],
@@ -135,4 +147,3 @@ cls.display = {
 
     }
 }
-    

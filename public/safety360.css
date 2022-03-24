@@ -120,6 +120,16 @@ body {
     grid-template-columns: 3fr 3fr 3fr;
 }
 
+
+/* Home Page */
+
+.studentClassList {
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr;
+    padding-bottom: 2% !important;
+}
+
 .searchresult {
     background-color: white;
     border-radius: 20px;

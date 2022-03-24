@@ -321,6 +321,7 @@ body {
     border-radius:1.5rem 1.5rem 0.2rem 0.2rem !important;
     /* Change Header Space in Box */
     height:33%;
+    flex-shrink:0;
     /* Change Font Size */
     font-size:119%;
     /* Change Font Weight */

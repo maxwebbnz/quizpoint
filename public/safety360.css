@@ -1,4 +1,4 @@
-:root   {
+:root {
     --background-color: #6FA8DC;
     --secondary-color: #4E83C2;
     --main-font: 'Montserrat', sans-serif;
@@ -10,6 +10,8 @@ body {
     margin-left: 200px;
     /* overflow: hidden; */
 }
+
+
 /* Global CSS (containers, buttons etc) */
 
 .generic-container {
@@ -243,10 +245,13 @@ body {
     margin-top: 0%;
 }
 
+
 /* Create Class */
-.createClassModalOptions{
+
+.createClassModalOptions {
     padding-top: 1%;
 }
+
 
 /* Summary Page */
 
@@ -258,7 +263,17 @@ body {
     margin-left: 20px;
 }
 
-.studentPageFilter {}
+
+/* Quiz Library */
+
+.quizCard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1%;
+}
+
+
+/* Media Queries */
 
 @media only screen and (min-width: 1200px) {}
 
@@ -280,54 +295,62 @@ body {
     }
 }
 
-.card{
+.card {
     width: 270px;
     height: 280px;
-    margin-left:5%;
-    border-radius:1.5rem;
+    margin-left: 5%;
+    border-radius: 1.5rem;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    border:0;
+    border: 0;
 }
 
-#cardBackgroundImage.card-img-top{
+#cardBackgroundImage.card-img-top {
     width: 100%;
     height: 33%;
-    border-radius:1.5rem 1.5rem 0.2rem 0.2rem;
-}
-.card-title{
-    font-size:280%;
-    font-weight:400;
-    padding-top:6%;
-    color:#4F4F4F;
-}
-.card-text{
-    padding-top:7%;
-    font-size:120%;
-    font-weight:400;
-    font-family:'Poppins',sans-serif;
-    color:#4F4F4F;
+    border-radius: 1.5rem 1.5rem 0.2rem 0.2rem;
 }
 
-.card-header{
+.card-title {
+    font-size: 280%;
+    font-weight: 400;
+    padding-top: 6%;
+    color: #4F4F4F;
+}
+
+.card-text {
+    padding-top: 7%;
+    font-size: 120%;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    color: #4F4F4F;
+}
+
+.card-header {
     /* Centers Text Inside Header */
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* Change Header Colour */
     background-color: var(--secondary-color);
     /* Change Text Colour */
-    color:white;
+    color: white;
     /* Change Header Border */
-    border-radius:1.5rem 1.5rem 0.2rem 0.2rem !important;
+    border-radius: 1.5rem 1.5rem 0.2rem 0.2rem !important;
     /* Change Header Space in Box */
-    height:33%;
-    flex-shrink:0;
+    height: 33%;
+    flex-shrink: 0;
     /* Change Font Size */
-    font-size:119%;
+    font-size: 119%;
     /* Change Font Weight */
-    font-weight:400;
+    font-weight: 400;
 }
-.card-header p{
+
+.card-text {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.card-header p {
     /* Centers Text Inside Header */
-    margin:0 !important;
+    margin: 0 !important;
 }

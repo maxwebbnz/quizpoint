@@ -287,7 +287,7 @@ let qz_create = {
                     // store new question in cache
                     fb.write('quizzes', 'cache/placeholderuid', {
                             [newQuizID]: {
-                                name: qizName,
+                                title: qizName,
                                 description: qizDesc,
                                 questions: {
                                     [1]: {
@@ -338,7 +338,7 @@ let qz_create = {
                     console.log('cache/placeholderuid/' + _qnum)
                     fb.write('quizzes', 'cache/placeholderuid', {
                         [newQuizID]: {
-                            name: qizName,
+                            title: qizName,
                             description: qizDesc,
                             questions: {
                                 [1]: {
@@ -438,7 +438,7 @@ let qz_create = {
                     console.log('cache/placeholderuid/' + _qnum)
                     fb.write('quizzes', 'cache/placeholderuid', {
                         [newQuizID]: {
-                            name: qizName,
+                            title: qizName,
                             description: qizDesc,
                             questions: {
                                 [1]: {

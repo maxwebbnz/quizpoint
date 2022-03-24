@@ -94,10 +94,11 @@ ts.assignQuiz = {
         try {
             // write to class to add to active quizzes
             fb.write('classes', _classId + '/quizzes/active/' + currentQuizToAssign, {
-                    code: currentQuizToAssign,
-                    progress: 0
-                })
-                // get all students in that class
+                code: currentQuizToAssign,
+                progress: 0
+            })
+
+            // get all students in that class
             let classPath = firebase.database().ref(`${defaultPath}/classes/${_classId}/`)
             classPath.once('value', (snapshot) => {
                     if (snapshot.val()) {

@@ -316,6 +316,7 @@ body {
     border-radius: 1.5rem;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border: 0;
+    transition:transform 100ms;
 }
 
 #cardBackgroundImage.card-img-top {
@@ -367,4 +368,15 @@ body {
 .card-header p {
     /* Centers Text Inside Header */
     margin: 0 !important;
+}
+.card:hover{
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    transform: translateY(-3px);
+}
+#quizProgress{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:95% !important;
+    position:relative;
 }

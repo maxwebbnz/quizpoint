@@ -91,12 +91,21 @@ fb.auth = {
                 user = userData;
                 console.log("fb.loadUser | Loaded User " + user.name)
                 if (user.role === 'student') {
+                    // hide all teacher stuff
+                    $('#teacherLink').hide()
                     ui.navigate.to('homePage-authed_student')
                     cls.display.loadHome();
+                    // display sidenavigation
+                    $('.studentNav').fadeIn()
+                        // fix css rules
+                    document.body.style.overflow = 'auto';
+                    document.body.style.marginLeft = '200px';
 
                 } else if (user.role === 'teacher') {
                     ui.navigate.to('homePage-authed_teacher')
                     cls.display.loadHome();
+                    $('.teachingsuiteNav').fadeIn()
+
 
                 }
             }

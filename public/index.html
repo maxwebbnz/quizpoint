@@ -98,20 +98,19 @@
     <title>QuizPoint</title>
 </head>
 
-<div class="sidenav hidden">
+<div class="sidenav studentNav" style="display: none;">
     <div class="userProfilePicture">
         <img src="media/dummy.jpg" id=a lt="" class="rounded center">
     </div>
     <div class="links">
-        <button class="sidenav-btn active">
+        <button class="sidenav-btn" onclick="ui.navigate.to('homePage-authed_student')">
             <i class="bi bi-house-door"></i> Home
         </button>
-        <button class="sidenav-btn">
+        <button class="sidenav-btn" id="teacherLink" onclick="ui.navigate.to('tcs')">
             <i class="bi bi-gear-wide-connected"></i> Teaching
-
         </button>
         </button>
-        <button class="sidenav-btn">
+        <button class="sidenav-btn" onclick="fb.auth.logout()">
             <i class="bi bi-box-arrow-left"></i> Logout
         </button>
     </div>
@@ -119,12 +118,12 @@
         <p>QuizPoint <a href="https://github.com/maxwebbnz/quizpoint">v0.1</a></p>
     </div>
 </div>
-<div class="sidenav teachingsuiteNav hidden">
+<div class="sidenav teachingsuiteNav" style="display: none;">
     <div class="userProfilePicture">
         <img src="media/dummy.jpg" alt="User Profile Picture" class="rounded center">
     </div>
     <div class="links">
-        <button class="sidenav-btn active">
+        <button class="sidenav-btn">
             <i class="bi bi-bar-chart"></i> Summary
         </button>
         <button class="sidenav-btn ">
@@ -154,23 +153,29 @@
     </div>
     <link rel="stylesheet " href="style/progressbar.css ">
     <link rel="stylesheet " href="style/table.css ">
-    <div id="landingPage" class="homePageGrid" style='margin-left: 0px !important; height: 100%; padding-bottom: 0px; overflow: hidden;'>
+    <div id="landingPage" class="homePageMain" style='margin-left: 0% !important;'>
         <div class="backgroundImage-landingpage">
-            <img src="media/background.jpg" style="margin-left: 0% !important;" alt=" " id="schoolMedia-background" width="100%" height="100%">
-        </div>
-        <div class="action">
-            <h1>QuizPoint</h1>
-            <hr class="my-4">
-            <h4>Please sign in</h4>
-            <button class="signInButton-Google" onclick="fb.auth.login(google) "><i class="bi bi-google"></i> Sign in
-                with Google</button>
-            <button class="signInButton-Office"><i class="bi bi-microsoft " style="color:white "></i> Sign in with
-                Office 365</button>
+            <img src="media/background.jpg" alt=" " id="schoolMedia-background" width="100%" height="100%">
+            <div class="schoolBranding">
+                <img src="media/schoologo.png" alt="">
+            </div>
+            <div class="homePageContent center-screen" id='landingPagetoAnimate' style="display: none;">
+                <img src="media\branding\appbranding-itt1withtext.svg" alt="triangle with all three sides equal">
+                <div class="homePageActions">
+                    <div class="authContent text-center">
+                        <h2>Welcome</h2>
+                        <button class="generic-button" onclick="fb.auth.login(google)"><i class="bi bi-google"></i> Login with Google</button>
+                        <button class="generic-button blackBtn" onclick="fb.auth.login(google)"><i class="bi bi-microsoft"></i> Login with Microsoft</button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 
 
-    <div class="homePage" id="homePage-authed_student" style="display: block;">
+    <div class="homePage" id="homePage-authed_student" style="display: none;">
         <div class="homePageHeader" style="color: white;">
             <h2 class="d-flex justify-content-center">Your Classes</h2>
         </div>
@@ -189,7 +194,7 @@
         </div>
 
     </div>
-    <div class="homePage " id="homePage-authed_teacher " style="display: none; ">
+    <div class="homePage" id="homePage-authed_teacher " style="display: none; ">
         <h2>Your Classes (teacher)</h2>
     </div>
     <div class="classPage" id="classpage_authed_student" style="display: none;">
@@ -203,8 +208,7 @@
         </div>
         <h4 style="color: white; margin-left: 10%;">Completed</h4>
         <hr class='text-center' style="width: 80%; margin: auto; color: white;">
-        <div class="quizAssigned " style='margin-left: 10%;' id="classpage_authed_student-quizassigned ">
-        </div>
+    </div>
     </div>
     <div class="viewQuizModule " id="viewQuiz " style="display: none; ">
         <button onclick="qz_load.getQuiz() ">Load Quiz</button>
@@ -363,8 +367,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js "></script>
     <!-- TEACHING SUITE! -->
-    <div class="teachingsuite hidden " id="tcs ">
-        <div class="summaryPage hidden " id="tcs_summaryPage ">
+    <div class="teachingsuite" id="tcs" style="display: none;">
+        <div class="summaryPage" id="tcs_summaryPage">
             <div class="summaryPageHeader " style="color: white; ">
                 <h2 class="d-flex justify-content-center ">Welcome, <span id="user-displayName ">Max Webb</span></h2>
             </div>

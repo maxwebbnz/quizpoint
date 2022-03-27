@@ -5,8 +5,8 @@
 /**================================================================================================
  **                                      QZ
  *?  The QZ modules handle all qz related queries and methods (not including teaching suite)
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *================================================================================================**/
 let qz = {}
@@ -15,8 +15,8 @@ let currentQuizId;
 /**========================================================================
  **                           QZ.LoadActive
  *?  Load the active quiz to the program
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 qz.loadActive = {
@@ -24,8 +24,8 @@ qz.loadActive = {
      **              Match
      *? Matches quizzes assigned to class to the user, if they are enrolled in more than one class
      *! This is an async function.
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     match: async function(_uid, _cid) {
@@ -85,6 +85,7 @@ qz.loadActive = {
                         if (snapshot.val() == null) {
                             console.log('no quiz with that id')
                         } else {
+                            console.log(snapshot.val())
                             const data = snapshot.val();
                             b = data
                                 // setup html

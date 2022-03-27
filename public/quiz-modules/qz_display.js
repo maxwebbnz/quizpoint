@@ -5,16 +5,16 @@
 /**========================================================================
  **                           qz_display
  *?  What does it do? For displaying quizzes to client
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 let qz_display = {
     /**==============================================
      **              start
      *?  What does it do? Starts quiz, and sets everything up
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     start: function() {
@@ -35,9 +35,11 @@ let qz_display = {
         let title = $('#qz-title')
         let image = $('#qz-image')
         let input = $('#qz-input')
-            // start filling out html
-            // quiz question
-        title.html(currentQuiz[currentQuestion].question)
+
+        // start filling out html
+        // quiz question
+        console.log(currentQuiz[currentQuestion])
+        title.html(currentQuiz[currentQuestion].title)
             // ready to display SRC
         if (currentQuiz[currentQuestion.image] == null) {
             console.log("qz - No media to display")
@@ -47,7 +49,7 @@ let qz_display = {
         // minus one due to an empty object in  array ._.
         qz_display.generateProgress(currentQuiz.length - 1, currentQuiz)
             // checking input type
-        if (currentQuiz[currentQuestion].type == "textinput") {
+        if (currentQuiz[currentQuestion].inputtype == "textinput") {
             // show text input
             $('#qz-inputType-inputfield').show()
             let btn = document.createElement("button");
@@ -61,19 +63,35 @@ let qz_display = {
             btn.name = "textinput";
             document.body.appendChild(btn);
 
-        } else if (currentQuiz[currentQuestion].type == "multichoice") {
+        } else if (currentQuiz[currentQuestion].inputtype == "multichoice") {
             // find all choices in database, and then make it that way
             let choiceArray = []
-            for (a in currentQuiz[currentQuestion].choices) {
-                choiceArray.push(a)
+
+            // push choices in choiceArray
+            for (var i = 0; i < currentQuiz[currentQuestion].choices.length; i++) {
+                if (currentQuiz[currentQuestion].choices[i] === '' || currentQuiz[currentQuestion].choices[i] === null) {
+                    return;
+                } else {
+                    choiceArray.push(currentQuiz[currentQuestion].choices[i])
+                }
             }
+
+            // logging for dev purposes
             console.log('mutlichoice')
+
+            // for each choice
             for (var i = 0; i < choiceArray.length; i++) {
+                // logging for dev purposes
                 console.log(currentQuiz[currentQuestion].choices[i])
+
+                // reference for time sakes
                 let choice = currentQuiz[currentQuestion].choices[i]
+
+                // extra check if the choice is null, don't add it!
                 if (choice == null) {
                     console.log("Choice " + i + " is not vaild")
                 } else {
+
                     // it stores the name as the choice for easy answer checking later on...
                     let btn = document.createElement("button");
                     btn.innerHTML = choice;
@@ -95,8 +113,8 @@ let qz_display = {
     /**==============================================
      **              nextQuestion
      *?  What does it do? Skips to the next question
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     nextQuestion: function() {
@@ -168,7 +186,7 @@ let qz_display = {
     /**========================================================================
      **                           Generate
      *?  What does it do? Generates progress bar steps for each question
-     *@param _amount amount of questions (int)  
+     *@param _amount amount of questions (int)
      *@param _questionName
      *@return n/a
      *========================================================================**/

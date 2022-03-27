@@ -2,7 +2,7 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
-//* Base Variables*\\ 
+//* Base Variables*\\
 let currentQuiz = []
 let currentQuestion = 0;
 let questionsCorrect = 0;
@@ -10,16 +10,16 @@ let questionsCorrect = 0;
 /**========================================================================
  **                           qz_load
  *?  Gets the quiz for the user before it begins.
- *@param name type  
- *@param name type  
+ *@param name type
+ *@param name type
  *@return type
  *========================================================================**/
 let qz_load = {
     /**==============================================
      **              getQuiz
      *?  Performs logical methods to get a quiz from db
-     *@param name type  
-     *@param name type  
+     *@param name type
+     *@param name type
      *@return type
      *=============================================**/
     getQuiz: function(_qzid) {
@@ -40,7 +40,10 @@ let qz_load = {
                         if (snapshot.val().progress == null) {
                             currentQuestion = currentQuestion + 1;
                         } else {
-                            currentQuestion = snapshot.val().progress
+                            // currentQuestion = snapshot.val().progress
+                            currentQuestion = currentQuestion + 1;
+
+                            console.log(snapshot.val().progress)
                         }
                     })
                     // set current quesiton

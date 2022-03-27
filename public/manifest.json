@@ -12,7 +12,7 @@
             "sizes": "192x192"
         }
     ],
-    "start_url": "/?source=pwa",
+    "start_url": "/mobile.html?source=pwa",
     "background_color": "#3367D6",
     "display": "standalone",
     "scope": "/",

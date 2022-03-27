@@ -8,7 +8,7 @@ body {
     background-color: var(--background-color);
     font-family: var(--main-font);
     margin-left: 200px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 
@@ -149,7 +149,11 @@ body {
 
 .homePageGrid {
     display: grid;
-    grid-template-columns: 3fr 1fr
+    grid-template-columns: 3fr 1fr;
+}
+
+#landingPage {
+    margin-left: 1px !important;
 }
 
 .signInButton-Google {

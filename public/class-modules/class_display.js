@@ -115,14 +115,22 @@ cls.display = {
             // echo to consle
         console.log(`cls.display.loadClassPage | Showing page information for ${_classId}`)
             // set html element up
-        let html = `<h2>${classRef.className}</h2>
-        <h5>Taughet by ${classRef.classCreator}`
+        let html = `
+            <h2 class="text-center" style="color: white;">${classRef.className}</h2>
+            <h5 class="text-center" style="color: white;">Taught by ${classRef.classCreator}</h5>`
         $('#classPageHeader').append(html)
             // find active quizzes
         qz.loadActive.match(user.uid, _classId)
             // navigate to class page for student
         ui.navigate.to('classpage_authed_student')
     },
+    /**==============================================
+     **              FUNCTION NAME
+     *?  What does it do?
+     *@param name type
+     *@param name type
+     *@return type
+     *=============================================**/
     loadQuizProgressBar: function() {
         let ctx = document.getElementById('quizProgress').getContext('2d');
         let quizData = {

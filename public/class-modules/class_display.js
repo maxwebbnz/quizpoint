@@ -121,6 +121,7 @@ cls.display = {
         $('#classPageHeader').append(html)
             // find active quizzes
         qz.loadActive.match(user.uid, _classId)
+        qz.loadCompleted.match(user.uid, _classId)
             // navigate to class page for student
         ui.navigate.to('classpage_authed_student')
     },

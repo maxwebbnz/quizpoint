@@ -9,7 +9,11 @@ ts.loadClassPage = {
                     'rgb(211,211,211)',
                 ],
                 hoverOffset: 3
-            }]
+            }],
+            labels: [
+                'Turned In',
+                'Not Completed',
+            ]
         };
         let quizChart = new Chart(ctx, {
             type: 'doughnut',

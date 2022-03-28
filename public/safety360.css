@@ -507,3 +507,6 @@ body {
     height: 95% !important;
     position: relative;
 }
+#quizProgressDoughnutDummy{
+    padding: 0 !important;
+}

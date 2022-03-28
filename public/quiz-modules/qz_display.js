@@ -32,14 +32,16 @@ let qz_display = {
         }
         // qz_load.getQuiz
         // declare variables
-        let title = $('#qz-title')
+        let title = document.getElementById('qz-title')
+        let quizName = document.getElementById('qz-name')
         let image = $('#qz-image')
         let input = $('#qz-input')
 
         // start filling out html
         // quiz question
         console.log(currentQuiz[currentQuestion])
-        title.html(currentQuiz[currentQuestion].title)
+        quizName.innerHTML = currentQuizTitle
+        title.innerHTML = currentQuiz[currentQuestion].title
             // ready to display SRC
         if (currentQuiz[currentQuestion.image] == null) {
             console.log("qz - No media to display")
@@ -103,8 +105,8 @@ let qz_display = {
                         // btn.onclick = qz_check.checkAns(choice)
                     btn.name = choice;
                     $('#qz-input').show()
-
                     document.getElementById('multichoice').appendChild(btn);
+                    btn.classList.add('qzBtn')
                 }
             }
 
@@ -131,14 +133,12 @@ let qz_display = {
         } else {
             // qz_load.getQuiz
             // declare variables
-            let title = $('#qz-title')
-            let quizName = $('#qz-name')
+            let title = document.getElementById('qz-title')
             let image = $('#qz-image')
             let input = $('#qz-input')
                 // start filling out html
                 // quiz question
-            title.html(currentQuiz[currentQuestion].question)
-            quizName.html(currentQuizName)
+            title.innerHTML = currentQuiz[currentQuestion].title
                 // ready to display SRC
             if (currentQuiz[currentQuestion.image] == null) {
                 console.log("qz - No media to display")
@@ -146,42 +146,62 @@ let qz_display = {
                 image.src = currentQuiz[currentQuestion].attr("src", image)
             }
             // checking input type
-            if (currentQuiz[currentQuestion].type == "textinput") {
+            if (currentQuiz[currentQuestion].inputtype == "textinput") {
                 // show text input
                 $('#qz-inputType-inputfield').show()
-                    // let btn = document.createElement("button");
-                    // btn.innerHTML = "Next";
-                    // btn.id = "qz-btn-textinput"
-                    // btn.type = "button";
-                    // btn.onclick = function() {
-                    //         qz_answer.ans($('#qz-inputfield').val(), "textinput")
-                    //     }
+                let btn = document.createElement("button");
+                btn.innerHTML = "Next";
+                btn.id = "qz-btn-textinput"
+                btn.type = "button";
+                btn.onclick = function() {
+                        qz_answer.ans($('#qz-inputfield').val(), "textinput")
+                    }
                     // btn.onclick = qz_check.checkAns(choice)
-                    // btn.name = "textinput";
-                    // document.body.appendChild(btn);
+                btn.name = "textinput";
+                document.body.appendChild(btn);
 
-            } else if (currentQuiz[currentQuestion].type == "multichoice") {
+            } else if (currentQuiz[currentQuestion].inputtype == "multichoice") {
                 // find all choices in database, and then make it that way
+                let choiceArray = []
+
+                // push choices in choiceArray
                 for (var i = 0; i < currentQuiz[currentQuestion].choices.length; i++) {
+                    if (currentQuiz[currentQuestion].choices[i] === '' || currentQuiz[currentQuestion].choices[i] === null) {
+                        return;
+                    } else {
+                        choiceArray.push(currentQuiz[currentQuestion].choices[i])
+                    }
+                }
+
+                // logging for dev purposes
+                console.log('mutlichoice')
+
+                // for each choice
+                for (var i = 0; i < choiceArray.length; i++) {
+                    // logging for dev purposes
                     console.log(currentQuiz[currentQuestion].choices[i])
+
+                    // reference for time sakes
                     let choice = currentQuiz[currentQuestion].choices[i]
+
+                    // extra check if the choice is null, don't add it!
                     if (choice == null) {
                         console.log("Choice " + i + " is not vaild")
                     } else {
+
                         // it stores the name as the choice for easy answer checking later on...
                         let btn = document.createElement("button");
                         btn.innerHTML = choice;
                         btn.id = "qz-btn"
-                        btn.classList.add = 'qzBtn'
                         btn.type = "button";
                         btn.onclick = function() {
                                 qz_answer.ans(choice, "multichoice")
                             }
                             // btn.onclick = qz_check.checkAns(choice)
                         btn.name = choice;
+                        $('#qz-input').show()
                         document.getElementById('multichoice').appendChild(btn);
-                        $(btn).addClass('qzBtn')
-
+                        btn.classList.add('qzBtn')
                     }
                 }
 

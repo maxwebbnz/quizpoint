@@ -6,6 +6,7 @@
 let currentQuiz = []
 let currentQuestion = 0;
 let questionsCorrect = 0;
+// let currentQuizName;
 let currentQuizName;
 /**========================================================================
  **                           qz_load
@@ -31,7 +32,10 @@ let qz_load = {
             } else {
                 // set question up in base variables above
                 let questionsArray = snapshot.val().questions
-                let currentQuizName = snapshot.val().title
+                let snap = snapshot.val()
+                console.log(snap)
+
+                currentQuizTitle = snap.title
                 for (var i = 0; i < questionsArray.length; i++) {
                     currentQuiz.push(questionsArray[i])
                 }

@@ -165,8 +165,8 @@
                 <div class="homePageActions">
                     <div class="authContent text-center">
                         <h2>Welcome</h2>
-                        <button class="generic-button" onclick="fb.auth.login(google)"><i class="bi bi-google"></i> Login with Google</button>
-                        <button class="generic-button blackBtn" onclick="fb.auth.login(google)"><i class="bi bi-microsoft"></i> Login with Microsoft</button>
+                        <button class="generic-button" onclick="fb.auth.login(google)" id="authButton"><i class="bi bi-google"></i> Login with Google</button>
+                        <button class="generic-button blackBtn" onclick="fb.auth.login(google)" id="authButton"><i class="bi bi-microsoft"></i> Login with Microsoft</button>
                     </div>
 
                 </div>
@@ -523,16 +523,16 @@
                 </div>
             </div>
             <!-- Assign Quiz Modal -->
-            <div class="modal fade " id="tcs_assignQuizModal " tabindex="-1 " role="dialog " aria-labelledby="Assign Quiz " aria-hidden="true ">
-                <div class="modal-dialog " role="document ">
-                    <div class="modal-content ">
-                        <div class="modal-header ">
-                            <h5 class="modal-title ">Assign a quiz</h5>
-                            <button type="button " class="btn-close " onclick="ts.assignQuiz.close() "></button>
+            <div class="modal fade" id="tcs_assignQuizModal" tabindex="-1" role="dialog" aria-labelledby="Assign Quiz" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Assign a quiz</h5>
+                            <button type="button" class="btn-close " onclick="ts.assignQuiz.close()"></button>
                         </div>
-                        <div class="modal-body ">
+                        <div class="modal-body">
                             <p>Select a class</p>
-                            <select name="tcs_assignQuizModal-selectedClass " id="tcs_assignQuizModal-selectedClass ">
+                            <select name="tcs_assignQuizModal-selectedClass" id="tcs_assignQuizModal-selectedClass">
 
 </select>
                         </div>

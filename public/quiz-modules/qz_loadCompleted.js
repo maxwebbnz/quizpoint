@@ -68,8 +68,8 @@ qz.loadCompleted = {
                                         <div class="card-body">
                                             <h5 class="card-title">${b.title}</h5>
                                             <h6 class="card-subtitle mb-2 text-muted">${b.description}</h6>
-                                            <a href="#" class="card-link" id="quizCard-a-${id}">Start Quiz</a>
-                                        </div>
+                                            <p>Completed</p>
+                                            </div>
                                         </div>`
                                 // add it to the page
                             $(`#classpage_authed_student-quizcompleted`).append(html)

@@ -25,6 +25,8 @@ fb.auth = {
      *@return type
      *=============================================**/
     login: function(_provider) {
+        // disable button to prevent double click
+        $('#authButton').prop('disabled', true)
         firebase.auth().onAuthStateChanged(function(_user) {
             if (_user) {
                 // user is already loggedin

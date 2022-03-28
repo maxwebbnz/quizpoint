@@ -212,6 +212,39 @@ body {
 }
 
 
+/* Quiz Page */
+
+.quizView {
+    background: white;
+    border-radius: 60px;
+    padding-left: 6%;
+    width: 90%;
+    margin-top: 5%;
+}
+
+.qzBtn {
+    margin-top: 2%;
+    margin-left: 0%;
+    border: 0;
+    border-radius: 20px;
+    font-size: 30px;
+    background-color: orange;
+    margin-bottom: 20px;
+    width: 70%;
+    transition-duration: 00.4s;
+}
+
+.qzBtn:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.multiChoiceRow {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+}
+
+
 /* other content... */
 
 .studentClassList {

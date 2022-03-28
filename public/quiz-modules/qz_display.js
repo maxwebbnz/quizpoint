@@ -132,11 +132,13 @@ let qz_display = {
             // qz_load.getQuiz
             // declare variables
             let title = $('#qz-title')
+            let quizName = $('#qz-name')
             let image = $('#qz-image')
             let input = $('#qz-input')
                 // start filling out html
                 // quiz question
             title.html(currentQuiz[currentQuestion].question)
+            quizName.html(currentQuizName)
                 // ready to display SRC
             if (currentQuiz[currentQuestion.image] == null) {
                 console.log("qz - No media to display")
@@ -170,6 +172,7 @@ let qz_display = {
                         let btn = document.createElement("button");
                         btn.innerHTML = choice;
                         btn.id = "qz-btn"
+                        btn.classList.add = 'qzBtn'
                         btn.type = "button";
                         btn.onclick = function() {
                                 qz_answer.ans(choice, "multichoice")
@@ -177,6 +180,8 @@ let qz_display = {
                             // btn.onclick = qz_check.checkAns(choice)
                         btn.name = choice;
                         document.getElementById('multichoice').appendChild(btn);
+                        $(btn).addClass('qzBtn')
+
                     }
                 }
 

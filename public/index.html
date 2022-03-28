@@ -211,13 +211,13 @@
     </div>
     </div>
     <div class="viewQuizModule" id="viewQuiz" style="display: none;">
-        <button onclick="qz_load.getQuiz()">Load Quiz</button>
-        <div id="qz-display">
+        <div id="qz-display" class="quizView">
             <ol class="ProgressBar" id="prog">
             </ol>
+            <h1 id="qz-name"><b></b></h1>
 
-            <span id="qz-title"></span>
-            <span id="qz-image"></span>
+            <h3 id="qz-title">What is the tool?</h3>
+            <img src="https://cdn.hswstatic.com/gif/hammer-1.jpg" height="300" width="300" id="qz-image"></span>
             <div id="qz-input">
                 <div id="qz-inputType-inputfield" style="display: none;">
                     <div class="form-group">
@@ -226,8 +226,7 @@
                         <small id="helpId " class="form-text text-muted ">Help text</small>
                     </div>
                 </div>
-                <div id="multichoice ">
-
+                <div id="multichoice" class="multiChoiceRow">
                 </div>
             </div>
         </div>

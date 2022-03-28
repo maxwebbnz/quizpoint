@@ -6,7 +6,7 @@
 let currentQuiz = []
 let currentQuestion = 0;
 let questionsCorrect = 0;
-
+let currentQuizName;
 /**========================================================================
  **                           qz_load
  *?  Gets the quiz for the user before it begins.
@@ -31,6 +31,7 @@ let qz_load = {
             } else {
                 // set question up in base variables above
                 let questionsArray = snapshot.val().questions
+                let currentQuizName = snapshot.val().title
                 for (var i = 0; i < questionsArray.length; i++) {
                     currentQuiz.push(questionsArray[i])
                 }

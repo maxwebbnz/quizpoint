@@ -123,7 +123,7 @@ fb.auth = {
     logout: function() {
         firebase.auth().signOut().then(() => {
             // alert.success("You signed out!")
-            location.reload();
+            location.reload()
         }).catch((error) => {
             debug.handler("auth.logout | ", error)
                 // alert.warn("We couldn't log you out, please try again'")

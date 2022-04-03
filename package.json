@@ -22,6 +22,7 @@
         "colors": "file:../colors",
         "ejs": "^3.1.6",
         "express": "^4.17.3",
+        "firebase-admin": "^10.0.2",
         "nodemailer": "^6.7.2",
         "nodemon": "^2.0.15",
         "socket.io": "^4.4.1"

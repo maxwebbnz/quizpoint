@@ -13,7 +13,29 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const nodemailer = require('nodemailer');
+var firebase = require("firebase-admin");
+
+
+var serviceAccount = require("./serviceAccountKey.json");
+
+firebase.initializeApp({
+    credential: firebase.credential.cert(serviceAccount),
+    databaseURL: "https://quizpoint-nz-default-rtdb.firebaseio.com"
+});
+
+var db = firebase.database();
+
+let defaultPath = '/schools/hvhs/'
 let currentClassId;
+
+/**==============================================
+ **              firebase initliase
+ *?  What does it do?
+ *@param name type
+ *@param name type
+ *@return type
+ *=============================================**/
+
 
 //* Email Settings
 var transporter = nodemailer.createTransport({
@@ -35,11 +57,28 @@ app.get('/', (req, res) => {
 })
 
 /**==============================================
- **              Invite Handler
- *?  Performs invite requests for users who do not exist (yet)
- *@param req paramters
- *@param res paramters
+ **              API Methods
+ *?  Renders API calls
+ *@param name type
+ *@param name type
+ *@return type
  *=============================================**/
+app.get('/api/:path%:userUID', function(req, res) {
+        path = req.params.path
+        uid = req.params.uid
+        var ref = db.ref(defaultPath + path);
+        ref.once("value", function(snapshot) {
+            console.log(snapshot.val());
+            res.json(snapshot.val())
+        });
+
+    })
+    /**==============================================
+     **              Invite Handler
+     *?  Performs invite requests for users who do not exist (yet)
+     *@param req paramters
+     *@param res paramters
+     *=============================================**/
 app.get('/invite/:classId%:teacherId', (req, res) => {
     currentClassId = req.params.classId
     res.render('templates/invite', {
@@ -63,6 +102,7 @@ app.get('*', function(req, res) {
 io.on('connection', (socket) => {
     console.log('a user connected');
 });
+
 
 /**======================
  **   Listener for Connections

@@ -25,5 +25,9 @@
         "nodemailer": "^6.7.2",
         "nodemon": "^2.0.15",
         "socket.io": "^4.4.1"
+    },
+    "devDependencies": {
+        "webpack": "^5.70.0",
+        "webpack-cli": "^4.9.2"
     }
 }

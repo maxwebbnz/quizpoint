@@ -100,7 +100,6 @@ cls.display = {
                     <p class="card-text text-center">${_classObject.classCreator}</p>
                 </div>
             </div>
-
                     `
             //* append current page (classPage) with html generated
         $('#homePage-authed_student-class').append(newClassCardDesign)

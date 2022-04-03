@@ -105,6 +105,9 @@
     <script src="report-modules/report_pdf.js"></script>
     <script src="misc-modules/validate.js"></script>
 
+    <!-- Misc Modules -->
+    <script src="misc-modules/loader.js"></script>
+
     <link rel="stylesheet" href="safety360.css">
     <title id="siteTitle">QuizPoint</title>
 </head>
@@ -178,6 +181,12 @@
 
 
 <body>
+    <div class="loadingDialog">
+        <div>
+            <div class="spinner-loading"></div>
+            <h2 style="color: white">loading</h2>
+        </div>
+    </div>
     <p id="requireHTTPS " class="hidden ">
         <b>STOP!</b> This page <b>must</b> be served over HTTPS. Please <a>reload this page via HTTPS</a>.
     </p>

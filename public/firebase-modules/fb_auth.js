@@ -27,6 +27,7 @@ fb.auth = {
     login: function(_provider) {
         // disable button to prevent double click
         $('#authButton').prop('disabled', true)
+        loader.display()
         firebase.auth().onAuthStateChanged(function(_user) {
             if (_user) {
                 // user is already loggedin
@@ -99,7 +100,8 @@ fb.auth = {
                     cls.display.loadHome();
                     // display sidenavigation
                     $('.studentNav').fadeIn()
-                        // fix css rules
+
+                    // fix css rules
                     document.body.style.overflow = 'auto';
                     document.body.style.marginLeft = '200px';
                     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -114,9 +116,10 @@ fb.auth = {
                     var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                         return new bootstrap.Tooltip(tooltipTriggerEl)
                     })
-
                 }
             }
+            loader.exit()
+
         });
     },
     /**==============================================

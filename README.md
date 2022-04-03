@@ -17,6 +17,7 @@ easy to read format, allowing teachers extra time for other things!
 - Auto saves progress everywhere when applicable (e.g when creating quiz, when changing settings, etc)
 - Generates and exports reports in PDF and .xslx (spreadsheet).
 - Sends email notifications to users (when applicable)
+- Ability to use API Calls to the domain to fetch data from database (only avaliable to teachers)
 
 
 

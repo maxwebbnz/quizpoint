@@ -63,22 +63,58 @@ app.get('/', (req, res) => {
  *@param name type
  *@return type
  *=============================================**/
-app.get('/api/:path%:userUID', function(req, res) {
-        path = req.params.path
-        uid = req.params.uid
-        var ref = db.ref(defaultPath + path);
-        ref.once("value", function(snapshot) {
-            console.log(snapshot.val());
-            res.json(snapshot.val())
-        });
+/**======================
+ **   /api/
+ *@return error
+ *========================**/
+app.get('/api', function(req, res) {
+    res.json({ error: "You do not have permisson for this." })
+})
 
-    })
-    /**==============================================
-     **              Invite Handler
-     *?  Performs invite requests for users who do not exist (yet)
-     *@param req paramters
-     *@param res paramters
-     *=============================================**/
+/**======================
+ **   /api/path+userID
+ *@return data structure in json
+ *========================**/
+app.get('/api/:path%:userUID', function(req, res) {
+    // get variables
+    path = req.params.path
+    uid = req.params.userUID
+        // check if role is greater than a student
+    if (uid == null) {
+        res.json({ error: "Incorrect auth key" })
+    } else {
+        // check rank
+        var userPath = db.ref(defaultPath + 'users/' + uid);
+        userPath.once("value", function(snapshot) {
+            let userObj = snapshot.val()
+                // if the uid isn't a user
+            if (userObj == null) {
+                res.json({ error: "Incorrect auth key, this key does not exist" })
+            } else {
+                // check if its a student
+                if (userObj.role == 'student') {
+                    // break
+                    res.json({ error: 'You cannot view this as a student' })
+                        // if teacher
+                } else if (userObj.role == 'teacher') {
+                    // read data further
+                    var ref = db.ref(defaultPath + path);
+                    // return as json
+                    ref.once("value", function(snapshot) {
+                        res.json(snapshot.val())
+                    });
+                }
+            }
+        });
+    }
+})
+
+/**==============================================
+ **              Invite Handler
+ *?  Performs invite requests for users who do not exist (yet)
+ *@param req paramters
+ *@param res paramters
+ *=============================================**/
 app.get('/invite/:classId%:teacherId', (req, res) => {
     currentClassId = req.params.classId
     res.render('templates/invite', {

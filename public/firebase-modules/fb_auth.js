@@ -48,7 +48,8 @@ fb.auth = {
                                     // Handle Errors here.
                                     var errorCode = error.code;
                                     var errorMessage = error.message;
-                                    console.l
+                                    alert.error(errorMessage, errorCode)
+                                    loader.exit()
                                 });
                         })
                 }
@@ -130,12 +131,29 @@ fb.auth = {
      *@return type
      *=============================================**/
     logout: function() {
-        firebase.auth().signOut().then(() => {
-            // alert.success("You signed out!")
-            location.reload()
-        }).catch((error) => {
-            debug.handler("auth.logout | ", error)
-                // alert.warn("We couldn't log you out, please try again'")
-        });
+        // styled alert box
+        Swal.fire({
+            title: 'Haere rā',
+            text: "You've been logged out",
+            icon: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Bye!'
+                // if user presses button
+        }).then((result) => {
+            // check
+            if (result.isConfirmed) {
+                firebase.auth().signOut().then(() => {
+                    // reload page
+                    location.reload()
+                }).catch((error) => {
+                    // errors normally occur due to popups, we can block this.
+                    // debug.handler("auth.logout | ", error)
+                    // alert.error(error.message, error.code)
+                });
+            }
+        })
+
     }
 }

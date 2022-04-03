@@ -2,6 +2,9 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+/**================================================================================================
+ *? All Content in this file can be accessed via users.information.(method)
+ *================================================================================================**/
 let users = {}
 
 users.information = {

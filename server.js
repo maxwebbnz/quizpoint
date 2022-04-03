@@ -101,7 +101,137 @@ app.get('/api/:path%:userUID', function(req, res) {
                     var ref = db.ref(defaultPath + path);
                     // return as json
                     ref.once("value", function(snapshot) {
-                        res.json(snapshot.val())
+                        if (snapshot.val() == null) {
+                            res.json({ error: "Data not present in path " + path })
+                        } else {
+                            res.json(snapshot.val())
+                        }
+                    });
+                }
+            }
+        });
+    }
+})
+
+/**======================
+ **   /api/users/uid+localUID
+ *@return data structure in json
+ *========================**/
+app.get('/api/users/:path%:userUID', function(req, res) {
+    // get variables
+    path = req.params.path
+    uid = req.params.userUID
+        // check if role is greater than a student
+    if (uid == null) {
+        res.json({ error: "Incorrect auth key" })
+    } else {
+        // check rank
+        var userPath = db.ref(defaultPath + 'users/' + uid);
+        userPath.once("value", function(snapshot) {
+            let userObj = snapshot.val()
+                // if the uid isn't a user
+            if (userObj == null) {
+                res.json({ error: "Incorrect auth key, this key does not exist" })
+            } else {
+                // check if its a student
+                if (userObj.role == 'student') {
+                    // break
+                    res.json({ error: 'You cannot view this as a student' })
+                        // if teacher
+                } else if (userObj.role == 'teacher') {
+                    // read data further
+                    var ref = db.ref(defaultPath + "users/" + path);
+                    // return as json
+                    ref.once("value", function(snapshot) {
+                        if (snapshot.val() == null) {
+                            res.json({ error: "Data not present in path " + path })
+                        } else {
+                            res.json(snapshot.val())
+                        }
+                    });
+                }
+            }
+        });
+    }
+})
+
+/**======================
+ **   /api/classes/uid+localUID
+ *@return data structure in json
+ *========================**/
+app.get('/api/classes/:path%:userUID', function(req, res) {
+    // get variables
+    path = req.params.path
+    uid = req.params.userUID
+        // check if role is greater than a student
+    if (uid == null) {
+        res.json({ error: "Incorrect auth key" })
+    } else {
+        // check rank
+        var userPath = db.ref(defaultPath + 'users/' + uid);
+        userPath.once("value", function(snapshot) {
+            let userObj = snapshot.val()
+                // if the uid isn't a user
+            if (userObj == null) {
+                res.json({ error: "Incorrect auth key, this key does not exist (" + uid + ")" })
+            } else {
+                // check if its a student
+                if (userObj.role == 'student') {
+                    // break
+                    res.json({ error: 'You cannot view this as a student' })
+                        // if teacher
+                } else if (userObj.role == 'teacher') {
+                    // read data further
+                    var ref = db.ref(defaultPath + "classes/" + path);
+                    // return as json
+                    ref.once("value", function(snapshot) {
+                        if (snapshot.val() == null) {
+                            res.json({ error: "Data not present in path " + path })
+                        } else {
+                            res.json(snapshot.val())
+                        }
+                    });
+                }
+            }
+        });
+    }
+})
+
+/**======================
+ **   /api/classes/uid+localUID
+ *@return data structure in json
+ *========================**/
+app.get('/api/quizzes/:path%:userUID', function(req, res) {
+    // get variables
+    path = req.params.path
+    uid = req.params.userUID
+        // check if role is greater than a student
+    if (uid == null) {
+        res.json({ error: "Incorrect auth key" })
+    } else {
+        // check rank
+        var userPath = db.ref(defaultPath + 'users/' + uid);
+        userPath.once("value", function(snapshot) {
+            let userObj = snapshot.val()
+                // if the uid isn't a user
+            if (userObj == null) {
+                res.json({ error: "Incorrect auth key, this key does not exist" })
+            } else {
+                // check if its a student
+                if (userObj.role == 'student') {
+                    // break
+                    res.json({ error: 'You cannot view this as a student' })
+                        // if teacher
+                } else if (userObj.role == 'teacher') {
+                    // read data further
+                    var ref = db.ref(defaultPath + "quizzes/" + path);
+                    // return as json
+                    ref.once("value", function(snapshot) {
+                        if (snapshot.val() == null) {
+                            res.json({ error: "Data not present in path " + path })
+                        } else {
+                            res.json(snapshot.val())
+                        }
                     });
                 }
             }

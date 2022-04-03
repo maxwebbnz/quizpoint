@@ -102,12 +102,18 @@ fb.auth = {
                         // fix css rules
                     document.body.style.overflow = 'auto';
                     document.body.style.marginLeft = '200px';
-
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
                 } else if (user.role === 'teacher') {
                     ui.navigate.to('homePage-authed_teacher')
                     cls.display.loadHome();
                     $('.teachingsuiteNav').fadeIn()
-
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
 
                 }
             }

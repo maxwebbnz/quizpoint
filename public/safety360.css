@@ -212,6 +212,14 @@ body {
 }
 
 
+/* User modal */
+
+.userModalBody {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+}
+
+
 /* Quiz Page */
 
 .quizView {
@@ -323,6 +331,9 @@ body {
     /* border: 1px green solid; */
 }
 
+
+/* Sidenav */
+
 .sidenav {
     height: 100%;
     width: 300px;
@@ -334,6 +345,17 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     padding-top: 20px;
+}
+
+.imageNavBar {
+    transition-duration: 0.8s;
+}
+
+.imageNavBar:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 0.75rem black);
+    transform: translateY(-3px);
+    border-radius: 20px !important;
 }
 
 .center {
@@ -507,6 +529,7 @@ body {
     height: 95% !important;
     position: relative;
 }
-#quizProgressDoughnutDummy{
+
+#quizProgressDoughnutDummy {
     padding: 0 !important;
 }

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 /**================================================================================================
- *? All Comment in this file can be accessed via ts.assignquiz
+ *? All Content in this file can be accessed via ts.assignquiz
  *================================================================================================**/
 
 

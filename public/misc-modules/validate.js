@@ -30,6 +30,7 @@ let validate = {
      *@param _str string
      *@return bool
      *========================================================================**/
+    /* This is a function that checks if the input is a string. */
     text: function(_str) {
         if (textReg.test(_str)) {
             // If string parsed through matches the nameReg-ex
@@ -62,7 +63,7 @@ let validate = {
     /*
   Function Name: num
   Purpose: Vaildating numeric input
-  */
+/* This is a function that checks if the input is a number. */
     num: function(str) {
         // Num vaildation
         if (numReg.test(str)) {

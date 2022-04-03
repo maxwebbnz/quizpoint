@@ -5,6 +5,7 @@
     <!-- <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script> -->
     <script>
         let defaultPath = "/schools/hvhs/"
+        let school = "hvhs.school.nz"
         const socket = io();
     </script>
     <script src="dist/bundle.js"></script>
@@ -79,6 +80,8 @@
     <!-- DOM and UI -->
     <script src="dom-modules/dom_onload.js"></script>
     <script src="ui-modules/ui_navigate.js"></script>
+    <!-- User -->
+    <script src="user-modules/user_information.js"></script>
     <!-- Quiz -->
     <script src="quiz-modules/qz_load.js"></script>
     <script src="quiz-modules/qz_loadActive.js"></script>
@@ -105,10 +108,10 @@
     <link rel="stylesheet" href="safety360.css">
     <title id="siteTitle">QuizPoint</title>
 </head>
-
+<!-- Sidenav for Students -->
 <div class="sidenav studentNav" style="display: none;">
     <div class="userProfilePicture">
-        <img src="media/dummy.jpg" id=a lt="" class="rounded center">
+        <img src="media/dummy.jpg" onclick="users.information.display()" id=a lt="" class="rounded center imageNavBar">
     </div>
     <div class="links">
         <button class="sidenav-btn" onclick="ui.navigate.to('homePage-authed_student')">
@@ -126,6 +129,7 @@
         <p>QuizPoint <a href="https://github.com/maxwebbnz/quizpoint">v0.1</a></p>
     </div>
 </div>
+<!-- Side nav for teachers -->
 <div class="sidenav teachingsuiteNav" style="display: none;">
     <div class="userProfilePicture">
         <img src="media/dummy.jpg" alt="User Profile Picture" class="rounded center">
@@ -147,8 +151,31 @@
             <i class="bi bi-box-arrow-left"></i> Home
         </button>
     </div>
-
 </div>
+
+<!-- Modal for User Information -->
+
+<!-- Modal -->
+<div class="modal fade" id="user_information-modal" tabindex="-1" role="dialog" aria-labelledby="userInformationModel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body userModalBody">
+                <div class="userImage">
+                    <img src="media/dummy.jpg" id="" alt="" class="rounded center">
+                </div>
+                <div class="userInformation" id="user_information-modalBody">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <body>
     <p id="requireHTTPS " class="hidden ">
@@ -161,6 +188,7 @@
     </div>
     <link rel="stylesheet " href="style/progressbar.css ">
     <link rel="stylesheet " href="style/table.css ">
+    <!-- Home Page -->
     <div id="landingPage" class="homePageMain" style='margin-left: 0% !important;'>
         <div class="backgroundImage-landingpage">
             <img src="media/background.jpg" alt=" " id="schoolMedia-background" width="100%" height="100%">
@@ -182,7 +210,7 @@
         </div>
     </div>
 
-
+    <!-- Home Page (loggedin) | Classes -->
     <div class="homePage" id="homePage-authed_student" style="display: none;">
         <div class="homePageHeader" style="color: white;">
             <h2 class="d-flex justify-content-center">Your Classes</h2>

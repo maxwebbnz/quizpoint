@@ -3,6 +3,15 @@
  * All rights reserved.
  */
 
+
+/**========================================================================
+ * ?                                ABOUT QUIZPOINT
+ * @author         :  @maxwebbnz @alanmcilwaine
+ * @email          :  18205mw@hvhs.school.nz, 18064am@hvhs.school.nz
+ * @repo           :  https://github.com/maxwebbnz/quizpoint/
+ * @createdOn      :  2022
+ * @description    :  QuizPoint is a education platform that allows schools to test and educate students on relevant topics that they need testing on. This platform then selfmarks the quizzes, and can generate reports for teachers that are easy to use and read.
+ *========================================================================**/
 /**========================================================================
  **                           App.js
  *? Performs steps and helps install PWA (progressive web application)
@@ -35,5 +44,5 @@ if (window.location.protocol === 'http:') {
     requireHTTPS.classList.remove('hidden');
 }
 
-import {MDCDataTable} from '@material/data-table';
+import { MDCDataTable } from '@material/data-table';
 const dataTable = new MDCDataTable(document.querySelector('.mdc-data-table'));

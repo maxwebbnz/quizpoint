@@ -463,7 +463,8 @@ body {
     border-radius: 1.5rem;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border: 0;
-    transition: transform 100ms;
+    /* transition: transform 100ms; */
+    transition-duration: 0.4s;
 }
 
 #cardBackgroundImage.card-img-top {
@@ -519,6 +520,7 @@ body {
 
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    filter: drop-shadow(0 0 0.4rem black);
     transform: translateY(-3px);
 }
 

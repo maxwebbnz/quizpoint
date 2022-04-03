@@ -99,7 +99,6 @@ cls.display = {
                     <h3 class="card-title text-center">${_classObject.className}</h3>
                     <p class="card-text text-center">${_classObject.classCreator}</p>
                 </div>
-                    <a href="#" class="card-link text-center" id="classCard-a-${_classObject.code}" data-class="${_classObject.code}">View Class</a>
             </div>
 
                     `

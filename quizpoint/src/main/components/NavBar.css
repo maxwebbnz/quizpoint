@@ -24,6 +24,8 @@
     margin-bottom:3px;
     margin-left:4%;
     color:white !important;
+    text-decoration: underline;
+    background-color:#4E83C2 !important;
 }
 .navbar-brand img{
     margin-right:4%;
@@ -34,5 +36,14 @@
     margin-right:4%;
 }
 .nav-link{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius:10px;
     color:white !important;
+}
+a:hover{
+    background-color:#4e79c2 ;
+}
+.navbar-dropdown button{
+    background-color:white !important;
+    color:#4E83C2 !important;
 }

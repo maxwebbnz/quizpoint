@@ -1,0 +1,22 @@
+.navbar-container{
+    margin:0;
+    justify-content:left !important;
+}
+.navbar-brand{
+    font-size: 2em;
+    display:flex;
+    align-items:center;
+    margin-bottom:3px;
+    margin-left:4%;
+    
+}
+.navbar-links{
+    font-size:1.5em;
+    margin-left:2%;
+}
+.nav-link{
+    color:rgb(50, 50, 50) !important;
+}
+.nav-link :hover{
+    color:blue !important;
+}

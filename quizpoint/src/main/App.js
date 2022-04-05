@@ -13,14 +13,14 @@ import { useLocation } from 'react-router-dom'
 import user from '../User/UserModel'
 
 // Pages
-import Home from '../home/Home'
+import Login from '../home/Login'
 import ClassHome from '../classes/ClassHome'
 import ClassPage from '../classes/ClassPage'
 import Quiz from '../quizzes/Quiz'
 import TeachingHome from '../teachingsuite/Dashboard'
 import NotFoundPage from './404'
 // Components for template
-import NavBar from './components/Navbar'
+import NavBar from './components/NavBar'
 
 /**==============================================
  **              App()
@@ -32,50 +32,29 @@ function App() {
   if (user.authed) {
     console.log(location.pathname);
     // home page doesn't need the navigation bar
-    if (location.pathname === '/') {
       return (
         <div className="App">
           {/* < NavBar /> */}
+          <NavBar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ClassHome />} />
             <Route path="/classes" element={<ClassHome />} />
             <Route path="/classPage/:classId" element={<ClassPage />} />
             <Route path="/quizzes/:quizId" element={<Quiz />} />
-            <Route path="/tcs" element={<TeachingHome />} />
+            <Route path="/tcs" element={ <TeachingHome /> }/>
             <Route path="*" element={<NotFoundPage/>} />
-
           </Routes>
         </div>
       );
-    // show navigation menu, it'll be alright
-    } else {
-      return (
-        <div className="App">
-          < NavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/classes" element={<ClassHome />} />
-            <Route path="/classPage/:classId" element={<ClassPage />} />
-            <Route path="/quizzes/:quizId" element={<Quiz />} />
-            <Route path="/tcs" element={<TeachingHome />} />
-            <Route path="*" element={<NotFoundPage/>} />
-
-          </Routes>
-        </div>
-      );
-    }
     // they need to sign in!
   } else {
     return (
       <div className="App">
         < NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/classes" element={<ClassHome />} />
-          <Route path="/classPage/:classId" element={<ClassPage />} />
-          <Route path="/quizzes/:quizId" element={<Quiz />} />
-          <Route path="/tcs" element={<TeachingHome />} />
-          <Route path="*" element={<NotFoundPage/>} />
+          {/* Changed so that if the user is not logged it, it always redirects them to a login screen */}
+          <Route path="/" element={<Login />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <h2>Sign in please!</h2>
       </div>

@@ -1,6 +1,21 @@
-.navbar-container{
-    margin:0;
-    justify-content:left !important;
+@media screen and (max-width: 992px){
+    .navbar-dropdown{
+        display:block;
+    }
+    .nav-link{
+        display:none;
+    }
+}
+@media screen and (min-width:992px){
+    .navbar-dropdown{
+        display:none;
+    }
+    .nav-link{
+        display:block;
+    }
+}
+.navbar{
+    background-color:#4E83C2;
 }
 .navbar-brand{
     font-size: 2em;
@@ -8,15 +23,16 @@
     align-items:center;
     margin-bottom:3px;
     margin-left:4%;
-    
+    color:white !important;
+}
+.navbar-brand img{
+    margin-right:4%;
 }
 .navbar-links{
     font-size:1.5em;
     margin-left:2%;
+    margin-right:4%;
 }
 .nav-link{
-    color:rgb(50, 50, 50) !important;
-}
-.nav-link :hover{
-    color:blue !important;
+    color:white !important;
 }

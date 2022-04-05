@@ -6,7 +6,7 @@ let user = {
     login: function(){
         return;
     },
-    authed: false
+    authed: true
 }
 
 export default user

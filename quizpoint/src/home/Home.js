@@ -5,11 +5,14 @@
 
 // User Model
 import user from '../User/UserModel'
+import {readData} from '../firebase/fb.io'
 
 const Home = () => {
+    // let userData =
+    // readData('users/WysABYQOvwRDv77aF3Ult8H5dmw2/').name
     if(user.authed){
     return(
-        <h2>Signed in</h2>
+        <h2>Signed in {}</h2>
     )
     }else{
         return(

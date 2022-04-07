@@ -9,4 +9,5 @@ let user = {
     authed: true
 }
 
+
 export default user

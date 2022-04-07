@@ -24,7 +24,8 @@
     margin-bottom:3px;
     margin-left:4%;
     color:white !important;
-    text-decoration: underline;
+    /* I wasn't a big fan of the underline haha, feel free to change it back @alan */
+    text-decoration: none;
     background-color:#4E83C2 !important;
 }
 .navbar-brand img{

@@ -50,6 +50,24 @@ function App() {
 
     // if user is authed
   } else {
+    if (user.role === 'teacher') {
+      return (
+        <div className="App">
+          {/* < NavBar /> */}
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<ClassHome />} />
+            <Route path="/classes" element={<ClassHome />} />
+            <Route path="/classPage/:classId" element={<ClassPage />} />
+            <Route path="/quizzes/:quizId" element={<Quiz />} />
+            <Route path="/tcs" element={<TeachingHome />} />
+            <Route path="/logout" element={<LogOut />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+          <h2>Hi, {user.name}</h2>
+        </div>
+      );
+    }else{
     // Start application
     return (
       <div className="App">
@@ -60,13 +78,13 @@ function App() {
           <Route path="/classes" element={<ClassHome />} />
           <Route path="/classPage/:classId" element={<ClassPage />} />
           <Route path="/quizzes/:quizId" element={<Quiz />} />
-          <Route path="/tcs" element={<TeachingHome />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <h2>Hi, {user.name}</h2>
       </div>
     );
+    }
   }
 
 

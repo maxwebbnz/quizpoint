@@ -5,7 +5,7 @@
 
 // Import Statements
 import { auth } from "./firebase";
-import {  setUserObjectLocal } from "../firebase/fb.user"
+import { setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 
@@ -90,7 +90,7 @@ function LogOut() {
   const auth = getAuth();
   signOut(auth).then(() => {
     sessionStorage.clear()
-
+    window.location.replace('/');
   }).catch((error) => {
     // An error happened.
   });

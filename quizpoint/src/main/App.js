@@ -4,13 +4,16 @@
  */
 
 import * as React from "react";
+import { useEffect } from 'react';
+
 // removing link cause not used yet...
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
-import { useLocation } from 'react-router-dom'
 
-// IO
-import user from '../User/UserModel'
+import "./App.css";
+// import { useLocation } from 'react-router-dom'
+
+// km
+import {user, setUserObjectLocal} from '../firebase/fb.user.js';
 
 // Pages
 import Login from '../home/Login'
@@ -27,11 +30,9 @@ import NavBar from './components/NavBar'
  *?  What does it do? Main renderer for application
  *=============================================**/
 function App() {
-  const location = useLocation();
-  // user should not be able to use site without being logged in
-  if (user.authed) {
-    console.log(location.pathname);
-    // home page doesn't need the navigation bar
+  useEffect(() => {
+
+  });
       return (
         <div className="App">
           {/* < NavBar /> */}
@@ -44,22 +45,12 @@ function App() {
             <Route path="/tcs" element={ <TeachingHome /> }/>
             <Route path="*" element={<NotFoundPage/>} />
           </Routes>
+          <Login />
         </div>
       );
+
+
     // they need to sign in!
-  } else {
-    return (
-      <div className="App">
-        < NavBar />
-        <Routes>
-          {/* Changed so that if the user is not logged it, it always redirects them to a login screen */}
-          <Route path="/" element={<Login />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-        <h2>Sign in please!</h2>
-      </div>
-    );
-  }
 
 }
 

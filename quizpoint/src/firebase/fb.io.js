@@ -21,8 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Get a reference to the database service
-const database = getDatabase(app);
-
 /**==============================================
  **              readData
  *?  What does it do? Reads the data

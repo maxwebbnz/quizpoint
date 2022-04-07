@@ -15,6 +15,7 @@ const NavBar = () => {
                     {/* Normal view --Note, dissapears once screen is small */}
                     <Nav.Link className="" href="/classHome">Your Classes</Nav.Link>
                     <Nav.Link className="" href="/tcs">Teaching Home (Test)</Nav.Link>
+                    <Nav.Link className="" href="/logout">Logout</Nav.Link>
                     {/* Dropdown is hidden until screen size is small */}
                     <Dropdown className="navbar-dropdown">
                         <Dropdown.Toggle className="navbar-dropdown-toggle"></Dropdown.Toggle>

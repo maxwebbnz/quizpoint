@@ -16,8 +16,9 @@ import "./App.css";
 import {user, setUserObjectLocal} from '../firebase/fb.user.js';
 
 // Pages
-import Login from '../home/Login'
+import {LoginFunction, LogOut} from '../services/Login'
 import ClassHome from '../classes/ClassHome'
+import LandingPage from "../home/LandingPage";
 import ClassPage from '../classes/ClassPage'
 import Quiz from '../quizzes/Quiz'
 import TeachingHome from '../teachingsuite/Dashboard'
@@ -33,7 +34,20 @@ function App() {
   useEffect(() => {
 
   });
+  if(user.authed === false){
+          return (
+
+        <div className="App">
+          {/* < NavBar /> */}
+          {/* <NavBar /> */}
+          <Routes>
+            <Route path="*" element={<LandingPage />} />
+          </Routes>
+        </div>
+      );
+  }else{
       return (
+
         <div className="App">
           {/* < NavBar /> */}
           <NavBar />
@@ -43,11 +57,13 @@ function App() {
             <Route path="/classPage/:classId" element={<ClassPage />} />
             <Route path="/quizzes/:quizId" element={<Quiz />} />
             <Route path="/tcs" element={ <TeachingHome /> }/>
+            <Route path="/logout" element={ <LogOut /> }/>
             <Route path="*" element={<NotFoundPage/>} />
           </Routes>
-          <Login />
+          <h2>User {user.authed}</h2>
         </div>
       );
+  }
 
 
     // they need to sign in!

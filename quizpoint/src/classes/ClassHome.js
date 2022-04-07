@@ -7,7 +7,7 @@
  * All rights reserved.
  *
  */
-
+// import statements
 import {user, setUserObjectLocal} from '../firebase/fb.user.js';
 
 const ClassHome = () => {

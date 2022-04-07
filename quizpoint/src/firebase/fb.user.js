@@ -5,22 +5,21 @@
 
 
 
-let user =  {
+let user = {
     authed: false
 };
 
-if(sessionStorage.user === undefined){
+if (sessionStorage.user === undefined) {
     user.authed = false;
-}else{
-user = JSON.parse(sessionStorage.user);
-
+} else {
+    user = JSON.parse(sessionStorage.user);
 }
 
 
-function setUserObjectLocal(_userObj){
+function setUserObjectLocal(_userObj) {
+    _userObj.authed = true
     sessionStorage.setItem('user', JSON.stringify(_userObj));
-    user.authed = true
-        window.location.reload(false);
+    window.location.reload(false);
 
 }
 

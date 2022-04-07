@@ -18,7 +18,7 @@ const firebaseConfig = {
     measurementId: "G-J7VPX0FG0L"
 };
 
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 
 // Get a reference to the database service
 /**==============================================

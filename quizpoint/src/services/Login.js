@@ -5,7 +5,7 @@
 
 // Import Statements
 import { auth } from "./firebase";
-import { user, setUserObjectLocal } from "../firebase/fb.user"
+import {  setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 
@@ -56,10 +56,7 @@ function LoginFunction() {
  *@param _userObj object
  *=============================================**/
 function registerUser(_userObj) {
-  const db = getDatabase();
-
-  set(ref(db, 'schools/hvhs/users/' + _userObj.uid), userObject);
-     let userObject = {
+  let userObject = {
     name: _userObj.displayName,
     email: _userObj.email,
     picture: _userObj.photoURL,
@@ -78,6 +75,10 @@ function registerUser(_userObj) {
       }
     }
   }
+  const db = getDatabase();
+
+  set(ref(db, 'schools/hvhs/users/' + _userObj.uid), userObject);
+
   setUserObjectLocal(_userObj)
 }
 

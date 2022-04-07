@@ -8,7 +8,7 @@
  *
  */
 // import statements
-import {user, setUserObjectLocal} from '../firebase/fb.user.js';
+import {user,} from '../firebase/fb.user.js';
 
 const ClassHome = () => {
 

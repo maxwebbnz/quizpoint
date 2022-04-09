@@ -28,8 +28,8 @@ function LoginFunction() {
         // then read data
 
         // wait callback
-        dbFunctions.read(`users/${res.user.uid}`).then((snapshot) => {
-          if (snapshot == null) {
+        dbFunctions.read(`/users/${res.user.uid}`).then((snapshot) => {
+          if (snapshot === undefined) {
             registerUser(res.user)
             console.log("No data available");
           } else {
@@ -77,7 +77,7 @@ function registerUser(_userObj) {
 
   set(ref(db, 'schools/hvhs/users/' + _userObj.uid), userObject);
 
-  setUserObjectLocal(_userObj)
+  setUserObjectLocal(userObject)
 }
 
 /**==============================================

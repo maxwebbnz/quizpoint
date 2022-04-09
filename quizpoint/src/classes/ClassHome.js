@@ -22,7 +22,7 @@ function getAllUserClasses() {
         userClasses.push(classId)
     }
     for (var i = 0; i < userClasses.length; i++) {
-        dbFunctions.readNew(`/classes/${userClasses[i]}`).then(function (snapshot) {
+        dbFunctions.read(`/classes/${userClasses[i]}`).then(function (snapshot) {
             if (snapshot === null) {
                 console.log('no class found')
             } else {

@@ -8,7 +8,9 @@ import { auth } from "./firebase";
 import { setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
-
+import { dbFunctions } from "./firebase";
+import { Image, Button } from 'react-bootstrap'
+import './LogOut.css'
 
 /**==============================================
  **              LoginFunction()
@@ -24,21 +26,17 @@ function LoginFunction() {
     signInWithPopup(auth, googleProvider)
       .then((res) => {
         // then read data
-        const dbRef = ref(getDatabase());
-        // access data
-        get(child(dbRef, `schools/hvhs/users/${res.user.uid}`)).then((snapshot) => {
-          // if user exists
-          if (snapshot.exists()) {
-            console.log(snapshot.val());
-            setUserObjectLocal(snapshot.val())
-            // register
-          } else {
+
+        // wait callback
+        dbFunctions.read(`users/${res.user.uid}`).then((snapshot) => {
+          if (snapshot == null) {
             registerUser(res.user)
             console.log("No data available");
+          } else {
+            console.log(snapshot);
+            setUserObjectLocal(snapshot)
           }
-        }).catch((error) => {
-          console.error(error);
-        });
+        })
 
       })
       .catch((error) => {
@@ -90,12 +88,15 @@ function LogOut() {
   const auth = getAuth();
   signOut(auth).then(() => {
     sessionStorage.clear()
-    window.location.replace('/');
   }).catch((error) => {
     // An error happened.
   });
-  return(
-    <h2>Logging out, see you later!</h2>
+  return (
+    <div className="logout">
+      <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
+      <h2><b>You have been signed out</b></h2>
+      <Button href="/">Return Home</Button>
+    </div>
   )
 }
 

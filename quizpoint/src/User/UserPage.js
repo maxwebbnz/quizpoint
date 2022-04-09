@@ -6,7 +6,7 @@
 import { useParams } from "react-router-dom"
 import { user } from '../firebase/fb.user'
 import './UserPage.css'
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup, Button } from 'react-bootstrap';
 
 
 /**==============================================
@@ -45,6 +45,7 @@ export default function Users() {
                             <ListGroup.Item>Email: {userDisplayed.email}</ListGroup.Item>
                         </ListGroup>
                     </Card>
+                    <Button className='logOutButton' href='/logout'>Logout</Button>
                 </div>
             </div>
         )

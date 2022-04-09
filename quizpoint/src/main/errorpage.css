@@ -1,0 +1,16 @@
+.error-page {
+  margin-top: 10%;
+  white-space: pre;
+  text-align: center;
+}
+
+.center {
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.branding {
+  margin-bottom: 1%;
+}

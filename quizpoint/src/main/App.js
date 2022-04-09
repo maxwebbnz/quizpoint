@@ -20,6 +20,7 @@ import { LogOut } from '../services/Login'
 import ClassHome from '../classes/ClassHome'
 import LandingPage from "../home/LandingPage";
 import ClassPage from '../classes/ClassPage'
+import UserPage from '../User/UserPage'
 import Quiz from '../quizzes/Quiz'
 import TeachingHome from '../teachingsuite/Dashboard'
 import NotFoundPage from './404'
@@ -64,7 +65,6 @@ function App() {
             <Route path="/logout" element={<LogOut />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-          <h2>Hi, {user.name}</h2>
         </div>
       );
     }else{
@@ -76,12 +76,13 @@ function App() {
         <Routes>
           <Route path="/" element={<ClassHome />} />
           <Route path="/classes" element={<ClassHome />} />
+          <Route path="/classHome" element={<ClassHome />} />
           <Route path="/classPage/:classId" element={<ClassPage />} />
           <Route path="/quizzes/:quizId" element={<Quiz />} />
+          <Route path="/user/:id" element={<UserPage />} />
           <Route path="/logout" element={<LogOut />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <h2>Hi, {user.name}</h2>
       </div>
     );
     }

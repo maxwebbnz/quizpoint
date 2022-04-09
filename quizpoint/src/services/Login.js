@@ -94,6 +94,9 @@ function LogOut() {
   }).catch((error) => {
     // An error happened.
   });
+  return(
+    <h2>Logging out, see you later!</h2>
+  )
 }
 
 

@@ -48,3 +48,9 @@ a:hover{
     background-color:white !important;
     color:#4E83C2 !important;
 }
+
+.nav-right{
+    margin-left: 4%;
+    height: 20%;
+    width: 100%;
+}

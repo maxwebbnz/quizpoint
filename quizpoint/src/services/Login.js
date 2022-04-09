@@ -7,7 +7,7 @@
 import { auth } from "./firebase";
 import { setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
-import { getDatabase, ref, child, get, set } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 import { dbFunctions } from "./firebase";
 import { Image, Button } from 'react-bootstrap'
 import './LogOut.css'

@@ -1,0 +1,33 @@
+{
+    "name": "quizpoint",
+    "version": "1.0.0",
+    "description": "A education platform for schools to quiz students",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxwebbnz/Safety360.git"
+    },
+    "author": "M+A",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/maxwebbnz/Safety360/issues"
+    },
+    "homepage": "https://github.com/maxwebbnz/Safety360#readme",
+    "dependencies": {
+        "@material/data-table": "^13.0.0",
+        "@sendgrid/mail": "^7.6.2",
+        "colors": "file:../colors",
+        "ejs": "^3.1.6",
+        "express": "^4.17.3",
+        "nodemailer": "^6.7.2",
+        "nodemon": "^2.0.15",
+        "socket.io": "^4.4.1"
+    },
+    "devDependencies": {
+        "webpack": "^5.70.0",
+        "webpack-cli": "^4.9.2"
+    }
+}

@@ -38,10 +38,15 @@ let dbFunctions = {
   },
   // literally not bothered with this shit right now
   readNew: async (_path) => {
+    let dataToReturn;
     const pathRef = ref(db, `schools/hvhs/${_path}/`);
-    const snapshot = await onValue(pathRef)
-    const data = snapshot.val();
-    return data
+    const snapshot = onValue(pathRef, (snapshot) => {
+      const data = snapshot.val();
+      dataToReturn = data
+    })
+    await snapshot
+    return dataToReturn
+
   }
 }
 export { auth, db, dbFunctions, ref };

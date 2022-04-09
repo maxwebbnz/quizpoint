@@ -59,7 +59,11 @@ const NavBar = () => {
                     </Nav>
                     <Nav>
                         <Navbar.Collapse className="nav-right">
-                            <Nav.Link className="" href="/user/local"><Image roundedCircle src={user.picture} className="" width="50" height="50" alt="Profile" /></Nav.Link>
+                            <Nav.Link className="" href="/user/local">
+                                <Image roundedCircle src={user.picture} className="" width="50" height="50" alt="Profile" />
+
+                                {user.name}
+                            </Nav.Link>
                         </Navbar.Collapse>
                     </Nav>
                 </Container>

@@ -8,15 +8,18 @@
  *
  */
 // import statements
-import {user} from '../firebase/fb.user.js';
+import { user } from '../firebase/fb.user.js';
 // import { db, ref } from '../services/firebase.js';
-
+import './ClassHome.css'
 
 const ClassHome = () => {
 
-    return(
+    return (
         <div className="class-home">
-        <h2>Class Home page content {user.name}</h2>
+            <div className="class-header">
+                <h2>Welcome, {user.name}</h2>
+
+            </div>
         </div>
 
     )

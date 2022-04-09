@@ -27,6 +27,9 @@ import NotFoundPage from './404'
 // Components for template
 import NavBar from './components/NavBar'
 
+// Components
+import RedirectLegacy from '../services/RedirectLegacy'
+
 /**==============================================
  **              App()
  *?  What does it do? Main renderer for application
@@ -67,24 +70,24 @@ function App() {
           </Routes>
         </div>
       );
-    }else{
-    // Start application
-    return (
-      <div className="App">
-        {/* < NavBar /> */}
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<ClassHome />} />
-          <Route path="/classes" element={<ClassHome />} />
-          <Route path="/classHome" element={<ClassHome />} />
-          <Route path="/classPage/:classId" element={<ClassPage />} />
-          <Route path="/quizzes/:quizId" element={<Quiz />} />
-          <Route path="/user/:id" element={<UserPage />} />
-          <Route path="/logout" element={<LogOut />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </div>
-    );
+    } else {
+      // Start application
+      return (
+        <div className="App">
+          {/* < NavBar /> */}
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<ClassHome />} />
+            <Route path="/classes" element={<ClassHome />} />
+            <Route path="/classHome" element={<RedirectLegacy />} />
+            <Route path="/classPage/:classId" element={<ClassPage />} />
+            <Route path="/quizzes/:quizId" element={<Quiz />} />
+            <Route path="/user/:id" element={<UserPage />} />
+            <Route path="/logout" element={<LogOut />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </div>
+      );
     }
   }
 

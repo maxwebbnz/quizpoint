@@ -6,7 +6,7 @@
 //? Import components
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
@@ -52,7 +52,25 @@ let dbFunctions = {
     // return data
     await snapshot
     return dataToReturn
+  },
+  /**==============================================
+   **              Write
+   *?  What does it do? Writes data to database.
+   *@param name type
+   *@param name type
+   *@return type
+   *=============================================**/
+  write: async (_path, _data) => {
+    let pathToWrite = _path
+    let object = _data;
+
+    // write data
+    const pathRef = ref(db, `schools/hvhs/${pathToWrite}/`);
+    // return for .then() statements.
+    return update(pathRef, object);
+
   }
+
 }
 
 //? export methods

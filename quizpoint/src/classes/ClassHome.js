@@ -33,28 +33,21 @@ function getAllUserClasses() {
 }
 
 const ClassHome = () => {
-    getAllUserClasses()
-    console.log(foundClasses)
-    const abcd = foundClasses.map((classref) =>
-        <li key={classref.code}>
-            {classref.className}
-        </li>
-    );
-    if (abcd.length === 0) {
-        return null;
-    } else {
-        return (
-            <div className="class-home">
-                <div className="class-header">
-                    <h2>Welcome, {user.name}</h2>
-                </div>
-                <div className="">
-                    <ul>{abcd}</ul>
-                </div>
-            </div>
 
-        )
-    }
+    return (
+        <div className="class-home">
+            <div className="class-header">
+                <h2>Welcome, {user.name}</h2>
+            </div>
+            <div className="class-body">
+                <button onClick={dbFunctions.write('/testing/', {
+                    test: 'test'
+                })}>Test Write to path /testing/ with object of test with val of 'test'</button>
+            </div>
+        </div>
+
+    )
+
 }
 
 export default ClassHome

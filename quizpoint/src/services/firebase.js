@@ -6,7 +6,7 @@
 //? Import components
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
@@ -39,20 +39,54 @@ let dbFunctions = {
    *?  What does it do? Reads data and returns data
    *@return promise
    *=============================================**/
-  read: async (_path) => {
-    // decleration
-    let dataToReturn;
-    // read data
-    const pathRef = ref(db, `schools/hvhs/${_path}/`);
-    // wait for data
-    const snapshot = onValue(pathRef, (snapshot) => {
-      const data = snapshot.val();
-      dataToReturn = data
-    })
-    // return data
-    await snapshot
-    return dataToReturn
+  read: async (_path, _full) => {
+    if (_full) {
+      // decleration
+      let dataToReturn;
+      // read data
+      const pathRef = ref(db, `/schools/hvhs/${_path}/`);
+      // wait for data
+      const snapshot = onValue(pathRef, (snapshot) => {
+        const data = snapshot;
+        dataToReturn = data
+      })
+      // return data
+      await snapshot
+      return dataToReturn
+    } else {
+      // decleration
+      let dataToReturn;
+      // read data
+      const pathRef = ref(db, `/schools/hvhs/${_path}/`);
+      // wait for data
+      const snapshot = onValue(pathRef, (snapshot) => {
+        const data = snapshot.val();
+        dataToReturn = data
+      })
+      // return data
+      await snapshot
+      return dataToReturn
+    }
+
+  },
+  /**==============================================
+   **              Write
+   *?  What does it do? Writes data to database.
+   *@param name type
+   *@param name type
+   *@return type
+   *=============================================**/
+  write: async (_path, _data) => {
+    let pathToWrite = _path
+    let object = _data;
+
+    // write data
+    const pathRef = ref(db, `schools/hvhs/${pathToWrite}/`);
+    // return for .then() statements.
+    return update(pathRef, object);
+
   }
+
 }
 
 //? export methods

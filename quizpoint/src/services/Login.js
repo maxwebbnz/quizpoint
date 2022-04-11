@@ -8,9 +8,8 @@ import { auth } from "./firebase";
 import { setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
-import { dbFunctions } from "./firebase";
 import { Image, Button } from 'react-bootstrap'
-import './LogOut.css'
+
 
 /**==============================================
  **              LoginFunction()
@@ -26,17 +25,21 @@ function LoginFunction() {
     signInWithPopup(auth, googleProvider)
       .then((res) => {
         // then read data
-
-        // wait callback
-        dbFunctions.read(`users/${res.user.uid}`).then((snapshot) => {
-          if (snapshot == null) {
+        const dbRef = ref(getDatabase());
+        // access data
+        get(child(dbRef, `schools/hvhs/users/${res.user.uid}`)).then((snapshot) => {
+          // if user exists
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            setUserObjectLocal(snapshot.val())
+            // register
+          } else {
             registerUser(res.user)
             console.log("No data available");
-          } else {
-            console.log(snapshot);
-            setUserObjectLocal(snapshot)
           }
-        })
+        }).catch((error) => {
+          console.error(error);
+        });
 
       })
       .catch((error) => {
@@ -74,12 +77,9 @@ function registerUser(_userObj) {
     }
   }
   const db = getDatabase();
-
   set(ref(db, 'schools/hvhs/users/' + _userObj.uid), userObject);
-
   setUserObjectLocal(_userObj)
 }
-
 /**==============================================
  **              LogOut()
  *?  What does it do? Logs the user out
@@ -99,7 +99,6 @@ function LogOut() {
     </div>
   )
 }
-
 
 //* export all modules out
 export {

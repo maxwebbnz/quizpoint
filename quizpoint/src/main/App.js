@@ -24,8 +24,10 @@ import UserPage from '../User/UserPage'
 import Quiz from '../quizzes/Quiz'
 import TeachingHome from '../teachingsuite/Dashboard'
 import NotFoundPage from './404'
+import Invite from '../services/invite'
 // Components for template
 import NavBar from './components/NavBar'
+
 
 // Components
 import RedirectLegacy from '../services/RedirectLegacy'
@@ -64,6 +66,9 @@ function App() {
             <Route path="/classes" element={<ClassHome />} />
             <Route path="/classPage/:classId" element={<ClassPage />} />
             <Route path="/quizzes/:quizId" element={<Quiz />} />
+            <Route path="/invite/:id" element={<Invite />} />
+            <Route path="/user/:id" element={<UserPage />} />
+
             <Route path="/tcs" element={<TeachingHome />} />
             <Route path="/logout" element={<LogOut />} />
             <Route path="*" element={<NotFoundPage />} />
@@ -81,6 +86,7 @@ function App() {
             <Route path="/classes" element={<ClassHome />} />
             <Route path="/classHome" element={<RedirectLegacy />} />
             <Route path="/classPage/:classId" element={<ClassPage />} />
+            <Route path="/invite/:id" element={<Invite />} />
             <Route path="/quizzes/:quizId" element={<Quiz />} />
             <Route path="/user/:id" element={<UserPage />} />
             <Route path="/logout" element={<LogOut />} />

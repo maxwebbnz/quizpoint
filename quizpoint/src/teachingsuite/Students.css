@@ -1,0 +1,19 @@
+.student-list{
+    width: 80%;
+    margin-left: 3%;
+}
+
+.reload-button{
+        margin-left: 3%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius:10px;
+    border: 0;
+    color:black !important;
+    background-color: #4E83C2;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.studentPage{
+    margin-top: 100%;
+}

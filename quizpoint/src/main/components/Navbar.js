@@ -29,7 +29,7 @@ const NavBar = () => {
                     <Nav className="navbar-links">
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/tcs/students"><i className="bi bi-people"></i> Students</Nav.Link>
-                        <Nav.Link className="link" href="/tcs/classes"><i className="bi bi-folder"></i> Classes</Nav.Link>
+                        <Nav.Link className="link" href="/tcs/classes"><i className="bi bi-house-door"></i> Classes</Nav.Link>
                         <Nav.Link className="link" href="/tcs/quizzes"><i className="bi bi-check2-square"></i> Quizzes</Nav.Link>
                         <Nav.Link className="link" href="/tcs/reporting"><i className="bi bi-file-earmark-bar-graph"></i> Report</Nav.Link>
                         {/* Dropdown is hidden until screen size is small */}

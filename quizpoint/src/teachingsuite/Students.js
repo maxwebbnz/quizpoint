@@ -3,9 +3,13 @@
  * All rights reserved.
  */
 
+// styling
 import './Students.css'
+// react hooks
 import React, { useState, useEffect } from 'react'
-import { dbFunctions, db } from '../services/firebase'
+// database
+import { db } from '../services/firebase'
+// components from libs
 import { ref, onValue, update, get } from "firebase/database";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,74 +19,93 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-
+// array placeholder
 let allStudents = []
 
+/**==============================================
+ **              Students
+ *?  What does it do? Component for handling student list on teaching suite
+ *@return type
+ *=============================================**/
 export default function Students() {
+    // state holder data fetching
     const [loading, dataFetch] = useState(false)
-    console.log(loading)
 
+    console.log('Students() | Loading Data')
+    /**======================
+     **   useEffect
+     *? Hook from react.js
+     *========================**/
     useEffect(() => {
+        // LOADING DATA, FETCHING FROM DB.
         if (loading === true) {
-            document.title = ' loaded'
-            console.log('loaded')
-        } else {
-            document.title = 'Loading Students'
+            document.title = ' Students | QuizPoint'
             console.log('Loading')
-            // dbFunctions.read('users').then(data => {
-            //     if (data === undefined) {
-            //         console.log(data)
-            //     } else {
-            //         console.log("loading into array")
-            //         // console.log(data)
-            //         Object.keys(data).forEach(function (key) {
-            //             console.log(data[key])
-            //             allStudents.push(data[key])
-            //         });
-            //         dataFetch(true)
-            //         console.log(allStudents)
-            //     }
-            // })
-            // read data
+
+            // Currently fetching data
+        } else {
+            document.title = 'Loading Students | QuizPoint'
+            console.log('Loading')
+
+            /**==============================================
+             **              loadData()
+             *?  What does it do? Load data from Firebase for each student
+             *=============================================**/
             function loadData() {
-                console.log('loading user data')
+                // console log
+                console.log('loading all students data')
+                //! this should check for each users role before pushing to array
                 const pathRef = ref(db, `/schools/hvhs/users/`);
                 // wait for data
                 onValue(pathRef, (snapshot) => {
+                    // if there is no students, something definelty went wrong.
                     if (snapshot === undefined) {
-                        console.log('no data')
+                        console.log('ERROR - NO DATA FOUND')
+
+                        // if students do exist
                     } else {
+                        // set placeholder to object of students
                         const data = snapshot.val()
-                        console.log(data)
+                        // for each student value
+
                         Object.keys(data).forEach(function (key) {
-                            console.log(data[key])
+                            // console.log(data[key])
+                            // push to placeholder array
                             allStudents.push(data[key])
                         });
+                        // finished loading, we can show page now
                         dataFetch(true)
                     }
                 })
             }
+            // trigger function
             loadData()
 
         }
     })
+    // if loading
     if (loading === false) {
+        // feed that back to user
         return (
             <div>
                 <h1>Fetching Data</h1>
             </div>
         )
     } else {
+        //? here for testing
         const listItems = allStudents.map((student) =>
             // console.log(student.name),
             <li> {student.name}</li>
         );
+        // return HTML component
         return (
-
+            // StudentPage data
             <div clasName='studentPage'>
+                {/* reload data on click */}
                 <button onClick={() => dataFetch(false)} className='reload-button'>
                     <i className="bi bi-arrow-clockwise"></i> Reload Data
                 </button>
+                {/* Material UI Table */}
                 <div className='student-list'>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -93,6 +116,7 @@ export default function Students() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                                {/* for each student in allStudents array, create a row! */}
                                 {allStudents.map((row) => (
                                     <TableRow
                                         key={row.uid}

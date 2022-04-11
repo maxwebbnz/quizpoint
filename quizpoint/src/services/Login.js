@@ -8,6 +8,7 @@ import { auth } from "./firebase";
 import { setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
+import { Image, Button } from 'react-bootstrap'
 
 
 /**==============================================
@@ -79,7 +80,6 @@ function registerUser(_userObj) {
   set(ref(db, 'schools/hvhs/users/' + _userObj.uid), userObject);
   setUserObjectLocal(_userObj)
 }
-
 /**==============================================
  **              LogOut()
  *?  What does it do? Logs the user out
@@ -88,12 +88,17 @@ function LogOut() {
   const auth = getAuth();
   signOut(auth).then(() => {
     sessionStorage.clear()
-    window.location.replace('/');
   }).catch((error) => {
     // An error happened.
   });
+  return (
+    <div className="logout">
+      <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
+      <h2><b>You have been signed out</b></h2>
+      <Button href="/">Return Home</Button>
+    </div>
+  )
 }
-
 
 //* export all modules out
 export {

@@ -6,6 +6,7 @@
 import { Navbar, Nav, Dropdown, Container } from 'react-bootstrap';
 import './NavBar.css';
 import logo from './logo.svg'
+import icon from './icon.svg'
 // import {user} from '.'
 import { user } from '../../firebase/fb.user'
 import Image from 'react-bootstrap/Image'
@@ -21,7 +22,7 @@ const NavBar = () => {
         if (location.pathname === '/tcs') {
             return (
                 <Navbar expand="lg" className='teachingsuite-nav'>
-                    <Navbar.Brand className="navbar-brand" href="/"><img src={logo} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>
+                    <Navbar.Brand className="navbar-brand" href="/"><img src={icon} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>
                     <Nav className="navbar-links">
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/tcs/students"><i className="bi bi-people"></i> Students</Nav.Link>

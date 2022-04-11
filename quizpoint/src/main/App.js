@@ -67,6 +67,7 @@ function App() {
             <Route path="/classPage/:classId" element={<ClassPage />} />
             <Route path="/quizzes/:quizId" element={<Quiz />} />
             <Route path="/invite/:id" element={<Invite />} />
+            <Route path="/user/:id" element={<UserPage />} />
 
             <Route path="/tcs" element={<TeachingHome />} />
             <Route path="/logout" element={<LogOut />} />

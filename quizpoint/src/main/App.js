@@ -25,6 +25,12 @@ import Quiz from '../quizzes/Quiz'
 import TeachingHome from '../teachingsuite/Dashboard'
 import NotFoundPage from './404'
 import Invite from '../services/invite'
+
+// TeachingSuite
+import Students from "../teachingsuite/Students";
+import Classes from "../teachingsuite/Classes";
+import Quizzes from "../teachingsuite/Quizzes";
+import Reporting from "../teachingsuite/Reporting";
 // Components for template
 import NavBar from './components/NavBar'
 
@@ -68,7 +74,12 @@ function App() {
             <Route path="/quizzes/:quizId" element={<Quiz />} />
             <Route path="/invite/:id" element={<Invite />} />
             <Route path="/user/:id" element={<UserPage />} />
-
+            {/* Teaching Suite routes */}
+            <Route path="/tcs" element={<TeachingHome />} />
+            <Route path="/tcs/students" element={<Students />} />
+            <Route path="/tcs/classes" element={<Classes />} />
+            <Route path="/tcs/quizzes" element={<Quizzes />} />
+            <Route path="/tcs/reporting" element={<Reporting />} />
             <Route path="/tcs" element={<TeachingHome />} />
             <Route path="/logout" element={<LogOut />} />
             <Route path="*" element={<NotFoundPage />} />

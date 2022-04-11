@@ -13,13 +13,16 @@ import Image from 'react-bootstrap/Image'
 import { useLocation } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+function urlContains(url, value) {
+    return ~url.indexOf(value);
+}
 
 const NavBar = () => {
     const location = useLocation();
 
     // if role is teacher, display link to page
     if (user.role === 'teacher') {
-        if (location.pathname === '/tcs') {
+        if (urlContains(location.pathname, "/tcs")) {
             return (
                 <Navbar expand="lg" className='teachingsuite-nav'>
                     <Navbar.Brand className="navbar-brand" href="/"><img src={icon} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>

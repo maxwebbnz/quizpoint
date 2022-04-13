@@ -151,7 +151,7 @@ export default function Classes() {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">View Class</Button>
+                            <Button size="small" href={'/class/' + classInfo.code}>View Class</Button>
                         </CardActions>
                     </CardActionArea>
                 </Card>

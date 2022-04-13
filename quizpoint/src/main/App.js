@@ -70,7 +70,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ClassHome />} />
             <Route path="/classes" element={<ClassHome />} />
-            <Route path="/classPage/:classId" element={<ClassPage />} />
+            <Route path="/class/:classId" element={<ClassPage />} />
             <Route path="/quizzes/:quizId" element={<Quiz />} />
             <Route path="/invite/:id" element={<Invite />} />
             <Route path="/user/:id" element={<UserPage />} />

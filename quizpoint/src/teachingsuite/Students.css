@@ -1,5 +1,5 @@
 .student-list{
-    width: 80%;
+    /* width: 80%; */
     margin-left: 3%;
 }
 
@@ -16,4 +16,9 @@
 
 .studentPage{
     margin-top: 100%;
+}
+
+.dataTable{
+    background-color: white;
+    margin-left: 5%;
 }

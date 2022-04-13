@@ -6,6 +6,7 @@
 // styling
 import './Students.css'
 // react hooks
+
 import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
@@ -19,8 +20,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+// reactUI material
+import { DataGrid } from '@mui/x-data-grid';
+
 // array placeholder
 let allStudents = []
+
+// header for the table
+const columns = [
+    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'studentID', headerName: 'Student ID', width: 130 },
+    { field: 'firstName', headerName: 'Name', width: 130 },
+    { field: 'email', headerName: 'Email', width: 130 },
+];
+
+const rows = []
 
 /**==============================================
  **              Students
@@ -71,6 +85,12 @@ export default function Students() {
                         Object.keys(data).forEach(function (key) {
                             // console.log(data[key])
                             // push to placeholder array
+                            rows.push({
+                                id: key,
+                                studentID: data[key].studentID,
+                                firstName: data[key].name,
+                                email: data[key].email,
+                            })
                             allStudents.push(data[key])
                         });
                         // finished loading, we can show page now
@@ -97,40 +117,27 @@ export default function Students() {
             // console.log(student.name),
             <li> {student.name}</li>
         );
+
         // return HTML component
         return (
             // StudentPage data
             <div clasName='studentPage'>
                 {/* reload data on click */}
-                <button onClick={() => dataFetch(false)} className='reload-button'>
+                <button onClick={() => window.location.reload(false)} className='reload-button'>
                     <i className="bi bi-arrow-clockwise"></i> Reload Data
                 </button>
                 {/* Material UI Table */}
-                <div className='student-list'>
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Student Name</TableCell>
-                                    <TableCell align='right'>Student ID</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {/* for each student in allStudents array, create a row! */}
-                                {allStudents.map((row) => (
-                                    <TableRow
-                                        key={row.uid}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align="right">{row.studentID}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                <div style={{ height: 400, width: '90%' }} className='dataTable'>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        checkboxSelection
+                        onRowSelection={e => {
+                            console.log("****", e);
+                        }}
+                    />
                 </div>
             </div>
         )

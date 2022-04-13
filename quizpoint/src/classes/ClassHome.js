@@ -116,7 +116,16 @@ export default function Classes() {
         }
     })
     if (loading === false) {
-
+        return (
+            <div>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={shouldFade}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            </div>
+        );
 
 
     } else {

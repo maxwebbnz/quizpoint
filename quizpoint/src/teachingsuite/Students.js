@@ -19,10 +19,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Fade from '@mui/material/Fade';
 
 // reactUI material
 import { DataGrid } from '@mui/x-data-grid';
-
+// material ui
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 // array placeholder
 let allStudents = []
 
@@ -44,7 +47,7 @@ const rows = []
 export default function Students() {
     // state holder data fetching
     const [loading, dataFetch] = useState(false)
-
+    var shouldFade = true;
     console.log('Students() | Loading Data')
     /**======================
      **   useEffect
@@ -108,7 +111,12 @@ export default function Students() {
         // feed that back to user
         return (
             <div>
-                <h1>Fetching Data</h1>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={shouldFade}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </div>
         )
     } else {
@@ -120,26 +128,27 @@ export default function Students() {
 
         // return HTML component
         return (
-            // StudentPage data
-            <div clasName='studentPage'>
-                {/* reload data on click */}
-                <button onClick={() => window.location.reload(false)} className='reload-button'>
-                    <i className="bi bi-arrow-clockwise"></i> Reload Data
-                </button>
-                {/* Material UI Table */}
-                <div style={{ height: 400, width: '90%' }} className='dataTable'>
-                    <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        checkboxSelection
-                        onRowSelection={e => {
-                            console.log("****", e);
-                        }}
-                    />
+            <Fade in={shouldFade}>
+                <div clasName='studentPage'>
+                    {/* reload data on click */}
+                    <button onClick={() => window.location.reload(false)} className='reload-button'>
+                        <i className="bi bi-arrow-clockwise"></i> Reload Data
+                    </button>
+                    {/* Material UI Table */}
+                    <div style={{ height: 400, width: '90%' }} className='dataTable'>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            checkboxSelection
+                            onRowSelection={e => {
+                                console.log("****", e);
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
+            </Fade>
         )
     }
 }

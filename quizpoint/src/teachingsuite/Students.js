@@ -20,6 +20,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Fade from '@mui/material/Fade';
+import { useParams } from "react-router-dom"
 
 // reactUI material
 import { DataGrid } from '@mui/x-data-grid';
@@ -45,6 +46,7 @@ const rows = []
  *@return type
  *=============================================**/
 export default function Students() {
+    let { type } = useParams()
     // state holder data fetching
     const [loading, dataFetch] = useState(false)
     var shouldFade = true;
@@ -61,49 +63,51 @@ export default function Students() {
 
             // Currently fetching data
         } else {
-            document.title = 'Loading Students | QuizPoint'
-            console.log('Loading')
+            if (type === 'all') {
+                document.title = 'Loading Students | QuizPoint'
+                console.log('Loading')
 
-            /**==============================================
-             **              loadData()
-             *?  What does it do? Load data from Firebase for each student
-             *=============================================**/
-            function loadData() {
-                // console log
-                console.log('loading all students data')
-                //! this should check for each users role before pushing to array
-                const pathRef = ref(db, `/schools/hvhs/users/`);
-                // wait for data
-                onValue(pathRef, (snapshot) => {
-                    // if there is no students, something definelty went wrong.
-                    if (snapshot === undefined) {
-                        console.log('ERROR - NO DATA FOUND')
+                /**==============================================
+                 **              loadData()
+                 *?  What does it do? Load data from Firebase for each student
+                 *=============================================**/
+                function loadData() {
+                    // console log
+                    console.log('loading all students data')
+                    //! this should check for each users role before pushing to array
+                    const pathRef = ref(db, `/schools/hvhs/users/`);
+                    // wait for data
+                    onValue(pathRef, (snapshot) => {
+                        // if there is no students, something definelty went wrong.
+                        if (snapshot === undefined) {
+                            console.log('ERROR - NO DATA FOUND')
 
-                        // if students do exist
-                    } else {
-                        // set placeholder to object of students
-                        const data = snapshot.val()
-                        // for each student value
+                            // if students do exist
+                        } else {
+                            // set placeholder to object of students
+                            const data = snapshot.val()
+                            // for each student value
 
-                        Object.keys(data).forEach(function (key) {
-                            // console.log(data[key])
-                            // push to placeholder array
-                            rows.push({
-                                id: key,
-                                studentID: data[key].studentID,
-                                firstName: data[key].name,
-                                email: data[key].email,
-                            })
-                            allStudents.push(data[key])
-                        });
-                        // finished loading, we can show page now
-                        dataFetch(true)
-                    }
-                })
+                            Object.keys(data).forEach(function (key) {
+                                // console.log(data[key])
+                                // push to placeholder array
+                                rows.push({
+                                    id: key,
+                                    studentID: data[key].studentID,
+                                    firstName: data[key].name,
+                                    email: data[key].email,
+                                })
+                                allStudents.push(data[key])
+                            });
+                            // finished loading, we can show page now
+                            dataFetch(true)
+                        }
+                    })
+                }
+                // trigger function
+                loadData()
+
             }
-            // trigger function
-            loadData()
-
         }
     })
     // if loading

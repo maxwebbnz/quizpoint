@@ -25,11 +25,13 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+// array for
+let quizActive = []
+
 export default function ClassPage() {
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     // const []
-    let quizActive = []
     let { classId } = useParams()
     var shouldFade = true;
     console.log(classId)

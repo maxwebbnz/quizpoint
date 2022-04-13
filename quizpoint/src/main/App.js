@@ -76,7 +76,7 @@ function App() {
             <Route path="/user/:id" element={<UserPage />} />
             {/* Teaching Suite routes */}
             <Route path="/tcs" element={<TeachingHome />} />
-            <Route path="/tcs/students" element={<Students />} />
+            <Route path="/tcs/students/:type" element={<Students />} />
             <Route path="/tcs/classes" element={<Classes />} />
             <Route path="/tcs/quizzes" element={<Quizzes />} />
             <Route path="/tcs/reporting" element={<Reporting />} />

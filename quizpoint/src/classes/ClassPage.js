@@ -27,10 +27,11 @@ import Typography from '@mui/material/Typography';
 
 // array for
 let quizActive = []
-
+let quizCards = []
 export default function ClassPage() {
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
+    const [quizCards, addQuizCard] = useState([])
     // const []
     let { classId } = useParams()
     var shouldFade = true;
@@ -38,6 +39,7 @@ export default function ClassPage() {
     useEffect(() => {
         if (loading === true) {
             document.title = 'Loaded | QuizPoint'
+
         } else {
             document.title = 'Loading Class Information | QuizPoint'
 
@@ -57,7 +59,9 @@ export default function ClassPage() {
                         const data = snapshot.val()
                         setClass(data)
                         Object.keys(user.quizzes.active).forEach(function (key) {
-                            if (data.quizzes.active[key] !== undefined) {
+                            if (data.quizzes.active[key] === undefined) {
+                                console.log("error")
+                            } else if (data.quizzes.active[key] !== undefined) {
                                 console.log(key + " match, loading data")
                                 let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
 
@@ -72,10 +76,27 @@ export default function ClassPage() {
                                 })
                             }
                         })
+                        addQuizCard(quizActive.map((qz) =>
+                            <div>
+                                <Card sx={{ minWidth: 275 }}>
+                                    <CardContent>
+                                        <Typography variant="h3">
+                                            {qz.title}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small">Start Quiz</Button>
+                                    </CardActions>
+                                </Card>
+                            </div>
+                        ))
                         // for each student value
                         console.log(data)
-                        dataComplete(true)
+
                         console.log(quizActive)
+
+
+                        dataComplete(true)
 
 
                         // finished loading, we can show page now
@@ -84,25 +105,12 @@ export default function ClassPage() {
 
             }
             loadData()
+
         }
     })
+    //! I CANNOT GET THIS WORKING, Allan did you want to have a try?
     if (loading === true) {
-        const abc = quizActive.map((qz) =>
-            <div>
-                <Card sx={{ minWidth: 275 }}>
-                    <CardContent>
-                        <Typography variant="h3">
-                            {qz.title}
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Start Quiz</Button>
-                    </CardActions>
-                </Card>
-            </div>
-        );
-        console.log(abc)
-
+        console.log(quizCards)
         return (
 
             <Fade in={shouldFade}>
@@ -115,7 +123,7 @@ export default function ClassPage() {
                     <div className="class-body">
                         <div className="quizassigned">
                             <h2>Quizzes Assigned</h2>
-                            {abc}
+                            {quizCards}
                         </div>
                         <hr></hr>
                         <div className="quizcompleted">

@@ -84,7 +84,6 @@ export default function Quiz() {
             <div>
                 <h1>Quiz Title: {currentQuizTitle}</h1>
                 <hr></hr>
-                <h5>
             </div>
         )
     }

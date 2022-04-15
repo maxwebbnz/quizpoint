@@ -13,6 +13,7 @@ import React, { useState, useEffect } from 'react'
 // import { db, ref } from '../services/firebase.js';
 // database
 import { db } from '../services/firebase'
+import { alert } from '../services/Alert'
 // components from libs
 import { ref, onValue, update, get } from "firebase/database";
 import './ClassHome.css'
@@ -158,12 +159,12 @@ export default function Classes() {
 
             </div>
         );
-
+        alert.success('Welcome, ' + user.name)
         return (
             <Fade in={shouldFade}>
                 <div className="class-home">
                     <div className="class-header">
-                        <h2>Welcome, {user.name}</h2>
+                        <h2>Classes Page</h2>
                     </div>
                     <div className="class-body">
                         <div className="class-cards">

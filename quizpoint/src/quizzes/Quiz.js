@@ -50,19 +50,23 @@ export default function Quiz() {
                         currentQuiz.push(questionsArray[index])
                     }
                     let userProgress = user.quizzes.active[quizId].progress
-
+                    console.log(userProgress)
                     if (userProgress === null || userProgress === 0) {
-                        currentQuestion = currentQuestion + 1;
+                        // lol this was dumb of me, obvi the first is equal to 1
+                        currentQuestion = 1;
                         console.log(currentQuestion)
                     } else {
                         //? don't know why i copied this in the old version, we will see what happens
-                        currentQuestion = currentQuestion + 1;
+                        currentQuestion = currentQuestion;
                         console.log(currentQuestion)
                     }
+                    console.log(currentQuestion)
+                    console.log(currentQuiz)
                     setCq({
-                        question: currentQuiz[currentQuestion].question,
+                        question: currentQuiz[currentQuestion],
                     })
-
+                    console.log(currentQuestionObject)
+                    setLoadingStatus(true)
                 }
             })
 
@@ -83,7 +87,9 @@ export default function Quiz() {
         return (
             <div>
                 <h1>Quiz Title: {currentQuizTitle}</h1>
+                <h3>Question #{currentQuestion}</h3>
                 <hr></hr>
+                <h3>{currentQuestionObject.question.title}</h3>
             </div>
         )
     }

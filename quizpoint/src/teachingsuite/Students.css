@@ -28,6 +28,9 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
+.actions .header{
+    margin-left: 5%;
+}
 .studentPage{
     margin-top: 100%;
 }

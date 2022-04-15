@@ -34,10 +34,10 @@ let allStudents = []
 
 // header for the table
 const columns = [
-    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'id', headerName: 'App UID', width: 100, hide: true },
+    { field: 'firstName', headerName: 'Name', width: 400 },
     { field: 'studentID', headerName: 'Student ID', width: 130 },
-    { field: 'firstName', headerName: 'Name', width: 130 },
-    { field: 'email', headerName: 'Email', width: 130 },
+    { field: 'email', headerName: 'Email', width: 200 },
 ];
 
 const rows = []
@@ -138,6 +138,8 @@ export default function Students() {
                 <div clasName='studentPage'>
                     {/* reload data on click */}
                     <div className='actions'>
+                        <h4 className='header'>Actions</h4>
+                        <br></br>
                         <button onClick={() => window.location.reload(false)} className='reload-button'>
                             <i className="bi bi-arrow-clockwise"></i> Reload Data
                         </button>
@@ -150,7 +152,7 @@ export default function Students() {
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
-                                        label="Searh for a student"
+                                        label="Search for a student"
                                         InputProps={{
                                             ...params.InputProps,
                                             type: 'search',

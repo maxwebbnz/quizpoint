@@ -10,6 +10,7 @@ import React, { useState, useEffect } from 'react'
 import './ClassPage.css'
 // database
 import { db } from '../services/firebase'
+import { alert } from '../services/Alert'
 // components from libs
 import { ref, onValue, update, get } from "firebase/database";
 // compenets from ui
@@ -24,6 +25,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
 // array for
 let quizActive = []
@@ -32,9 +34,9 @@ export default function ClassPage() {
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
+    const [shouldFade, fadeEnabled] = useState(true)
     // const []
     let { classId } = useParams()
-    var shouldFade = true;
     console.log(classId)
     useEffect(() => {
         if (loading === true) {
@@ -50,9 +52,10 @@ export default function ClassPage() {
                 // wait for data
                 onValue(pathRef, (snapshot) => {
                     // if there is no students, something definelty went wrong.
-                    if (snapshot === undefined) {
+                    if (snapshot.val() === null) {
                         console.log('ERROR - NO DATA FOUND')
-
+                        alert.error('Class not found', 'No data found for this class, probably does not exist')
+                        fadeEnabled(false)
                         // if students do exist
                     } else {
                         // set placeholder to object of students

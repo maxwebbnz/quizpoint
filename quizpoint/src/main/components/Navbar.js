@@ -16,11 +16,12 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 
+
 function urlContains(url, value) {
     return ~url.indexOf(value);
 }
 
-// functions for generating avatars for displaying
+// functions for generating avatars for displaying, max did not write
 function stringToColor(string) {
     let hash = 0;
     let i;
@@ -55,6 +56,7 @@ const NavBar = () => {
 
     // if role is teacher, display link to page
     if (user.role === 'teacher') {
+        // if in the teaching suite, display link to dashboard
         if (urlContains(location.pathname, "/tcs")) {
             return (
                 <Navbar expand="lg" className='teachingsuite-nav'>
@@ -70,7 +72,7 @@ const NavBar = () => {
                             <Dropdown.Toggle className="navbar-dropdown-toggle"></Dropdown.Toggle>
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
                                 <Dropdown.Item href="/classHome" className="">Your Classes</Dropdown.Item>
-                                <Dropdown.Item href="/tcs" className="">Teaching Home</Dropdown.Item>
+                                <Dropdown.Item href="/tcs" className="">Teaching Suite</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Nav>
@@ -91,7 +93,7 @@ const NavBar = () => {
                     <Nav className="navbar-links">
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/classes">Your Classes</Nav.Link>
-                        <Nav.Link className="link" href="/tcs">Teaching Home (Test)</Nav.Link>
+                        <Nav.Link className="link" href="/tcs">Teaching Suite</Nav.Link>
                         <Nav.Link className="link" href="/logout">Logout</Nav.Link>
                         {/* Dropdown is hidden until screen size is small */}
                         <Dropdown className="navbar-dropdown">

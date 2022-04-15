@@ -32,7 +32,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 
 let userClasses = []
 let foundClasses = []
@@ -125,6 +126,44 @@ export default function Classes() {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
+                <div className="class-home">
+                    <div className="class-header">
+                        <h2>Your Classes</h2>
+                    </div>
+                    <div className="class-body">
+                        <div className="class-cards">
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={300} height={200} />
+                            </Stack>                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         );
 
@@ -164,7 +203,7 @@ export default function Classes() {
             <Fade in={shouldFade}>
                 <div className="class-home">
                     <div className="class-header">
-                        <h2>Classes Page</h2>
+                        <h2>Your Classes</h2>
                     </div>
                     <div className="class-body">
                         <div className="class-cards">

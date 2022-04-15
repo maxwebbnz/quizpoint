@@ -21,7 +21,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Fade from '@mui/material/Fade';
 import { useParams } from "react-router-dom"
-
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
 // reactUI material
 import { DataGrid } from '@mui/x-data-grid';
 // material ui
@@ -135,9 +137,30 @@ export default function Students() {
             <Fade in={shouldFade}>
                 <div clasName='studentPage'>
                     {/* reload data on click */}
-                    <button onClick={() => window.location.reload(false)} className='reload-button'>
-                        <i className="bi bi-arrow-clockwise"></i> Reload Data
-                    </button>
+                    <div className='actions'>
+                        <button onClick={() => window.location.reload(false)} className='reload-button'>
+                            <i className="bi bi-arrow-clockwise"></i> Reload Data
+                        </button>
+                        <Stack spacing={2} sx={{ width: 300 }}>
+                            <Autocomplete
+                                freeSolo
+                                id="searchStudentName"
+                                disableClearable
+                                options={allStudents.map((option) => option.name)}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Searh for a student"
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            type: 'search',
+                                        }}
+                                    />
+                                )}
+                            />
+                        </Stack>
+                    </div>
+
                     {/* Material UI Table */}
                     <div style={{ height: 400, width: '90%' }} className='dataTable'>
                         <DataGrid

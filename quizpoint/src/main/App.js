@@ -71,7 +71,7 @@ function App() {
             <Route path="/" element={<ClassHome />} />
             <Route path="/classes" element={<ClassHome />} />
             <Route path="/class/:classId" element={<ClassPage />} />
-            <Route path="/quizzes/:quizId" element={<Quiz />} />
+            <Route path="/quiz/:quizId" element={<Quiz />} />
             <Route path="/invite/:id" element={<Invite />} />
             <Route path="/user/:id" element={<UserPage />} />
             {/* Teaching Suite routes */}

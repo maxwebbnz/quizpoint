@@ -20,6 +20,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+
 import { useParams } from "react-router-dom"
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -51,6 +53,14 @@ export default function Students() {
     let { type } = useParams()
     // state holder data fetching
     const [loading, dataFetch] = useState(false)
+    const [select, setSelection] = React.useState([]);
+    const handleRowSelection = (e) => {
+        // prints correct indexes of selected rows
+        console.log("adding", e);
+        // missing the first row selected
+        setSelection(e);
+        // console.log(select);
+    };
     var shouldFade = true;
     console.log('Students() | Loading Data')
     /**======================
@@ -60,6 +70,7 @@ export default function Students() {
     useEffect(() => {
         // LOADING DATA, FETCHING FROM DB.
         if (loading === true) {
+
             document.title = ' Students | QuizPoint'
             console.log('Loading')
 
@@ -160,6 +171,10 @@ export default function Students() {
                                     />
                                 )}
                             />
+
+                        </Stack>
+                        <Stack spacing={2} direction="row">
+                            <Button variant="contained" onClick={() => window.location.replace('/tcs/user/' + select)}>View Selected Students</Button>
                         </Stack>
                     </div>
 
@@ -171,9 +186,8 @@ export default function Students() {
                             pageSize={5}
                             rowsPerPageOptions={[5]}
                             checkboxSelection
-                            onRowSelection={e => {
-                                console.log("****", e);
-                            }}
+                            onSelectionModelChange={handleRowSelection}
+
                         />
                     </div>
                 </div>

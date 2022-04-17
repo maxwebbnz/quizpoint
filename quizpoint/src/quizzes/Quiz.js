@@ -30,6 +30,7 @@ export default function Quiz() {
     const [loadingQuiz, setLoadingStatus] = useState(false)
     const [currentQuestionObject, setCq] = useState({})
     const [error, errorOccured] = useState(false)
+    const [choiceArray, setCurrentChoices] = useState([])
     const [shouldFade, setFade] = useState(true)
 
     // get params
@@ -82,6 +83,7 @@ export default function Quiz() {
                         question: currentQuiz[currentQuestion],
                     })
                     console.log(currentQuestionObject)
+                    setCurrentChoices(currentQuestionObject.choices)
                     setLoadingStatus(true)
                 }
             })
@@ -100,12 +102,18 @@ export default function Quiz() {
                 </Backdrop>
             </div>)
     } else {
+        const choices = choiceArray.map((choice) =>
+            <div>
+                <Button>{choice}</Button>
+            </div>
+        );
         return (
             <div>
                 <h1>Quiz Title: {currentQuizTitle}</h1>
                 <h3>Question #{currentQuestion}</h3>
                 <hr></hr>
                 <h3>{currentQuestionObject.question.title}</h3>
+                {choices}
             </div>
         )
     }

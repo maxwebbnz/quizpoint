@@ -84,7 +84,7 @@ export default function TeacherStudent() {
 
                 <div className='user-page-container'>
                     <div className="user-page-header">
-                        <h2>View Student</h2>
+                        <h2>Student Overview</h2>
                     </div>
                     <div className="user-page-actions">
                         <ButtonGroup variant="contained" aria-label="outlined primary button group">

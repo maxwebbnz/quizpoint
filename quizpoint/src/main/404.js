@@ -4,12 +4,14 @@
  */
 
 import './errorpage.css'
+import logo from './components/appicon-itt6.svg'
+
 import { Image, Button } from 'react-bootstrap'
 const errorPageNotFound = () => {
     return (
         <div className="error-page">
             <div className='branding'>
-                <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
+                <Image src={logo} width='100'></Image>
             </div>
             <div className="error">
                 <h2><b>404 | Not Found</b></h2>

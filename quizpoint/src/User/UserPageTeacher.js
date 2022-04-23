@@ -16,6 +16,9 @@ import React, { useState, useEffect } from 'react'
 import { db } from '../services/firebase'
 import { ref, onValue } from "firebase/database";
 
+// Alert handling
+import { alert } from '../services/Alert'
+
 // Material UI for Styled Components
 import Fade from '@mui/material/Fade';
 import Card from '@mui/material/Card';
@@ -78,8 +81,11 @@ export default function TeacherStudent() {
                 // wait for data
                 onValue(pathRef, (snapshot) => {
                     // if there is no students, something definelty went wrong.
-                    if (snapshot.val() === undefined) {
+                    if (snapshot.val() === null) {
                         console.log('ERROR - NO DATA FOUND')
+                        alert.error('Student not found', 'No data found for the student you are looking for.')
+                        document.title = 'Error | QuizPoint'
+                        setFade(false)
                         // if students do exist
                     } else {
                         // set placeholder to object of students

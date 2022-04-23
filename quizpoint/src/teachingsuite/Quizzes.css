@@ -1,0 +1,14 @@
+.quizpage{
+    margin-left: 4%;
+    margin-top: 2%;
+}
+
+.quiz-header{
+      text-align: center;
+      color: white;
+}
+
+.quiz-cards{
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr;
+}

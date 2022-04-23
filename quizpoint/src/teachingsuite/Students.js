@@ -179,11 +179,11 @@ export default function Students() {
                     </div>
 
                     {/* Material UI Table */}
-                    <div style={{ height: 400, width: '90%' }} className='dataTable'>
+                    <div style={{ height: 600, width: '90%' }} className='dataTable'>
                         <DataGrid
                             rows={rows}
                             columns={columns}
-                            pageSize={5}
+                            pageSize={10}
                             rowsPerPageOptions={[5]}
                             checkboxSelection
                             onSelectionModelChange={handleRowSelection}

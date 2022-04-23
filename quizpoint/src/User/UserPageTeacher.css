@@ -1,0 +1,46 @@
+.center {
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    /* grid-gap: 0%; */
+}
+
+.user-page-container {
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: white;
+    padding-left: 1%;
+    width: 96%;
+    border-radius: 2px;
+    /* filter: drop-shadow(0 0 0.15rem black); */
+}
+
+.banner-details {
+    margin-right: 2%;
+    background-color: blue;
+    padding-left: 2px !important;
+    margin-left: 0 !important;
+    color: white;
+    border-radius: 5px;
+
+}
+
+.user-page-actions{
+    margin-bottom: 1%;
+}
+.banner-quiz {
+    border-radius: 5px;
+    margin-right: 2%;
+    background-color: blue;
+    padding-left: 2px !important;
+    margin-left: 0 !important;
+    color: white;
+
+}

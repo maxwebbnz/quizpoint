@@ -10,9 +10,8 @@ import React, { useState, useEffect } from 'react'
 import { db } from '../services/firebase'
 
 // components from libs
-import { ref, onValue, update, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 // import './ClassHome.css'
-import { dbFunctions } from '../services/firebase.js';
 
 // material ui
 import Backdrop from '@mui/material/Backdrop';
@@ -23,7 +22,6 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import Fade from '@mui/material/Fade';
-import { alert } from '../services/Alert'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import CardActions from '@mui/material/CardActions';

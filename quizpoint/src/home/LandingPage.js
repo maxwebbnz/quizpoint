@@ -6,7 +6,8 @@
 // Base Declerations
 import './LandingPage.css';
 import { LoginFunction } from '../services/Login'
-import logo from '../main/components/logo.svg'
+import logo from './media/appbranding-itt4withtext.svg'
+import schoolMedia from './media/background.jpg'
 
 /**==============================================
  **              LandingPage
@@ -17,12 +18,12 @@ export default function LandingPage() {
     return (
         <div id="landingPage" class="homePageMain">
             <div class="backgroundImage-landingpage">
-                <img src="media/background.jpg" alt=" " id="schoolMedia-background" width="100%" height="100%"></img>
+                <img src={schoolMedia} alt=" " id="schoolMedia-background" width="100%" height="100%"></img>
                 <div class="schoolBranding">
                     <img src="media/schoologo.png" alt=""></img>
                 </div>
                 <div class="homePageContent center-screen" id='landingPagetoAnimate'>
-                    <img src="media\branding\appbranding-itt4withtext.svg" alt="triangle with all three sides equal"></img>
+                    <img src={logo} alt="triangle with all three sides equal"></img>
                     <div class="homePageActions">
                         <div class="authContent text-center">
                             <h2>Welcome</h2>

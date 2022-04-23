@@ -38,6 +38,7 @@ import NavBar from './components/NavBar'
 // Components
 import RedirectLegacy from '../services/RedirectLegacy'
 import TeacherStudent from "../User/UserPageTeacher";
+import CreateClass from "../teachingsuite/CreateClass";
 
 /**==============================================
  **              App()
@@ -80,8 +81,8 @@ function App() {
             <Route path="/tcs" element={<TeachingHome />} />
             <Route path="/tcs/students/:type" element={<Students />} />
             <Route path="/tcs/user/:id" element={<TeacherStudent />} />
-
             <Route path="/tcs/classes" element={<Classes />} />
+            <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
             <Route path="/tcs/quizzes" element={<Quizzes />} />
             <Route path="/tcs/reporting" element={<Reporting />} />
             <Route path="/tcs" element={<TeachingHome />} />

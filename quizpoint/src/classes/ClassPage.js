@@ -61,45 +61,57 @@ export default function ClassPage() {
                         // set placeholder to object of students
                         const data = snapshot.val()
                         setClass(data)
-                        Object.keys(user.quizzes.active).forEach(function (key) {
-                            if (data.quizzes.active[key] === undefined) {
-                                console.log("error")
-                            } else if (data.quizzes.active[key] !== undefined) {
-                                console.log(key + " match, loading data")
-                                let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
+                        if (data.quizzes === false) {
+                            let plceholderArrary = [{ error: 'No quizzes avaliable' }]
+                            addQuizCard(plceholderArrary.map((qz) =>
+                                <div>
+                                    <p>{qz.error}</p>
+                                </div>
+                            ))
+                            dataComplete(true)
 
-                                onValue(quizRef, (snapshot) => {
-                                    if (snapshot === undefined || snapshot === null) {
+                        } else {
+                            Object.keys(user.quizzes.active).forEach(function (key) {
+                                if (data.quizzes.active[key] === undefined) {
+                                    console.log("error")
+                                } else if (data.quizzes.active[key] !== undefined) {
+                                    console.log(key + " match, loading data")
+                                    let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
 
-                                    } else {
-                                        const data = snapshot.val()
-                                        console.log(data)
-                                        quizActive.push(data)
-                                    }
-                                })
-                            }
-                        })
-                        addQuizCard(quizActive.map((qz) =>
-                            <div>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography variant="h3">
-                                            {qz.title}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small">Start Quiz</Button>
-                                    </CardActions>
-                                </Card>
-                            </div>
-                        ))
-                        // for each student value
-                        console.log(data)
+                                    onValue(quizRef, (snapshot) => {
+                                        if (snapshot === undefined || snapshot === null) {
 
-                        console.log(quizActive)
+                                        } else {
+                                            const data = snapshot.val()
+                                            console.log(data)
+                                            quizActive.push(data)
+                                        }
+                                    })
+                                }
+                            })
 
+                            addQuizCard(quizActive.map((qz) =>
+                                <div>
+                                    <Card sx={{ minWidth: 275 }}>
+                                        <CardContent>
+                                            <Typography variant="h3">
+                                                {qz.title}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button size="small">Start Quiz</Button>
+                                        </CardActions>
+                                    </Card>
+                                </div>
+                            ))
+                            // for each student value
+                            console.log(data)
 
-                        dataComplete(true)
+                            console.log(quizActive)
+                            dataComplete(true)
+
+                        }
+
 
 
                         // finished loading, we can show page now

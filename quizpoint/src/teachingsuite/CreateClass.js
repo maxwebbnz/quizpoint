@@ -19,7 +19,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 // Alert handling
 import { alert } from '../services/Alert'
 
@@ -40,8 +44,14 @@ export default function CreateClass() {
     const [className, setClassName] = useState('');
     const [classDesc, setClassDesc] = useState('');
     const [classObject, setClassObject] = useState({})
+    const [open, setOpen] = useState(false)
     // let className
 
+    const handleClose = () => {
+        navigate('/class/' + id);
+
+        setOpen(false);
+    };
     function updateClassName(e) {
         console.log(e.target.value)
         setClassName(e.target.value)
@@ -72,7 +82,7 @@ export default function CreateClass() {
             code: id
         });
         console.log('Created!')
-        navigate('/class/' + id);
+        setOpen(true)
     }
 
     return (
@@ -108,6 +118,31 @@ export default function CreateClass() {
                 <button onClick={createClass}>Create Class</button>
 
             </div>
+            <Dialog
+                fullWidth={true}
+                maxWidth={'lg'}
+
+                open={open}
+                onClose={handleClose}
+
+            >
+                <DialogTitle>Your class has been created</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        We have created {classObject.name} for you.
+
+                        You can tell your students to join with the code:
+                    </DialogContentText>
+                    <h2>{id}</h2>
+                    <DialogContentText>
+                        or you can share out the link
+                    </DialogContentText>
+                    <h2><a href={'localhost:3000/invite/' + id} alt="Join Link">localhost:3000/invite/{id}</a></h2>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Class Page</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }

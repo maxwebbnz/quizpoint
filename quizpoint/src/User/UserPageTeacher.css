@@ -1,3 +1,8 @@
+body{
+    overflow: auto;
+    overflow-x: hidden;
+}
+
 .center {
     margin-top: 10%;
     display: flex;
@@ -44,3 +49,24 @@
     color: white;
 
 }
+.banner-class {
+    border-radius: 5px;
+    margin-right: 2%;
+    background-color: #4E83C2;
+    padding-left: 2px !important;
+    margin-left: 0 !important;
+    color: white;
+
+}
+
+
+.user-classcards{
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+.classCards-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2%;
+}
+

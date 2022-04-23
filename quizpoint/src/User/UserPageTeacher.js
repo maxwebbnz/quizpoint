@@ -6,7 +6,9 @@
 import { useParams } from "react-router-dom"
 import { user } from '../firebase/fb.user'
 import './UserPage.css'
-import { Card, ListGroup } from 'react-bootstrap';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import React, { useState, useEffect } from 'react'
@@ -21,6 +23,9 @@ import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -100,6 +105,93 @@ export default function TeacherStudent() {
                             <p>Name: Max Webb</p>
                             <p>Student ID: 18205mw</p>
                             <p>Email: <a href='mailto:18205mw@hvhs.school.nz'>18205mw@hvhs.school.nz</a></p>
+                        </div>
+                    </div>
+                    <div className="banner-class">
+                        <h5><SchoolOutlinedIcon></SchoolOutlinedIcon> Classes</h5>
+                    </div>
+                    <div className="user-classcards">
+                        <div className="classCards-row">
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <h2>9PTEC</h2>
+                                </CardContent>
+                                <CardActions>
+                                    <IconButton aria-label="remove class">
+                                        <RemoveCircleOutlineOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="open in new window">
+                                        <OpenInNewOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="export class report">
+                                        <AssignmentOutlinedIcon />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <h2>10PTEC</h2>
+                                </CardContent>
+                                <CardActions>
+                                    <IconButton aria-label="remove class">
+                                        <RemoveCircleOutlineOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="open in new window">
+                                        <OpenInNewOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="export class report">
+                                        <AssignmentOutlinedIcon />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <h2>10PTEC B</h2>
+                                </CardContent>
+                                <CardActions>
+                                    <IconButton aria-label="remove class">
+                                        <RemoveCircleOutlineOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="open in new window">
+                                        <OpenInNewOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="export class report">
+                                        <AssignmentOutlinedIcon />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <h2>12PTEC C</h2>
+                                </CardContent>
+                                <CardActions>
+                                    <IconButton aria-label="remove class">
+                                        <RemoveCircleOutlineOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="open in new window">
+                                        <OpenInNewOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="export class report">
+                                        <AssignmentOutlinedIcon />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <h2>9PTEC Line 3</h2>
+                                </CardContent>
+                                <CardActions>
+                                    <IconButton aria-label="remove class">
+                                        <RemoveCircleOutlineOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="open in new window">
+                                        <OpenInNewOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="export class report">
+                                        <AssignmentOutlinedIcon />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
                         </div>
                     </div>
                     <div className="banner-quiz">

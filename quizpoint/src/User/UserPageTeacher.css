@@ -12,7 +12,7 @@ body{
 
 .user-content {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 10fr;
     /* grid-gap: 0%; */
 }
 
@@ -70,3 +70,6 @@ body{
     grid-gap: 2%;
 }
 
+.user-quizhistory{
+    padding-bottom: 2%;
+}

@@ -153,7 +153,7 @@ export default function Quizzes() {
         return (
             <div className='quizpage'>
                 <div className="quiz-header">
-                    <h2>All Quizzes in your school</h2>
+                    <h2>Quizzes by your school</h2>
                 </div>
                 <div className="quiz-cards">
                     {quizCards}

@@ -71,7 +71,7 @@ const NavBar = () => {
                         <Dropdown className="navbar-dropdown">
                             <Dropdown.Toggle className="navbar-dropdown-toggle"></Dropdown.Toggle>
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
-                                <Dropdown.Item href="/classHome" className="">Your Classes</Dropdown.Item>
+                                <Dropdown.Item href="/classes" className="">Your Classes</Dropdown.Item>
                                 <Dropdown.Item href="/tcs" className="">Teaching Suite</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -99,7 +99,7 @@ const NavBar = () => {
                         <Dropdown className="navbar-dropdown">
                             <Dropdown.Toggle className="navbar-dropdown-toggle"></Dropdown.Toggle>
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
-                                <Dropdown.Item href="/classHome" className="">Your Classes</Dropdown.Item>
+                                <Dropdown.Item href="/classes" className="">Your Classes</Dropdown.Item>
                                 <Dropdown.Item href="/tcs" className="">Teaching Home</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>

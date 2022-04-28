@@ -2,6 +2,10 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+
+/**========================================================================
+ * ?  Will add comments shortly @maxwebbnz
+ *========================================================================**/
 // Styles and user import
 import { user } from '../firebase/fb.user'
 import './CreateQuiz.css'

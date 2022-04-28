@@ -28,6 +28,7 @@ import Select from '@mui/material/Select';
 import ReactTagInput from "@pathofdev/react-tag-input";
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import Fade from '@mui/material/Fade';
 
 import "@pathofdev/react-tag-input/build/index.css";
 const Input = styled('input')({
@@ -49,7 +50,6 @@ export default function CreateQuiz() {
     const [currentQuestion, setCurrentQuestionNum] = useState(1)
     const [tags, setTags] = React.useState([])
     const [uploadState, setUploadState] = useState('Upload Image')
-
     const [options, updateOptions] = useState()
     // window.onbeforeunload = function () {
     //     return "You are currently creating a class, reloading will loose all of your progress.";
@@ -153,64 +153,66 @@ export default function CreateQuiz() {
 
     const tableRow = tableRows.map((row, index) => {
         return (
-            <tr>
-                <td>{index + 1}</td>
+            <Fade in={shouldFade}>
+                <tr>
+                    <td>{index + 1}</td>
 
-                <td>
-                    <TextField
-                        id="outlined-required"
-                        margin="dense"
-                        label="Question Name"
-                        placeholder={row.name}
-                        onChange={updateCurrentQuestionName}
-                    />
-                </td>
-                <td>
-                    <label htmlFor="contained-button-file">
-                        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleChange} />
-                        <Button variant="contained" component="span">
-                            Upload Image                        </Button>
-                    </label>
-                </td>
-                <td>
-                    <FormControl fullWidth>
-                        <Select
+                    <td>
+                        <TextField
+                            id="outlined-required"
                             margin="dense"
-                            labelId="answer-type"
-                            id="answer-type"
-                            label="Type"
-                            defaultValue=""
-                            onSelect={updateCurrentQuestionType}
-                        >
-                            <MenuItem value='multichoice'>Multi Choice</MenuItem>
-                            <MenuItem value='imageupload'>Image Upload</MenuItem>
-                        </Select>
-                    </FormControl>
-                </td>
-                <td>
-                    <ReactTagInput
-                        tags={row.choices}
-                        onChange={(newTags) => updateCurrentQuestionOptions(newTags)}
-                    />
-                </td>
-                <td>
-                    <FormControl fullWidth>
-                        <Select
-                            margin="dense"
-                            labelId="answer-type"
-                            id="answer-type"
-                            defaultValue=""
-                            placeholder={row.answer}
-                            label="Answer"
-                            onChange={updateCurrentQuestionAnswer}
-                        >
-                            {options}
-                            <MenuItem value={'multichoice'}>Select One</MenuItem>
+                            label="Question Name"
+                            placeholder={row.name}
+                            onChange={updateCurrentQuestionName}
+                        />
+                    </td>
+                    <td>
+                        <label htmlFor="contained-button-file">
+                            <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleChange} />
+                            <Button variant="contained" component="span">
+                                Upload Image                        </Button>
+                        </label>
+                    </td>
+                    <td>
+                        <FormControl fullWidth>
+                            <Select
+                                margin="dense"
+                                labelId="answer-type"
+                                id="answer-type"
+                                label="Type"
+                                defaultValue=""
+                                onSelect={updateCurrentQuestionType}
+                            >
+                                <MenuItem value='multichoice'>Multi Choice</MenuItem>
+                                <MenuItem value='imageupload'>Image Upload</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </td>
+                    <td>
+                        <ReactTagInput
+                            tags={row.choices}
+                            onChange={(newTags) => updateCurrentQuestionOptions(newTags)}
+                        />
+                    </td>
+                    <td>
+                        <FormControl fullWidth>
+                            <Select
+                                margin="dense"
+                                labelId="answer-type"
+                                id="answer-type"
+                                defaultValue=""
+                                placeholder={row.answer}
+                                label="Answer"
+                                onChange={updateCurrentQuestionAnswer}
+                            >
+                                {options}
+                                <MenuItem value={'multichoice'}>Select One</MenuItem>
 
-                        </Select>
-                    </FormControl>
-                </td>
-            </tr>
+                            </Select>
+                        </FormControl>
+                    </td>
+                </tr>
+            </Fade>
         )
     })
 

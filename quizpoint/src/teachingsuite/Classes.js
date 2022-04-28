@@ -2,31 +2,27 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
-/*
- * Copyright (c) 2022 QuizPoint
- * All rights reserved.
- *
- */
 // import statements
 import { user } from '../firebase/fb.user.js';
 import React, { useState, useEffect } from 'react'
 // import { db, ref } from '../services/firebase.js';
 // database
 import { db } from '../services/firebase'
-import { alert } from '../services/Alert'
+
 // components from libs
-import { ref, onValue, update, get } from "firebase/database";
-import './ClassHome.css'
-import { dbFunctions } from '../services/firebase.js';
+import { ref, onValue } from "firebase/database";
+// import './ClassHome.css'
 
 // material ui
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import Fade from '@mui/material/Fade';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -35,19 +31,56 @@ import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
-// responsive design
-import { useMediaQuery } from 'react-responsive'
-
 let userClasses = []
 let foundClasses = []
 
+/**========================================================================
+ **                           Generate Push ID
+ *?  What does it do? Generates push ids for firebase records (i.e quizzes, classes, users, etc.)
+ *@return type
+ *@credit mikelehen https://gist.github.com/mikelehen/3596a30bd69384624c11
+ *========================================================================**/
+let generatePushID = (function () {
+    var PUSH_CHARS =
+        "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
+    var lastPushTime = 0;
+    var lastRandChars = [];
 
+    return function () {
+        var now = new Date().getTime();
+        var duplicateTime = now === lastPushTime;
+        lastPushTime = now;
+
+        var timeStampChars = new Array(8);
+        for (var i = 7; i >= 0; i--) {
+            timeStampChars[i] = PUSH_CHARS.charAt(now % 64);
+            now = Math.floor(now / 64);
+        }
+        if (now !== 0)
+            throw new Error("We should have converted the entire timestamp.");
+
+        var id = timeStampChars.join("");
+
+        if (!duplicateTime) {
+            for (i = 0; i < 12; i++) {
+                lastRandChars[i] = Math.floor(Math.random() * 64);
+            }
+        } else {
+            for (i = 11; i >= 0 && lastRandChars[i] === 63; i--) {
+                lastRandChars[i] = 0;
+            }
+            lastRandChars[i]++;
+        }
+        for (i = 0; i < 12; i++) {
+            id += PUSH_CHARS.charAt(lastRandChars[i]);
+        }
+        if (id.length != 20) throw new Error("Length should be 20.");
+
+        return id;
+    };
+})();
 
 export default function Classes() {
-    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-
     const [loading, dataFetch] = useState(false)
     const shouldFade = true;
 
@@ -135,7 +168,7 @@ export default function Classes() {
                 </Backdrop>
                 <div className="class-home">
                     <div className="class-header">
-                        <h2>Your Classes</h2>
+                        <h2>Loading Information</h2>
                     </div>
                     <div className="class-body">
                         <div className="class-cards">
@@ -165,12 +198,10 @@ export default function Classes() {
                             </Stack>
                             <Stack spacing={1}>
                                 <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>                        </div>
-
+                            </Stack>
+                        </div>
                     </div>
-
                 </div>
-
             </div>
         );
 
@@ -178,7 +209,6 @@ export default function Classes() {
     } else {
         const classCards = foundClasses.map((classInfo) =>
             <div>
-
                 <Card sx={{ width: 275 }}>
                     <CardActionArea>
                         <CardMedia
@@ -205,46 +235,26 @@ export default function Classes() {
 
             </div>
         );
-        if (isTabletOrMobile) {
-            return (
-                <Fade in={shouldFade}>
-                    <div className="class-home">
-                        <div className="class-header">
-                            <h2>Your Classes</h2>
-                        </div>
-                        <div className="class-body">
-                            <div className="class-cards-mobile">
-                                {classCards}
-                            </div>
-
-                        </div>
-
+        return (
+            <Fade in={shouldFade}>
+                <div className="class-home">
+                    <div className="class-header">
+                        <h2>Classes created by you</h2>
                     </div>
-                </Fade>
-            )
-        }
-        else {
-            alert.success('Welcome, ' + user.name)
-
-            return (
-                <Fade in={shouldFade}>
-                    <div className="class-home">
-                        <div className="class-header">
-                            <h2>Your Classes</h2>
+                    <div className="class-body">
+                        <div className="class-cards">
+                            {classCards}
                         </div>
-                        <div className="class-body">
-                            <div className="class-cards">
-                                {classCards}
-                            </div>
-
-                        </div>
-
                     </div>
-                </Fade>
-            )
-        }
+                    <Box sx={{ '& > :not(style)': { m: 1 }, position: 'absolute', bottom: 16, right: 16 }}>
+                        <Fab color="primary" aria-label="add" href={'/tcs/classes/create/' + generatePushID()}>
+                            <h3><i className="bi bi-plus"></i></h3>
+                        </Fab>
+                    </Box>
+                </div>
+            </Fade>
+        )
     }
 
 
 }
-

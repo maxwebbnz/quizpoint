@@ -53,9 +53,14 @@ a:hover{
     margin-left: 4%;
     height: 20%;
     padding-right: 2%;
-    width: 200px;
+    width: 300px;
 }
 
+.profileLink{
+    display: grid;
+    grid-template-columns: 3fr 8fr;
+    width: 200px;
+}
 .link{
     /* margin-left: 2%; */
     padding-right: 2%;

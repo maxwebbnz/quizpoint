@@ -1,0 +1,45 @@
+.class-home {
+    margin-left: 4%;
+    margin-top: 2%;
+}
+
+.class-header {
+    text-align: center;
+    color: white;
+}
+
+.class-cards {
+    margin-left: 4%;
+    margin-top: 2%;
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr;
+    grid-gap: 3%;
+    text-align: center;
+}
+
+/* mobile design */
+.class-cards-mobile {
+    margin-left: 11%;
+    margin-top: 2%;
+    display: grid;
+    grid-template-columns: 3fr;
+    grid-gap: 3%;
+    text-align: center;
+}
+
+/* mobile */
+.class-header-mobile {
+    margin-top: 5%;
+    text-align: center;
+    color: white;
+}
+
+.class-body-mobile {
+    text-align: center;
+    color: white;
+}
+
+.quizassigned-mobile{
+        margin-top: 4%;
+
+}

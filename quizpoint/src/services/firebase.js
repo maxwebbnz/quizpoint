@@ -6,7 +6,7 @@
 //? Import components
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue, update } from "firebase/database";
+import { getDatabase, ref, onValue, update, get } from "firebase/database";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
@@ -46,7 +46,7 @@ let dbFunctions = {
       // read data
       const pathRef = ref(db, `/schools/hvhs/${_path}/`);
       // wait for data
-      const snapshot = onValue(pathRef, (snapshot) => {
+      const snapshot = get(pathRef, (snapshot) => {
         const data = snapshot;
         dataToReturn = data
       })
@@ -57,9 +57,9 @@ let dbFunctions = {
       // decleration
       let dataToReturn;
       // read data
-      const pathRef = ref(db, `/schools/hvhs/${_path}/`);
+      const pathRef = ref(db, `schools/hvhs/${_path}/`);
       // wait for data
-      const snapshot = onValue(pathRef, (snapshot) => {
+      const snapshot = get(pathRef, (snapshot) => {
         const data = snapshot.val();
         dataToReturn = data
       })

@@ -9,7 +9,7 @@
     padding: 5px;
     /* background-color: white; */
     /* border: 2px solid red; */
-    width: 50%;
+    width: 10%;
     padding-top: 20px;
     transition-duration: 0.4;
 }
@@ -37,7 +37,7 @@
 .center-screen {
     position: absolute;
     top: 50%;
-    left: 75%;
+    left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
 }

@@ -7,6 +7,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue, update, get } from "firebase/database";
+import { getStorage } from "firebase/storage";
+
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
@@ -28,6 +30,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 // database service
 const db = getDatabase(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 /**==============================================
  **              dbFunctions
@@ -90,4 +93,4 @@ let dbFunctions = {
 }
 
 //? export methods
-export { auth, db, dbFunctions, ref };
+export { auth, db, dbFunctions, ref, storage };

@@ -11,3 +11,7 @@
     display: grid;
     width: 30%;
 }
+
+.createquiz-table td{
+  padding:  15px;
+}

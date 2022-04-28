@@ -49,6 +49,13 @@ export default function Users() {
                 </div>
             </div>
         )
+    } else {
+        return (
+            <div>
+                <h1>Error: 400</h1>
+                <h5>You have asked a bad request</h5>
+            </div>
+        )
     }
 
 }

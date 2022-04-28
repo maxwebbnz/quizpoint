@@ -27,10 +27,17 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
+// responsive design
+import { useMediaQuery } from 'react-responsive'
+
 // array for
 let quizActive = []
 let quizCards = []
 export default function ClassPage() {
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
@@ -125,30 +132,55 @@ export default function ClassPage() {
     })
     //! I CANNOT GET THIS WORKING, Allan did you want to have a try?
     if (loading === true) {
-        console.log(quizCards)
-        return (
-
-            <Fade in={shouldFade}>
-                <div className="class">
-                    <div className="class-header">
-                        <h1>{classObject.className}</h1>
-                        <h3>Created by {classObject.classCreator}</h3>
-                        <hr></hr>
-                    </div>
-                    <div className="class-body">
-                        <div className="quizassigned">
-                            <h2>Quizzes Assigned</h2>
-                            {quizCards}
+        if (isTabletOrMobile) {
+            console.log(quizCards)
+            return (
+                <Fade in={shouldFade}>
+                    <div className="class">
+                        <div className="class-header-mobile">
+                            <h1>{classObject.className}</h1>
+                            <h3>Created by {classObject.classCreator}</h3>
+                            <hr></hr>
                         </div>
-                        <hr></hr>
-                        <div className="quizcompleted">
-                            <h2>Quizzes Completed</h2>
+                        <div className="class-body-mobile">
+                            <div className="quizassigned-mobile">
+                                <h2>Quizzes Assigned</h2>
+                                {quizCards}
+                            </div>
+                            <hr></hr>
+                            <div className="quizcompleted">
+                                <h2>Quizzes Completed</h2>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
-            </Fade>
-        )
+                    </div>
+                </Fade>
+            )
+        } else {
+            console.log(quizCards)
+            return (
+                <Fade in={shouldFade}>
+                    <div className="class">
+                        <div className="class-header">
+                            <h1>{classObject.className}</h1>
+                            <h3>Created by {classObject.classCreator}</h3>
+                            <hr></hr>
+                        </div>
+                        <div className="class-body">
+                            <div className="quizassigned">
+                                <h2>Quizzes Assigned</h2>
+                                {quizCards}
+                            </div>
+                            <hr></hr>
+                            <div className="quizcompleted">
+                                <h2>Quizzes Completed</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </Fade>
+            )
+        }
     } else {
         return (
             <div>

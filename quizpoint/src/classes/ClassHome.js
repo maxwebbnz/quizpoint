@@ -35,12 +35,19 @@ import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
+// responsive design
+import { useMediaQuery } from 'react-responsive'
+
 let userClasses = []
 let foundClasses = []
 
 
 
 export default function Classes() {
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+
     const [loading, dataFetch] = useState(false)
     const shouldFade = true;
 
@@ -198,23 +205,44 @@ export default function Classes() {
 
             </div>
         );
-        alert.success('Welcome, ' + user.name)
-        return (
-            <Fade in={shouldFade}>
-                <div className="class-home">
-                    <div className="class-header">
-                        <h2>Your Classes</h2>
-                    </div>
-                    <div className="class-body">
-                        <div className="class-cards">
-                            {classCards}
+        if (isTabletOrMobile) {
+            return (
+                <Fade in={shouldFade}>
+                    <div className="class-home">
+                        <div className="class-header">
+                            <h2>Your Classes</h2>
+                        </div>
+                        <div className="class-body">
+                            <div className="class-cards-mobile">
+                                {classCards}
+                            </div>
+
                         </div>
 
                     </div>
+                </Fade>
+            )
+        }
+        else {
+            alert.success('Welcome, ' + user.name)
 
-                </div>
-            </Fade>
-        )
+            return (
+                <Fade in={shouldFade}>
+                    <div className="class-home">
+                        <div className="class-header">
+                            <h2>Your Classes</h2>
+                        </div>
+                        <div className="class-body">
+                            <div className="class-cards">
+                                {classCards}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </Fade>
+            )
+        }
     }
 
 

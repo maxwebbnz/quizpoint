@@ -17,6 +17,8 @@ import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { onValue, child, get, set, update } from "firebase/database";
+import { ref as dbRef } from "firebase/database";
 
 // material ui
 import TextField from '@mui/material/TextField';
@@ -44,7 +46,11 @@ export default function CreateQuiz() {
         image: '',
         uploadState: false
     }]
+
+
     const [tableRows, addTableRow] = useState(tableData)
+    const [quizName, setQuizName] = useState("")
+    const [quizDesc, setQuizDesc] = useState("")
     const [loadingData, setLoadingStatus] = useState(false)
     const [shouldFade, setFade] = useState(true)
     const [currentQuestion, setCurrentQuestionNum] = useState(1)
@@ -72,6 +78,17 @@ export default function CreateQuiz() {
         console.log(tableRows)
     }
 
+    function updateQuizName(e) {
+        setQuizName(e.target.value)
+        console.log(quizName)
+
+    }
+
+    function updateQuizDesc(e) {
+        setQuizDesc(e.target.value)
+        console.log(quizDesc)
+
+    }
     function handleChange(e) {
         console.log(e.target.value)
 
@@ -225,6 +242,24 @@ export default function CreateQuiz() {
         }])
         setCurrentQuestionNum(currentQuestion + 1)
     }
+
+    function saveQuizToDb() {
+        let quizObject = {
+            title: quizName,
+            description: quizDesc,
+            questions: tableRows
+        }
+        console.log(quizName)
+
+        set(dbRef(db, 'schools/hvhs/quizzes/' + id), {
+            title: quizName,
+            description: quizDesc,
+            questions: tableRows
+
+        });
+
+        console.log("Saved Quiz Successfully", quizObject)
+    }
     return (
         <div className='createquiz-container'>
             <div className='createquiz-header'>
@@ -237,12 +272,14 @@ export default function CreateQuiz() {
                         required
                         id="outlined-required"
                         label="Quiz Title"
+                        onChange={updateQuizName} //whenever the text field change, you save the value in state
                         margin="dense"
                     />
                     <TextField
                         id="outlined-required"
                         margin="dense"
                         label="Quiz Description"
+                        onChange={updateQuizDesc} //whenever the text field change, you save the value in state
                     />
                 </div>
                 <div className='createquiz-questions'>
@@ -263,6 +300,7 @@ export default function CreateQuiz() {
                         </tbody>
                     </table>
                 </div>
+                <button onClick={saveQuizToDb}>Save Quiz</button>
             </div>
         </div>
     )

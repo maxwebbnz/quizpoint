@@ -30,6 +30,11 @@ import ReactTagInput from "@pathofdev/react-tag-input";
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Fade from '@mui/material/Fade';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 // tag inputs
 import "@pathofdev/react-tag-input/build/index.css";
 const Input = styled('input')({
@@ -64,11 +69,13 @@ export default function CreateQuiz() {
     const [tags, setTags] = React.useState([])
     const [uploadState, setUploadState] = useState('Upload Image')
     const [options, updateOptions] = useState()
+    const [open, setOpen] = React.useState(false);
 
-    // if quiz is being edited, prevent accidental reloads
-    window.onbeforeunload = function () {
-        return "You are currently creating a class, reloading will loose all of your progress.";
-    }
+    //! Below code has stopped working properly since dialog was added
+    // // if quiz is being edited, prevent accidental reloads
+    // window.onbeforeunload = function () {
+    //     return "You are currently creating a class, reloading will loose all of your progress.";
+    // }
 
     /**======================
      **   updateCurrentQuesitonName
@@ -237,6 +244,8 @@ export default function CreateQuiz() {
         });
         // echo to console
         console.log("Saved Quiz Successfully")
+        setOpen(true)
+
     }
 
     // for each table row, add some JSX In
@@ -305,6 +314,16 @@ export default function CreateQuiz() {
             </Fade>
         )
     })
+
+    // dialog open and closing handler
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        navigate('/tcs/quizzes')
+    };
     // return JSX for Virtual DOM
     return (
         <div className='createquiz-container'>
@@ -348,6 +367,27 @@ export default function CreateQuiz() {
                 </div>
                 <button onClick={saveQuizToDb}>Save Quiz</button>
             </div>
+            {/* Dialog for completing quiz */}
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {quizName} has been created!
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        You can now view your quiz in the quiz list.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }

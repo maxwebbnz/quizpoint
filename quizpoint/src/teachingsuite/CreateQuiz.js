@@ -4,20 +4,19 @@
  */
 
 /**========================================================================
- * ?  Will add comments shortly @maxwebbnz
+ * ?  CreateQuiz Component
  *========================================================================**/
-// Styles and user import
-import { user } from '../firebase/fb.user'
+// Styles
 import './CreateQuiz.css'
-import { uploadImage } from '../services/storage'
+
 // React and Firebase loads
-import { useParams, useLocation, useNavigate } from "react-router-dom"
-import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from "react-router-dom"
+import React, { useState } from 'react'
 
 // database
 import { db } from '../services/firebase'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { onValue, child, get, set, update } from "firebase/database";
+import { set } from "firebase/database";
 import { ref as dbRef } from "firebase/database";
 
 // material ui
@@ -31,14 +30,22 @@ import ReactTagInput from "@pathofdev/react-tag-input";
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Fade from '@mui/material/Fade';
-
+// tag inputs
 import "@pathofdev/react-tag-input/build/index.css";
 const Input = styled('input')({
     display: 'none',
 });
+
+/**========================================================================
+ **                           Create Quiz
+ *?  What does it do? Component for creating a quiz
+ *========================================================================**/
 export default function CreateQuiz() {
+    // create ref to quiz id
     let { id } = useParams()
+    // navigate for navigating off
     const navigate = useNavigate();
+    // base table data (quesiton data)
     let tableData = [{
         name: "",
         type: "multichoice",
@@ -47,7 +54,7 @@ export default function CreateQuiz() {
         uploadState: false
     }]
 
-
+    // states for use in program
     const [tableRows, addTableRow] = useState(tableData)
     const [quizName, setQuizName] = useState("")
     const [quizDesc, setQuizDesc] = useState("")
@@ -57,48 +64,70 @@ export default function CreateQuiz() {
     const [tags, setTags] = React.useState([])
     const [uploadState, setUploadState] = useState('Upload Image')
     const [options, updateOptions] = useState()
-    // window.onbeforeunload = function () {
-    //     return "You are currently creating a class, reloading will loose all of your progress.";
-    // }
 
+    // if quiz is being edited, prevent accidental reloads
+    window.onbeforeunload = function () {
+        return "You are currently creating a class, reloading will loose all of your progress.";
+    }
 
+    /**======================
+     **   updateCurrentQuesitonName
+     *? Called each time input is changed for name of question
+=     *========================**/
     function updateCurrentQuestionName(e) {
-        console.log(e.target.value)
         tableRows[currentQuestion - 1].name = e.target.value
-        console.log(tableRows)
-    }
-    function updateCurrentQuestionType(e) {
-        console.log(e.target.value)
-        tableRows[currentQuestion - 1].type = e.target.value
-        console.log(tableRows)
-    }
-    function updateCurrentQuestionAnswer(e) {
-        console.log(e.target.value)
-        tableRows[currentQuestion - 1].answer = e.target.value
-        console.log(tableRows)
     }
 
+    /**======================
+ **   updateCurrentQuesitonType
+ *? Called each time input is changed for type of question
+=     *========================**/
+    function updateCurrentQuestionType(e) {
+        tableRows[currentQuestion - 1].type = e.target.value
+    }
+    /**======================
+ **   updateCurrentQuestionAnswer
+ *? Called each time input is changed for answer of question
+=     *========================**/
+    function updateCurrentQuestionAnswer(e) {
+        tableRows[currentQuestion - 1].answer = e.target.value
+    }
+
+    /**======================
+ **   updateQuizName
+ *? Called each time input is changed for name of quiz
+=     *========================**/
     function updateQuizName(e) {
         setQuizName(e.target.value)
-        console.log(quizName)
-
     }
 
+    /**======================
+ **   updateQuizDesc
+ *? Called each time input is changed for description of question
+=     *========================**/
     function updateQuizDesc(e) {
         setQuizDesc(e.target.value)
-        console.log(quizDesc)
 
     }
-    function handleChange(e) {
-        console.log(e.target.value)
 
+    /**==============================================
+     **              handleChange
+     *?  What does it do? Handles image uploading for question
+     *@called from: Upload Button
+     *=============================================**/
+    function handleChange(e) {
+        // set image reference for backup purposes
         tableRows[currentQuestion - 1].image = e.target.value
+        // image is being uploaded
         tableRows[currentQuestion - 1].uploadState = true
-        // console.log(this.state.image);
+        // references
         let file = e.target.files[0]
-        let returnURL
+
+        // reference to firebase lib
         const storage = getStorage();
+        // create reference to new image
         const storageRef = ref(storage, "QUIZPOINT_QUIZ_IMAGES_" + id + currentQuestion);
+        // metadata so image is uploaded properly
         const metadata = {
             contentType: 'image/jpeg',
         };
@@ -143,59 +172,77 @@ export default function CreateQuiz() {
             () => {
                 // Upload completed successfully, now we can get the download URL
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
+                    // set image url to question
                     tableRows[currentQuestion - 1].image = downloadURL
                 });
             }
         );
-
     }
+
+    /**==============================================
+     **              updateCurrentQuestionOptions
+     *?  What does it do? Takes all options inputted into the tag, and adds it
+     *=============================================**/
     function updateCurrentQuestionOptions(items) {
+        // for each option
         for (var index = 0; index < items.length; index++) {
+            // if option is empty
             if (items[index] === "") {
+                // remove it
                 items.splice(index, 1)
             }
         }
 
-        console.log(items)
+        // set options to the choices avaliable on the question
         tableRows[currentQuestion - 1].choices = items
+        // for each option, map it to the select options for answer selecting
         let optionSelect = items.map((item, index) => {
             return (
+                // JSX for each option
                 <MenuItem value={item}>{item}</MenuItem>
             )
         })
+        // set state for options
         updateOptions(optionSelect)
+        // update tags for visualisation
         setTags(items)
     }
+    /**==============================================
+     **              addRow()
+     *?  What does it do? Handles new row generation when a question is added
+     *=============================================**/
     function addRow() {
+        // add new position into array with base values
         addTableRow([...tableRows, {
             name: "",
             type: "multichoice",
             choices: [""],
             image: ''
         }])
+        // incremeint question num by 1
         setCurrentQuestionNum(currentQuestion + 1)
     }
 
+    /**==============================================
+     **              saveQuizToDb()
+     *?  What does it do? Saves quiz object to firebase and cleans up...
+     *=============================================**/
     function saveQuizToDb() {
-        let quizObject = {
-            title: quizName,
-            description: quizDesc,
-            questions: tableRows
-        }
-        console.log(quizName)
-
+        // set object in firebase
         set(dbRef(db, 'schools/hvhs/quizzes/' + id), {
             title: quizName,
             description: quizDesc,
             questions: tableRows
 
         });
-
-        console.log("Saved Quiz Successfully", quizObject)
+        // echo to console
+        console.log("Saved Quiz Successfully")
     }
+
+    // for each table row, add some JSX In
     const tableRow = tableRows.map((row, index) => {
         return (
+            // JSX for each row
             <Fade in={shouldFade}>
                 <tr>
                     <td>{index + 1}</td>
@@ -258,7 +305,7 @@ export default function CreateQuiz() {
             </Fade>
         )
     })
-
+    // return JSX for Virtual DOM
     return (
         <div className='createquiz-container'>
             <div className='createquiz-header'>
@@ -304,3 +351,5 @@ export default function CreateQuiz() {
         </div>
     )
 }
+
+// end of file :D

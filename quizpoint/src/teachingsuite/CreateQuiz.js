@@ -167,7 +167,33 @@ export default function CreateQuiz() {
         updateOptions(optionSelect)
         setTags(items)
     }
+    function addRow() {
+        addTableRow([...tableRows, {
+            name: "",
+            type: "multichoice",
+            choices: [""],
+            image: ''
+        }])
+        setCurrentQuestionNum(currentQuestion + 1)
+    }
 
+    function saveQuizToDb() {
+        let quizObject = {
+            title: quizName,
+            description: quizDesc,
+            questions: tableRows
+        }
+        console.log(quizName)
+
+        set(dbRef(db, 'schools/hvhs/quizzes/' + id), {
+            title: quizName,
+            description: quizDesc,
+            questions: tableRows
+
+        });
+
+        console.log("Saved Quiz Successfully", quizObject)
+    }
     const tableRow = tableRows.map((row, index) => {
         return (
             <Fade in={shouldFade}>
@@ -233,33 +259,6 @@ export default function CreateQuiz() {
         )
     })
 
-    function addRow() {
-        addTableRow([...tableRows, {
-            name: "",
-            type: "multichoice",
-            choices: [""],
-            image: ''
-        }])
-        setCurrentQuestionNum(currentQuestion + 1)
-    }
-
-    function saveQuizToDb() {
-        let quizObject = {
-            title: quizName,
-            description: quizDesc,
-            questions: tableRows
-        }
-        console.log(quizName)
-
-        set(dbRef(db, 'schools/hvhs/quizzes/' + id), {
-            title: quizName,
-            description: quizDesc,
-            questions: tableRows
-
-        });
-
-        console.log("Saved Quiz Successfully", quizObject)
-    }
     return (
         <div className='createquiz-container'>
             <div className='createquiz-header'>

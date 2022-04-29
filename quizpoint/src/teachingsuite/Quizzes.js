@@ -19,6 +19,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 
+import AssignQuiz from './AssignQuiz';
 // Material UI for Styled Components
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

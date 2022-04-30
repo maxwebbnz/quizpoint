@@ -1,15 +1,14 @@
-
-
 /* Home Page */
 
 .homePageContent {
+    overflow: hidden;
     position: absolute;
     top: 10px;
     left: 10px;
     padding: 5px;
     /* background-color: white; */
     /* border: 2px solid red; */
-    width: 10%;
+    width: 35%;
     padding-top: 20px;
     transition-duration: 0.4;
 }
@@ -37,7 +36,7 @@
 .center-screen {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 50% !important;
     margin-right: -50%;
     transform: translate(-50%, -50%);
 }
@@ -46,8 +45,17 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    color: black;
 }
 
+.logo-icon {
+    width: 30%;
+    position: relative;
+    top: 50% !important;
+    left: 50% !important;
+    margin-right: -50%;
+    transform: translate(-50%, -10%);
+}
 
 /* home screen media query */
 
@@ -55,6 +63,7 @@
     .schoolBranding {
         display: none;
     }
+
     .homePageContent {
         position: absolute;
         top: 10px;
@@ -62,16 +71,18 @@
         padding: 5px;
         /* background-color: white; */
         /* border: 2px solid red; */
-        width: 40%;
+        width: 40% !important;
         padding-top: 20px;
         transition-duration: 0.4;
     }
+
     .homePageActions {
         background-color: white;
         border-radius: 20px;
         padding: 5px;
         margin-top: 3%;
     }
+
     .center-screen {
         position: absolute;
         top: 50%;
@@ -79,6 +90,7 @@
         margin-right: -50%;
         transform: translate(-50%, -50%);
     }
+
     .authContent {
         display: block;
         margin-left: auto;
@@ -142,6 +154,7 @@
     .schoolBranding {
         display: none;
     }
+
     .homePageContent {
         position: absolute;
         top: 10px;
@@ -153,12 +166,14 @@
         padding-top: 20px;
         transition-duration: 0.4;
     }
+
     .homePageActions {
         background-color: white;
         border-radius: 20px;
         padding: 5px;
         margin-top: 3%;
     }
+
     .center-screen {
         position: absolute;
         top: 50%;
@@ -166,12 +181,14 @@
         margin-right: -50%;
         transform: translate(-50%, -50%);
     }
+
     .authContent {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
-    .generic-button{
+
+    .generic-button {
         width: 80% !important;
     }
 }

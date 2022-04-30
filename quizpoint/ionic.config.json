@@ -1,0 +1,7 @@
+{
+  "name": "quizpoint",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

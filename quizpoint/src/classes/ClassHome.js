@@ -49,6 +49,7 @@ export default function Classes() {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     const [loading, dataFetch] = useState(false)
+    const [enrolled, setEnrollment] = useState(true)
     const shouldFade = true;
 
     useEffect(() => {
@@ -93,30 +94,38 @@ export default function Classes() {
 
                 Object.keys(user.classes).forEach(function (key) {
                     console.log(key)
-                    let pathRef = ref(db, `/schools/hvhs/classes/${key}`);
-
-                    onValue(pathRef, (snapshot) => {
-                        if (snapshot === undefined || snapshot === null) {
-                            console.log("invalid class code")
-                        } else {
-                            const data = snapshot.val()
-                            if (data === null) {
-
+                    if (key === 'notEnrolled') {
+                        setEnrollment(false)
+                        dataFetch(true)
+                    } else {
+                        setEnrollment(true)
+                        let trimmedKey = key.trim()
+                        let pathRef = ref(db, `/schools/hvhs/classes/${trimmedKey}`);
+                        console.log(`/schools/hvhs/classes/${trimmedKey
+                            }`)
+                        onValue(pathRef, (snapshot) => {
+                            if (snapshot.val() === undefined || snapshot.val() === null) {
+                                console.log("invalid class code")
                             } else {
-                                console.log(data)
-                                foundClasses.push(data)
-                                ++currentNum
+                                const data = snapshot.val()
+                                if (data === null) {
+                                    console.log("invalid class code")
+                                } else {
+                                    console.log(data)
+                                    foundClasses.push(data)
+                                    ++currentNum
+                                }
                             }
-                        }
 
-                        if (currentNum < toBeat) {
-                            console.log('not loaded yet' + currentNum + ' ' + toBeat)
-                        } else {
-                            dataFetch(true)
-                        }
-                    })
+                            if (currentNum < toBeat) {
+                                console.log('not loaded yet' + currentNum + ' ' + toBeat)
+                                console.log(foundClasses)
+                            } else {
+                                dataFetch(true)
+                            }
+                        })
+                    }
 
-                    console.log(foundClasses)
 
                 });
             }
@@ -176,35 +185,42 @@ export default function Classes() {
 
 
     } else {
-        const classCards = foundClasses.map((classInfo) =>
-            <div>
+        let classCards
+        if (enrolled === true) {
+            classCards = foundClasses.map((classInfo) =>
+                <div>
 
-                <Card sx={{ width: 275 }}>
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            height="100"
-                            image="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg"
-                            alt="green iguana"
-                        />
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Taught by {classInfo.classCreator}
-                            </Typography>
-                            <Typography variant="h4">
-                                {classInfo.className}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small" href={'/class/' + classInfo.code}>View Class</Button>
-                        </CardActions>
-                    </CardActionArea>
-                </Card>
+                    <Card sx={{ width: 275 }}>
+                        <CardActionArea>
+                            <CardMedia
+                                component="img"
+                                height="100"
+                                image="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg"
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    Taught by {classInfo.classCreator}
+                                </Typography>
+                                <Typography variant="h4">
+                                    {classInfo.className}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" href={'/class/' + classInfo.code}>View Class</Button>
+                            </CardActions>
+                        </CardActionArea>
+                    </Card>
 
+                </div>
+            );
+        } else {
+            classCards = <div>
+                <p>No classes</p>
             </div>
-        );
+        }
         if (isTabletOrMobile) {
             return (
                 <Fade in={shouldFade}>

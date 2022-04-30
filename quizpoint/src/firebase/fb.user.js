@@ -20,7 +20,6 @@ function setUserObjectLocal(_userObj) {
     _userObj.authed = true
     sessionStorage.setItem('user', JSON.stringify(_userObj));
     window.location.reload(false);
-
 }
 
 export {

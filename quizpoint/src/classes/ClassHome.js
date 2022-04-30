@@ -97,18 +97,19 @@ export default function Classes() {
                     if (key === 'notEnrolled') {
                         setEnrollment(false)
                         dataFetch(true)
-
                     } else {
-
-                        let pathRef = ref(db, `/schools/hvhs/classes/${key}`);
-
+                        setEnrollment(true)
+                        let trimmedKey = key.trim()
+                        let pathRef = ref(db, `/schools/hvhs/classes/${trimmedKey}`);
+                        console.log(`/schools/hvhs/classes/${trimmedKey
+                            }`)
                         onValue(pathRef, (snapshot) => {
-                            if (snapshot === undefined || snapshot === null) {
+                            if (snapshot.val() === undefined || snapshot.val() === null) {
                                 console.log("invalid class code")
                             } else {
                                 const data = snapshot.val()
                                 if (data === null) {
-
+                                    console.log("invalid class code")
                                 } else {
                                     console.log(data)
                                     foundClasses.push(data)
@@ -118,13 +119,13 @@ export default function Classes() {
 
                             if (currentNum < toBeat) {
                                 console.log('not loaded yet' + currentNum + ' ' + toBeat)
+                                console.log(foundClasses)
                             } else {
                                 dataFetch(true)
                             }
                         })
                     }
 
-                    console.log(foundClasses)
 
                 });
             }

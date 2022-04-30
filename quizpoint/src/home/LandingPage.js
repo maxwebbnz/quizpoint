@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
-
+import Collapse from '@mui/material/Collapse';
 
 /**==============================================
  **              LandingPage
@@ -59,17 +59,19 @@ export default function LandingPage() {
                         sx={{ color: '#b5b5b5', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                         open={shouldBackdrop}
                     >
-                        <div class="homePageContent center-screen" id='landingPagetoAnimate'>
-                            <img src={logo} className="logo-icon" alt="triangle with all three sides equal"></img>
-                            <div class="homePageActions">
-                                <div class="authContent text-center">
-                                    <h2>Welcome to QuizPoint</h2>
-                                    <button class="generic-button" onClick={LoginFunction} id="authButton"><i class="bi bi-google"></i> Login with Google</button>
+                        <Collapse in={shouldBackdrop}>
+                            <div class="homePageContent center-screen" id='landingPagetoAnimate'>
+                                <img src={logo} className="logo-icon" alt="triangle with all three sides equal"></img>
+                                <div class="homePageActions">
+                                    <div class="authContent text-center">
+                                        <h2>Welcome to QuizPoint</h2>
+                                        <button class="generic-button" onClick={LoginFunction} id="authButton"><i class="bi bi-google"></i> Login with Google</button>
+
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
+                        </Collapse>
                     </Backdrop>
 
                 </div>

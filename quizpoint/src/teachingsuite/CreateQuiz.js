@@ -21,8 +21,6 @@ import { ref as dbRef } from "firebase/database";
 
 // material ui
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -63,11 +61,10 @@ export default function CreateQuiz() {
     const [tableRows, addTableRow] = useState(tableData)
     const [quizName, setQuizName] = useState("")
     const [quizDesc, setQuizDesc] = useState("")
-    const [loadingData, setLoadingStatus] = useState(false)
     const [shouldFade, setFade] = useState(true)
     const [currentQuestion, setCurrentQuestionNum] = useState(1)
+
     const [tags, setTags] = React.useState([])
-    const [uploadState, setUploadState] = useState('Upload Image')
     const [options, updateOptions] = useState()
     const [open, setOpen] = React.useState(false);
 

@@ -2,6 +2,7 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+
 // Styles and user import
 import { user } from '../firebase/fb.user'
 import './CreateClass.css'
@@ -57,7 +58,6 @@ export default function CreateClass() {
         setClassName(e.target.value)
         classObject.className = e.target.value
         console.log(classObject)
-
     }
     function updateClassDesc(e) {
         console.log(e.target.value)

@@ -18,6 +18,7 @@ import { db } from '../services/firebase'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { set } from "firebase/database";
 import { ref as dbRef } from "firebase/database";
+import Compressor from 'compressorjs';
 
 // material ui
 import TextField from '@mui/material/TextField';
@@ -126,61 +127,80 @@ export default function CreateQuiz() {
         tableRows[currentQuestion - 1].uploadState = true
         // references
         let file = e.target.files[0]
+        /**==============================================
+         **              Compressor
+         *?  What does it do? compresses quiz question media to 60% of quaility (40% decrease to save space)
+         *=============================================**/
+        new Compressor(file, {
+            quality: 0.6,
+            // The compression process is asynchronous,
+            // which means you have to access the `result` in the `success` hook function.
+            success(result) {
+                console.log(result)
+                // The third parameter is required for server
+                // reference to firebase lib
+                const storage = getStorage();
+                // create reference to new image
+                const storageRef = ref(storage, "QUIZPOINT_QUIZ_IMAGES_" + id + currentQuestion);
+                // metadata so image is uploaded properly
+                const metadata = {
+                    contentType: 'image/jpeg',
+                };
 
-        // reference to firebase lib
-        const storage = getStorage();
-        // create reference to new image
-        const storageRef = ref(storage, "QUIZPOINT_QUIZ_IMAGES_" + id + currentQuestion);
-        // metadata so image is uploaded properly
-        const metadata = {
-            contentType: 'image/jpeg',
-        };
+                //? code from firebase examples
+                // 'file' comes from the Blob or File API
+                const uploadTask = uploadBytesResumable(storageRef, result, metadata);
 
-        //? code from firebase examples
-        // 'file' comes from the Blob or File API
-        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+                // Listen for state changes, errors, and completion of the upload.
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                            case 'paused':
+                                console.log('Upload is paused');
+                                break;
+                            case 'running':
+                                console.log('Upload is running');
+                                break;
+                        }
+                    },
+                    (error) => {
+                        // A full list of error codes is available at
+                        // https://firebase.google.com/docs/storage/web/handle-errors
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break;
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                break;
 
-        // Listen for state changes, errors, and completion of the upload.
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
-                switch (snapshot.state) {
-                    case 'paused':
-                        console.log('Upload is paused');
-                        break;
-                    case 'running':
-                        console.log('Upload is running');
-                        break;
-                }
+                            // ...
+
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                break;
+                        }
+                    },
+                    () => {
+                        // Upload completed successfully, now we can get the download URL
+                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            // set image url to question
+                            tableRows[currentQuestion - 1].image = downloadURL
+                        });
+                    }
+                );
+                // Send the compressed image file to server with XMLHttpRequest.
+
             },
-            (error) => {
-                // A full list of error codes is available at
-                // https://firebase.google.com/docs/storage/web/handle-errors
-                switch (error.code) {
-                    case 'storage/unauthorized':
-                        // User doesn't have permission to access the object
-                        break;
-                    case 'storage/canceled':
-                        // User canceled the upload
-                        break;
-
-                    // ...
-
-                    case 'storage/unknown':
-                        // Unknown error occurred, inspect error.serverResponse
-                        break;
-                }
+            error(err) {
+                console.log(err.message);
             },
-            () => {
-                // Upload completed successfully, now we can get the download URL
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    // set image url to question
-                    tableRows[currentQuestion - 1].image = downloadURL
-                });
-            }
-        );
+        });
+
+
     }
 
     /**==============================================

@@ -19,6 +19,7 @@
     "compressorjs": "^1.1.1",
     "downshift": "^6.1.7",
     "firebase": "^9.6.10",
+    "kamar-js": "^0.3.3",
     "material-icons": "^1.10.8",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.3",

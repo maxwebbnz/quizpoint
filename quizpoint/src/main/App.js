@@ -110,7 +110,8 @@ function App() {
               <Route path="/" element={<ClassHome />} />
               <Route path="/classHome" element={<RedirectLegacy />} />
               <Route path="/classes" element={<ClassHome />} />
-              <Route path="/class/:classId" element={<ClassPage />} />            <Route path="/invite/:id" element={<Invite />} />
+              <Route path="/class/:classId" element={<ClassPage />} />
+              <Route path="/invite/:id" element={<Invite />} />
               <Route path="/quiz/:quizId" element={<Quiz />} />
               <Route path="/user/:id" element={<UserPage />} />
               <Route path="/logout" element={<LogOut />} />

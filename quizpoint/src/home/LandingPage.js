@@ -17,6 +17,7 @@ import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Collapse from '@mui/material/Collapse';
 
+
 /**==============================================
  **              LandingPage
  *?  What does it do? UI for Landing Page
@@ -26,6 +27,7 @@ export default function LandingPage() {
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const shouldBackdrop = true
+
 
     const MyFade = ({
         children,

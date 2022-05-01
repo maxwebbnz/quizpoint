@@ -1,0 +1,22 @@
+.quiz-container {
+    background-color: white;
+    position: absolute;
+    top: 40%;
+    left: 50% !important;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) !important;
+    width: 90%;
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 2px;
+    /* i dont know if this is doing anything to help. */
+    box-shadow: 2%;
+}
+
+.answer-section {
+    width: 40%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20%;
+}

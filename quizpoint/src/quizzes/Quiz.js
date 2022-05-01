@@ -3,14 +3,18 @@
  * All rights reserved.
  */
 
-//! Still working on this file, a holiday job! Feel free to edit, tinker, etc Allan!
 
-import { user } from '../firebase/fb.user.js';
+// Base imports from react
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
+
+// user model
+import { user } from '../firebase/fb.user.js';
 // alerts
 import { alert } from '../services/Alert'
-
+// styling
+import './Quiz.css'
+// firebase and db stuff
 import { db } from '../services/firebase'
 import { ref, onValue, update, get } from "firebase/database";
 // material ui
@@ -21,9 +25,13 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 
+// setup variables for file
 let currentQuiz = []
-let currentQuizTitle
 let choiceArray = []
+
+/**========================================================================
+ *                             Quiz Module
+ *========================================================================**/
 export default function Quiz() {
 
     // set states for use across in useeffect
@@ -32,7 +40,7 @@ export default function Quiz() {
     const [error, errorOccured] = useState(false)
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [shouldFade, setFade] = useState(true)
-
+    const [currentQuizTitle, setQuizTitle] = useState('')
     // get params
     let { quizId } = useParams()
     // console.log(quizId)
@@ -52,45 +60,55 @@ export default function Quiz() {
             onValue(quizPath, (snapshot) => {
                 // if no data
                 if (snapshot.val() === null) {
+                    // alert an error
                     console.log('Quiz not there')
                     alert.error('Quiz not found', 'The quiz you are looking for does not exist')
                     setFade(false)
                     // data exists
                 } else {
+                    // reference to data
                     const data = snapshot.val()
+                    // quiz exists at
                     console.log("Quiz Exists: ")
-                    console.log(data)
+                    // setup questions array
                     let questionsArray = snapshot.val().questions
-
-                    currentQuizTitle = snapshot.val().title
+                    // set quiz title
+                    setQuizTitle(snapshot.val().title)
+                    // for each question, push it to the currentquiz
                     for (var index = 0; index < questionsArray.length; index++) {
                         currentQuiz.push(questionsArray[index])
                     }
+                    // get user progress
                     let userProgress = user.quizzes.active[quizId].progress
-                    console.log(userProgress)
+                    // if user progress is null, or if the user hasn't started
                     if (userProgress === null || userProgress === 0) {
-                        // lol this was dumb of me, obvi the first is equal to 1
+                        // lol this was dumb of me, the first is equal to 1
                         setCurrentQuestion(1)
-                        console.log(currentQuestion)
+
+                        // if user has started
                     } else {
                         //? don't know why i copied this in the old version, we will see what happens
                         setCurrentQuestion(currentQuestion)
-                        console.log(currentQuestion)
                     }
-                    console.log(currentQuestion)
-                    console.log(currentQuiz)
+                    // set current question
                     setCq({
                         question: currentQuiz[currentQuestion],
                     })
-                    console.log(currentQuestionObject)
+
+                    console.log('Quiz Setup', currentQuestionObject)
+                    // for all questions, push them to the choice array
                     for (var i = 0; i < currentQuiz[currentQuestion].choices.length; i++) {
+                        // if choice is undefined (stupid array stuff)
                         if (currentQuiz[currentQuestion].choices[i] === undefined) {
                             console.log('undefined')
+
+                            // if choice is not undefined
                         } else {
                             choiceArray.push(currentQuiz[currentQuestion].choices[i])
                         }
                     }
-                    console.log(choiceArray)
+                    console.log('First question choices:', choiceArray)
+                    // finish loading
                     setLoadingStatus(true)
                 }
             })
@@ -100,19 +118,24 @@ export default function Quiz() {
 
     })
 
+    /**==============================================
+     **              nextQuestion
+     *?  What does it do? Handles next question loading and updating
+     *=============================================**/
     function nextQuestion(option) {
-
-        //? update progress happens here..
         console.log("User answered with " + option)
-        // set up object
+        // set up object for next question
         setCq({
             question: currentQuiz[currentQuestion + 1],
         })
+        console.log('Changing question:', currentQuestionObject)
+        // set current question number
         setCurrentQuestion(currentQuestion + 1)
-
     }
-
+    // if we are loading a quiz
     if (loadingQuiz === false) {
+
+        // show loading screen
         return (
             <div>
                 <Backdrop
@@ -122,18 +145,23 @@ export default function Quiz() {
                     <CircularProgress color="inherit" />
                 </Backdrop>
             </div>)
+
+        // else if we have finished loading
     } else {
-
+        // return quiz page
         return (
-            <div>
+            <div className='quiz-container'>
+                {/* Quiz Title */}
                 <h1>Quiz Title: {currentQuizTitle}</h1>
-
-                <h3>Question #{currentQuestion}</h3>
                 <hr></hr>
+                {/* All Question content lies below. */}
+                <h3>Question #{currentQuestion}</h3>
                 <h3>{currentQuestionObject.question.title}</h3>
+                <p>Select an answer from below:</p>
                 <div className='answer-section'>
+                    {/* For each choice, display a button */}
                     {currentQuestionObject.question.choices.map((answerOption, index) => (
-                        <button onClick={() => nextQuestion(answerOption)}>{answerOption}</button>
+                        <Button variant='contained' onClick={() => nextQuestion(answerOption)}>{answerOption}</Button>
                     ))}
                 </div>
             </div>

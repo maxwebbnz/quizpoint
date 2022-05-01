@@ -2,6 +2,7 @@
   "name": "quizpoint",
   "version": "0.1.0",
   "private": true,
+  "main": "public/main.js",
   "dependencies": {
     "@capacitor/android": "3.5.0",
     "@capacitor/core": "^3.5.0",
@@ -18,6 +19,7 @@
     "bootstrap-icons": "^1.8.1",
     "compressorjs": "^1.1.1",
     "downshift": "^6.1.7",
+    "electron": "^18.2.0",
     "firebase": "^9.6.10",
     "kamar-js": "^0.3.3",
     "material-icons": "^1.10.8",
@@ -37,7 +39,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "ionic:build": "npm run build",
-    "ionic:serve": "npm run start"
+    "ionic:serve": "npm run start",
+        "electron-dev": "electron ."
   },
   "eslintConfig": {
     "extends": [

@@ -11,17 +11,9 @@ import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
 // components from libs
-import { ref, onValue, update, get } from "firebase/database";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { ref, onValue } from "firebase/database";
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import { useParams } from "react-router-dom"
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -138,10 +130,10 @@ export default function Students() {
         )
     } else {
         //? here for testing
-        const listItems = allStudents.map((student) =>
-            // console.log(student.name),
-            <li> {student.name}</li>
-        );
+        // const listItems = allStudents.map((student) =>
+        //     // console.log(student.name),
+        //     <li> {student.name}</li>
+        // );
 
         // return HTML component
         return (

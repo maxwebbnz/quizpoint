@@ -16,8 +16,6 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -28,7 +26,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
 export default function Reporting() {
-    const [allStudents, studentArray] = useState([])
+    const [allStudents] = useState([])
     const [loadedData, setLoadingStatus] = useState(false)
     const [dialogContext, setContext] = useState()
     const [selectedStudent, selectStudent] = useState('')

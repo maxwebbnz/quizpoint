@@ -24,6 +24,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
+import { useMediaQuery } from 'react-responsive'
 
 // setup variables for file
 let currentQuiz = []
@@ -33,7 +34,9 @@ let choiceArray = []
  *                             Quiz Module
  *========================================================================**/
 export default function Quiz() {
-
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     // set states for use across in useeffect
     const [loadingQuiz, setLoadingStatus] = useState(false)
     const [currentQuestionObject, setCq] = useState({})
@@ -48,7 +51,7 @@ export default function Quiz() {
     useEffect(() => {
         // loaded complete
         if (loadingQuiz === true) {
-            document.title = ' Quiz | QuizPoint'
+            document.title = currentQuizTitle + ' | QuizPoint'
 
             // if not, need to load data
         } else {
@@ -148,24 +151,48 @@ export default function Quiz() {
 
         // else if we have finished loading
     } else {
-        // return quiz page
-        return (
-            <div className='quiz-container'>
-                {/* Quiz Title */}
-                <h1>Quiz Title: {currentQuizTitle}</h1>
-                <hr></hr>
-                {/* All Question content lies below. */}
-                <h3>Question #{currentQuestion}</h3>
-                <h3>{currentQuestionObject.question.title}</h3>
-                <p>Select an answer from below:</p>
-                <div className='answer-section'>
-                    {/* For each choice, display a button */}
-                    {currentQuestionObject.question.choices.map((answerOption, index) => (
-                        <Button variant='contained' onClick={() => nextQuestion(answerOption)}>{answerOption}</Button>
-                    ))}
+        if (isDesktopOrLaptop) {
+            // return quiz page
+            return (
+                <div className='quiz-container'>
+                    {/* Quiz Title */}
+                    <h1>Quiz Title: {currentQuizTitle}</h1>
+                    <hr></hr>
+                    {/* All Question content lies below. */}
+                    <h3>Question #{currentQuestion}</h3>
+                    <h3>{currentQuestionObject.question.title}</h3>
+                    <p>Select an answer from below:</p>
+                    <div className='answer-section'>
+                        {/* For each choice, display a button */}
+                        {currentQuestionObject.question.choices.map((answerOption, index) => (
+                            <Button variant='contained' onClick={() => nextQuestion(answerOption)}>{answerOption}</Button>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        } else if (isTabletOrMobile) {
+            // return quiz page
+            return (
+                <div className='quiz-container-mobile'>
+                    {/* Quiz Title */}
+                    <h1>Quiz Title: {currentQuizTitle}</h1>
+                    <hr></hr>
+                    {/* All Question content lies below. */}
+                    <h3>Question #{currentQuestion}</h3>
+                    <h3>{currentQuestionObject.question.title}</h3>
+                    <p>Select an answer from below:</p>
+                    <Box textAlign='center'>
+                        <div className='answer-section-mobile'>
+                            {/* For each choice, display a button */}
+                            {currentQuestionObject.question.choices.map((answerOption, index) => (
+                                <Button variant='contained' onClick={() => nextQuestion(answerOption)}>{answerOption}</Button>
+                            ))}
+                        </div>
+                    </Box>
+                </div>
+            )
+        }
+
     }
 
 }

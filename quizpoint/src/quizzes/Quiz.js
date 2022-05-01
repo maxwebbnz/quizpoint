@@ -19,18 +19,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
 
 let currentQuiz = []
-let currentQuestion = 0
 let currentQuizTitle
-
+let choiceArray = []
 export default function Quiz() {
 
     // set states for use across in useeffect
     const [loadingQuiz, setLoadingStatus] = useState(false)
     const [currentQuestionObject, setCq] = useState({})
     const [error, errorOccured] = useState(false)
-    const [choiceArray, setCurrentChoices] = useState([])
+    const [currentQuestion, setCurrentQuestion] = useState(0)
     const [shouldFade, setFade] = useState(true)
 
     // get params
@@ -70,11 +70,11 @@ export default function Quiz() {
                     console.log(userProgress)
                     if (userProgress === null || userProgress === 0) {
                         // lol this was dumb of me, obvi the first is equal to 1
-                        currentQuestion = 1;
+                        setCurrentQuestion(1)
                         console.log(currentQuestion)
                     } else {
                         //? don't know why i copied this in the old version, we will see what happens
-                        currentQuestion = currentQuestion;
+                        setCurrentQuestion(currentQuestion)
                         console.log(currentQuestion)
                     }
                     console.log(currentQuestion)
@@ -83,13 +83,34 @@ export default function Quiz() {
                         question: currentQuiz[currentQuestion],
                     })
                     console.log(currentQuestionObject)
-                    setCurrentChoices(currentQuestionObject.choices)
+                    for (var i = 0; i < currentQuiz[currentQuestion].choices.length; i++) {
+                        if (currentQuiz[currentQuestion].choices[i] === undefined) {
+                            console.log('undefined')
+                        } else {
+                            choiceArray.push(currentQuiz[currentQuestion].choices[i])
+                        }
+                    }
+                    console.log(choiceArray)
                     setLoadingStatus(true)
                 }
             })
 
         }
+
+
     })
+
+    function nextQuestion(option) {
+
+        //? update progress happens here..
+        console.log("User answered with " + option)
+        // set up object
+        setCq({
+            question: currentQuiz[currentQuestion + 1],
+        })
+        setCurrentQuestion(currentQuestion + 1)
+
+    }
 
     if (loadingQuiz === false) {
         return (
@@ -102,18 +123,19 @@ export default function Quiz() {
                 </Backdrop>
             </div>)
     } else {
-        const choices = choiceArray.map((choice) =>
-            <div>
-                <Button>{choice}</Button>
-            </div>
-        );
+
         return (
             <div>
                 <h1>Quiz Title: {currentQuizTitle}</h1>
+
                 <h3>Question #{currentQuestion}</h3>
                 <hr></hr>
                 <h3>{currentQuestionObject.question.title}</h3>
-                {choices}
+                <div className='answer-section'>
+                    {currentQuestionObject.question.choices.map((answerOption, index) => (
+                        <button onClick={() => nextQuestion(answerOption)}>{answerOption}</button>
+                    ))}
+                </div>
             </div>
         )
     }

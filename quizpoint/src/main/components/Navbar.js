@@ -60,7 +60,7 @@ const NavBar = () => {
         if (urlContains(location.pathname, "/tcs")) {
             return (
                 <Navbar expand="lg" className='teachingsuite-nav'>
-                    <Navbar.Brand className="navbar-brand" href="/"><img src={icon} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>
+                    <Navbar.Brand className="navbar-brand" href="/tcs"><img src={icon} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>
                     <Nav className="navbar-links">
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/tcs/students/all"><i className="bi bi-people"></i> Students</Nav.Link>

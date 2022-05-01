@@ -41,6 +41,8 @@ export default function ClassPage() {
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
+    const [currentNum, setCurrentNum] = useState(0)
+    const [toBeat, setToBeat] = useState(0)
     const [shouldFade, fadeEnabled] = useState(true)
     // const []
     let { classId } = useParams()
@@ -78,24 +80,45 @@ export default function ClassPage() {
                             dataComplete(true)
 
                         } else {
-                            Object.keys(user.quizzes.active).forEach(function (key) {
-                                if (data.quizzes.active[key] === undefined) {
-                                    console.log("error")
-                                } else if (data.quizzes.active[key] !== undefined) {
-                                    console.log(key + " match, loading data")
-                                    let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
 
-                                    onValue(quizRef, (snapshot) => {
-                                        if (snapshot === undefined || snapshot === null) {
+                            for (var a in user.quizzes.active) {
+                                setToBeat(toBeat + 1)
+                            }
+                            function loadActiveQuiz() {
+                                Object.keys(user.quizzes.active).forEach(function (key) {
+                                    if (data.quizzes.active[key] === undefined) {
+                                        console.log("error")
+                                    } else if (data.quizzes.active[key] !== undefined) {
+                                        console.log(key + " match, loading data")
+                                        let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
+                                        onValue(quizRef, (snapshot) => {
+                                            console.log(currentNum)
 
-                                        } else {
-                                            const data = snapshot.val()
-                                            console.log(data)
-                                            quizActive.push(data)
-                                        }
-                                    })
-                                }
-                            })
+                                            if (snapshot.val() === undefined || snapshot.val() === null) {
+                                            } else {
+                                                const data = snapshot.val()
+                                                console.log(data)
+                                                quizActive.push(data)
+                                                setCurrentNum(currentNum + 1)
+                                                if (toBeat > currentNum) {
+                                                    console.log(currentNum)
+                                                } else {
+                                                    dataComplete(true)
+                                                    console.log('Still loading ' + currentNum + ' of ' + toBeat)
+
+                                                }
+                                            }
+
+                                        })
+                                    }
+                                })
+                            }
+                            if (toBeat === 0) {
+
+                            } else {
+
+                            }
+                            dataComplete(true)
 
                             addQuizCard(quizActive.map((qz) =>
                                 <div>
@@ -115,7 +138,7 @@ export default function ClassPage() {
                             console.log(data)
 
                             console.log(quizActive)
-                            dataComplete(true)
+
 
                         }
 

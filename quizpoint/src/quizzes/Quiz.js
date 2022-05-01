@@ -16,14 +16,12 @@ import { alert } from '../services/Alert'
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
-import { ref, onValue, update, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 // material ui
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Pagination from '@mui/material/Pagination';
 import { useMediaQuery } from 'react-responsive'
 
 // setup variables for file
@@ -34,13 +32,11 @@ let choiceArray = []
  *                             Quiz Module
  *========================================================================**/
 export default function Quiz() {
-    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     // set states for use across in useeffect
     const [loadingQuiz, setLoadingStatus] = useState(false)
     const [currentQuestionObject, setCq] = useState({})
-    const [error, errorOccured] = useState(false)
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [shouldFade, setFade] = useState(true)
     const [currentQuizTitle, setQuizTitle] = useState('')
@@ -70,7 +66,6 @@ export default function Quiz() {
                     // data exists
                 } else {
                     // reference to data
-                    const data = snapshot.val()
                     // quiz exists at
                     console.log("Quiz Exists: ")
                     // setup questions array

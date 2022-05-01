@@ -4,14 +4,13 @@
  */
 
 // react and local db functions
-import { dbFunctions } from "./firebase";
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 // user reference
 import { user } from "../firebase/fb.user";
 // firebase
 import { db } from '../services/firebase'
-import { ref, onValue, child, push, update } from "firebase/database";
+import { ref, onValue, update } from "firebase/database";
 
 // styling
 import './Invite.css'
@@ -34,7 +33,7 @@ export default function Invite() {
     const navigate = useNavigate()
     // states
     const [loading, setLoading] = useState(true)
-    const [shouldFade, setFade] = useState(true)
+    const [shouldFade] = useState(true)
     const [classObject, setClassObject] = useState({})
     /**==============================================
      **              joinClass

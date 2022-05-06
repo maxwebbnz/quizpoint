@@ -16,6 +16,11 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Collapse from '@mui/material/Collapse';
+import GoogleLogin from 'react-google-login';
+// or
+import { getDatabase, ref, child, get, set } from "firebase/database";
+import { setUserObjectLocal } from "../firebase/fb.user"
+
 
 
 /**==============================================
@@ -27,6 +32,65 @@ export default function LandingPage() {
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const shouldBackdrop = true
+
+
+    /**==============================================
+     **              HandleSignIn
+     *?  What does it do? Handles sign in with Google OAuth
+     *=============================================**/
+    const responseGoogle = (response) => {
+        console.log(response);
+        console.log(response.accessToken)
+        // then read data
+        const dbRef = ref(getDatabase());
+        // access data
+        console.log(response.accessToken)
+        get(child(dbRef, `schools/hvhs/users/${response.googleId}`)).then((snapshot) => {
+            // if user exists
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+                setUserObjectLocal(snapshot.val(), response.accessToken)
+                // register
+            } else {
+                registerUser(response.profileObj, response.accessToken)
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+
+
+    /**==============================================
+ **              registerUser
+ *?  What does it do? Registeres the user in the database
+ *@param _userObj object
+ *=============================================**/
+    function registerUser(_userObj, _token) {
+        let userObject = {
+            name: _userObj.name,
+            email: _userObj.email,
+            picture: _userObj.imageUrl,
+            studentID: _userObj.email.split('@')[0],
+            role: 'student',
+            uid: _userObj.googleId,
+            classes: {
+                notEnrolled: true
+            },
+            quizzes: {
+                active: {
+                    notEnrolled: true
+                },
+                turnedin: {
+                    notEnrolled: true
+                }
+            }
+        }
+        const db = getDatabase();
+        set(ref(db, 'schools/hvhs/users/' + _userObj.googleId), userObject);
+        setUserObjectLocal(_userObj, _token)
+    }
 
 
     const MyFade = ({
@@ -90,7 +154,8 @@ export default function LandingPage() {
                         <div class="homePageActions">
                             <div class="authContent text-center">
                                 <h2>Please Log in</h2>
-                                <button class="generic-button" onClick={LoginFunction} id="authButton"><i class="bi bi-google"></i> Login with Google</button>
+                                <div className="g-signin2" data-onsuccess="onSignIn"></div>
+
                             </div>
                         </div>
                     </div>

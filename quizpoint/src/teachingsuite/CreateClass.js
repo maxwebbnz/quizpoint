@@ -14,7 +14,6 @@ import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
 import { ref, onValue, child, get, set, update } from "firebase/database";
-
 // Material UI for components
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -47,6 +46,7 @@ export default function CreateClass() {
     const [classObject, setClassObject] = useState({})
     const [open, setOpen] = useState(false)
     // let className
+
 
     const handleClose = () => {
         navigate('/class/' + id);

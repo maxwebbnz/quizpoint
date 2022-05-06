@@ -21,15 +21,19 @@
     "downshift": "^6.1.7",
     "electron": "^18.2.0",
     "firebase": "^9.6.10",
+    "googleapis": "^95.0.0",
     "kamar-js": "^0.3.3",
     "material-icons": "^1.10.8",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.3",
     "react-dom": "^18.0.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-gapi-auth2": "^1.0.4",
+    "react-google-login": "^5.2.2",
     "react-responsive": "^9.0.0-beta.6",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "react-spinners": "^0.11.0",
     "sweetalert2": "^11.4.8",
     "web-vitals": "^2.1.4"
   },
@@ -40,7 +44,7 @@
     "eject": "react-scripts eject",
     "ionic:build": "npm run build",
     "ionic:serve": "npm run start",
-        "electron-dev": "electron ."
+    "electron-dev": "electron ."
   },
   "eslintConfig": {
     "extends": [

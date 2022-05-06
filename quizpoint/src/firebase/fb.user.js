@@ -16,8 +16,9 @@ if (sessionStorage.user === undefined) {
 }
 
 
-function setUserObjectLocal(_userObj) {
+function setUserObjectLocal(_userObj, _token) {
     _userObj.authed = true
+    _userObj.accessToken = _token
     sessionStorage.setItem('user', JSON.stringify(_userObj));
     window.location.reload(false);
 }

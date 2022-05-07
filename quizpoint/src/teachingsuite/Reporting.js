@@ -137,7 +137,19 @@ export default function Reporting() {
             setSetOfOptions(placeholder)
         } else if (type === "student") {
             selectedArray.type = students
-            setSetOfOptions(selectedArray)
+
+            let placeholder = students.map(classObj => {
+                return (
+                    <MenuItem key={classObj.key} value={classObj.uid}>
+                        {classObj.name}
+                    </MenuItem>
+                )
+            })
+            setSetOfOptions(placeholder)
+            setOption(type)
+
+            // after options setting,
+            setOpen(true);
 
         }
 

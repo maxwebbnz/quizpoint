@@ -46,6 +46,7 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import { useMediaQuery } from 'react-responsive'
 import { GApiProvider } from 'react-gapi-auth2';
 import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
+import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
 
 const clientConfig = {
   client_id: '616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com',
@@ -109,6 +110,7 @@ function App() {
                 <Route path="/tcs/reporting" element={<Reporting />} />
                 <Route path="/tcs/reporting/:field" element={<Reporting />} />
                 <Route path="/tcs/reports/class/:id" element={<ClassReport />} />
+                <Route path="/tcs/reports/student/:id" element={<StudentReport />} />
                 <Route path="/tcs" element={<TeachingHome />} />
                 <Route path="/logout" element={<LogOut />} />
                 <Route path="*" element={<NotFoundPage />} />

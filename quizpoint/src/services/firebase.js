@@ -89,7 +89,6 @@ let dbFunctions = {
     return update(pathRef, object);
 
   }
-
 }
 
 //? export methods

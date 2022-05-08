@@ -1,0 +1,38 @@
+.student-report {
+    margin-left: 2%;
+    margin-top: 4%;
+}
+
+.student-report-container {
+    background-color: white;
+    height: 100%;
+    width: 90%;
+    border-radius: 10px;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.student-report-studentinfo {
+    margin-bottom: 2%;
+    padding-top: 0.5%;
+    background-color: white;
+    padding-left: 1%;
+    width: 90%;
+    border-radius: 20px;
+}
+
+.user-content {
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    /* grid-gap: 0%; */
+}
+
+.banner-details {
+    margin-right: 2%;
+    background-color: #4E83C2;
+    padding-left: 2px !important;
+    margin-left: 0 !important;
+    color: white;
+    border-radius: 5px;
+
+}

@@ -8,6 +8,9 @@
 // react modules
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+// jspdf
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable';
 
 // database
 import { db } from '../../services/firebase'
@@ -24,6 +27,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import * as htmlToImage from 'html-to-image';
 
 import HashLoader from "react-spinners/HashLoader";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -40,8 +44,8 @@ import './StudentReport.css'
  *=============================================**/
 export default function StudentReport() {
     // states
-    const [loading, setLoading] = useState(false)
-    const [studentObject, setStudentObject] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [currentStudent, setStudentObject] = useState({})
     // id reference to uid
     let { id } = useParams()
 
@@ -69,12 +73,18 @@ export default function StudentReport() {
                         console.log("invalid student id")
                     } else {
                         // set student object
-                        setStudentObject(snapshot.val())
+                        let studentObject = {
+                            uid: snapshot.val().uid,
+                            name: snapshot.val().name,
+                            quizzes: snapshot.val().quizzes,
+
+                        }
                         // load quiz information
                         let quizCodes = snapshot.val().quizzes.active
                         // for all quiz codes
                         for (let quizCode in quizCodes) {
-
+                            studentObject.quiz = {}
+                            studentObject.quiz[quizCode] = {}
                             //? in theory you can make the row in here, so therefore each student has an row.
                             // get quiz data
                             let pathRef = ref(db, `/schools/hvhs/quizzes/${quizCode}`)
@@ -88,15 +98,18 @@ export default function StudentReport() {
                                     let userReference = studentObject.quizzes
                                     // if quiz exists in an active path
                                     if (typeof studentObject.quizzes.active[quizCode] !== 'undefined') {
-
-                                        // echo
+                                        // echo to title
                                         console.log('quiz is active')
                                         // reference to a long variable
                                         let quizQuestions = studentObject.quizzes.active[quizCode].answers
+                                        let quizReference = studentObject.quizzes.active[quizCode]
                                         // for all questions in quiz
                                         for (var index = 0; index < quizQuestions.length; index++) {
                                             // reference for something i cant be bothered typing
                                             let question = quizQuestions[index]
+                                            quizReference[index] = {
+                                                studentInput: quizReference.answers[index],
+                                            }
                                             // testing
                                             console.log(quiz.questions)
                                             // if its empty (which it will be always 1 question (unless model changes))
@@ -108,16 +121,19 @@ export default function StudentReport() {
                                                 // they got it!
                                                 if (question === quiz.questions[index].answer) {
                                                     console.log('correct')
-                                                    studentObject.quizzes.active[quizCode].answers[index] = 'correct'
+                                                    quizReference[index].answer = 'correct'
                                                     // incorrect, merr merr merr
                                                 } else {
                                                     console.log(question + ' is not correct')
-                                                    studentObject.quizzes.active[quizCode].answers[index] = 'incorrect'
+                                                    quizReference[index].answer = 'correct'
                                                 }
                                             }
+
+                                            console.log(quizReference)
+
                                         }
+                                        studentObject.quiz[quizCode] = quizReference
                                         // finishing off with a console log
-                                        console.log(studentObject)
 
                                         // if its not active and has been completed
                                     } else if (typeof studentObject.quizzes.active[quizCode] === 'undefined') {
@@ -126,6 +142,8 @@ export default function StudentReport() {
                                 }
                             })
                         }
+                        setStudentObject(studentObject)
+                        console.log(currentStudent)
                         // set loading to false
                         setLoading(false)
                     }
@@ -158,12 +176,29 @@ export default function StudentReport() {
                 questions: {
                     1: {
                         answer: 'correct',
+                        studentInput: 'Washington D.C',
                         question: 'What is the capital of the United States?',
                     },
-                    2: 'incorrect',
-                    3: 'incorrect',
-                    4: 'incorrect',
-                    5: 'incorrect',
+                    2: {
+                        answer: 'incorrect',
+                        studentInput: 'Washington D.C',
+                        question: 'What is the capital of the United States?',
+                    },
+                    3: {
+                        answer: 'correct',
+                        studentInput: 'Washington D.C',
+                        question: 'What is the capital of the United States?',
+                    },
+                    4: {
+                        answer: 'incorrect',
+                        studentInput: 'Washington D.C',
+                        question: 'What is the capital of the United States?',
+                    },
+                    5: {
+                        answer: 'correct',
+                        studentInput: 'Washington D.C',
+                        question: 'What is the capital of the United States?',
+                    },
                 }
             }
         ]
@@ -174,23 +209,32 @@ export default function StudentReport() {
                 questions: {
                     1: {
                         answer: 'correct',
+                        studentInput: 'Washington D.C',
                         question: 'What is the capital of the United States?',
                     },
                     2: {
                         answer: 'correct',
+                        studentInput: 'Washington D.C',
+
                         question: 'What is the capital of the United States?',
                     },
                     3: {
                         answer: 'correct',
+                        studentInput: 'Washington D.C',
+
                         question: 'What is the capital of the United States?',
                     },
                     4: {
                         answer: 'correct',
+                        studentInput: 'Washington D.C',
+
                         question: 'What is the capital of the United States?',
                     },
 
                     5: {
                         answer: 'correct',
+                        studentInput: 'Washington D.C',
+
                         question: 'What is the capital of the United States?',
                     },
 
@@ -204,6 +248,32 @@ export default function StudentReport() {
             studentID: '18205mw',
             picture: 'https://lh3.googleusercontent.com/a-/AOh14Gi4yHlhKDaUDCvUxS_ZgS9OdjYN-bEPabU8kLrm3Q=s96-c',
         }
+        const generatePDF = () => {
+            const doc = new jsPDF()
+            const head = [
+                [1, 2, 3, 4]
+            ]
+
+            let bodyContent = [
+                'Max Webb'
+            ]
+            for (var index = 0; index < exampleDataCorrect.length; index++) {
+                for (var key in exampleDataCorrect[index].questions) {
+                    console.log(exampleDataCorrect[index].questions[key].answer)
+                    if (exampleDataCorrect[index].questions[key].answer === 'correct') {
+                        bodyContent[index] = ['Correct']
+                    } else {
+                        bodyContent[index] = 'Correct'
+                    }
+                }
+            }
+            autoTable(doc, {
+                head: head,
+                body: bodyContent,
+            })
+            doc.save('table.pdf')
+        }
+
         return (
             <div className="student-report">
                 <div className="student-report-studentinfo">
@@ -239,53 +309,57 @@ export default function StudentReport() {
                             </TabList>
 
                             <TabPanel>
-                                <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Student Name</TableCell>
-                                                <Tooltip title="What is this power tool?">
-                                                    <TableCell align="right">1</TableCell>
-                                                </Tooltip>
-                                                <TableCell align="right">2</TableCell>
-                                                <TableCell align="right">3</TableCell>
-                                                <TableCell align="right">4</TableCell>
-                                                <TableCell align="right">5</TableCell>
-                                                <TableCell align="right">6</TableCell>
-                                                <TableCell align="right">7</TableCell>
-                                                <TableCell align="right">8</TableCell>
-                                                <TableCell align="right">9</TableCell>
-                                                <TableCell align="right">10</TableCell>
-                                                <TableCell align="right">11</TableCell>
-
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {exampleData.map((row) => (
-                                                <TableRow
-                                                    key={row.uid}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    {row.questions[1].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[2].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[3].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[4].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                <button onClick={generatePDF} type="button">Export PDF</button>
+                                <div id="reporst">
+                                    <TableContainer component={Paper}>
+                                        <Table id="report" sx={{ minWidth: 650 }} aria-label="simple table" options={{ exportButton: true }}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Student Name</TableCell>
+                                                    <Tooltip title="What is this power tool?" placement="top">
+                                                        <TableCell align="right">1</TableCell>
+                                                    </Tooltip>
+                                                    <TableCell align="right">2</TableCell>
+                                                    <TableCell align="right">3</TableCell>
+                                                    <TableCell align="right">4</TableCell>
+                                                    <TableCell align="right">5</TableCell>
+                                                    <TableCell align="right">6</TableCell>
+                                                    <TableCell align="right">7</TableCell>
+                                                    <TableCell align="right">8</TableCell>
+                                                    <TableCell align="right">9</TableCell>
+                                                    <TableCell align="right">10</TableCell>
+                                                    <TableCell align="right">11</TableCell>
 
                                                 </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                            </TableHead>
+                                            <TableBody>
+                                                {exampleData.map((row) => (
+                                                    <TableRow
+                                                        key={row.uid}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell component="th" scope="row">
+                                                            {row.name}
+                                                        </TableCell>
+                                                        <Tooltip title={'User Input: ' + row.questions[1].studentInput} placement="top">
+                                                            {row.questions[1].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        </Tooltip>
+                                                        {row.questions[2].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[3].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[4].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
                             </TabPanel>
                             <TabPanel>
                                 <TableContainer component={Paper}>

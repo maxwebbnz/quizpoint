@@ -19,7 +19,7 @@
     background-color:#4E83C2;
 }
 .navbar-brand{
-    font-size: 2em;
+    font-size: 1.8  em;
     display:flex;
     align-items:center;
     margin-bottom:3px;
@@ -33,9 +33,9 @@
     margin-right:4%;
 }
 .navbar-links{
-    font-size:1.5em;
+    font-size:1.2em;
     margin-left:2%;
-    margin-right:4%;
+    margin-right:2%;
 }
 .nav-link{
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;

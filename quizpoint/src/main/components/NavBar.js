@@ -83,6 +83,7 @@ const NavBar = () => {
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
                                 <Dropdown.Item href="/classes" className="">Your Classes</Dropdown.Item>
                                 <Dropdown.Item href="/tcs" className="">Teaching Suite</Dropdown.Item>
+                                <Dropdown.Item href="/quiz/QUIZ_-N0mz6NlfZeKqS5CnxLf" className = "">Test Quiz</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Nav>
@@ -104,6 +105,7 @@ const NavBar = () => {
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/classes">Your Classes</Nav.Link>
                         <Nav.Link className="link" href="/tcs">Teaching Suite</Nav.Link>
+                        <Nav.Link href="/quiz/QUIZ_-N0mz6NlfZeKqS5CnxLf" className = "">Test Quiz</Nav.Link>
                         {/* <Nav.Link className="link" href="/logout">Logout</Nav.Link> */}
                         {/* Dropdown is hidden until screen size is small */}
                         <Dropdown className="navbar-dropdown">
@@ -111,6 +113,7 @@ const NavBar = () => {
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
                                 <Dropdown.Item href="/classes" className="">Your Classes</Dropdown.Item>
                                 <Dropdown.Item href="/tcs" className="">Teaching Home</Dropdown.Item>
+                                <Dropdown.Item href="/quiz/QUIZ_-N0mz6NlfZeKqS5CnxLf" className = "">Test Quiz</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Nav>

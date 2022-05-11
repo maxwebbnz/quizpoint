@@ -15,6 +15,7 @@
     }
 }
 .navbar{
+    justify-content:space-between !important;   
     background-color:#4E83C2;
 }
 .navbar-brand{

@@ -4,7 +4,7 @@
  */
 
 import * as React from "react";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // removing link cause not used yet...
 import { Routes, Route } from "react-router-dom";
@@ -13,7 +13,7 @@ import "./App.css";
 // import { useLocation } from 'react-router-dom'
 
 // km
-import { user } from '../firebase/fb.user.js';
+import { user, updateUserData } from '../firebase/fb.user.js';
 
 // Pages
 import { LogOut } from '../services/Login'
@@ -33,7 +33,8 @@ import Quizzes from "../teachingsuite/Quizzes";
 import Reporting from "../teachingsuite/Reporting";
 // Components for template
 import NavBar from './components/NavBar'
-
+import Button from '@mui/material/Button';
+import { getDatabase, ref, onValue } from "firebase/database";
 
 // Components
 import RedirectLegacy from '../services/RedirectLegacy'
@@ -47,6 +48,8 @@ import { useMediaQuery } from 'react-responsive'
 import { GApiProvider } from 'react-gapi-auth2';
 import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
+import Snackbar from '@mui/material/Snackbar';
+import SnackbarContent from '@mui/material/SnackbarContent';
 
 const clientConfig = {
   client_id: '616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com',
@@ -64,11 +67,9 @@ function App() {
   // https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams
 
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  const [openDialog, setDialog] = useState(false)
+  let action
 
-  // trialing, don't mind this
-  useEffect(() => {
-
-  });
   // user not logged in
   if (user.authed === false) {
     return (
@@ -85,11 +86,27 @@ function App() {
 
     // if user is authed
   } else {
+    const db = getDatabase();
+    const userPath = ref(db, 'schools/hvhs/users/' + user.uid);
+    onValue(userPath, (snapshot) => {
+      console.log('Data changed')
+      action = (
+        <Button color="secondary" size="small">
+          lorem ipsum dolorem
+        </Button>
+      )
+      // updateUserData(snapshot.v al());
+
+    });
     if (!isTabletOrMobile) {
       if (user.role === 'teacher') {
         return (
           <GApiProvider clientConfig={clientConfig}>
             <div className="App">
+              <Snackbar open={openDialog} autoHideDuration={6000}>
+                <SnackbarContent message="I love snacks." action={action} />
+
+              </Snackbar>
               {/* < NavBar /> */}
               <NavBar />
               <Routes>

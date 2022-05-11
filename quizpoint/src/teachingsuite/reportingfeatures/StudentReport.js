@@ -6,11 +6,12 @@
 
 
 // react modules
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 // jspdf
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable';
+import { useTable } from 'react-table'
 
 // database
 import { db } from '../../services/firebase'
@@ -28,6 +29,7 @@ import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import * as htmlToImage from 'html-to-image';
+import MUIDataTable from "mui-datatables";
 
 import HashLoader from "react-spinners/HashLoader";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -46,9 +48,11 @@ export default function StudentReport() {
     // states
     const [loading, setLoading] = useState(true)
     const [currentStudent, setStudentObject] = useState({})
+    const [currentTableData, setTableData] = useState([])
+    const [quizzesChecked, questionChecked] = useState(0)
     // id reference to uid
     let { id } = useParams()
-
+    //? let currentTableData
     // color for hash loaders
     let [color, setColor] = useState("#ffffff");
     // just a placeholder variable
@@ -77,8 +81,8 @@ export default function StudentReport() {
                             uid: snapshot.val().uid,
                             name: snapshot.val().name,
                             quizzes: snapshot.val().quizzes,
-
                         }
+                        let studentArray = [studentObject.name]
                         // load quiz information
                         let quizCodes = snapshot.val().quizzes.active
                         // for all quiz codes
@@ -103,14 +107,20 @@ export default function StudentReport() {
                                         // reference to a long variable
                                         let quizQuestions = studentObject.quizzes.active[quizCode].answers
                                         let quizReference = studentObject.quizzes.active[quizCode]
+                                        let counter = 0;
+
                                         // for all questions in quiz
                                         for (var index = 0; index < quizQuestions.length; index++) {
+                                            counter++
+                                            let quizObjectHeader = 'question' + index
                                             // reference for something i cant be bothered typing
                                             let question = quizQuestions[index]
                                             quizReference[index] = {
                                                 studentInput: quizReference.answers[index],
                                             }
                                             // testing
+
+
                                             console.log(quiz.questions)
                                             // if its empty (which it will be always 1 question (unless model changes))
                                             if (!quiz.questions[index]) {
@@ -122,16 +132,22 @@ export default function StudentReport() {
                                                 if (question === quiz.questions[index].answer) {
                                                     console.log('correct')
                                                     quizReference[index].answer = 'correct'
+                                                    studentArray[index] = 'Correct'
+                                                    studentObject[quizObjectHeader] = 'Correct'
                                                     // incorrect, merr merr merr
                                                 } else {
                                                     console.log(question + ' is not correct')
                                                     quizReference[index].answer = 'correct'
+                                                    studentArray.push('Incorrect')
+                                                    studentArray[index] = 'Correct'
+                                                    studentObject[quizObjectHeader] = 'Incorrect'
+
                                                 }
                                             }
-
                                             console.log(quizReference)
 
                                         }
+
                                         studentObject.quiz[quizCode] = quizReference
                                         // finishing off with a console log
 
@@ -143,9 +159,12 @@ export default function StudentReport() {
                             })
                         }
                         setStudentObject(studentObject)
-                        console.log(currentStudent)
+                        setTableData(currentTableData => [...currentTableData, studentObject])
                         // set loading to false
                         setLoading(false)
+                        console.log(currentTableData)
+
+
                     }
 
                 })
@@ -154,6 +173,103 @@ export default function StudentReport() {
             loadStudent()
         }
     })
+    // window.locatio  n.reload(false);
+    const columns = useMemo(
+        () => [
+            {
+                Header: 'Student Information',
+                columns: [
+                    {
+                        Header: 'Name',
+                        accessor: 'name',
+                    },
+
+                ],
+            },
+            {
+                Header: 'Quiz',
+                columns: [
+                    {
+                        Header: '1',
+                        accessor: 'question1',
+                    },
+                    {
+                        Header: '2',
+                        accessor: 'question2',
+                    },
+                    {
+                        Header: '3',
+                        accessor: 'question3',
+                    },
+                    {
+                        Header: '4',
+                        accessor: 'question4',
+                    },
+                ],
+            },
+        ],
+        []
+    )
+
+    const data = [{
+        name: "Max Webb",
+        question1: "Correct",
+        question2: "Correct",
+        question3: "Correct",
+        question4: "Correct"
+    }, {
+        name: "Maxwell Webb",
+        question1: "Correct",
+        question2: "Correct",
+        question3: "Correct",
+        question4: "Correct"
+    },
+    ]
+
+    const tableData = useMemo(() => currentTableData)
+
+    console.log(data)
+
+    function Table({ columns, data }) {
+        // Use the state and functions returned from useTable to build your UI
+        const {
+            getTableProps,
+            getTableBodyProps,
+            headerGroups,
+            rows,
+            prepareRow,
+        } = useTable({
+            columns,
+            data,
+        })
+
+        // Render the UI for your table
+        return (
+            <table {...getTableProps()}>
+                <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                            ))}
+                        </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                        prepareRow(row)
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        )
+    }
     // if loading
     if (loading) {
         return (
@@ -169,111 +285,19 @@ export default function StudentReport() {
             </div>
         )
     } else {
-        const exampleData = [
-            {
-                uid: 'abcdaaedojaodj01230213',
-                name: 'Max Webb',
-                questions: {
-                    1: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
-                        question: 'What is the capital of the United States?',
-                    },
-                    2: {
-                        answer: 'incorrect',
-                        studentInput: 'Washington D.C',
-                        question: 'What is the capital of the United States?',
-                    },
-                    3: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
-                        question: 'What is the capital of the United States?',
-                    },
-                    4: {
-                        answer: 'incorrect',
-                        studentInput: 'Washington D.C',
-                        question: 'What is the capital of the United States?',
-                    },
-                    5: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
-                        question: 'What is the capital of the United States?',
-                    },
-                }
-            }
-        ]
-        const exampleDataCorrect = [
-            {
-                uid: 'abcdaaedojaodj01230213',
-                name: 'Max Webb',
-                questions: {
-                    1: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
-                        question: 'What is the capital of the United States?',
-                    },
-                    2: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
 
-                        question: 'What is the capital of the United States?',
-                    },
-                    3: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
 
-                        question: 'What is the capital of the United States?',
-                    },
-                    4: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
-
-                        question: 'What is the capital of the United States?',
-                    },
-
-                    5: {
-                        answer: 'correct',
-                        studentInput: 'Washington D.C',
-
-                        question: 'What is the capital of the United States?',
-                    },
-
-                }
-            }
-        ]
         let userLoaded = {
-            uid: exampleData[0].uid,
-            name: exampleData[0].name,
+            uid: "adadawd",
+            name: "Max Webb",
             email: '18205mw@hvhs.school.nz',
             studentID: '18205mw',
             picture: 'https://lh3.googleusercontent.com/a-/AOh14Gi4yHlhKDaUDCvUxS_ZgS9OdjYN-bEPabU8kLrm3Q=s96-c',
         }
-        const generatePDF = () => {
-            const doc = new jsPDF()
-            const head = [
-                [1, 2, 3, 4]
-            ]
 
-            let bodyContent = [
-                'Max Webb'
-            ]
-            for (var index = 0; index < exampleDataCorrect.length; index++) {
-                for (var key in exampleDataCorrect[index].questions) {
-                    console.log(exampleDataCorrect[index].questions[key].answer)
-                    if (exampleDataCorrect[index].questions[key].answer === 'correct') {
-                        bodyContent[index] = ['Correct']
-                    } else {
-                        bodyContent[index] = 'Correct'
-                    }
-                }
-            }
-            autoTable(doc, {
-                head: head,
-                body: bodyContent,
-            })
-            doc.save('table.pdf')
-        }
 
+
+        console.log(currentTableData)
         return (
             <div className="student-report">
                 <div className="student-report-studentinfo">
@@ -303,112 +327,20 @@ export default function StudentReport() {
                         <h5>Quizzes</h5>
                         <Tabs>
                             <TabList>
+                                <Tab>Select a tab</Tab>
                                 <Tab><AssignmentLateOutlinedIcon></AssignmentLateOutlinedIcon> Health and Safety Pt 1.</Tab>
                                 <Tab><AssignmentTurnedInOutlinedIcon></AssignmentTurnedInOutlinedIcon> Workplace Safety Pt 2</Tab>
 
                             </TabList>
-
                             <TabPanel>
-                                <button onClick={generatePDF} type="button">Export PDF</button>
-                                <div id="reporst">
-                                    <TableContainer component={Paper}>
-                                        <Table id="report" sx={{ minWidth: 650 }} aria-label="simple table" options={{ exportButton: true }}>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Student Name</TableCell>
-                                                    <Tooltip title="What is this power tool?" placement="top">
-                                                        <TableCell align="right">1</TableCell>
-                                                    </Tooltip>
-                                                    <TableCell align="right">2</TableCell>
-                                                    <TableCell align="right">3</TableCell>
-                                                    <TableCell align="right">4</TableCell>
-                                                    <TableCell align="right">5</TableCell>
-                                                    <TableCell align="right">6</TableCell>
-                                                    <TableCell align="right">7</TableCell>
-                                                    <TableCell align="right">8</TableCell>
-                                                    <TableCell align="right">9</TableCell>
-                                                    <TableCell align="right">10</TableCell>
-                                                    <TableCell align="right">11</TableCell>
-
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {exampleData.map((row) => (
-                                                    <TableRow
-                                                        key={row.uid}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell component="th" scope="row">
-                                                            {row.name}
-                                                        </TableCell>
-                                                        <Tooltip title={'User Input: ' + row.questions[1].studentInput} placement="top">
-                                                            {row.questions[1].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        </Tooltip>
-                                                        {row.questions[2].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[3].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[4].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                        {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </div>
+                                <h2>Select a tab to view quic information</h2>
                             </TabPanel>
                             <TabPanel>
-                                <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Student Name</TableCell>
-                                                <Tooltip title="What is this power tool?">
-                                                    <TableCell align="right">1</TableCell>
-                                                </Tooltip>
-                                                <TableCell align="right">2</TableCell>
-                                                <TableCell align="right">3</TableCell>
-                                                <TableCell align="right">4</TableCell>
-                                                <TableCell align="right">5</TableCell>
-                                                <TableCell align="right">6</TableCell>
-                                                <TableCell align="right">7</TableCell>
-                                                <TableCell align="right">8</TableCell>
-                                                <TableCell align="right">9</TableCell>
-                                                <TableCell align="right">10</TableCell>
-                                                <TableCell align="right">11</TableCell>
+                                <div id="report">
+                                    <Table columns={columns} data={tableData} />
 
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {exampleDataCorrect.map((row) => (
-                                                <TableRow
-                                                    key={row.uid}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    {row.questions[1].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[2].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[3].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[4].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-                                                    {row.questions[5].answer === 'correct' ? <TableCell align="right"><CheckCircleOutlineIcon style={{ color: 'green' }} /></TableCell> : <TableCell align="right"><DoDisturbIcon style={{ color: 'red' }} /></TableCell>}
-
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>                            </TabPanel>
+                                </div>
+                            </TabPanel>
                         </Tabs>
                     </div>
                 </div>

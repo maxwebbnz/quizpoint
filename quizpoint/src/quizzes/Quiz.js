@@ -32,14 +32,21 @@ let choiceArray = []
  *                             Quiz Module
  *========================================================================**/
 export default function Quiz() {
-    const [quiz, setQuiz] = useState({})
+    const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState (0)
 
     let {quizId} = useParams()
-    console.log("Quiz Id: " + quizId)
-
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
-    console.log("Quiz Path: " + quizPath)
+
+// useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
+    useEffect(() => {
+        onValue(quizPath, (snapshot) => {
+            setQuiz(snapshot.val());
+            console.log("Quiz Id: " + quizId)
+            console.log("Quiz Path: " + quizPath)
+            console.log(snapshot.val())
+        })
+    }, [])
 
 }
 

@@ -91,5 +91,18 @@ let dbFunctions = {
   }
 }
 
+let dbFunctionsSync = {
+  read: (_path) => {
+    let pathToWrite = _path;
+    let pathRef = ref(db, `schools/hvhs/${pathToWrite}/`);
+    //write data 
+    onValue(pathRef, (dataRecieved) => {
+      console.log("dbFunctionsSync.read Path: " + pathRef)
+      if (dataRecieved.val() == null) return console.log("dbFunctionsSync.read: No Record Found")
+      return dataRecieved;
+    })
+  }
+}
+
 //? export methods
-export { auth, db, dbFunctions, ref, storage };
+export { auth, db, dbFunctions, ref, storage, dbFunctionsSync };

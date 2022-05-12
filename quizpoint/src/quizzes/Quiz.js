@@ -7,7 +7,7 @@
 // Base imports from react
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
-
+import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebase.js"
 // user model
 import { user } from '../firebase/fb.user.js';
 // alerts
@@ -34,20 +34,40 @@ let choiceArray = []
 export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState (0)
+    const [loadingStatus, setLoadingStatus] = useState (true)
 
     let {quizId} = useParams()
-    let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
+    let quizPath = 'QUIZ_-N0mz6NlfZeKqS5CnxLf';
 
 // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
-    useEffect(() => {
-        onValue(quizPath, (snapshot) => {
-            setQuiz(snapshot.val());
-            console.log("Quiz Id: " + quizId)
-            console.log("Quiz Path: " + quizPath)
-            console.log(snapshot.val())
-        })
-    }, [])
 
+    if (loadingStatus === true){ 
+        setQuiz(dbFunctionsSync.read(quizPath));
+        console.log(quiz);
+        setLoadingStatus(false);
+
+        // onValue(quizPath, (snapshot) => {
+        //     setQuiz(snapshot.val());
+        //     console.log("Quiz Id: " + quizId)
+        //     console.log("Quiz Path: " + quizPath)
+        //     console.log(snapshot.val())
+        //     setLoadingStatus(false);
+        //     console.log(loadingStatus)
+        // })
+    }
+
+
+
+
+    // onValue(quizPath, (snapshot) => {
+    //     setQuiz(snapshot.val());
+    //     console.log("Quiz Id: " + quizId)
+    //     console.log("Quiz Path: " + quizPath)
+    //     console.log(snapshot.val())
+    // })
+    // useEffect(() => {
+
+    // }, [])
 }
 
 

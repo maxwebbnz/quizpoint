@@ -2,9 +2,13 @@
  * Copyright (c) 2022 QuizPoint
  * All rights reserved.
  */
+/*
+* Copyright (c) 2022 QuizPoint
+* All rights reserved.
+*/
 
 
-
+import _, { map } from 'underscore';
 // react modules
 import { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
@@ -42,13 +46,13 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 import './StudentReport.css'
 /**==============================================
  **              StudentReport()
- *?  What does it do? The basis of indivual student reports
- *=============================================**/
+*?  What does it do? The basis of indivual student reports
+*=============================================**/
 export default function StudentReport() {
     // states
     const [loading, setLoading] = useState(true)
     const [currentStudent, setStudentObject] = useState({})
-    const [currentTableData, setTableData] = useState([])
+    let currentTableData = []
     const [quizzesChecked, questionChecked] = useState(0)
     // id reference to uid
     let { id } = useParams()
@@ -65,8 +69,8 @@ export default function StudentReport() {
             document.title = 'Loading Student | QuizPoint'
             /**======================
              **   LoadStudents
-             *? Loads student data from firebase and is the brains of module
-             *========================**/
+            *? Loads student data from firebase and is the brains of module
+            *========================**/
             function loadStudent() {
                 // reference to student id
                 let pathRef = ref(db, `/schools/hvhs/users/${id}`)
@@ -83,86 +87,19 @@ export default function StudentReport() {
                             quizzes: snapshot.val().quizzes,
                         }
                         let studentArray = [studentObject.name]
+
+                        let quizCodeToDisplay = []
                         // load quiz information
                         let quizCodes = snapshot.val().quizzes.active
-                        // for all quiz codes
-                        for (let quizCode in quizCodes) {
-                            studentObject.quiz = {}
-                            studentObject.quiz[quizCode] = {}
-                            //? in theory you can make the row in here, so therefore each student has an row.
-                            // get quiz data
-                            let pathRef = ref(db, `/schools/hvhs/quizzes/${quizCode}`)
-
-                            onValue(pathRef, (snapshot) => {
-                                // if snapshot undefined, else
-                                if (snapshot.val() === undefined || snapshot.val() === null) { } else {
-                                    // set quiz object
-                                    let quiz = snapshot.val()
-                                    // set user ref
-                                    let userReference = studentObject.quizzes
-                                    // if quiz exists in an active path
-                                    if (typeof studentObject.quizzes.active[quizCode] !== 'undefined') {
-                                        // echo to title
-                                        console.log('quiz is active')
-                                        // reference to a long variable
-                                        let quizQuestions = studentObject.quizzes.active[quizCode].answers
-                                        let quizReference = studentObject.quizzes.active[quizCode]
-                                        let counter = 0;
-
-                                        // for all questions in quiz
-                                        for (var index = 0; index < quizQuestions.length; index++) {
-                                            counter++
-                                            let quizObjectHeader = 'question' + index
-                                            // reference for something i cant be bothered typing
-                                            let question = quizQuestions[index]
-                                            quizReference[index] = {
-                                                studentInput: quizReference.answers[index],
-                                            }
-                                            // testing
-
-
-                                            console.log(quiz.questions)
-                                            // if its empty (which it will be always 1 question (unless model changes))
-                                            if (!quiz.questions[index]) {
-                                                console.log(index)
-
-                                                // nevermind, its there
-                                            } else {
-                                                // they got it!
-                                                if (question === quiz.questions[index].answer) {
-                                                    console.log('correct')
-                                                    quizReference[index].answer = 'correct'
-                                                    studentArray[index] = 'Correct'
-                                                    studentObject[quizObjectHeader] = 'Correct'
-                                                    // incorrect, merr merr merr
-                                                } else {
-                                                    console.log(question + ' is not correct')
-                                                    quizReference[index].answer = 'correct'
-                                                    studentArray.push('Incorrect')
-                                                    studentArray[index] = 'Correct'
-                                                    studentObject[quizObjectHeader] = 'Incorrect'
-
-                                                }
-                                            }
-                                            console.log(quizReference)
-
-                                        }
-
-                                        studentObject.quiz[quizCode] = quizReference
-                                        // finishing off with a console log
-
-                                        // if its not active and has been completed
-                                    } else if (typeof studentObject.quizzes.active[quizCode] === 'undefined') {
-                                        console.log('quiz is turned in')
-                                    }
-                                }
-                            })
+                        for (const [key, value] of Object.entries(quizCodes)) {
+                            quizCodeToDisplay.push(key)
                         }
-                        setStudentObject(studentObject)
-                        setTableData(currentTableData => [...currentTableData, studentObject])
+                        console.log(quizCodeToDisplay)
+                        for (var index = 0; index < quizCodeToDisplay.length; index++) {
+
+                        }
                         // set loading to false
                         setLoading(false)
-                        console.log(currentTableData)
 
 
                     }
@@ -182,6 +119,10 @@ export default function StudentReport() {
                     {
                         Header: 'Name',
                         accessor: 'name',
+                    },
+                    {
+                        Header: 'Quiz Code',
+                        accessor: 'code',
                     },
 
                 ],
@@ -285,6 +226,7 @@ export default function StudentReport() {
             </div>
         )
     } else {
+        let noDoubleUpData = [...new Set(tableData)];
 
 
         let userLoaded = {
@@ -337,7 +279,7 @@ export default function StudentReport() {
                             </TabPanel>
                             <TabPanel>
                                 <div id="report">
-                                    <Table columns={columns} data={tableData} />
+                                    <Table columns={columns} data={noDoubleUpData} />
 
                                 </div>
                             </TabPanel>

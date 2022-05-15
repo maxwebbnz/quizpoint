@@ -38,3 +38,10 @@
     border-radius: 5px;
 
 }
+
+.student-report-table {
+    background-color: white;
+    width: 90%;
+    border-radius: 2px;
+    margin-top: 2%;
+}

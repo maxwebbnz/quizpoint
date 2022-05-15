@@ -33,15 +33,15 @@ let choiceArray = []
  *========================================================================**/
 export default function Quiz() {
     const [quiz, setQuiz] = useState()
-    const [currentQuestion, setCurrentQuestion] = useState (0)
-    const [loadingStatus, setLoadingStatus] = useState (true)
+    const [currentQuestion, setCurrentQuestion] = useState(0)
+    const [loadingStatus, setLoadingStatus] = useState(true)
 
-    let {quizId} = useParams()
-    let quizPath = 'QUIZ_-N0mz6NlfZeKqS5CnxLf';
+    let { quizId } = useParams()
+    let quizPath = '/quizzes/QUIZ_-N0mz6NlfZeKqS5CnxLf';
 
-// useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
+    // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
 
-    if (loadingStatus === true){ 
+    if (loadingStatus === true) {
         setQuiz(dbFunctionsSync.read(quizPath));
         console.log(quiz);
         setLoadingStatus(false);
@@ -74,7 +74,7 @@ export default function Quiz() {
 // export default function Quiz() {
 //     const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
 //     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-//     // set states for use across in useeffect 
+//     // set states for use across in useeffect
 //     const [loadingQuiz, setLoadingStatus] = useState(false)
 //     const [currentQuestionObject, setCq] = useState({})
 //     const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -156,10 +156,10 @@ export default function Quiz() {
 
 //     })
 
-    /**==============================================
-     **              nextQuestion
-     *?  What does it do? Handles next question loading and updating
-     *=============================================**/
+/**==============================================
+ **              nextQuestion
+ *?  What does it do? Handles next question loading and updating
+ *=============================================**/
 //     function nextQuestion(option) {
 //         console.log("User answered with " + option)
 //         // set up object for next question

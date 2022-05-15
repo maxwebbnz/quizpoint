@@ -69,10 +69,10 @@ export default function StudentReport() {
     const shouldFade = true
     const [tabs, setTabs] = useState([])
     //use effect hook, no reference
-    const [age, setAge] = useState('');
+    const [quizIdToView, setQzId] = useState('');
     const [quizToSelect, setSelect] = useState([])
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setQzId(event.target.value);
         console.log(event.target.value)
     };
 
@@ -90,8 +90,6 @@ export default function StudentReport() {
                     console.log(`${property}: ${quizReference[property].name}`);
                     optionArray.push({ name: quizReference[property].name, id: property, code: quizReference[property].code })
                 }
-
-
                 let quizSelect = optionArray.map((quiz) => {
                     return (
                         <MenuItem value={quiz.code}>{quiz.name}</MenuItem>
@@ -145,6 +143,76 @@ export default function StudentReport() {
         )
     }
 
+    function ReportTable() {
+        let currentQuiz = quizIdToView
+        let tableData = []
+        let pathRef = ref(db, `/schools/hvhs/users/${id}/`);
+        let columns = useMemo(
+            () => [
+                {
+                    Header: 'Student Information',
+                    columns: [
+                        {
+                            Header: 'Name',
+                            accessor: 'name',
+                        },
+                        {
+                            Header: 'Student ID',
+                            accessor: 'studentId',
+                        },
+
+                    ],
+                },
+                {
+                    Header: 'Quiz',
+                    columns: [
+                        {
+                            Header: 'Question 1',
+                            accessor: 'question1',
+                        },
+                        {
+                            Header: 'Question 2',
+                            accessor: 'question2',
+                        },
+                    ],
+                },
+            ],
+            []
+        )
+
+
+        onValue(pathRef, (snapshot) => {
+            if (snapshot.val() === null || undefined) {
+                return
+            } else {
+                console.log(snapshot.val())
+                let dataForUser = {
+                    name: snapshot.val().name,
+                    studentId: snapshot.val().studentID
+                }
+
+                let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
+                console.log(quizReference)
+                for (var index = 0; index < quizReference.length; index++) {
+                    if (quizReference[index] === undefined) {
+
+                    } else {
+                        console.log(quizReference[index])
+                        dataForUser['question' + index] = quizReference[index].status.charAt(0).toUpperCase() + quizReference[index].status.slice(1);
+
+                    }
+                }
+                console.log(dataForUser)
+                tableData.push(dataForUser)
+                console.log(tableData)
+            }
+        })
+
+        return (
+            <Table columns={columns} data={tableData} />
+        )
+    }
+
 
     // if loading
     if (loading) {
@@ -171,7 +239,7 @@ export default function StudentReport() {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
+                                value={quizIdToView}
                                 label="Quiz"
                                 onChange={handleChange}
                             >
@@ -181,7 +249,7 @@ export default function StudentReport() {
                     </Box>
                 </div>
                 <div className='student-report-table'>
-
+                    <ReportTable></ReportTable>
                 </div>
             </div>
         )

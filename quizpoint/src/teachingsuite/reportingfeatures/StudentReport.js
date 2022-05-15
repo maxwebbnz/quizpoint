@@ -47,7 +47,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 // css
 import './StudentReport.css'
@@ -86,6 +89,7 @@ export default function StudentReport() {
             onValue(pathRef, (snapshot) => {
                 console.log(snapshot.val())
                 let quizReference = snapshot.val().quizzes.active
+                let quizReferenceCompleted = snapshot.val().quizzes.turnedin
                 setStudentObject(snapshot.val())
                 console.log(quizReference)
                 let optionArray = []
@@ -93,9 +97,13 @@ export default function StudentReport() {
                     console.log(`${property}: ${quizReference[property].name}`);
                     optionArray.push({ name: quizReference[property].name, id: property, code: quizReference[property].code })
                 }
-                let quizSelect = optionArray.map((quiz) => {
+                for (const property in quizReferenceCompleted) {
+                    console.log(`${property}: ${quizReferenceCompleted[property].name}`);
+                    optionArray.push({ name: quizReferenceCompleted[property].name, id: property, code: quizReferenceCompleted[property].code })
+                }
+                let quizSelect = optionArray.map((quiz, index) => {
                     return (
-                        <MenuItem value={quiz.code}>{quiz.name}</MenuItem>
+                        <MenuItem key={quiz.code + index} value={quiz.code}>{quiz.name}</MenuItem>
                     )
                 })
                 setSelect(quizSelect)
@@ -141,15 +149,25 @@ export default function StudentReport() {
                                     if (cell.value === undefined) {
 
                                         return <TableCell {...cell.getCellProps()}><Tooltip title="Not Completed">
-                                            <WarningAmberIcon style={{ color: 'blue' }}></WarningAmberIcon>
+                                            <CheckBoxOutlineBlankOutlinedIcon style={{ color: 'orange' }}></CheckBoxOutlineBlankOutlinedIcon>
                                         </Tooltip></TableCell>
 
                                     } else if (cell.value === 'correct') {
                                         return <TableCell {...cell.getCellProps()}><Tooltip title="Correct">
-                                            <CheckCircleOutlineIcon style={{ color: 'green' }}></CheckCircleOutlineIcon>
+                                            <CheckBoxOutlinedIcon style={{ color: 'green' }}></CheckBoxOutlinedIcon>
                                         </Tooltip></TableCell>
                                     } else if (cell.value === 'incorrect') {
                                         return <TableCell {...cell.getCellProps()}><Tooltip title="Incorrect">
+                                            <IndeterminateCheckBoxOutlinedIcon style={{ color: 'red' }}></IndeterminateCheckBoxOutlinedIcon>
+                                        </Tooltip></TableCell>
+                                    }
+                                    else if (cell.value === 'complete') {
+                                        return <TableCell {...cell.getCellProps()}><Tooltip title="Quiz Completed">
+                                            <CheckCircleOutlineIcon style={{ color: 'green' }}></CheckCircleOutlineIcon>
+                                        </Tooltip></TableCell>
+                                    }
+                                    else if (cell.value === 'incomplete') {
+                                        return <TableCell {...cell.getCellProps()}><Tooltip title="Not Completed">
                                             <DoDisturbIcon style={{ color: 'red' }}></DoDisturbIcon>
                                         </Tooltip></TableCell>
                                     } else {
@@ -164,42 +182,118 @@ export default function StudentReport() {
         )
     }
 
-    function ReportTable() {
+    function ReportTable(props) {
+
         let currentQuiz = quizIdToView
+        let columns = [
+            {
+                Header: 'Student Information',
+                columns: [
+                    {
+                        Header: 'Name',
+                        accessor: 'name',
+                    },
+                    {
+                        Header: 'Student ID',
+                        accessor: 'studentId',
+                    },
+                    {
+                        Header: 'Completed',
+                        accessor: 'completed',
+                    },
+
+                ],
+            },
+            {
+                Header: 'Quiz',
+                columns: [
+
+                ],
+            },
+        ]
+        if (props.type === 'single') {
+            if (quizIdToView === '') { } else {
+
+                let tableData = []
+                let pathRef = ref(db, `/schools/hvhs/users/${id}/`);
 
 
-        if (quizIdToView === '') { } else {
-            let columns = [
-                {
-                    Header: 'Student Information',
-                    columns: [
-                        {
-                            Header: 'Name',
-                            accessor: 'name',
-                        },
-                        {
-                            Header: 'Student ID',
-                            accessor: 'studentId',
-                        },
+                let quizRef = ref(db, `/schools/hvhs/quizzes/${currentQuiz}`)
+                onValue(quizRef, (snapshot) => {
+                    if (snapshot.val() === null || snapshot.val() === undefined) {
+                    } else {
+                        setQuestNum(snapshot.val().numofquestions)
+                        console.log(numOfQuest)
+                        for (var index = 0; index < numOfQuest; index++) {
+                            columns[1].columns.push({
+                                Header: `Question ${index + 1}`,
+                                accessor: `question${index + 1}`,
+                            })
+                        }
+                    }
+                })
 
-                    ],
-                },
-                {
-                    Header: 'Quiz',
-                    columns: [
+                onValue(pathRef, (snapshot) => {
+                    if (snapshot.val() === null || undefined) {
+                        return
+                    } else {
+                        console.log(snapshot.val())
+                        let dataForUser = {
+                            name: snapshot.val().name,
+                            studentId: snapshot.val().studentID
+                        }
+                        if (snapshot.val().quizzes.active[currentQuiz].progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
+                            dataForUser.completed = 'complete'
+                        } else {
+                            dataForUser.completed = 'incomplete'
+                        }
+                        if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined) {
+                            console.log('Hello!' + currentQuiz)
+                            let quizReference = snapshot.val().quizzes.turnedin[currentQuiz].answers
+                            console.log(quizReference)
+                            for (var index = 0; index < quizReference.length; index++) {
+                                if (quizReference[index] === undefined) {
 
-                    ],
-                },
-            ]
+                                } else {
+                                    console.log(quizReference[index])
+                                    dataForUser['question' + index] = quizReference[index].status
+
+                                }
+                            }
+                            tableData.push(dataForUser)
+                        } else {
+                            let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
+                            console.log(quizReference)
+                            for (var index = 0; index < quizReference.length; index++) {
+                                if (quizReference[index] === undefined) {
+
+                                } else {
+                                    console.log(quizReference[index])
+                                    dataForUser['question' + index] = quizReference[index].status
+
+                                }
+                            }
+                            tableData.push(dataForUser)
+                        }
+                    }
+                })
+                return (
+                    <Paper elevation={3} className="paper-fix">
+                        <GenerateTable columns={columns} data={tableData} />
+                    </Paper>
+                )
+            }
+        } else if (props.type === 'class') {
             let tableData = []
-            let pathRef = ref(db, `/schools/hvhs/users/${id}/`);
 
-
+            let studentArray = props.students
+            console.log(props)
             let quizRef = ref(db, `/schools/hvhs/quizzes/${currentQuiz}`)
             onValue(quizRef, (snapshot) => {
                 if (snapshot.val() === null || snapshot.val() === undefined) {
                 } else {
                     setQuestNum(snapshot.val().numofquestions)
+                    console.log(numOfQuest)
                     for (var index = 0; index < numOfQuest; index++) {
                         columns[1].columns.push({
                             Header: `Question ${index + 1}`,
@@ -209,30 +303,54 @@ export default function StudentReport() {
                 }
             })
 
-            onValue(pathRef, (snapshot) => {
-                if (snapshot.val() === null || undefined) {
-                    return
-                } else {
-                    console.log(snapshot.val())
-                    let dataForUser = {
-                        name: snapshot.val().name,
-                        studentId: snapshot.val().studentID
-                    }
-
-                    let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
-                    console.log(quizReference)
-                    for (var index = 0; index < quizReference.length; index++) {
-                        if (quizReference[index] === undefined) {
-
+            for (var index = 0; index < studentArray.length; index++) {
+                console.log(studentArray[index])
+                let pathRef = ref(db, `/schools/hvhs/users/${studentArray[index]}/`);
+                onValue(pathRef, (snapshot) => {
+                    if (snapshot.val() === null || undefined) {
+                        return
+                    } else {
+                        console.log(snapshot.val())
+                        let dataForUser = {
+                            name: snapshot.val().name,
+                            studentId: snapshot.val().studentID
+                        }
+                        if (snapshot.val().quizzes.active[currentQuiz].progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
+                            dataForUser.completed = 'complete'
                         } else {
-                            console.log(quizReference[index])
-                            dataForUser['question' + index] = quizReference[index].status
+                            dataForUser.completed = 'incomplete'
+                        }
+                        if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined) {
+                            console.log('Hello!' + currentQuiz)
+                            let quizReference = snapshot.val().quizzes.turnedin[currentQuiz].answers
+                            console.log(quizReference)
+                            for (var index = 0; index < quizReference.length; index++) {
+                                if (quizReference[index] === undefined) {
 
+                                } else {
+                                    console.log(quizReference[index])
+                                    dataForUser['question' + index] = quizReference[index].status
+
+                                }
+                            }
+                            tableData.push(dataForUser)
+                        } else {
+                            let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
+                            console.log(quizReference)
+                            for (var index = 0; index < quizReference.length; index++) {
+                                if (quizReference[index] === undefined) {
+
+                                } else {
+                                    console.log(quizReference[index])
+                                    dataForUser['question' + index] = quizReference[index].status
+
+                                }
+                            }
+                            tableData.push(dataForUser)
                         }
                     }
-                    tableData.push(dataForUser)
-                }
-            })
+                })
+            }
             return (
                 <Paper elevation={3} className="paper-fix">
                     <GenerateTable columns={columns} data={tableData} />
@@ -257,7 +375,9 @@ export default function StudentReport() {
             </div>
         )
     } else {
-
+        let example = [
+            'u0lMN5qOyRNpkRgOyeyQ4woNHRu1'
+        ]
         return (
             <div className='student-report'>
                 <div className="student-report-studentinfo">
@@ -301,7 +421,7 @@ export default function StudentReport() {
                     </Box>
                 </div>
                 <div className='student-report-table'>
-                    <ReportTable></ReportTable>
+                    <ReportTable type={'class'} students={example}></ReportTable>
                 </div>
             </div>
         )

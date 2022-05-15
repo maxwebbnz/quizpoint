@@ -36,8 +36,9 @@ import * as htmlToImage from 'html-to-image';
 import MUIDataTable from "mui-datatables";
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import HashLoader from "react-spinners/HashLoader";
+import Avatar from '@mui/material/Avatar';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -102,9 +103,11 @@ export default function StudentReport() {
                 setLoading(false)
             })
 
+        } else {
+            document.title = `${currentStudent.name}'s Report | QuizPoint`
         }
     })
-    function Table({ columns, data }) {
+    function GenerateTable({ columns, data }) {
         // Use the state and functions returned from useTable to build your UI
         const {
             getTableProps,
@@ -119,33 +122,45 @@ export default function StudentReport() {
 
         // Render the UI for your table
         return (
-            <table {...getTableProps()}>
-                <thead>
+            <Table {...getTableProps()}>
+                <TableHead>
                     {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        <TableRow {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
                             ))}
-                        </tr>
+                        </TableRow>
                     ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
                     {rows.map((row, i) => {
                         prepareRow(row)
                         return (
-                            <tr {...row.getRowProps()}>
+                            <TableRow {...row.getRowProps()}>
                                 {row.cells.map(cell => {
                                     if (cell.value === undefined) {
-                                        return <td {...cell.getCellProps()}>Not Completed</td>
+
+                                        return <TableCell {...cell.getCellProps()}><Tooltip title="Not Completed">
+                                            <WarningAmberIcon style={{ color: 'blue' }}></WarningAmberIcon>
+                                        </Tooltip></TableCell>
+
+                                    } else if (cell.value === 'correct') {
+                                        return <TableCell {...cell.getCellProps()}><Tooltip title="Correct">
+                                            <CheckCircleOutlineIcon style={{ color: 'green' }}></CheckCircleOutlineIcon>
+                                        </Tooltip></TableCell>
+                                    } else if (cell.value === 'incorrect') {
+                                        return <TableCell {...cell.getCellProps()}><Tooltip title="Incorrect">
+                                            <DoDisturbIcon style={{ color: 'red' }}></DoDisturbIcon>
+                                        </Tooltip></TableCell>
                                     } else {
-                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
                                     }
                                 })}
-                            </tr>
+                            </TableRow>
                         )
                     })}
-                </tbody>
-            </table>
+                </TableBody>
+            </Table>
         )
     }
 
@@ -211,18 +226,17 @@ export default function StudentReport() {
 
                         } else {
                             console.log(quizReference[index])
-                            dataForUser['question' + index] = quizReference[index].status.charAt(0).toUpperCase() + quizReference[index].status.slice(1);
+                            dataForUser['question' + index] = quizReference[index].status
 
                         }
                     }
-                    console.log(dataForUser)
                     tableData.push(dataForUser)
-                    console.log(tableData)
                 }
             })
-            console.log(columns)
             return (
-                <Table columns={columns} data={tableData} />
+                <Paper elevation={3} className="paper-fix">
+                    <GenerateTable columns={columns} data={tableData} />
+                </Paper>
             )
         }
     }
@@ -256,7 +270,9 @@ export default function StudentReport() {
                             {/* User Profile Picture */}
                             <Tooltip title="Image taken from students google account">
                                 {/* On image hover, message displayed */}
-                                <img alt='User profile' src={currentStudent.picture}></img>
+                                <Avatar alt='User profile' sx={{ width: 100, height: 100, margin: 0 }}
+                                    src={currentStudent.picture} />
+
                             </Tooltip>
                         </div>
                         <div className="user-content-right">

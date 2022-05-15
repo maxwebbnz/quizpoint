@@ -36,16 +36,31 @@ export default function Quiz() {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
 
-    let { quizId } = useParams()
-    let quizPath = '/quizzes/QUIZ_-N0mz6NlfZeKqS5CnxLf';
+    let {quizId} = useParams()
+    let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
 
     // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
+    useEffect(() => {
+        onValue(quizPath, (snapshot) => {
+            setQuiz(snapshot.val());
+            console.log("Quiz Id: " + quizId)
+            console.log("Quiz Path: " + quizPath)
+            console.log(snapshot.val())
+            setLoadingStatus(false)
+        })
+    }, [])
+    
+    if (loadingStatus == true ) { return }
 
-    if (loadingStatus === true) {
-        setQuiz(dbFunctionsSync.read(quizPath));
-        console.log(quiz);
-        setLoadingStatus(false);
-
+    return (
+        <>
+        <div className="quizTitle"><h1>{quiz.title}</h1></div>
+        <div className="quizContainer">
+            <div className="quizQuestionTitle">{quiz.description}</div>
+            {/* <div className="quizQuestionOptions">{quiz.questions}</div> */}
+        </div>
+        </>
+    )
         // onValue(quizPath, (snapshot) => {
         //     setQuiz(snapshot.val());
         //     console.log("Quiz Id: " + quizId)
@@ -54,7 +69,7 @@ export default function Quiz() {
         //     setLoadingStatus(false);
         //     console.log(loadingStatus)
         // })
-    }
+}
 
 
 
@@ -68,7 +83,6 @@ export default function Quiz() {
     // useEffect(() => {
 
     // }, [])
-}
 
 
 // export default function Quiz() {

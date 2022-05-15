@@ -85,6 +85,7 @@ export default function StudentReport() {
             onValue(pathRef, (snapshot) => {
                 console.log(snapshot.val())
                 let quizReference = snapshot.val().quizzes.active
+                setStudentObject(snapshot.val())
                 console.log(quizReference)
                 let optionArray = []
                 for (const property in quizReference) {
@@ -245,6 +246,28 @@ export default function StudentReport() {
 
         return (
             <div className='student-report'>
+                <div className="student-report-studentinfo">
+                    <div className="banner-details">
+                        {/* Banner 1 - Details */}
+                        <h5><InfoOutlinedIcon></InfoOutlinedIcon> Personal Details</h5>
+                    </div>
+                    <div className="user-content">
+                        <div className="user-content-left">
+                            {/* User Profile Picture */}
+                            <Tooltip title="Image taken from students google account">
+                                {/* On image hover, message displayed */}
+                                <img alt='User profile' src={currentStudent.picture}></img>
+                            </Tooltip>
+                        </div>
+                        <div className="user-content-right">
+                            {/* Basic Student information */}
+                            <p>Name: {currentStudent.name}</p>
+                            <p>Student ID: {currentStudent.studentID}</p>
+                            {/* when you click on link, it will send email */}
+                            <p>Email: <a href={'mailto:' + currentStudent.email}>{currentStudent.email}</a></p>
+                        </div>
+                    </div>
+                </div>
                 <div className='student-report-container'>
                     <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>

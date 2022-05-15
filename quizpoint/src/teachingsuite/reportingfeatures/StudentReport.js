@@ -68,6 +68,7 @@ export default function StudentReport() {
     // just a placeholder variable
     const shouldFade = true
     const [tabs, setTabs] = useState([])
+    const [numOfQuest, setQuestNum] = useState(0)
     //use effect hook, no reference
     const [quizIdToView, setQzId] = useState('');
     const [quizToSelect, setSelect] = useState([])
@@ -133,7 +134,11 @@ export default function StudentReport() {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map(cell => {
-                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                    if (cell.value === undefined) {
+                                        return <td {...cell.getCellProps()}>Not Completed</td>
+                                    } else {
+                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                    }
                                 })}
                             </tr>
                         )
@@ -145,10 +150,10 @@ export default function StudentReport() {
 
     function ReportTable() {
         let currentQuiz = quizIdToView
-        let tableData = []
-        let pathRef = ref(db, `/schools/hvhs/users/${id}/`);
-        let columns = useMemo(
-            () => [
+
+
+        if (quizIdToView === '') { } else {
+            let columns = [
                 {
                     Header: 'Student Information',
                     columns: [
@@ -166,51 +171,59 @@ export default function StudentReport() {
                 {
                     Header: 'Quiz',
                     columns: [
-                        {
-                            Header: 'Question 1',
-                            accessor: 'question1',
-                        },
-                        {
-                            Header: 'Question 2',
-                            accessor: 'question2',
-                        },
+
                     ],
                 },
-            ],
-            []
-        )
+            ]
+            let tableData = []
+            let pathRef = ref(db, `/schools/hvhs/users/${id}/`);
 
 
-        onValue(pathRef, (snapshot) => {
-            if (snapshot.val() === null || undefined) {
-                return
-            } else {
-                console.log(snapshot.val())
-                let dataForUser = {
-                    name: snapshot.val().name,
-                    studentId: snapshot.val().studentID
-                }
-
-                let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
-                console.log(quizReference)
-                for (var index = 0; index < quizReference.length; index++) {
-                    if (quizReference[index] === undefined) {
-
-                    } else {
-                        console.log(quizReference[index])
-                        dataForUser['question' + index] = quizReference[index].status.charAt(0).toUpperCase() + quizReference[index].status.slice(1);
-
+            let quizRef = ref(db, `/schools/hvhs/quizzes/${currentQuiz}`)
+            onValue(quizRef, (snapshot) => {
+                if (snapshot.val() === null || snapshot.val() === undefined) {
+                } else {
+                    setQuestNum(snapshot.val().numofquestions)
+                    for (var index = 0; index < numOfQuest; index++) {
+                        columns[1].columns.push({
+                            Header: `Question ${index + 1}`,
+                            accessor: `question${index + 1}`,
+                        })
                     }
                 }
-                console.log(dataForUser)
-                tableData.push(dataForUser)
-                console.log(tableData)
-            }
-        })
+            })
 
-        return (
-            <Table columns={columns} data={tableData} />
-        )
+            onValue(pathRef, (snapshot) => {
+                if (snapshot.val() === null || undefined) {
+                    return
+                } else {
+                    console.log(snapshot.val())
+                    let dataForUser = {
+                        name: snapshot.val().name,
+                        studentId: snapshot.val().studentID
+                    }
+
+                    let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
+                    console.log(quizReference)
+                    for (var index = 0; index < quizReference.length; index++) {
+                        if (quizReference[index] === undefined) {
+
+                        } else {
+                            console.log(quizReference[index])
+                            dataForUser['question' + index] = quizReference[index].status.charAt(0).toUpperCase() + quizReference[index].status.slice(1);
+
+                        }
+                    }
+                    console.log(dataForUser)
+                    tableData.push(dataForUser)
+                    console.log(tableData)
+                }
+            })
+            console.log(columns)
+            return (
+                <Table columns={columns} data={tableData} />
+            )
+        }
     }
 
 

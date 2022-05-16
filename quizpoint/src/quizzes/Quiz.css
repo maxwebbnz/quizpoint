@@ -1,20 +1,22 @@
 .quizTitle {
+    /* Text Styling*/
     font-size:3.2rem;
-    text-align:center;
-    padding-top:1.5%;
-    color:white;
     font-weight:500 !important;
+    text-align:center;
+    color:white;
+    /* Positioning */
+    padding: 1.5% 0 1.5% 0;
 }
 .quizContainer{
     background-color:white;
-    height:500px;
-    margin:0 15vw 0 15vw;
+    height:600px;
+    margin:0 20vw 0 20vw;
     border-radius:10px;
-    padding:1% 4% 1% 4%;
+    padding:0.5% 4% 0.5% 4%;
 }
 .quizQuestionTitle{ 
     color: #7B7B7B;
-    font-size:2.5vw;
+    font-size:2.3vw;
     font-weight:500 !important;
     padding-top:3%;
 }
@@ -27,12 +29,32 @@
     text-shadow: 2px 1px 4px rgba(120,132,144,1);
 }
 
-.quizQuestionsOptions{
+.quizNavigationButtons {
     display:flex;
-    flex-wrap:wrap;
-    width:300px;
+    gap:10px;
+    width:
+}
+.quizNavigationButtons button {
+    width:100px;
+}
+.quizQuestionImage img{
+    height:200px;
+    width:200px;
+    object-fit:cover;
 }
 
-.quizQuestionsOptions Button .quizNavigationOptions Button{
-    font-size:2rem !important;
+.quizQuestionAnswers {
+    display:flex;
+    gap:10px;
+    max-width:80%;
+    height:100px;
+}
+.quizAnswerButtons {
+    min-width: 25%;
+}
+.quizButtons{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-self:flex-end;
 }

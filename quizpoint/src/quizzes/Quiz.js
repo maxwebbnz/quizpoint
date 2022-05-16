@@ -79,16 +79,18 @@ export default function Quiz() {
                 <div className="quizQuestionTitle">
                     <p>{quiz.description}</p>
                 </div>
-                <div className="quizQuestionAnswers">
+                <div className="quizQuestionImage"><img src={quiz.questions[currentQuestion].image}></img></div>
+                <div className="quizButtons">
+                    <div className="quizQuestionAnswers">
                     {quiz.questions[currentQuestion].choices.map(answer => {
-                        return <button onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</button>
+                        return <button className="quizAnswerButtons" onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</button>
                     })}
+                    </div>
+                    <div className="quizNavigationButtons">
+                        <button onClick={quizHandler.lastQuestion}>Back</button>
+                        <button onClick={quizHandler.nextQuestion}>Next</button>
+                    </div>
                 </div>
-                <div className="quizNavigationOptions">
-                    <button onClick={quizHandler.lastQuestion}>Back</button>
-                    <button onClick={quizHandler.nextQuestion}>Next</button>
-                </div>
-
             </div>
         </>
     )

@@ -1,5 +1,7 @@
 /* Home Page */
-
+body{
+    overflow: hidden;
+}
 .homePageContent {
     overflow: hidden;
     position: absolute;

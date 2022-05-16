@@ -1,0 +1,47 @@
+{
+    "rules": {
+        "schools": {
+            "hvhs": {
+                "users": {
+                    "$uid": {
+                        ".read": "$uid === auth.uid || root.child('schools/hvhs/users/').child(auth.uid).child('role').val() == 'teacher'",
+                        ".write": "$uid != null|| root.child('schools/hvhs/users/').child(auth.uid).child('role').val() == 'teacher'"
+                    }
+                },
+                "classes": {
+                    ".read": "auth != null || root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'",
+                    ".write": "auth != null || root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'",
+                    "$classid": {
+                        ".read": "auth != null || root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'",
+                        "classCreator": {
+                            ".write": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                        },
+                        "className": {
+                            ".write": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                        },
+                    },
+                    "quizzes": {
+                        ".write": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                    },
+                    "code": {
+                        ".write": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                    },
+                    "students": {
+                        ".write": "auth != null || root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                    },
+                    "teachers": {
+                        ".write": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                    }
+                },
+                "quizzes": {
+                    ".write": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'",
+                    ".read": "$uid === auth.uid || root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'",
+                    "cache": {
+                        ".read": "root.child('schools/hvhs/users').child(auth.uid).child('role').val() == 'teacher'"
+                    },
+                },
+            }
+        },
+    },
+}
+}

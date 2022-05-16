@@ -388,11 +388,10 @@ export default function StudentReport() {
                         <h5><InfoOutlinedIcon></InfoOutlinedIcon>Class Details</h5>
                     </div>
                     <div className="user-content">
-
                         <div className="user-content-right">
                             {/* Basic Student information */}
-                            <p>Class Name: {classObject.className}</p>
-                            <p>Class Teacher: {classObject.classCreator}</p>
+                            <p><b>Class Name</b>: {classObject.className}</p>
+                            <p><b>Class Teacher</b>: {classObject.classCreator}</p>
                             {/* when you click on link, it will send email */}
                         </div>
                     </div>

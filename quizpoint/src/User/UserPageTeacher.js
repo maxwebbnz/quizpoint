@@ -346,7 +346,7 @@ export default function TeacherStudent() {
                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             <Button><AssessmentOutlinedIcon></AssessmentOutlinedIcon> Export Quiz Report</Button>
                             <Button><AssignmentOutlinedIcon></AssignmentOutlinedIcon> Assign Quiz</Button>
-                            <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Change Class</Button>
+                            <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
                             <Button><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
                         </ButtonGroup>
                     </div>

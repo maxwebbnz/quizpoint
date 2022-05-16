@@ -4,7 +4,7 @@
  */
 
 
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { user } from '../firebase/fb.user'
 import React, { useState, useEffect } from 'react'
 import './ClassPage.css'
@@ -18,7 +18,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import { ButtonBase, CardActionArea } from '@mui/material';
 import Fade from '@mui/material/Fade';
 
 import CardActions from '@mui/material/CardActions';
@@ -37,7 +37,7 @@ export default function ClassPage() {
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-
+    const navigate = useNavigate()
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
@@ -190,6 +190,9 @@ export default function ClassPage() {
                             <hr></hr>
                         </div>
                         <div className="class-body">
+                            {user.role === 'teacher' &&
+                                <button className="generic-button" onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</button>
+                            }
                             <div className="quizassigned">
                                 <h2>Quizzes Assigned</h2>
                                 {quizCards}

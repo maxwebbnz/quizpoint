@@ -1,6 +1,6 @@
 /* Home Page */
 body{
-    overflow: hidden;
+    overflow: hidden !important;
 }
 .homePageContent {
     overflow: hidden;

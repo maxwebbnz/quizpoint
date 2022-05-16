@@ -18,10 +18,13 @@ import './Quiz.css'
 import { db } from '../services/firebase'
 import { ref, onValue } from "firebase/database";
 // material ui
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
 import { useMediaQuery } from 'react-responsive'
 
 
@@ -32,9 +35,22 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
+    const [chosenAnswers, setChosenAnswers] = useState({})
     let { quizId } = useParams()
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
-    let chosenAnswers = {}
+
+    // Stepper Variables
+    const [steps, setSteps] = useState([])
+    const [activeStep, setActiveStep] = useState(0)
+    const [completed, setCompleted] = useState({})
+    let stepsHandler = {
+        totalSteps: () => {
+            return steps.length
+        },
+        completedSteps: () => {
+            return completed.length
+        }
+    }
 
     // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
     useEffect(() => {
@@ -44,6 +60,7 @@ export default function Quiz() {
             console.log("Quiz Path: " + quizPath)
             console.log(snapshot.val())
             setLoadingStatus(false)
+            
         })
     }, [])
 
@@ -63,6 +80,7 @@ export default function Quiz() {
             chosenAnswers[currentQuestion] = answer;
             console.log(chosenAnswers)
             quizHandler.nextQuestion()
+            stepsHandler.completedSteps()
         }
     }
 

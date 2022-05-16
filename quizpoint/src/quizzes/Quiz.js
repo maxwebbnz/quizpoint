@@ -24,9 +24,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useMediaQuery } from 'react-responsive'
 
-// setup variables for file
-let currentQuiz = []
-let choiceArray = []
 
 /**========================================================================
  *                             Quiz Module
@@ -36,7 +33,7 @@ export default function Quiz() {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
 
-    let {quizId} = useParams()
+    let { quizId } = useParams()
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
 
     // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
@@ -49,30 +46,30 @@ export default function Quiz() {
             setLoadingStatus(false)
         })
     }, [])
-    
-    if (loadingStatus == true ) { return }
+
+    if (loadingStatus === true) { return }
 
     return (
         <>
-        <div className="quizTitle">
-            <p>{quiz.title}</p>
-        </div>
-        <div className="quizContainer">
-            <div className="quizQuestionTitle">
-                <p>{quiz.description}</p>
+            <div className="quizTitle">
+                <p>{quiz.title}</p>
             </div>
-            <div className="quizQuestionOptions"> 
-                <Button size="large" variant="contained">Answer</Button> 
-                <Button size="large" variant="contained">Answer</Button> 
-                <Button size="large" variant="contained">Answer</Button>  
-                <Button size="large" variant="contained">Answer</Button> 
-            </div>
-            <div className="quizNavigationOptions">
-                <Button size="large" variant="text">Back</Button>
-                <Button size="large" variant="outlined">Next</Button>
-            </div>
+            <div className="quizContainer">
+                <div className="quizQuestionTitle">
+                    <p>{quiz.description}</p>
+                </div>
+                <div className="quizQuestionOptions">
+                    <Button size="large" variant="contained">Answer</Button>
+                    <Button size="large" variant="contained">Answer</Button>
+                    <Button size="large" variant="contained">Answer</Button>
+                    <Button size="large" variant="contained">Answer</Button>
+                </div>
+                <div className="quizNavigationOptions">
+                    <Button size="large" variant="text">Back</Button>
+                    <Button size="large" variant="outlined">Next</Button>
+                </div>
 
-        </div>
+            </div>
         </>
     )
 }

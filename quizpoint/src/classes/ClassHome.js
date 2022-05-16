@@ -13,16 +13,13 @@ import React, { useState, useEffect } from 'react'
 // import { db, ref } from '../services/firebase.js';
 // database
 import { db } from '../services/firebase'
-import { alert } from '../services/Alert'
 // components from libs
-import { ref, onValue, update, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import './ClassHome.css'
-import { dbFunctions } from '../services/firebase.js';
 
 // material ui
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
@@ -38,14 +35,11 @@ import Stack from '@mui/material/Stack';
 // responsive design
 import { useMediaQuery } from 'react-responsive'
 
-let userClasses = []
 let foundClasses = []
 
 
 
 export default function Classes() {
-    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     const [loading, dataFetch] = useState(false)
@@ -132,7 +126,7 @@ export default function Classes() {
             // trigger function
             loadData()
         }
-    })
+    }, [loading])
     if (loading === false) {
         return (
             <div>
@@ -240,7 +234,6 @@ export default function Classes() {
             )
         }
         else {
-            alert.success('Welcome, ' + user.name)
 
             return (
                 <Fade in={shouldFade}>

@@ -32,9 +32,9 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
-
     let { quizId } = useParams()
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
+    let chosenAnswers = {}
 
     // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
     useEffect(() => {
@@ -47,16 +47,29 @@ export default function Quiz() {
         })
     }, [])
 
-    function nextQuestion (){
-        if (currentQuestion == (quiz.questions.length - 1)) return
-        setCurrentQuestion(currentQuestion + 1);
-    }
-    function previousQuestion () {
-        if (currentQuestion == 0) return
-        setCurrentQuestion (currentQuestion - 1);
+
+    let quizHandler = {
+        // When "Next" is clicked, cycle through to the next question
+        nextQuestion: () => {
+            if (currentQuestion == (quiz.questions.length - 1)) return
+            setCurrentQuestion(currentQuestion + 1);
+        },
+        //When "Back" is clicked, cycle through to the last question
+        lastQuestion: () => {
+            if (currentQuestion == 0) return
+            setCurrentQuestion (currentQuestion - 1);
+        },
+        recordAnswer: (answer) => {
+            chosenAnswers[currentQuestion] = answer;
+            console.log(chosenAnswers)
+            quizHandler.nextQuestion()
+        }
     }
 
-    if (loadingStatus === true) { return }
+    //If the website is still "loading..." don't display anything
+    if (loadingStatus === true) return 
+
+    //HTML
     return (
         <>
             <div className="quizTitle">
@@ -67,13 +80,13 @@ export default function Quiz() {
                     <p>{quiz.description}</p>
                 </div>
                 <div className="quizQuestionAnswers">
-                    {quiz.questions[currentQuestion].choices.map(answers => {
-                        return <button key={answers}>{answers}</button>
+                    {quiz.questions[currentQuestion].choices.map(answer => {
+                        return <button onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</button>
                     })}
                 </div>
                 <div className="quizNavigationOptions">
-                    <button onClick={previousQuestion}>Back</button>
-                    <button onClick={nextQuestion}>Next</button>
+                    <button onClick={quizHandler.lastQuestion}>Back</button>
+                    <button onClick={quizHandler.nextQuestion}>Next</button>
                 </div>
 
             </div>

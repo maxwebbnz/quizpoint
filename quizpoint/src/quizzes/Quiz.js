@@ -47,8 +47,16 @@ export default function Quiz() {
         })
     }, [])
 
-    if (loadingStatus === true) { return }
+    function nextQuestion (){
+        if (currentQuestion == (quiz.questions.length - 1)) return
+        setCurrentQuestion(currentQuestion + 1);
+    }
+    function previousQuestion () {
+        if (currentQuestion == 0) return
+        setCurrentQuestion (currentQuestion - 1);
+    }
 
+    if (loadingStatus === true) { return }
     return (
         <>
             <div className="quizTitle">
@@ -58,15 +66,14 @@ export default function Quiz() {
                 <div className="quizQuestionTitle">
                     <p>{quiz.description}</p>
                 </div>
-                <div className="quizQuestionOptions">
-                    <Button size="large" variant="contained">Answer</Button>
-                    <Button size="large" variant="contained">Answer</Button>
-                    <Button size="large" variant="contained">Answer</Button>
-                    <Button size="large" variant="contained">Answer</Button>
+                <div className="quizQuestionAnswers">
+                    {quiz.questions[currentQuestion].choices.map(answers => {
+                        return <button key={answers}>{answers}</button>
+                    })}
                 </div>
                 <div className="quizNavigationOptions">
-                    <Button size="large" variant="text">Back</Button>
-                    <Button size="large" variant="outlined">Next</Button>
+                    <button onClick={previousQuestion}>Back</button>
+                    <button onClick={nextQuestion}>Next</button>
                 </div>
 
             </div>

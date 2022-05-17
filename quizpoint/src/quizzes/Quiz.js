@@ -16,7 +16,7 @@ import { alert } from '../services/Alert'
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, set } from "firebase/database";
 // material ui
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -37,8 +37,11 @@ export default function Quiz() {
     const [loadingStatus, setLoadingStatus] = useState(true)
     const [chosenAnswers, setChosenAnswers] = useState({})
     let { quizId } = useParams()
+    let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
-
+ 
+    let studentPath = ref(db,`/schools/hvhs/quizzes/${quizId}`);
+    // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
     const [steps, setSteps] = useState([])
     const [activeStep, setActiveStep] = useState(0)
@@ -68,12 +71,14 @@ export default function Quiz() {
     let quizHandler = {
         // When "Next" is clicked, cycle through to the next question
         nextQuestion: () => {
-            if (currentQuestion == (quiz.questions.length - 1)) return
+            if (currentQuestion === (quiz.questions.length - 1)) {
+                dbFunctionsSync.write(studentPath, chosenAnswers)
+            }
             setCurrentQuestion(currentQuestion + 1);
         },
         //When "Back" is clicked, cycle through to the last question
         lastQuestion: () => {
-            if (currentQuestion == 0) return
+            if (currentQuestion === 0) return
             setCurrentQuestion (currentQuestion - 1);
         },
         recordAnswer: (answer) => {
@@ -95,9 +100,9 @@ export default function Quiz() {
             </div>
             <div className="quizContainer">
                 <div className="quizQuestionTitle">
-                    <p>{quiz.description}</p>
+                    <p>{quiz.questions[currentQuestion].name}</p>
                 </div>
-                <div className="quizQuestionImage"><img src={quiz.questions[currentQuestion].image}></img></div>
+                <div className="quizQuestionImage"><img  alt=":)" src={quiz.questions[currentQuestion].image}></img></div>
                 <div className="quizButtons">
                     <div className="quizQuestionAnswers">
                     {quiz.questions[currentQuestion].choices.map(answer => {

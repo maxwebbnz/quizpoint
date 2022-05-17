@@ -1,17 +1,22 @@
-.createquiz-container{
-        background-color: white;
-    margin-left: 2%;
-    margin-top: 2%;
-    width: 90%;
-    border-radius: 2px;
-    padding-left: 2%;
+.body {
+  overflow: auto;
 }
 
-.createquiz-basicinfo{
-    display: grid;
-    width: 30%;
+
+.createquiz-container {
+  background-color: white;
+  margin-left: 2%;
+  margin-top: 2%;
+  width: 90%;
+  border-radius: 2px;
+  padding-left: 2%;
 }
 
-.createquiz-table td{
-  padding:  15px;
+.createquiz-basicinfo {
+  display: grid;
+  width: 30%;
+}
+
+.createquiz-table td {
+  padding: 15px;
 }

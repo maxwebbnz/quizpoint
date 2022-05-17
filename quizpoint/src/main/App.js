@@ -41,6 +41,7 @@ import RedirectLegacy from '../services/RedirectLegacy'
 import TeacherStudent from "../User/UserPageTeacher";
 import CreateClass from "../teachingsuite/CreateClass";
 import CreateQuiz from "../teachingsuite/CreateQuiz";
+import EditQuiz from "../teachingsuite/EditQuiz";
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
@@ -124,6 +125,7 @@ function App() {
                 <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
                 <Route path="/tcs/quizzes" element={<Quizzes />} />
                 <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
+                <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
                 <Route path="/tcs/reporting" element={<Reporting />} />
                 <Route path="/tcs/reporting/:field" element={<Reporting />} />
                 <Route path="/tcs/reports/class/:id" element={<ClassReport />} />
@@ -181,6 +183,7 @@ function App() {
                 <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
                 <Route path="/tcs/quizzes" element={<Quizzes />} />
                 <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
+                <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
                 <Route path="/tcs/reporting" element={<Reporting />} />
                 <Route path="/tcs" element={<TeachingHome />} />
                 <Route path="/logout" element={<LogOut />} />

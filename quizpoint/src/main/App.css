@@ -14,15 +14,16 @@ body {
 body::-webkit-scrollbar {
     width: 1em;
 }
-   
+
 body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-   
+
 body::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
+
 /* Global CSS (containers, buttons etc) */
 
 .generic-container {
@@ -70,11 +71,12 @@ body::-webkit-scrollbar-thumb {
     background-color: var(--secondary-color);
     width: 50%;
     height: 10%;
-    font-size: 20px;
+    font-size: 1rem;
     color: white;
     padding-top: 10px;
     padding-bottom: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 1%;
+    margin-top: 1%;
     margin-left: 2%;
     border-radius: 60px 60px 60px 60px;
     transition-duration: 0.4s;
@@ -86,8 +88,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .sml {
-    width: 15% !important;
-    height: 8% !important;
+    width: 10% !important;
+    height: 10% !important;
 }
 
 .blackBtn {
@@ -100,4 +102,3 @@ body::-webkit-scrollbar-thumb {
     color: black;
     box-shadow: 10px 10px 8px #888888;
 }
-

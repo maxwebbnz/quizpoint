@@ -353,8 +353,8 @@ export default function StudentReport() {
                 })
                 return (
                     <Paper elevation={3} className="paper-fix">
-                        <button onClick={() => generatePDF()}>Generate PDF</button>
-                        <button onClick={() => generateExcel()}>Generate Excel</button>
+                        <button className="generic-button sml" onClick={() => generatePDF()}>Generate PDF</button>
+                        <button className="generic-button sml" onClick={() => generateExcel()}>Generate Excel</button>
                         <GenerateTable columns={columns} data={tableData} />
                         <GeneratePDFTable columns={columns} data={tableData} />
                     </Paper>
@@ -549,7 +549,7 @@ export default function StudentReport() {
                 </div>
                 <div className='student-report-table'>
 
-                    <ReportTable type={'class'} students={studentInClass}></ReportTable>
+                    <ReportTable type={'single'} students={studentInClass}></ReportTable>
                 </div>
             </div>
         )

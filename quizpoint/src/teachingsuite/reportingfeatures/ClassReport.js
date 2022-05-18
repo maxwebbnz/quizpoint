@@ -353,6 +353,8 @@ export default function StudentReport() {
                 })
                 return (
                     <Paper elevation={3} className="paper-fix">
+                        <button onClick={() => generatePDF()}>Generate PDF</button>
+                        <button onClick={() => generateExcel()}>Generate Excel</button>
                         <GenerateTable columns={columns} data={tableData} />
                         <GeneratePDFTable columns={columns} data={tableData} />
                     </Paper>
@@ -430,6 +432,8 @@ export default function StudentReport() {
             }
             return (
                 <Paper elevation={3} className="paper-fix">
+                    <button onClick={() => generatePDF()}>Generate PDF</button>
+                    <button onClick={() => generateExcel()}>Generate Excel</button>
                     <GenerateTable columns={columns} data={tableData} />
                     <GeneratePDFTable columns={columns} data={tableData} />
 
@@ -517,8 +521,7 @@ export default function StudentReport() {
                     </Box>
                 </div>
                 <div className='student-report-table'>
-                    <button onClick={() => generatePDF()}>Generate PDF</button>
-                    <button onClick={() => generateExcel()}>Generate Excel</button>
+
 
                     <ReportTable type={'class'} students={studentInClass}></ReportTable>
                 </div>

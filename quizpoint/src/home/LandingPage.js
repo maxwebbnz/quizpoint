@@ -130,7 +130,7 @@ export default function LandingPage() {
                                 <img src={logo} className="logo-icon" alt="triangle with all three sides equal"></img>
                                 <div class="homePageActions">
                                     <div class="authContent text-center">
-                                        <h2>Welcome to QuizPoint</h2>
+                                        <h2>QuizPoint</h2>
                                         <button class="generic-button" onClick={LoginFunction} id="authButton"><i class="bi bi-google"></i> Login with Google</button>
 
                                     </div>

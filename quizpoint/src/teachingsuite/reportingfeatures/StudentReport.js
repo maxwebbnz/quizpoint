@@ -68,8 +68,12 @@ export default function StudentReport() {
     const [currentStudent, setStudentObject] = useState({})
     let currentTableData = []
     const [quizzesChecked, questionChecked] = useState(0)
+
     // id reference to uid
     let { id } = useParams()
+    let studentInClass = [
+        id
+    ]
     //? let currentTableData
     // color for hash loaders
     let [color, setColor] = useState("#ffffff");
@@ -87,6 +91,7 @@ export default function StudentReport() {
 
     useEffect(() => {
         if (loading) {
+
             document.title = 'Loading Data | QuizPoint'
             let pathRef = ref(db, `/schools/hvhs/users/${id}`);
 
@@ -441,7 +446,7 @@ export default function StudentReport() {
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
-    today = mm + '-' + dd + '-' + yyyy;
+    today = dd + '-' + mm + '-' + yyyy;
 
     function generatePDF() {
         if (numOfQuest > 10) {
@@ -544,7 +549,7 @@ export default function StudentReport() {
                 </div>
                 <div className='student-report-table'>
 
-                    <ReportTable type={'class'} students={example}></ReportTable>
+                    <ReportTable type={'class'} students={studentInClass}></ReportTable>
                 </div>
             </div>
         )

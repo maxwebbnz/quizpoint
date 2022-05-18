@@ -10,7 +10,7 @@ import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { Image, Button } from 'react-bootstrap'
 import { useGoogleLogout } from 'react-google-login';
-
+import './LogOut.css'
 const clientId =
   '616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com/';
 
@@ -95,7 +95,7 @@ function LogOut() {
     <div className="logout">
       <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
       <h2><b>You have been signed out</b></h2>
-      <Button href="/">Return Home</Button>
+      <Button href="/">Log Back In</Button>
     </div>
   )
 };

@@ -12,30 +12,24 @@ import './ClassPage.css'
 import { db } from '../services/firebase'
 import { alert } from '../services/Alert'
 // components from libs
-import { ref, onValue, update, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 // compenets from ui
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import { ButtonBase, CardActionArea } from '@mui/material';
 import Fade from '@mui/material/Fade';
 
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 
 // responsive design
 import { useMediaQuery } from 'react-responsive'
 
 // array for
 let quizActive = []
-let quizCards = []
 export default function ClassPage() {
-    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const navigate = useNavigate()
     const [loading, dataComplete] = useState(false)
@@ -49,10 +43,10 @@ export default function ClassPage() {
     console.log(classId)
     useEffect(() => {
         if (loading === true) {
-            document.title = 'Loaded | QuizPoint'
+            document.title = classObject.className + ' | QuizPoint'
 
         } else {
-            document.title = 'Loading Class Information | QuizPoint'
+            document.title = 'Loading Class | QuizPoint'
 
 
             function loadData() {

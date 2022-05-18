@@ -13,7 +13,8 @@ import _, { map } from 'underscore';
 import { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 // jspdf
-import jsPDF from "jspdf";
+import { user } from '../../firebase/fb.user'
+import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import { useTable } from 'react-table'
 
@@ -24,6 +25,8 @@ import { ref, onValue } from "firebase/database";
 // mui
 import Backdrop from '@mui/material/Backdrop';
 import Table from '@mui/material/Table';
+import TableToExcel from "@linways/table-to-excel";
+
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -131,7 +134,7 @@ export default function StudentReport() {
 
         // Render the UI for your table
         return (
-            <Table {...getTableProps()}>
+            <Table id="reportTable" {...getTableProps()}>
                 <TableHead>
                     {headerGroups.map(headerGroup => (
                         <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -171,6 +174,70 @@ export default function StudentReport() {
                                         return <TableCell {...cell.getCellProps()}><Tooltip title="Not Completed">
                                             <DoDisturbIcon style={{ color: 'red' }}></DoDisturbIcon>
                                         </Tooltip></TableCell>
+                                    } else {
+                                        return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
+                                    }
+                                })}
+                            </TableRow>
+                        )
+                    })}
+                </TableBody>
+            </Table>
+        )
+    }
+    function GeneratePDFTable({ columns, data }) {
+        // Use the state and functions returned from useTable to build your UI
+        const {
+            getTableProps,
+            getTableBodyProps,
+            headerGroups,
+            rows,
+            prepareRow,
+        } = useTable({
+            columns,
+            data,
+        })
+
+        // Render the UI for your table
+        return (
+            <Table id="reportTableToExport" {...getTableProps()}>
+                <TableHead>
+                    {headerGroups.map(headerGroup => (
+                        <TableRow {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                        prepareRow(row)
+                        return (
+                            <TableRow {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    if (cell.value === undefined) {
+
+                                        return <TableCell {...cell.getCellProps()}>Not Completed</TableCell>
+
+                                    } else if (cell.value === 'correct') {
+                                        return <TableCell {...cell.getCellProps()}>
+                                            Correct
+                                        </TableCell>
+                                    } else if (cell.value === 'incorrect') {
+                                        return <TableCell {...cell.getCellProps()}>
+                                            Incorrect
+                                        </TableCell>
+                                    }
+                                    else if (cell.value === 'complete') {
+                                        return <TableCell {...cell.getCellProps()}>
+                                            Quiz Completed
+                                        </TableCell>
+                                    }
+                                    else if (cell.value === 'incomplete') {
+                                        return <TableCell {...cell.getCellProps()}>
+                                            Not Completed
+                                        </TableCell>
                                     } else {
                                         return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
                                     }
@@ -281,6 +348,7 @@ export default function StudentReport() {
                 return (
                     <Paper elevation={3} className="paper-fix">
                         <GenerateTable columns={columns} data={tableData} />
+                        <GeneratePDFTable columns={columns} data={tableData} />
                     </Paper>
                 )
             }
@@ -355,12 +423,43 @@ export default function StudentReport() {
             return (
                 <Paper elevation={3} className="paper-fix">
                     <GenerateTable columns={columns} data={tableData} />
+                    <GeneratePDFTable columns={columns} data={tableData} />
+
                 </Paper>
             )
         }
     }
 
+    // variables for pdfs and excel documents
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
+    today = mm + '-' + dd + '-' + yyyy;
+
+    function generatePDF() {
+
+        const doc = new jsPDF()
+        autoTable(doc, { html: '#reportTableToExport' })
+        doc.text(`QuizPoint | ${currentStudent.name} report for ${quizIdToView} `, 10, 10);
+        doc.setFontSize(9);
+        doc.text(`QuizPoint | Generated by ${user.name}`, 10, 280);
+
+        let documentName = `${currentStudent.name} report for ${quizIdToView} - Generated ${today} `
+        doc.save(documentName + '.pdf')
+    }
+
+    function generateExcel() {
+        let spreadsheet = `${currentStudent.name}_report_${quizIdToView}_${today} `
+
+        TableToExcel.convert(document.getElementById("reportTableToExport"), {
+            name: spreadsheet + ".xlsx",
+            sheet: {
+                name: "Sheet 1"
+            }
+        });
+    }
     // if loading
     if (loading) {
         return (
@@ -422,6 +521,8 @@ export default function StudentReport() {
                     </Box>
                 </div>
                 <div className='student-report-table'>
+                    <button onClick={() => generatePDF()}>Generate PDF</button>
+                    <button onClick={() => generateExcel()}>Generate Excel</button>
                     <ReportTable type={'class'} students={example}></ReportTable>
                 </div>
             </div>

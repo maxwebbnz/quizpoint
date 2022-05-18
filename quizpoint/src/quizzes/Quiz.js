@@ -35,7 +35,7 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
-    const [chosenAnswers, setChosenAnswers] = useState({})
+    const [chosenAnswers, setChosenAnswers] = useState({answers: {}})
     let { quizId } = useParams()
     let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
@@ -72,7 +72,8 @@ export default function Quiz() {
         // When "Next" is clicked, cycle through to the next question
         nextQuestion: () => {
             if (currentQuestion === (quiz.questions.length - 1)) {
-                dbFunctionsSync.write(studentPath, chosenAnswers)
+                set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
+                return
             }
             setCurrentQuestion(currentQuestion + 1);
         },
@@ -82,8 +83,13 @@ export default function Quiz() {
             setCurrentQuestion (currentQuestion - 1);
         },
         recordAnswer: (answer) => {
-            chosenAnswers[currentQuestion] = answer;
             console.log(chosenAnswers)
+            if (answer == quiz.questions[currentQuestion].answer){
+                chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"correct"};
+            } else if (answer != quiz.questions[currentQuestion].answer){
+                chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"incorrect"};
+            }
+            
             quizHandler.nextQuestion()
             stepsHandler.completedSteps()
         }

@@ -19,7 +19,8 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import { onValue, set } from "firebase/database";
 import { ref as dbRef } from "firebase/database";
 import Compressor from 'compressorjs';
-
+import HashLoader from "react-spinners/HashLoader";
+import Backdrop from '@mui/material/Backdrop';
 // material ui
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -70,6 +71,7 @@ export default function EditQuiz() {
     const [tags, setTags] = React.useState([])
     const [options, updateOptions] = useState()
     const [open, setOpen] = React.useState(false);
+    let [color, setColor] = useState("#ffffff");
 
     //! Below code has stopped working properly since dialog was added
     // // if quiz is being edited, prevent accidental reloads
@@ -370,71 +372,83 @@ export default function EditQuiz() {
         navigate('/tcs/quizzes')
     };
     // return JSX for Virtual DOM
-    return (
-        <div className='createquiz-container'>
-            <div className='createquiz-header'>
-                <h2>Create a Quiz</h2>
-            </div>
-            <div className='createquiz-body'>
-                <div className='createquiz-basicinfo'>
-                    <h4>Basic Information</h4>
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Quiz Title"
-                        onChange={updateQuizName} //whenever the text field change, you save the value in state
-                        margin="dense"
-                    />
-                    <TextField
-                        id="outlined-required"
-                        margin="dense"
-                        label="Quiz Description"
-                        onChange={updateQuizDesc} //whenever the text field change, you save the value in state
-                    />
-                </div>
-                <div className='createquiz-questions'>
-                    <button onClick={addRow}>New Question</button>
-                    <table className='createquiz-table'>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Upload Image</th>
-                                <th>Question Type</th>
-                                <th>Options</th>
-                                <th>Answer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableRow}
-                        </tbody>
-                    </table>
-                </div>
-                <button onClick={saveQuizToDb}>Save Quiz</button>
-            </div>
-            {/* Dialog for completing quiz */}
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+    if (loading) {
+        <>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={shouldFade}
             >
-                <DialogTitle id="alert-dialog-title">
-                    {quizName} has been created!
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        You can now view your quiz in the quiz list.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} autoFocus>
-                        Agree
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-    )
+                <HashLoader color={color} loading={loading} size={70} />
+
+            </Backdrop>
+        </>
+    } else {
+        return (
+            <div className='createquiz-container'>
+                <div className='createquiz-header'>
+                    <h2>Create a Quiz</h2>
+                </div>
+                <div className='createquiz-body'>
+                    <div className='createquiz-basicinfo'>
+                        <h4>Basic Information</h4>
+                        <TextField
+                            required
+                            id="outlined-required"
+                            label="Quiz Title"
+                            onChange={updateQuizName} //whenever the text field change, you save the value in state
+                            margin="dense"
+                        />
+                        <TextField
+                            id="outlined-required"
+                            margin="dense"
+                            label="Quiz Description"
+                            onChange={updateQuizDesc} //whenever the text field change, you save the value in state
+                        />
+                    </div>
+                    <div className='createquiz-questions'>
+                        <button onClick={addRow}>New Question</button>
+                        <table className='createquiz-table'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Upload Image</th>
+                                    <th>Question Type</th>
+                                    <th>Options</th>
+                                    <th>Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableRow}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button onClick={saveQuizToDb}>Save Quiz</button>
+                </div>
+                {/* Dialog for completing quiz */}
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {quizName} has been created!
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            You can now view your quiz in the quiz list.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} autoFocus>
+                            Agree
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        )
+    }
 }
 
 // end of file :D

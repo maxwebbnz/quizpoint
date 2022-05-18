@@ -35,7 +35,7 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
-    const [chosenAnswers, setChosenAnswers] = useState({answers: {}})
+    const [chosenAnswers, setChosenAnswers] = useState({answers: {}, details: {}})
     let { quizId } = useParams()
     let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
@@ -89,7 +89,7 @@ export default function Quiz() {
             } else if (answer != quiz.questions[currentQuestion].answer){
                 chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"incorrect"};
             }
-            
+            chosenAnswers.details = {code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length}
             quizHandler.nextQuestion()
             stepsHandler.completedSteps()
         }

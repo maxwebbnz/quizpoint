@@ -8,23 +8,15 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebase.js"
+import { Navigate, Route } from "react-router-dom";
 // user model
 import { user } from '../firebase/fb.user.js';
-// alerts
-import { alert } from '../services/Alert'
 // styling
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
 import { ref, onValue, set } from "firebase/database";
-// material ui
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-
+import Swal from 'sweetalert2';
 import { useMediaQuery } from 'react-responsive'
 
 
@@ -39,7 +31,6 @@ export default function Quiz() {
     let { quizId } = useParams()
     let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
- 
     let studentPath = ref(db,`/schools/hvhs/quizzes/${quizId}`);
     // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
@@ -73,6 +64,9 @@ export default function Quiz() {
         nextQuestion: () => {
             if (currentQuestion === (quiz.questions.length - 1)) {
                 set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
+                Swal.fire({
+                    title: 'Error',
+                })
                 return
             }
             setCurrentQuestion(currentQuestion + 1);

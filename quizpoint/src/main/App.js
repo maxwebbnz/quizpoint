@@ -67,7 +67,7 @@ function App() {
   // Same config object passed to `gapi.auth2.init`
   // https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams
 
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  // const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
   const [openDialog, setDialog] = useState(false)
   let action
 
@@ -99,7 +99,6 @@ function App() {
       // updateUserData(snapshot.v al());
 
     });
-    if (!isTabletOrMobile) {
       if (user.role === 'teacher') {
         return (
           <GApiProvider clientConfig={clientConfig}>
@@ -141,66 +140,6 @@ function App() {
         // Start application
         return (
           <GApiProvider clientConfig={clientConfig}>
-
-            <div className="App">
-              {/* < NavBar /> */}
-              <NavBar />
-              <Routes>
-                <Route path="/" element={<ClassHome />} />
-                <Route path="/classHome" element={<RedirectLegacy />} />
-                <Route path="/classes" element={<ClassHome />} />
-                <Route path="/class/:classId" element={<ClassPage />} />
-                <Route path="/invite/:id" element={<Invite />} />
-                <Route path="/quiz/:quizId" element={<Quiz />} />
-                <Route path="/user/:id" element={<UserPage />} />
-                <Route path="/logout" element={<LogOut />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </div>
-          </GApiProvider>
-        );
-      }
-
-    } else {
-      if (user.role === 'teacher') {
-        return (
-          <GApiProvider clientConfig={clientConfig}>
-            <div className="App">
-              {/* < NavBar /> */}
-              <NavBar />
-              <Routes>
-                <Route path="/" element={<ClassHome />} />
-                <Route path="/classes" element={<ClassHome />} />
-                <Route path="/class/:classId" element={<ClassPage />} />
-                <Route path="/quiz/:quizId" element={<Quiz />} />
-                <Route path="/invite/:id" element={<Invite />} />
-                <Route path="/user/:id" element={<UserPage />} />
-                {/* Teaching Suite routes */}
-                <Route path="/tcs" element={<TeachingHome />} />
-                <Route path="/tcs/students/:type" element={<Students />} />
-                <Route path="/tcs/user/:id" element={<TeacherStudent />} />
-                <Route path="/tcs/classes" element={<Classes />} />
-                <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
-                <Route path="/tcs/quizzes" element={<Quizzes />} />
-                <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
-                <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
-                <Route path="/tcs/reporting" element={<Reporting />} />
-                <Route path="/tcs" element={<TeachingHome />} />
-                <Route path="/logout" element={<LogOut />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-              <Box sx={{ '& > :not(style)': { m: 1 }, position: 'absolute', bottom: 16, right: 16 }}>
-                <Fab variant="extended" color="primary" aria-label="add">
-                  <NavigationIcon /> Go Back
-                </Fab>
-              </Box>
-            </div>
-          </GApiProvider>
-        );
-      } else {
-        // Start application
-        return (
-          <GApiProvider clientConfig={clientConfig}>
             <div className="App">
               {/* < NavBar /> */}
               <NavBar />
@@ -229,6 +168,5 @@ function App() {
 
   // they need to sign in!
 
-}
 
 export default App

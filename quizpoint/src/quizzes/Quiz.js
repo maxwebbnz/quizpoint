@@ -65,7 +65,7 @@ export default function Quiz() {
             if (currentQuestion === (quiz.questions.length - 1)) {
                 set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
                 Swal.fire({
-                    title: 'Error',
+                    title: 'Completed',
                 })
                 return
             }

@@ -8,13 +8,16 @@
     padding: 1% 0 1% 0;
 }
 .quizTitle p {
-    margin-bottom:0 !important;
+    margin-bottom:0 !important; 
 }
 .quizContainer{
     background-color:white;
     height:500px;
+    /* Spacing on the left and right of outside the quiz container*/
     margin:0 20vw 0 20vw;
+    /* Rounded Corners */
     border-radius:10px;
+    /* Spacing on the left and right of inside the quiz container */
     padding:0% 2% 0% 2%;
 }
 .quizQuestionTitle{ 

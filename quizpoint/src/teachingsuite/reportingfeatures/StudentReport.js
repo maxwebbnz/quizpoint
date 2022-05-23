@@ -7,56 +7,65 @@
 * All rights reserved.
 */
 
+/**========================================================================
+ * *                          StudentReport Module
+ *========================================================================**/
 
-import _, { map } from 'underscore';
-// react modules
-import { useEffect, useState, useMemo } from 'react'
+
+/**======================
+ **   React Imports
+ *========================**/
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import logo from './logo.svg'
 // jspdf
-import { user } from '../../firebase/fb.user'
-import { jsPDF } from "jspdf";
+/**======================
+ **   Data Service Imports
+ *========================**/
+import { db } from '../../services/firebase'
+import { user } from '../../firebase/fb.user.js';
+import { ref, onValue } from "firebase/database";
+/**======================
+ **   Data Handling Imports
+ *========================**/
+import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable';
 import { useTable } from 'react-table'
-
-// database
-import { db, dbFunctions } from '../../services/firebase'
-// components from libs
-import { ref, onValue } from "firebase/database";
-// mui
+/**======================
+ **   Material UI Imports
+ *========================**/
 import Backdrop from '@mui/material/Backdrop';
-import Table from '@mui/material/Table';
 import TableToExcel from "@linways/table-to-excel";
-
+import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import * as htmlToImage from 'html-to-image';
-import MUIDataTable from "mui-datatables";
-import PropTypes from 'prop-types';
-import Typography from '@mui/material/Typography';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import HashLoader from "react-spinners/HashLoader";
-import Avatar from '@mui/material/Avatar';
-
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
-import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import Avatar from '@mui/material/Avatar';
+/**======================
+ **   Icons from MUI Imports
+ *========================**/
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+/**======================
+ **   Hash Loader Import
+ *========================**/
+import HashLoader from "react-spinners/HashLoader";
 
-// css
+/**======================
+ **   Stylesheet Imports
+ *========================**/
 import './StudentReport.css'
 /**==============================================
  **              StudentReport()
@@ -66,24 +75,28 @@ export default function StudentReport() {
     // states
     const [loading, setLoading] = useState(true)
     const [currentStudent, setStudentObject] = useState({})
-    let currentTableData = []
-    const [quizzesChecked, questionChecked] = useState(0)
-
     // id reference to uid
     let { id } = useParams()
+    // classobject (in use case, one student)
     let studentInClass = [
         id
     ]
-    //? let currentTableData
+
     // color for hash loaders
     let [color, setColor] = useState("#ffffff");
     // just a placeholder variable
     const shouldFade = true
-    const [tabs, setTabs] = useState([])
     const [numOfQuest, setQuestNum] = useState(0)
     //use effect hook, no reference
     const [quizIdToView, setQzId] = useState('');
     const [quizToSelect, setSelect] = useState([])
+    // variables for pdfs and excel documents
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '-' + mm + '-' + yyyy;
     const handleChange = (event) => {
         setQzId(event.target.value);
         console.log(event.target.value)
@@ -455,6 +468,8 @@ export default function StudentReport() {
                 format: 'a2'
             })
             autoTable(doc, { html: '#reportTableToExport' })
+            doc.addImage(logo, 'SVG', 10, 0, 50, 50);
+
             doc.text(`QuizPoint | ${currentStudent.name} report for ${quizIdToView} `, 10, 10);
             doc.setFontSize(9);
             doc.text(`QuizPoint | Generated by ${user.name}`, 10, 280);
@@ -466,6 +481,7 @@ export default function StudentReport() {
                 orientation: 'landscape',
             })
             autoTable(doc, { html: '#reportTableToExport' })
+            doc.addImage(logo, 'SVG', 10, 0, 50, 50);
             doc.text(`QuizPoint | ${currentStudent.name} report for ${quizIdToView} `, 10, 10);
             doc.setFontSize(9);
             doc.text(`QuizPoint | Generated by ${user.name}`, 10, 280);

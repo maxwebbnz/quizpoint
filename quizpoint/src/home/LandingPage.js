@@ -5,8 +5,9 @@
 
 // Base Declerations
 import './LandingPage.css';
-import { LoginFunction } from '../services/Login'
+import { LoginFunction, oauthSignIn, newSignInModel } from '../services/Login'
 import logo from './media/appicon-itt6.svg'
+import { useGoogleLogin } from '@react-oauth/google';
 import mobileLogo from './media/appbranding-itt4withtext.svg'
 import schoolMedia from './media/background.jpg'
 import { useMediaQuery } from 'react-responsive'
@@ -16,7 +17,6 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import Grow from '@mui/material/Grow';
 import Collapse from '@mui/material/Collapse';
-import GoogleLogin from 'react-google-login';
 // or
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { setUserObjectLocal } from "../firebase/fb.user"
@@ -31,64 +31,26 @@ export default function LandingPage() {
     const shouldBackdrop = true
 
 
+
     /**==============================================
-     **              HandleSignIn
-     *?  What does it do? Handles sign in with Google OAuth
+     **              useGoogleLogin
+     *?  What does it do? Configuration for login service
+     *@return token, google
      *=============================================**/
-    const responseGoogle = (response) => {
-        console.log(response);
-        console.log(response.accessToken)
-        // then read data
-        const dbRef = ref(getDatabase());
-        // access data
-        console.log(response.accessToken)
-        get(child(dbRef, `schools/hvhs/users/${response.googleId}`)).then((snapshot) => {
-            // if user exists
-            if (snapshot.exists()) {
-                console.log(snapshot.val());
-                setUserObjectLocal(snapshot.val(), response.accessToken)
-                // register
-            } else {
-                registerUser(response.profileObj, response.accessToken)
-                console.log("No data available");
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
+    const login = useGoogleLogin({
+        onSuccess: tokenResponse => startLogin(tokenResponse),
+        scope: 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
 
-
+    });
 
     /**==============================================
- **              registerUser
- *?  What does it do? Registeres the user in the database
- *@param _userObj object
- *=============================================**/
-    function registerUser(_userObj, _token) {
-        let userObject = {
-            name: _userObj.name,
-            email: _userObj.email,
-            picture: _userObj.imageUrl,
-            studentID: _userObj.email.split('@')[0],
-            role: 'student',
-            uid: _userObj.googleId,
-            classes: {
-                notEnrolled: true
-            },
-            quizzes: {
-                active: {
-                    notEnrolled: true
-                },
-                turnedin: {
-                    notEnrolled: true
-                }
-            }
-        }
-        const db = getDatabase();
-        set(ref(db, 'schools/hvhs/users/' + _userObj.googleId), userObject);
-        setUserObjectLocal(_userObj, _token)
+     **              startLogin
+     *?  What does it do? Handles the login process after the google login service.
+     *@param _token - token from google login service
+     *=============================================**/
+    function startLogin(_token) {
+        newSignInModel(_token.access_token)
     }
-
 
     const MyFade = ({
         children,

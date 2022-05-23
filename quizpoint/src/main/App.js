@@ -11,6 +11,7 @@ import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
 // import { useLocation } from 'react-router-dom'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // km
 import { user, updateUserData } from '../firebase/fb.user.js';
@@ -46,18 +47,12 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import { useMediaQuery } from 'react-responsive'
-import { GApiProvider } from 'react-gapi-auth2';
 import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 
-const clientConfig = {
-  client_id: '616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com',
-  cookie_policy: 'single_host_origin',
-  scope: 'https://www.googleapis.com/auth/<POLICY>'
-  // etc...
-};
+
 /**==============================================
  **              App()
  *?  What does it do? Main renderer for application
@@ -75,14 +70,17 @@ function App() {
   if (user.authed === false) {
     return (
       // render landing page, restrict routes.
-      <div className="App">
-        {/* < NavBar /> */}
-        {/* <NavBar /> */}
-        <Routes>
-          <Route path="*" element={<LandingPage />} />
-          <Route path="/*" element={<LandingPage />} />
-        </Routes>
-      </div>
+      <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
+        <div className="App">
+          {/* < NavBar /> */}
+          {/* <NavBar /> */}
+          <Routes>
+            <Route path="*" element={<LandingPage />} />
+            <Route path="/*" element={<LandingPage />} />
+          </Routes>
+        </div>
+      </GoogleOAuthProvider>
+
     );
 
     // if user is authed
@@ -102,7 +100,8 @@ function App() {
     if (!isTabletOrMobile) {
       if (user.role === 'teacher') {
         return (
-          <GApiProvider clientConfig={clientConfig}>
+          <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
+
             <div className="App">
               <Snackbar open={openDialog} autoHideDuration={6000}>
                 <SnackbarContent message="I love snacks." action={action} />
@@ -135,13 +134,12 @@ function App() {
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </div>
-          </GApiProvider>
+          </GoogleOAuthProvider>
         );
       } else {
         // Start application
         return (
-          <GApiProvider clientConfig={clientConfig}>
-
+          <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
             <div className="App">
               {/* < NavBar /> */}
               <NavBar />
@@ -157,14 +155,15 @@ function App() {
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </div>
-          </GApiProvider>
+          </GoogleOAuthProvider>
         );
       }
 
     } else {
       if (user.role === 'teacher') {
         return (
-          <GApiProvider clientConfig={clientConfig}>
+          <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
+
             <div className="App">
               {/* < NavBar /> */}
               <NavBar />
@@ -195,12 +194,12 @@ function App() {
                 </Fab>
               </Box>
             </div>
-          </GApiProvider>
+          </GoogleOAuthProvider>
         );
       } else {
         // Start application
         return (
-          <GApiProvider clientConfig={clientConfig}>
+          <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
             <div className="App">
               {/* < NavBar /> */}
               <NavBar />
@@ -220,7 +219,7 @@ function App() {
                 </Fab>
               </Box>
             </div>
-          </GApiProvider>
+          </GoogleOAuthProvider>
         );
       }
     }

@@ -580,6 +580,8 @@ export default function StudentReport() {
             // create a new document with landscape orentation
             const doc = new jsPDF({
                 orientation: 'landscape',
+                format: 'a2'
+
             })
             // get the table data from the hidden table
             autoTable(doc, { html: '#reportTableToExport' })

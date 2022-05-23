@@ -52,6 +52,9 @@ export default function Reporting() {
     };
 
     const handleClose = () => {
+        setOpen(false);
+    };
+    const handleSelect = () => {
         navigate('/tcs/reports/class/' + selectedClassId)
         setOpen(false);
     };
@@ -211,7 +214,7 @@ export default function Reporting() {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Select</Button>
+                        <Button onClick={handleSelect}>Select</Button>
                     </DialogActions>
                 </Dialog>
             </div >

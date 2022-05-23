@@ -1,0 +1,10 @@
+.classCards {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    box-shadow: 2%;
+    gap: 1%
+}
+
+.background {
+    background-color: black;
+}

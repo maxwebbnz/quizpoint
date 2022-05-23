@@ -7,6 +7,7 @@
 body {
     background-color: var(--background-color);
     font-family: var(--main-font);
+    overflow: auto !important;
     /* margin-left: 200px; */
     /* overflow: hidden; */
 }

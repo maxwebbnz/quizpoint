@@ -42,7 +42,7 @@ export default function LandingPage() {
      *=============================================**/
     const login = useGoogleLogin({
         onSuccess: tokenResponse => startLogin(tokenResponse),
-        scope: 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
+        scope: 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.announcements https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
 
     });
 

@@ -42,15 +42,14 @@ export default function LandingPage() {
 
     // return HTML
     return (
-        <div id="landingPage" className="homePageMain">
+        <div id="landingPage" className="loginPage" style= {{backgroundImage: `url(${schoolMedia})`}}>
             <div className="loginContainer">
                 <div className="logo"><img src={logo} alt="QuizPoint Logo"></img></div>
                 <div className="loginText"><h1>QuizPoint</h1></div>
                 <div className="loginButtons">
-                    <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Login with Google</Button>
+                    <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
                 </div>
             </div>
         </div>
-
     )
     }

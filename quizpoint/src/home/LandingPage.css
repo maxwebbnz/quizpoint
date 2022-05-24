@@ -1,32 +1,43 @@
+.loginPage{
+    height:100vh;
+    width:100vw;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center center;
+}
 .loginContainer{
     display:flex;
     flex-direction:column;
     align-items:center;
-    background-color:var(--secondary-color);
     float:right;
-    /* Container Sizing */
+    background-color:var(--secondary-color);
     width:400px;
     height:100vh;
-
 }
 .loginContainer img {
-    /* Image Sizing */
     height:150px;
     width:150px;
 }
-
 .loginText > h1{
     font-size:3rem;
     color:white;
+    text-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
 .loginText, .loginButtons, .logo{
-    padding-top:45px;
+    padding-top:50px;
 }
 .loginButtons img{
     height:50px;
     width:50px;
 }
 .loginButtons{
-    padding:7px;
+    padding:20px;
+}
+.googleLoginButton{
+    display:flex;
+    align-items:center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.googleLoginButton:hover{
+    background:#e3e3e3 !important;
 }

@@ -7,6 +7,7 @@
 import './LandingPage.css';
 import { LoginFunction, oauthSignIn, newSignInModel } from '../services/Login'
 import logo from './media/appicon-itt6.svg'
+import googleButton from './media/googleButton.svg'
 import { useGoogleLogin } from '@react-oauth/google';
 import mobileLogo from './media/appbranding-itt4withtext.svg'
 import schoolMedia from './media/background.jpg'
@@ -46,7 +47,7 @@ export default function LandingPage() {
                 <div className="logo"><img src={logo} alt="QuizPoint Logo"></img></div>
                 <div className="loginText"><h1>QuizPoint</h1></div>
                 <div className="loginButtons">
-                    <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton">Login with Google</Button>
+                    <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Login with Google</Button>
                 </div>
             </div>
         </div>

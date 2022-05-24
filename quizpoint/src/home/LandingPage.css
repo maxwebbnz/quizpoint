@@ -23,3 +23,10 @@
 .loginText, .loginButtons, .logo{
     padding-top:45px;
 }
+.loginButtons img{
+    height:50px;
+    width:50px;
+}
+.loginButtons{
+    padding:7px;
+}

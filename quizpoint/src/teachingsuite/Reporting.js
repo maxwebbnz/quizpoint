@@ -3,6 +3,8 @@
  * All rights reserved.
  */
 import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from "react-router-dom"
+
 // database
 import { db } from '../services/firebase'
 
@@ -16,150 +18,207 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
+import Slide from '@mui/material/Slide';
+
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import HashLoader from "react-spinners/HashLoader";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 export default function Reporting() {
-    const [allStudents, studentArray] = useState([])
-    const [loadedData, setLoadingStatus] = useState(false)
-    const [dialogContext, setContext] = useState()
-    const [selectedStudent, selectStudent] = useState('')
+    let { field } = useParams()
+    const [loadingData, isLoading] = useState(true)
+    let [color, setColor] = useState("#ffffff");
+    const [options, setOptions] = useState([])
     const shouldFade = true
-    const [open, setOpen] = useState(false)
-    // let className
-    function dialogForClass() {
-        setContext(
-            <Dialog
-                fullWidth={true}
-                maxWidth={'lg'}
-                open={open}
-                onClose={handleClose}
-            >
-                <DialogTitle>Select a class</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-
-                    </DialogContentText>
-                    <DialogContentText>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={console.log(selectedStudent)}>Load Report</Button>
-                </DialogActions>
-            </Dialog>
-
-        )
-        setOpen(true)
-    }
-    function dialogForStudent() {
-        setContext(
-            <Dialog
-                fullWidth={true}
-                maxWidth={'lg'}
-                open={open}
-                onClose={handleClose}
-            >
-                <DialogTitle>Select a student</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        <Stack spacing={2} sx={{ width: 300 }}>
-                            <Autocomplete
-                                freeSolo
-                                id="searchStudentName"
-                                disableClearable
-                                options={allStudents.map((option) => option.name)}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Search for a student"
-                                        onChange={updateStudentName}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            type: 'search',
-                                        }}
-                                    />
-                                )}
-                            />
-
-                        </Stack>
-                    </DialogContentText>
-                    <DialogContentText>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={console.log(selectedStudent)}>Load Report</Button>
-                </DialogActions>
-            </Dialog>
-
-        )
-        setOpen(true)
-    }
-
-    function updateStudentName(e) {
-        selectStudent(e.target.value)
-    }
+    const [classes, setClasses] = useState([])
+    const [students, setStudents] = useState([])
+    const [open, setOpen] = useState(false);
+    const [selectedOption, setOption] = useState('')
+    const [setOfOptions, setSetOfOptions] = useState([])
+    let navigate = useNavigate()
+    let selectedClassId
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
     const handleClose = () => {
         setOpen(false);
     };
+    const handleSelect = () => {
+        navigate('/tcs/reports/class/' + selectedClassId)
+        setOpen(false);
+    };
+
+    const Transition = React.forwardRef(function Transition(props, ref) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
+
+
     useEffect(() => {
-        if (!loadedData) {
-            document.title = 'Loading Data | QuizPoint'
-            // first we need to pull all students
+        if (loadingData) {
+            document.title = 'Loading... | QuizPoint'
+            function loadAllClasses() {
+                let pathRef = ref(db, `/schools/hvhs/classes/`);
+                onValue(pathRef, (snapshot) => {
+                    if (snapshot === undefined || snapshot === null) {
+                        console.log("invalid class code")
+                    } else {
+                        snapshot.forEach(childSnapshot => {
+                            if (childSnapshot.cache) {
+                                return;
+                            } else {
+                                classes.push(childSnapshot.val())
+                            }
+                        })
+                        console.log(classes)
+                    }
+                })
+            }
+            loadAllClasses()
 
-            let pathRef = ref(db, `/schools/hvhs/users/`);
-            onValue(pathRef, (snapshot) => {
-                if (snapshot === undefined || snapshot === null) {
-                    console.log("invalid class code")
-                } else {
-                    snapshot.forEach(childSnapshot => {
-                        console.log(childSnapshot.val())
-                        allStudents.push(childSnapshot.val())
-                    })
-                    console.log(allStudents)
-                    setLoadingStatus(true)
-                }
-            })
+            function loadAllStudents() {
+                let pathRef = ref(db, `/schools/hvhs/users/`);
+                onValue(pathRef, (snapshot) => {
+                    if (snapshot === undefined || snapshot === null) {
+                        console.log("invalid class code")
+                    } else {
+                        snapshot.forEach(childSnapshot => {
+                            if (childSnapshot.cache) {
+                                return;
+                            } else {
+                                if (childSnapshot.val().role !== "student") {
+                                    console.log('not a student')
+                                } else {
+                                    // error prevention
+                                    //! this code does not work as intended, sucks to be me!
+                                    if (childSnapshot.val().average === undefined || childSnapshot.val().average === null) {
+                                        childSnapshot.val().average = 0
+                                        students.push(childSnapshot.val())
+                                    } else {
+                                        students.push(childSnapshot.val())
+
+                                    }
+
+                                }
+                            }
+                        })
+                        isLoading(false)
+                        console.log(students)
+                    }
+                })
+
+            }
+            loadAllStudents()
         } else {
-            document.title = 'Reporting | QuizPoint'
-
+            document.title = 'HELLO'
         }
     })
-    if (!loadedData) {
+
+
+    function displaySelectionDialog(type) {
+        let selectedArray;
+
+        if (type === "class") {
+            selectedArray = classes
+            let placeholder = classes.map(classObj => {
+                return (
+                    <MenuItem key={classObj.code} value={classObj.code}>
+                        {classObj.className}
+                    </MenuItem>
+                )
+            })
+            setSetOfOptions(placeholder)
+        } else if (type === "student") {
+            selectedArray.type = students
+
+            let placeholder = students.map(classObj => {
+                return (
+                    <MenuItem key={classObj.key} value={classObj.uid}>
+                        {classObj.name}
+                    </MenuItem>
+                )
+            })
+            setSetOfOptions(placeholder)
+            setOption(type)
+
+            // after options setting,
+            setOpen(true);
+
+        }
+
+
+        setOption(type)
+
+        // after options setting,
+        setOpen(true);
+
+    }
+
+    function handleClassSelect(e) {
+        console.log(e.target.value)
+        selectedClassId = e.target.value
+    }
+
+    if (loadingData) {
         return (
             <div className="loading-container">
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={shouldFade}
                 >
-                    <CircularProgress color="inherit" />
+                    <HashLoader color={color} loading={isLoading} size={70} />
+
                 </Backdrop>
             </div>
         )
     } else {
         return (
-            <div className='reporting'>
-                <div className='reporting-header'>
-                    <h1>Markbook and Reporting</h1>
+            <div>
+                <h1>Select a reporting feature {loadingData}</h1>
+                <div className="reporting-buttons">
+                    <Button variant="contained" color="primary" onClick={() => displaySelectionDialog('class')}>View by class</Button>
+                    <Button variant="contained" color="primary" onClick={() => console.log('clickedf')}>View by quiz</Button>
+                    <Button variant="contained" color="primary" onClick={() => displaySelectionDialog('student')}>View by student</Button>
                 </div>
-                <div className='reporting-body'>
-                    <h2>To start, what would you like to view?</h2>
-                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                        <Button onClick={dialogForClass}><SchoolOutlinedIcon></SchoolOutlinedIcon> Class Progress</Button>
-                        <Button onClick={dialogForStudent}><PersonOutlineOutlinedIcon></PersonOutlineOutlinedIcon> Individual Student Progress</Button>
-                        <Button><QuizOutlinedIcon></QuizOutlinedIcon> Quiz Progress</Button>
-                    </ButtonGroup>
-                </div>
-                {dialogContext}
-            </div>
+                <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClose}
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>Select a {selectedOption}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">{selectedOption}</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    label="Age"
+                                    onChange={handleClassSelect}
+                                >
+                                    {setOfOptions}
+                                </Select>
+                            </FormControl>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleSelect}>Select</Button>
+                    </DialogActions>
+                </Dialog>
+            </div >
+
         )
     }
 }

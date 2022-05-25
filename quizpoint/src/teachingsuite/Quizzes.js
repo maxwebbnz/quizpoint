@@ -17,23 +17,14 @@ import './Quizzes.css'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
 
-import AssignQuiz from './AssignQuiz';
 // Material UI for Styled Components
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import Tooltip from '@mui/material/Tooltip';
 import Fab from '@mui/material/Fab';
 
 let allQuizzes = []

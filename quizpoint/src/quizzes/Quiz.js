@@ -3,119 +3,122 @@
  * All rights reserved.
  */
 
-//! Still working on this file, a holiday job! Feel free to edit, tinker, etc Allan!
 
-import { user } from '../firebase/fb.user.js';
+// Base imports from react
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
-// alerts
-import { alert } from '../services/Alert'
-
+import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebase.js"
+import { Navigate, Route } from "react-router-dom";
+// user model
+import { user } from '../firebase/fb.user.js';
+import Button from 'react-bootstrap/Button';
+// styling
+import './Quiz.css'
+// firebase and db stuff
 import { db } from '../services/firebase'
-import { ref, onValue, update, get } from "firebase/database";
-// material ui
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { ref, onValue, set } from "firebase/database";
+import Swal from 'sweetalert2';
+import { useMediaQuery } from 'react-responsive'
 
-let currentQuiz = []
-let currentQuestion = 0
-let currentQuizTitle
 
+/**========================================================================
+ *                             Quiz Module
+ *========================================================================**/
 export default function Quiz() {
-
-    // set states for use across in useeffect
-    const [loadingQuiz, setLoadingStatus] = useState(false)
-    const [currentQuestionObject, setCq] = useState({})
-    const [error, errorOccured] = useState(false)
-    const [choiceArray, setCurrentChoices] = useState([])
-    const [shouldFade, setFade] = useState(true)
-
-    // get params
+    const [quiz, setQuiz] = useState()
+    const [currentQuestion, setCurrentQuestion] = useState(0)
+    const [loadingStatus, setLoadingStatus] = useState(true)
+    const [chosenAnswers, setChosenAnswers] = useState({answers: {}, details: {}})
     let { quizId } = useParams()
-    // console.log(quizId)
-    //use effect to listen to changes
-    useEffect(() => {
-        // loaded complete
-        if (loadingQuiz === true) {
-            document.title = ' Quiz | QuizPoint'
-
-            // if not, need to load data
-        } else {
-            // set dom title
-            document.title = ' Loading Quiz | QuizPoint'
-            //read database
-            let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
-            // load data
-            onValue(quizPath, (snapshot) => {
-                // if no data
-                if (snapshot.val() === null) {
-                    console.log('Quiz not there')
-                    alert.error('Quiz not found', 'The quiz you are looking for does not exist')
-                    setFade(false)
-                    // data exists
-                } else {
-                    const data = snapshot.val()
-                    console.log("Quiz Exists: ")
-                    console.log(data)
-                    let questionsArray = snapshot.val().questions
-
-                    currentQuizTitle = snapshot.val().title
-                    for (var index = 0; index < questionsArray.length; index++) {
-                        currentQuiz.push(questionsArray[index])
-                    }
-                    let userProgress = user.quizzes.active[quizId].progress
-                    console.log(userProgress)
-                    if (userProgress === null || userProgress === 0) {
-                        // lol this was dumb of me, obvi the first is equal to 1
-                        currentQuestion = 1;
-                        console.log(currentQuestion)
-                    } else {
-                        //? don't know why i copied this in the old version, we will see what happens
-                        currentQuestion = currentQuestion;
-                        console.log(currentQuestion)
-                    }
-                    console.log(currentQuestion)
-                    console.log(currentQuiz)
-                    setCq({
-                        question: currentQuiz[currentQuestion],
-                    })
-                    console.log(currentQuestionObject)
-                    setCurrentChoices(currentQuestionObject.choices)
-                    setLoadingStatus(true)
-                }
-            })
-
+    let studentId = user.uid
+    let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
+    let studentPath = ref(db,`/schools/hvhs/quizzes/${quizId}`);
+    // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
+    // Stepper Variables
+    const [steps, setSteps] = useState([])
+    const [activeStep, setActiveStep] = useState(0)
+    const [completed, setCompleted] = useState({})
+    let stepsHandler = {
+        totalSteps: () => {
+            return steps.length
+        },
+        completedSteps: () => {
+            return completed.length
         }
-    })
-
-    if (loadingQuiz === false) {
-        return (
-            <div>
-                <Backdrop
-                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                    open={shouldFade}
-                >
-                    <CircularProgress color="inherit" />
-                </Backdrop>
-            </div>)
-    } else {
-        const choices = choiceArray.map((choice) =>
-            <div>
-                <Button>{choice}</Button>
-            </div>
-        );
-        return (
-            <div>
-                <h1>Quiz Title: {currentQuizTitle}</h1>
-                <h3>Question #{currentQuestion}</h3>
-                <hr></hr>
-                <h3>{currentQuestionObject.question.title}</h3>
-                {choices}
-            </div>
-        )
     }
 
+    // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
+    useEffect(() => {
+        onValue(quizPath, (snapshot) => {
+            setQuiz(snapshot.val());
+            console.log("Quiz Id: " + quizId)
+            console.log("Quiz Path: " + quizPath)
+            console.log(snapshot.val())
+            setLoadingStatus(false)
+            
+        })
+    }, [])
+
+
+    let quizHandler = {
+        // When "Next" is clicked, cycle through to the next question
+        nextQuestion: () => {
+            if (currentQuestion === (quiz.questions.length - 1)) {
+                set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
+                Swal.fire({
+                    title: 'Completed',
+                })
+                return
+            }
+            setCurrentQuestion(currentQuestion + 1);
+        },
+        //When "Back" is clicked, cycle through to the last question
+        lastQuestion: () => {
+            if (currentQuestion === 0) return
+            setCurrentQuestion (currentQuestion - 1);
+        },
+        recordAnswer: (answer) => {
+            console.log(chosenAnswers)
+            if (answer == quiz.questions[currentQuestion].answer){
+                chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"correct"};
+            } else if (answer != quiz.questions[currentQuestion].answer){
+                chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"incorrect"};
+            }
+            chosenAnswers.details = {code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length}
+            quizHandler.nextQuestion()
+            stepsHandler.completedSteps()
+        }
+    }
+
+    //If the website is still "loading..." don't display anything
+    if (loadingStatus === true) return 
+
+    //HTML
+    return (
+        <div className="quizPage">
+            <div className="quizTitle">
+                <p>{quiz.title}</p>
+            </div>
+            <div className="quizContainer">
+                <div className="quizQuestionTitle">
+                    <p>{quiz.questions[currentQuestion].name}</p>
+                </div>
+                <div className="quizQuestionImage"><img  alt=":)" src={quiz.questions[currentQuestion].image}></img></div>
+                <div className="quizButtons">
+                    <div className="quizQuestionAnswers">
+                    {quiz.questions[currentQuestion].choices.map(answer => {
+                        return <Button className="quizAnswerButtons" onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                    })}
+                    </div>
+                    <div className="quizNavigationButtons">
+                        <Button onClick={quizHandler.lastQuestion}>Back</Button>
+                        <Button onClick={quizHandler.nextQuestion}>Next</Button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
+
+
+

@@ -1,4 +1,4 @@
-.createClass{
+.createClass {
     background-color: white;
     margin-left: 2%;
     margin-top: 2%;
@@ -7,9 +7,19 @@
     padding-left: 2%;
 }
 
-.createClass-container{
+.createClass-container {
     display: grid;
-    width: 20%;
+    width: 100%;
     grid-gap: 7%;
-    padding-bottom: 10%;
+    padding-bottom: 30%;
+}
+
+.createClass-body {
+    display: grid;
+    gap: 5%;
+    grid-template-columns: 1fr 2fr;
+}
+
+.createClass-googleClassroomBump {
+    text-align: center;
 }

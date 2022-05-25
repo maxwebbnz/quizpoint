@@ -1,40 +1,51 @@
-@media screen and (max-width: 992px){
+@media screen and (max-width: 1000px){
     .navbar-dropdown{
         display:block;
     }
     .nav-link{
+        display:none;
+    }
+    .nav-right{
         display:none;
     }
 }
-@media screen and (min-width:992px){
+@media screen and (min-width:1000px){
     .navbar-dropdown{
         display:none;
     }
     .nav-link{
         display:block;
     }
+    .nav-right{
+        display:block;
+    }
+}
+.navbar-dropdown{
+    display:none;
 }
 .navbar{
+    justify-content:space-between !important;   
     background-color:#4E83C2;
 }
 .navbar-brand{
-    font-size: 2em;
+    font-size: 1.5em;
     display:flex;
     align-items:center;
     margin-bottom:3px;
-    margin-left:4%;
     color:white !important;
     /* I wasn't a big fan of the underline haha, feel free to change it back @alan */
     text-decoration: none;
     background-color:#4E83C2 !important;
+    padding-left:3%;
 }
 .navbar-brand img{
     margin-right:4%;
 }
 .navbar-links{
-    font-size:1.5em;
+    font-size:1.2em;
     margin-left:2%;
-    margin-right:4%;
+    margin-right:2%;
+    padding-right: 0 !important;
 }
 .nav-link{
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -50,17 +61,22 @@ a:hover{
 }
 
 .nav-right{
-    margin-left: 4%;
-    height: 20%;
+    margin-left: 2%;
     padding-right: 2%;
-    width: 300px;
 }
 
 .profileLink{
-    display: grid;
-    grid-template-columns: 3fr 8fr;
+    display: flex;
+    align-items:center;
+    justify-content:space-around;
     width: 200px;
+    height: 50px;
 }
+
+.nav-right{
+    padding-right:3%;
+}
+
 .link{
     /* margin-left: 2%; */
     padding-right: 2%;
@@ -69,4 +85,21 @@ a:hover{
 .teachingsuite-nav .link{
     margin-left: 5%;
     width: 200px;
+}
+
+.navbar-nav{
+    padding-right:3%;
+}
+
+.navbar-brand img{
+    -webkit-filter: brightness(100%);
+}
+
+.navbar-brand img:hover {
+    -webkit-filter: brightness(90%);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }

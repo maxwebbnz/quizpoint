@@ -6,7 +6,7 @@
 //? Import components
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue, update, get } from "firebase/database";
+import { getDatabase, ref, onValue, update, get, set } from "firebase/database";
 import { getStorage } from "firebase/storage";
 
 import "firebase/compat/auth";
@@ -89,8 +89,23 @@ let dbFunctions = {
     return update(pathRef, object);
 
   }
-
 }
 
+let dbFunctionsSync = {
+  read: (_path) => {
+    let pathToWrite = _path;
+    let pathRef = ref(db, `schools/hvhs/${pathToWrite}/`);
+    //write data
+    onValue(pathRef, (dataRecieved) => {
+      console.log("dbFunctionsSync.read Path: " + pathRef)
+      if (dataRecieved.val() == null) return console.log("dbFunctionsSync.read: No Record Found")
+      return dataRecieved;
+    })
+  },
+  write: (_path, _data) => {
+    set(ref(db,_path), (_data))
+    console.log("dbFunctionsSync.write: Writing To => " + _path)
+  }
+}
 //? export methods
-export { auth, db, dbFunctions, ref, storage };
+export { auth, db, dbFunctions, ref, storage, dbFunctionsSync };

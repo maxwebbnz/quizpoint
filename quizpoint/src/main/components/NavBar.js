@@ -16,6 +16,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 
+import { useEffect, useState } from 'react';
+import UserDialog from './UserDialog';
 
 function urlContains(url, value) {
     return ~url.indexOf(value);
@@ -51,7 +53,15 @@ function stringAvatar(name) {
     };
 }
 
+
+
 const NavBar = () => {
+    const [dialogIsOpen, setDialogIsOpen] = useState(false)
+
+    const openDialog = () => setDialogIsOpen(true)
+
+    const closeDialog = () => setDialogIsOpen(false)
+
     const location = useLocation();
 
     // if role is teacher, display link to page
@@ -60,7 +70,7 @@ const NavBar = () => {
         if (urlContains(location.pathname, "/tcs")) {
             return (
                 <Navbar expand="lg" className='teachingsuite-nav'>
-                    <Navbar.Brand className="navbar-brand" href="/"><img src={icon} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>
+                    <Navbar.Brand className="navbar-brand" href="/tcs"><img src={icon} width="40" height="40" alt="QuizPoint Logo" />QuizPoint</Navbar.Brand>
                     <Nav className="navbar-links">
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/tcs/students/all"><i className="bi bi-people"></i> Students</Nav.Link>
@@ -73,6 +83,7 @@ const NavBar = () => {
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
                                 <Dropdown.Item href="/classes" className="">Your Classes</Dropdown.Item>
                                 <Dropdown.Item href="/tcs" className="">Teaching Suite</Dropdown.Item>
+                                <Dropdown.Item href="/quiz/QUIZ_-N0mz6NlfZeKqS5CnxLf" className = "">Test Quiz</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Nav>
@@ -83,8 +94,8 @@ const NavBar = () => {
                             </Nav.Link>
                         </Navbar.Collapse>
                     </Nav>
+                    <UserDialog></UserDialog>
                 </Navbar>
-
             )
         } else {
             return (
@@ -94,23 +105,27 @@ const NavBar = () => {
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/classes">Your Classes</Nav.Link>
                         <Nav.Link className="link" href="/tcs">Teaching Suite</Nav.Link>
-                        <Nav.Link className="link" href="/logout">Logout</Nav.Link>
+                        <Nav.Link href="/quiz/QUIZ_-N0mz6NlfZeKqS5CnxLf" className = "">Test Quiz</Nav.Link>
+                        {/* <Nav.Link className="link" href="/logout">Logout</Nav.Link> */}
                         {/* Dropdown is hidden until screen size is small */}
                         <Dropdown className="navbar-dropdown">
                             <Dropdown.Toggle className="navbar-dropdown-toggle"></Dropdown.Toggle>
                             <Dropdown.Menu className="navbar-dropdown-menu position-absolute dropdown-menu-end">
                                 <Dropdown.Item href="/classes" className="">Your Classes</Dropdown.Item>
                                 <Dropdown.Item href="/tcs" className="">Teaching Home</Dropdown.Item>
+                                <Dropdown.Item href="/quiz/QUIZ_-N0mz6NlfZeKqS5CnxLf" className = "">Test Quiz</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Nav>
                     <Nav>
                         <Navbar.Collapse className="nav-right">
-                            <Nav.Link className="profileLink" href="/user/local">
+                            <Nav.Link className="profileLink" onClick={openDialog}>
                                 <Avatar {...stringAvatar(user.name)} />{user.name}
                             </Nav.Link>
                         </Navbar.Collapse>
                     </Nav>
+                    <UserDialog open={dialogIsOpen} onClose={closeDialog} />
+
                 </Navbar>
 
             )
@@ -125,7 +140,7 @@ const NavBar = () => {
                         {/* Normal view --Note, dissapears once screen is small */}
                         <Nav.Link className="link" href="/classes">Your Classes</Nav.Link>
                         {/* <Nav.Link className="" href="/tcs">Teaching Home (Test)</Nav.Link> */}
-                        <Nav.Link className="link" href="/logout">Logout</Nav.Link>
+                        {/* <Nav.Link className="link" href="/logout">Logout</Nav.Link> */}
                         {/* Dropdown is hidden until screen size is small */}
                         <Dropdown className="navbar-dropdown">
                             <Dropdown.Toggle className="navbar-dropdown-toggle"></Dropdown.Toggle>
@@ -137,7 +152,7 @@ const NavBar = () => {
                     </Nav>
                     <Nav>
                         <Navbar.Collapse className="nav-right">
-                            <Nav.Link className="profileLink" href="/user/local">
+                            <Nav.Link className="profileLink" onClick={openDialog}>
                                 <Avatar {...stringAvatar(user.name)} />{user.name}
                             </Nav.Link>
                         </Navbar.Collapse>

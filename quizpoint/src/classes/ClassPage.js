@@ -4,7 +4,7 @@
  */
 
 
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { user } from '../firebase/fb.user'
 import React, { useState, useEffect } from 'react'
 import './ClassPage.css'
@@ -12,45 +12,41 @@ import './ClassPage.css'
 import { db } from '../services/firebase'
 import { alert } from '../services/Alert'
 // components from libs
-import { ref, onValue, update, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 // compenets from ui
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
 import Fade from '@mui/material/Fade';
 
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 
 // responsive design
 import { useMediaQuery } from 'react-responsive'
 
 // array for
 let quizActive = []
-let quizCards = []
 export default function ClassPage() {
-    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-
+    const navigate = useNavigate()
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
+    const [currentNum, setCurrentNum] = useState(0)
+    const [toBeat, setToBeat] = useState(0)
     const [shouldFade, fadeEnabled] = useState(true)
     // const []
     let { classId } = useParams()
     console.log(classId)
     useEffect(() => {
         if (loading === true) {
-            document.title = 'Loaded | QuizPoint'
+            document.title = classObject.className + ' | QuizPoint'
 
         } else {
-            document.title = 'Loading Class Information | QuizPoint'
+            document.title = 'Loading Class | QuizPoint'
 
 
             function loadData() {
@@ -78,24 +74,45 @@ export default function ClassPage() {
                             dataComplete(true)
 
                         } else {
-                            Object.keys(user.quizzes.active).forEach(function (key) {
-                                if (data.quizzes.active[key] === undefined) {
-                                    console.log("error")
-                                } else if (data.quizzes.active[key] !== undefined) {
-                                    console.log(key + " match, loading data")
-                                    let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
 
-                                    onValue(quizRef, (snapshot) => {
-                                        if (snapshot === undefined || snapshot === null) {
+                            for (var a in user.quizzes.active) {
+                                setToBeat(toBeat + 1)
+                            }
+                            function loadActiveQuiz() {
+                                Object.keys(user.quizzes.active).forEach(function (key) {
+                                    if (data.quizzes.active[key] === undefined) {
+                                        console.log("error")
+                                    } else if (data.quizzes.active[key] !== undefined) {
+                                        console.log(key + " match, loading data")
+                                        let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
+                                        onValue(quizRef, (snapshot) => {
+                                            console.log(currentNum)
 
-                                        } else {
-                                            const data = snapshot.val()
-                                            console.log(data)
-                                            quizActive.push(data)
-                                        }
-                                    })
-                                }
-                            })
+                                            if (snapshot.val() === undefined || snapshot.val() === null) {
+                                            } else {
+                                                const data = snapshot.val()
+                                                console.log(data)
+                                                quizActive.push(data)
+                                                setCurrentNum(currentNum + 1)
+                                                if (toBeat > currentNum) {
+                                                    console.log(currentNum)
+                                                } else {
+                                                    dataComplete(true)
+                                                    console.log('Still loading ' + currentNum + ' of ' + toBeat)
+
+                                                }
+                                            }
+
+                                        })
+                                    }
+                                })
+                            }
+                            if (toBeat === 0) {
+
+                            } else {
+
+                            }
+                            dataComplete(true)
 
                             addQuizCard(quizActive.map((qz) =>
                                 <div>
@@ -115,7 +132,7 @@ export default function ClassPage() {
                             console.log(data)
 
                             console.log(quizActive)
-                            dataComplete(true)
+
 
                         }
 
@@ -167,6 +184,9 @@ export default function ClassPage() {
                             <hr></hr>
                         </div>
                         <div className="class-body">
+                            {user.role === 'teacher' &&
+                                <button className="generic-button" onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</button>
+                            }
                             <div className="quizassigned">
                                 <h2>Quizzes Assigned</h2>
                                 {quizCards}

@@ -10,7 +10,7 @@ import './UserPage.css'
 import './UserPageTeacher.css'
 
 // React and Firebase loads
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
@@ -54,6 +54,7 @@ export default function TeacherStudent() {
     const [shouldFade, setFade] = useState(true)
     // get parameter of user id
     let { id } = useParams()
+    const navigate = useNavigate()
     /**======================
      **   useEffect()
      *? Runs whilist states exist
@@ -270,8 +271,8 @@ export default function TeacherStudent() {
                             </CardContent>
                             <CardActions>
                                 <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
-                                    <Button><AssessmentOutlinedIcon /></Button>
-                                    <Button><OpenInNewOutlinedIcon /></Button>
+                                    <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
+                                    <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
                                     <Button><SchoolOutlinedIcon /></Button>
                                     <Button><PersonRemoveOutlinedIcon /></Button>
                                 </ButtonGroup>
@@ -310,7 +311,7 @@ export default function TeacherStudent() {
         let userCompletedQuiz
         // if there are no quizzes, or we found none
         if (userLoadedCompletedQuiz.length === 0) {
-            userCompletedQuiz = <div>{userLoaded.name} has not completed or turned in any quizzes.</div>
+            userCompletedQuiz = <div>This student has not completed or turned in any quizzes.</div>
         } else {
             // map each value in array to have a card
             userCompletedQuiz = userLoadedCompletedQuiz.map((quizData, index) => {
@@ -323,7 +324,7 @@ export default function TeacherStudent() {
                             </CardContent>
                             <CardActions>
                                 <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
-                                    <Button><AssessmentOutlinedIcon /></Button>
+                                    <Button ><AssessmentOutlinedIcon /></Button>
                                 </ButtonGroup>
                             </CardActions>
                         </Card>
@@ -344,9 +345,9 @@ export default function TeacherStudent() {
                     {/* Quick Actions (button group) */}
                     <div className="user-page-actions">
                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                            <Button><AssessmentOutlinedIcon></AssessmentOutlinedIcon> Export Quiz Report</Button>
+                            <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
                             <Button><AssignmentOutlinedIcon></AssignmentOutlinedIcon> Assign Quiz</Button>
-                            <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Change Class</Button>
+                            <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
                             <Button><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
                         </ButtonGroup>
                     </div>

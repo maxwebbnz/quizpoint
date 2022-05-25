@@ -82,6 +82,7 @@ let generatePushID = (function () {
 
 export default function Classes() {
     const [loading, dataFetch] = useState(false)
+    const [noClasses, setClassStatus] = useState(false)
     const shouldFade = true;
 
     useEffect(() => {
@@ -123,35 +124,43 @@ export default function Classes() {
                 for (var a in user.classes) {
                     ++toBeat
                 }
+                console.log(user.classes)
+                if (user.classes.notEnrolled) {
+                    dataFetch(true)
+                    setClassStatus(true)
+                } else {
+                    Object.keys(user.classes).forEach(function (key) {
+                        console.log(key)
+                        let pathRef = ref(db, `/schools/hvhs/classes/${key}`);
 
-                Object.keys(user.classes).forEach(function (key) {
-                    console.log(key)
-                    let pathRef = ref(db, `/schools/hvhs/classes/${key}`);
-
-                    onValue(pathRef, (snapshot) => {
-                        if (snapshot === undefined || snapshot === null) {
-                            console.log("invalid class code")
-                        } else {
-                            const data = snapshot.val()
-                            if (data === null) {
-
+                        onValue(pathRef, (snapshot) => {
+                            if (snapshot === undefined || snapshot === null) {
+                                console.log("invalid class code")
                             } else {
+                                const data = snapshot.val()
                                 console.log(data)
-                                foundClasses.push(data)
-                                ++currentNum
+                                if (data === null) {
+
+                                } else if (data === 'notEnrolled') {
+
+                                } else {
+                                    console.log(data)
+                                    foundClasses.push(data)
+                                    ++currentNum
+                                }
                             }
-                        }
 
-                        if (currentNum < toBeat) {
-                            console.log('not loaded yet' + currentNum + ' ' + toBeat)
-                        } else {
-                            dataFetch(true)
-                        }
-                    })
+                            if (currentNum < toBeat) {
+                                console.log('not loaded yet' + currentNum + ' ' + toBeat)
+                            } else {
+                                dataFetch(true)
+                            }
+                        })
 
-                    console.log(foundClasses)
+                        console.log(foundClasses)
 
-                });
+                    });
+                }
             }
             // trigger function
             loadData()
@@ -206,7 +215,7 @@ export default function Classes() {
         );
 
 
-    } else {
+    } else if (!noClasses) {
         const classCards = foundClasses.map((classInfo) =>
             <div>
                 <Card sx={{ width: 275 }}>
@@ -254,7 +263,25 @@ export default function Classes() {
                 </div>
             </Fade>
         )
+    } else {
+        return (
+            <Fade in={shouldFade}>
+                <div className="class-home">
+                    <div className="class-header">
+                        <h2>Classes created by you</h2>
+                    </div>
+                    <div className="class-body">
+                        <p>You have no classes</p>
+                    </div>
+                    <Box sx={{ '& > :not(style)': { m: 1 }, position: 'absolute', bottom: 16, right: 16 }}>
+                        <Fab color="primary" aria-label="add" href={'/tcs/classes/create/' + generatePushID()}>
+                            <h3><i className="bi bi-plus"></i></h3>
+                        </Fab>
+                    </Box>
+                </div>
+            </Fade>
+        )
+
+
     }
-
-
 }

@@ -5,6 +5,7 @@
 // import statements
 import { user } from '../firebase/fb.user.js';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 // import { db, ref } from '../services/firebase.js';
 // database
 import { db } from '../services/firebase'
@@ -78,7 +79,7 @@ let generatePushID = (function () {
 
 
 export default function Quizzes() {
-
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const shouldFade = true;
 
@@ -146,15 +147,13 @@ export default function Quizzes() {
             <div className='quizpage'>
                 <div className="quiz-header">
                     <h2>Quizzes by your school</h2>
+                    <button className="generic-button sml" onClick={() => navigate('/tcs/quizzes/create/' + generatePushID())} >Create Quiz</button>
+                    <button className="generic-button sml" onClick={() => navigate('/tcs/quizzes/import/')}>Import Quiz</button>
                 </div>
                 <div className="quiz-cards">
                     {quizCards}
                 </div>
-                <Box sx={{ '& > :not(style)': { m: 1 }, position: 'absolute', bottom: 16, right: 16 }}>
-                    <Fab color="primary" aria-label="add" href={'/tcs/quizzes/create/' + generatePushID()}>
-                        <h3><i className="bi bi-plus"></i></h3>
-                    </Fab>
-                </Box>
+
             </div>
         )
     }

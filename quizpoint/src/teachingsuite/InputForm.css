@@ -1,0 +1,22 @@
+.inputform-feature {
+    background-color: white;
+    border-radius: 20px;
+    margin-left: 2%;
+    margin-top: 4%;
+    width: 95%;
+}
+
+.inputform-feature-title {
+    text-align: center;
+}
+
+.inputform-feature-steps {
+    gap: 2%;
+    display: grid;
+    text-align: center;
+    grid-template-columns: 1fr 1fr;
+}
+
+.inputform-feature-action {
+    text-align: center;
+}

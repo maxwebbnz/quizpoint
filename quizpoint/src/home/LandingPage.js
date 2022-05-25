@@ -22,7 +22,7 @@ import Collapse from '@mui/material/Collapse';
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { setUserObjectLocal } from "../firebase/fb.user"
 import Button from 'react-bootstrap/Button';
-
+import CopyrightIcon from '@mui/icons-material/Copyright';
 
 /**==============================================
  **              LandingPage
@@ -49,7 +49,15 @@ export default function LandingPage() {
                 <div className="loginButtons">
                     <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
                 </div>
+                <div className='footer'>
+                    <p>Copyright 2022</p>
+                    <p>Created by Max Webb and Alan McIlwaine</p>
+
+                </div>
+
+
             </div>
+
         </div>
     )
 }

@@ -7,11 +7,12 @@
 body {
     background-color: var(--background-color);
     font-family: var(--main-font);
-    overflow: auto !important;
     /* margin-left: 200px; */
     /* overflow: hidden; */
 }
-
+svg{
+    display:none;
+}
 body::-webkit-scrollbar {
     width: 1em;
 }
@@ -24,7 +25,6 @@ body::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
-
 /* Global CSS (containers, buttons etc) */
 
 .generic-container {

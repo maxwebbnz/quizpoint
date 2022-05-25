@@ -31,7 +31,7 @@
     "mui-datatables": "^4.2.2",
     "papaparse": "^5.3.2",
     "react": "^18.0.0",
-    "react-bootstrap": "^2.2.3",
+    "react-bootstrap": "^2.4.0",
     "react-dom": "^18.0.0",
     "react-firebase-hooks": "^5.0.3",
     "react-gapi-auth2": "^1.0.4",

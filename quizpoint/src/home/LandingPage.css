@@ -1,62 +1,90 @@
 @media only screen and (max-width:768px) {
-    .loginPage{
-        display:flex;
-        align-items:center;
-        justify-content:center;
+    .loginPage {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .loginContainer{
-        float:none;
-        height:70vh;
-        padding:20px;
-        border-radius:10px;
+
+    .loginContainer {
+        float: none;
+        height: 70vh;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .loginFooter {
+        display: none;
     }
 }
+
 @media only screen and (min-width:768px) {
-    .loginContainer{
-        float:right;
-        height:100vh;
-        width:400px;
+    .loginContainer {
+        float: right;
+        height: 100vh;
+        width: 400px;
+    }
+
+    .loginFooter {
+        display: none;
     }
 }
-.loginPage{
-    height:100vh;
-    width:100vw;
-    background-size:cover;
-    background-repeat:no-repeat;
-    background-position:center center;
+
+.loginPage {
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
-.loginContainer{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    background-color:var(--secondary-color);
+
+.loginContainer {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--secondary-color);
 
 }
+
 .loginContainer img {
-    height:150px;
-    width:150px;
+    height: 150px;
+    width: 150px;
 }
-.loginText > h1{
-    font-size:3rem;
-    color:white;
+
+.loginText>h1 {
+    font-size: 3rem;
+    color: white;
     text-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.loginText, .loginButtons, .logo{
-    padding-top:50px;
+
+.loginText,
+.loginButtons,
+.logo {
+    padding-top: 50px;
 }
-.loginButtons img{
-    height:40px;
-    width:50px;
-    padding-right:15px;
+
+.loginButtons img {
+    height: 40px;
+    width: 50px;
+    padding-right: 15px;
 }
-.loginButtons{
-    padding:20px;
+
+.loginButtons {
+    padding: 20px;
 }
-.googleLoginButton{
-    display:flex;
-    align-items:center;
+
+.googleLoginButton {
+    display: flex;
+    align-items: center;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.googleLoginButton:hover{
-    background:#e3e3e3 !important;
+
+.googleLoginButton:hover {
+    background: #e3e3e3 !important;
+}
+
+.footer {
+    margin-top: auto;
+    color: white;
+    text-align: center;
 }

@@ -5,7 +5,9 @@
 
 
 // Base imports from react
-import React, { useState, useEffect, useCallback } from 'react'
+import axios from 'axios'
+
+import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebase.js"
 import { Navigate, Route } from "react-router-dom";
@@ -30,11 +32,11 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
-    const [chosenAnswers, setChosenAnswers] = useState({answers: {}, details: {}})
+    const [chosenAnswers, setChosenAnswers] = useState({ answers: {}, details: {} })
     let { quizId } = useParams()
     let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
-    let studentPath = ref(db,`/schools/hvhs/quizzes/${quizId}`);
+    let studentPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
     // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
 
@@ -46,6 +48,8 @@ export default function Quiz() {
             console.log("Quiz Id: " + quizId)
             console.log("Quiz Path: " + quizPath)
             console.log(snapshot.val())
+            setLoadingStatus(false)
+
         })
     }, [])
 
@@ -64,16 +68,16 @@ export default function Quiz() {
         //When "Back" is clicked, cycle through to the last question
         lastQuestion: () => {
             if (currentQuestion === 0) return
-            setCurrentQuestion (currentQuestion - 1);
+            setCurrentQuestion(currentQuestion - 1);
         },
         recordAnswer: (answer) => {
             console.log(chosenAnswers)
-            if (answer == quiz.questions[currentQuestion].answer){
-                chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"correct"};
-            } else if (answer != quiz.questions[currentQuestion].answer){
-                chosenAnswers.answers[currentQuestion] = {input: answer, question: quiz.questions[currentQuestion].name, status:"incorrect"};
+            if (answer == quiz.questions[currentQuestion].answer) {
+                chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
+            } else if (answer != quiz.questions[currentQuestion].answer) {
+                chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
             }
-            chosenAnswers.details = {code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length}
+            chosenAnswers.details = { code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length }
             quizHandler.nextQuestion()
         },
         generateImage: () => {
@@ -86,8 +90,17 @@ export default function Quiz() {
     }
 
     //If the website is still "loading..." don't display anything
-    if (loadingStatus === true) return 
-
+    if (loadingStatus === true) return
+    function CheckImage(path) {
+        axios
+            .get(path)
+            .then(() => {
+                return true;
+            })
+            .catch(() => {
+                return false;
+            });
+    }
     //HTML
     return (
         <div className="quizPage">

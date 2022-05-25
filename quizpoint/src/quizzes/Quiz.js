@@ -22,7 +22,6 @@ import './Quiz.css'
 import { db } from '../services/firebase'
 import { ref, onValue, set } from "firebase/database";
 import Swal from 'sweetalert2';
-import { useMediaQuery } from 'react-responsive'
 
 
 /**========================================================================
@@ -59,7 +58,16 @@ export default function Quiz() {
             if (currentQuestion === (quiz.questions.length - 1)) {
                 set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
                 Swal.fire({
-                    title: 'Completed',
+                    title: 'Do you want to finish quiz?',
+                    showDenyButton: true,
+                    denyButtonText: "Back",
+                    confirmButtonText: "Finish",
+                }) .then ((result) => {
+                    if (result.isConfirmed) {
+                        console.log("Quiz Completed")
+                    }else if (result.isDenied) {
+                        console.log("Quiz Not Completed")
+                    }
                 })
                 return
             }

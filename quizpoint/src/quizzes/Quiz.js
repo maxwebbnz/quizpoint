@@ -5,13 +5,15 @@
 
 
 // Base imports from react
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams } from "react-router-dom"
 import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebase.js"
 import { Navigate, Route } from "react-router-dom";
 // user model
 import { user } from '../firebase/fb.user.js';
-import Button from 'react-bootstrap/Button';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
 // styling
 import './Quiz.css'
 // firebase and db stuff
@@ -35,30 +37,17 @@ export default function Quiz() {
     let studentPath = ref(db,`/schools/hvhs/quizzes/${quizId}`);
     // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
-    const [steps, setSteps] = useState([])
-    const [activeStep, setActiveStep] = useState(0)
-    const [completed, setCompleted] = useState({})
-    let stepsHandler = {
-        totalSteps: () => {
-            return steps.length
-        },
-        completedSteps: () => {
-            return completed.length
-        }
-    }
 
     // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
     useEffect(() => {
         onValue(quizPath, (snapshot) => {
             setQuiz(snapshot.val());
+            setLoadingStatus(false);
             console.log("Quiz Id: " + quizId)
             console.log("Quiz Path: " + quizPath)
             console.log(snapshot.val())
-            setLoadingStatus(false)
-            
         })
     }, [])
-
 
     let quizHandler = {
         // When "Next" is clicked, cycle through to the next question
@@ -86,7 +75,13 @@ export default function Quiz() {
             }
             chosenAnswers.details = {code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length}
             quizHandler.nextQuestion()
-            stepsHandler.completedSteps()
+        },
+        generateImage: () => {
+            if (quiz.questions[currentQuestion].image){
+                return <img  alt="Quiz Question Image" src={quiz.questions[currentQuestion].image}></img>
+            }else{
+                return
+            }
         }
     }
 
@@ -102,17 +97,20 @@ export default function Quiz() {
             <div className="quizContainer">
                 <div className="quizQuestionTitle">
                     <p>{quiz.questions[currentQuestion].name}</p>
+                    <p>{currentQuestion + 1} / {quiz.questions.length}</p>
                 </div>
-                <div className="quizQuestionImage"><img  alt=":)" src={quiz.questions[currentQuestion].image}></img></div>
+                <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
                 <div className="quizButtons">
                     <div className="quizQuestionAnswers">
-                    {quiz.questions[currentQuestion].choices.map(answer => {
-                        return <Button className="quizAnswerButtons" onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
-                    })}
+                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                            {quiz.questions[currentQuestion].choices.map(answer => {
+                                return <Button className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                            })}
+                        </ButtonGroup>
                     </div>
                     <div className="quizNavigationButtons">
-                        <Button onClick={quizHandler.lastQuestion}>Back</Button>
-                        <Button onClick={quizHandler.nextQuestion}>Next</Button>
+                        <Button variant="outlined" style={{textTransform: "none"}} onClick={quizHandler.lastQuestion}>Back</Button>
+                        <Button variant="contained" color="success" style={{textTransform: "none"}} onClick={quizHandler.nextQuestion}>Next</Button>
                     </div>
                 </div>
             </div>

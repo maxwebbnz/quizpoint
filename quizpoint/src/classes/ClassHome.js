@@ -16,7 +16,6 @@ import { db } from '../services/firebase'
 // components from libs
 import { ref, onValue } from "firebase/database";
 import './ClassHome.css'
-
 // material ui
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';

@@ -51,6 +51,7 @@ import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
+import InputGoogleForm from "../teachingsuite/InputForm";
 
 
 /**==============================================
@@ -123,6 +124,7 @@ function App() {
               <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
               <Route path="/tcs/quizzes" element={<Quizzes />} />
               <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
+              <Route path="/tcs/quizzes/import" element={< InputGoogleForm />} />
               <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
               <Route path="/tcs/reporting" element={<Reporting />} />
               <Route path="/tcs/reporting/:field" element={<Reporting />} />

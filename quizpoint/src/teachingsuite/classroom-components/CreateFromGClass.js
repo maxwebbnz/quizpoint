@@ -22,22 +22,17 @@ import { db } from '../../services/firebase'
  *========================**/
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -153,6 +148,9 @@ export default function CreateGoogleClass(props) {
         navigate('/class/' + classId)
     }
 
+    function handleError() {
+        console.log('Your auth token is expired')
+    }
     /**======================
      **   useEffect hook, on loading state update
      *========================**/
@@ -160,17 +158,22 @@ export default function CreateGoogleClass(props) {
         // if program is in a loading state
         if (loading) {
             // set a reference to auth tokens
-            let tokenRef = sessionStorage.authToken
 
             // load all teachers classes
             var xhr = new XMLHttpRequest();
             // we want a object back please
             xhr.responseType = 'json';
+            if (sessionStorage.authToken === undefined) {
+                console.log("No auth token")
+                setLoading(false)
+            }
             // send a get request to classroom.googleapis.com API
             xhr.open('GET',
                 'https://classroom.googleapis.com/v1/courses?' +
                 'access_token=' + sessionStorage.authToken);
             // on load
+            xhr.addEventListener('error', handleError);
+
             xhr.onreadystatechange = function (e) {
                 // no need to do anything if response is null
                 //! pretty sure this code is irrelevant
@@ -187,6 +190,7 @@ export default function CreateGoogleClass(props) {
                         classesToShow.push(xhr.response.courses[indexOfCards])
                     } else {
                         // if not active, do nothing
+                        //! this operation is not needed, time wasting..
                         xhr.response.courses.splice(indexOfCards, 1)
 
                     }

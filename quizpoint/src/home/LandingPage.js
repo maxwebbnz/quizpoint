@@ -39,7 +39,7 @@ export default function LandingPage() {
      *=============================================**/
     const login = useGoogleLogin({
         onSuccess: tokenResponse => startLogin(tokenResponse),
-        scope: 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.announcements https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
+        scope: 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.photos.readonly https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.announcements https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
 
     });
 
@@ -72,29 +72,29 @@ export default function LandingPage() {
             </Fade>
         )
     }
-        // return HTML
-        return (
-            <div id="landingPage" className="homePageMain">
-                <div className="backgroundImage-landingpage">
-                    <MyFade in timeout={{ enter: 2000 }} delay={100}><img src={schoolMedia} alt=" " id="schoolMedia-background" width="100%" height="100%"></img></MyFade>
+    // return HTML
+    return (
+        <div id="landingPage" className="homePageMain">
+            <div className="backgroundImage-landingpage">
+                <MyFade in timeout={{ enter: 2000 }} delay={100}><img src={schoolMedia} alt=" " id="schoolMedia-background" width="100%" height="100%"></img></MyFade>
 
-                    <Backdrop
-                        sx={{ color: '#b5b5b5', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                        open={shouldBackdrop}
-                    >
-                        <div className="homePageContent" id='landingPagetoAnimate'>
-                            <img src={logo} className="logo-icon" alt="triangle with all three sides equal"></img>
-                            <div className="homePageActions">
-                                <div className="authContent text-center">
-                                    <h2>QuizPoint</h2>
-                                    <button className="generic-button" onClick={LoginFunction} id="authButton"><i className="bi bi-google"></i> Login with Google</button>
-                                </div>
+                <Backdrop
+                    sx={{ color: '#b5b5b5', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={shouldBackdrop}
+                >
+                    <div className="homePageContent" id='landingPagetoAnimate'>
+                        <img src={logo} className="logo-icon" alt="triangle with all three sides equal"></img>
+                        <div className="homePageActions">
+                            <div className="authContent text-center">
+                                <h2>QuizPoint</h2>
+                                <button className="generic-button" onClick={login} id="authButton"><i className="bi bi-google"></i> Login with Google</button>
                             </div>
                         </div>
-                    </Backdrop>
+                    </div>
+                </Backdrop>
 
-                </div>
             </div>
+        </div>
 
-        )
-    }
+    )
+}

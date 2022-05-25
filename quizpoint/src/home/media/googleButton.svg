@@ -1,38 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.1" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>btn_google_light_pressed_ios</title>
-<desc>Created with Sketch.</desc>
-<defs>
-<filter id="b" x="-50%" y="-50%" width="200%" height="200%">
-<feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
-<feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="0.5"/>
-<feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.168 0"/>
-<feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter2"/>
-<feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="0.5"/>
-<feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.084 0"/>
-<feMerge>
-<feMergeNode in="shadowMatrixOuter1"/>
-<feMergeNode in="shadowMatrixOuter2"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
-</filter>
-<rect id="a" width="40" height="40" rx="2"/>
-</defs>
-<g fill="none" fill-rule="evenodd">
-<g transform="translate(-1 -1)">
-<g transform="translate(4 4)" filter="url(#b)">
-<use fill="#EEEEEE" fill-rule="evenodd" xlink:href="#a"/>
-<use fill="none" xlink:href="#a"/>
-<use fill="none" xlink:href="#a"/>
-<use fill="none" xlink:href="#a"/>
-</g>
-<g transform="translate(15 15)">
-<path d="m17.64 9.2045c0-0.63818-0.057273-1.2518-0.16364-1.8409h-8.4764v3.4814h4.8436c-0.20864 1.125-0.84273 2.0782-1.7959 2.7164v2.2582h2.9086c1.7018-1.5668 2.6836-3.8741 2.6836-6.615z" fill="#4285F4"/>
-<path d="m9 18c2.43 0 4.4673-0.80591 5.9564-2.1805l-2.9086-2.2582c-0.80591 0.54-1.8368 0.85909-3.0477 0.85909-2.3441 0-4.3282-1.5832-5.0359-3.7105h-3.0068v2.3318c1.4809 2.9414 4.5245 4.9582 8.0427 4.9582z" fill="#34A853"/>
-<path d="m3.9641 10.71c-0.18-0.54-0.28227-1.1168-0.28227-1.71s0.10227-1.17 0.28227-1.71v-2.3318h-3.0068c-0.60955 1.215-0.95727 2.5895-0.95727 4.0418 0 1.4523 0.34773 2.8268 0.95727 4.0418l3.0068-2.3318z" fill="#FBBC05"/>
-<path d="m9 3.5795c1.3214 0 2.5077 0.45409 3.4405 1.3459l2.5814-2.5814c-1.5586-1.4523-3.5959-2.3441-6.0218-2.3441-3.5182 0-6.5618 2.0168-8.0427 4.9582l3.0068 2.3318c0.70773-2.1273 2.6918-3.7105 5.0359-3.7105z" fill="#EA4335"/>
-<path d="m0 0h18v18h-18v-18z"/>
-</g>
-</g>
-</g>
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
+    <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/>
+    <path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/>
+    <path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/>
+    <path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.099 -17.884 43.989 -14.754 43.989 Z"/>
+  </g>
 </svg>

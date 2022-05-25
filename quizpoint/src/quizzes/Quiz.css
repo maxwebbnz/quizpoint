@@ -1,47 +1,41 @@
-.quizTitle {
-    /* Text Styling*/
-    font-size:3rem;
-    font-weight:500 !important;
-    text-align:center;
-    color:white;
-    /* Positioning */
-    padding: 1% 0 1% 0;
+.quizPage{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    height:85vh;
 }
-.quizTitle p {
-    margin-bottom:0 !important; 
-}
+
 .quizContainer{
     background-color:white;
-    height:500px;
-    /* Spacing on the left and right of outside the quiz container*/
-    margin:0 20vw 0 20vw;
-    /* Rounded Corners */
+    height: 65vh;
+    width: 1000px;
     border-radius:10px;
-    /* Spacing on the left and right of inside the quiz container */
-    padding:0% 2% 0% 2%;
+    padding:40px;
+    display:grid;
 }
+
+.quizTitle {
+    color:white;
+    font-size:3rem;
+    font-weight:500;
+}
+
 .quizQuestionTitle{ 
     color: #7B7B7B;
-    font-size:2vw;
-    font-weight:500 !important;
-    padding-top:2%;
+    font-size:2rem;
+    font-weight:500;
 }
-.quizQuestionTitle p{
-    display:flex;
-    align-items:flex-start;
-    text-shadow: 2px 1px 4px rgba(120,132,144,0.10);
-}
+
 .quizTitle p {
     text-shadow: 2px 1px 4px rgba(120,132,144,1);
 }
 
-.quizNavigationButtons {
-    display:flex;
-    gap:10px;
-}
 .quizNavigationButtons button {
     width:100px;
+    height:80px;
 }
+
 .quizQuestionImage img{
     height:200px;
     width:200px;
@@ -49,13 +43,13 @@
 }
 
 .quizQuestionAnswers {
-    display:flex;
     gap:10px;
     max-width:80%;
-    height:80px;
 }
+
 .quizAnswerButtons {
     min-width: 15%;
+    height:80px;
 }
 .quizButtons{
     display:flex;
@@ -63,4 +57,5 @@
     justify-content:space-between;
     align-self:flex-end;
     padding-top:5%;
+    align-items:center;
 }

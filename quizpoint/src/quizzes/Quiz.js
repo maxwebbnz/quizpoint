@@ -13,6 +13,7 @@ import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebas
 import { Navigate, Route } from "react-router-dom";
 // user model
 import { user } from '../firebase/fb.user.js';
+import Button from 'react-bootstrap/Button';
 // styling
 import './Quiz.css'
 // firebase and db stuff
@@ -105,7 +106,7 @@ export default function Quiz() {
     }
     //HTML
     return (
-        <>
+        <div className="quizPage">
             <div className="quizTitle">
                 <p>{quiz.title}</p>
             </div>
@@ -118,16 +119,16 @@ export default function Quiz() {
                 <div className="quizButtons">
                     <div className="quizQuestionAnswers">
                         {quiz.questions[currentQuestion].choices.map(answer => {
-                            return <button className="quizAnswerButtons" onClick={() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</button>
+                            return <Button className="quizAnswerButtons" onClick={() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
                         })}
                     </div>
                     <div className="quizNavigationButtons">
-                        <button onClick={quizHandler.lastQuestion}>Back</button>
-                        <button onClick={quizHandler.nextQuestion}>Next</button>
+                        <Button onClick={quizHandler.lastQuestion}>Back</Button>
+                        <Button onClick={quizHandler.nextQuestion}>Next</Button>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

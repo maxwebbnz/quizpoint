@@ -196,13 +196,13 @@ export default function InputGoogleForm() {
             </div>
             <div className='inputform-feature-steps'>
                 <div className='1'>
-                    <h6>Step 1)</h6>
+                    <h6><strong>Step 1</strong></h6>
                     <img alt={'Step 1'} width='700' src={step1}></img>
                     <p>Copy Google Form ID from URL</p>
                 </div>
 
                 <div>
-                    <h6>Step 2)</h6>
+                    <h6><strong>Step 2</strong></h6>
                     <img alt={'Step 2'} width='700' src={step2}></img>
                     <p>Copy that ID into dialog</p>
                 </div>

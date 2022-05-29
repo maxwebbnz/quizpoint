@@ -156,6 +156,7 @@ export default function StudentReport() {
     }, [loading])
 
 
+
     /**==============================================
      **              GeneratePDFTable
      *?  What does it do? Uses React-Table to generate a table

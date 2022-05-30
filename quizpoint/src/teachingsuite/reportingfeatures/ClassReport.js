@@ -125,7 +125,7 @@ export default function StudentReport() {
                     studentInClass.push(studentCode)
                 }
                 // all quizzes active in the class
-                let quizReference = snapshot.val().quizzes.active
+                let quizReference = snapshot.val().quizzes
                 // set class object up
                 setClassObject(snapshot.val())
                 // option array => dropdown
@@ -403,8 +403,9 @@ export default function StudentReport() {
                             name: snapshot.val().name,
                             studentId: snapshot.val().studentID
                         }
+                        console.log(snapshot.val())
                         // if there progress matches the number of questions for the current quiz, they have completed it
-                        if (snapshot.val().quizzes.active[currentQuiz].progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
+                        if (snapshot.val().quizzes.active[currentQuiz].details.progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
                             dataForUser.completed = 'complete'
                         } else {
                             // they have not completed it
@@ -506,7 +507,7 @@ export default function StudentReport() {
                             studentId: snapshot.val().studentID
                         }
                         // if there progress matches the number of questions for the current quiz, they have completed it
-                        if (snapshot.val().quizzes.active[currentQuiz].progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
+                        if (snapshot.val().quizzes.active[currentQuiz].details.progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
                             dataForUser.completed = 'complete'
                         } else {
                             // they have not completed it

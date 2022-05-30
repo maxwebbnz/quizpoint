@@ -66,6 +66,7 @@ export default function AssignQuiz(props) {
             }
             dbFunctions.write(`classes/${classId}/quizzes/${_qzId}`, {
                 code: _qzId,
+                name: allQuizzes.filter(qz => qz.value === _qzId)[0].label,
             })
             setDialog(false)
             alert.success(`Assigned ${allQuizzes.filter(qz => qz.value === _qzId)[0].label} successfully`)

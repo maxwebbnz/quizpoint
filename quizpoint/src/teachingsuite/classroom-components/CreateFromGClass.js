@@ -36,7 +36,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-
+import Swal from 'sweetalert2';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 /**======================
  **   Stylesheet Imports
  *========================**/
@@ -72,8 +73,8 @@ export default function CreateGoogleClass(props) {
     const [annoucnmentOpen, setAnnouncment] = useState(false)
     // current class id
     const [classId, setClassId] = useState('')
-
-
+    // error detection
+    const [error, setError] = useState(false)
 
     // close dialog if not used anymore?
     const handleClose = () => {
@@ -174,31 +175,65 @@ export default function CreateGoogleClass(props) {
             // on load
             xhr.addEventListener('error', handleError);
 
-            xhr.onreadystatechange = function (e) {
-                // no need to do anything if response is null
-                //! pretty sure this code is irrelevant
-                if (xhr.response === null) {
-
-                }
-                // setup base array
-                let classesToShow = []
-                // for all courses
-                for (var indexOfCards = 0; indexOfCards < xhr.response.courses.length; indexOfCards++) {
-                    // if course is active,
-                    if (xhr.response.courses[indexOfCards].courseState === 'ACTIVE') {
-                        // add to array
-                        classesToShow.push(xhr.response.courses[indexOfCards])
-                    } else {
-                        // if not active, do nothing
-                        //! this operation is not needed, time wasting..
-                        xhr.response.courses.splice(indexOfCards, 1)
+            axios.get('https://classroom.googleapis.com/v1/courses?access_token=' + sessionStorage.authToken)
+                .then(function (response) {
+                    console.log(response.data);
+                    // no need to do anything if response is null
+                    //! pretty sure this code is irrelevant
+                    if (response === null) {
 
                     }
-                }
-                // add to state
-                setClasses(classesToShow)
-                // finished loading information
-                setLoading(false)
+                    // setup base array
+                    let classesToShow = []
+                    // for all courses
+                    for (var indexOfCards = 0; indexOfCards < response.data.courses.length; indexOfCards++) {
+                        // if course is active,
+                        if (response.data.courses[indexOfCards].courseState === 'ACTIVE') {
+                            // add to array
+                            classesToShow.push(response.data.courses[indexOfCards])
+                        } else {
+                            // if not active, do nothing
+                            //! this operation is not needed, time wasting..
+                            response.data.courses.splice(indexOfCards, 1)
+
+                        }
+                    }
+                    // add to state
+                    setClasses(classesToShow)
+                    // finished loading information
+                    setLoading(false)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    // 401 is an authentication error (commonly auth token)
+                    if (error.response.status === 401) {
+                        // error handle
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error ' + error.response.status,
+                            text: 'You need to re-authenticate',
+                            confirmButtonText: 'Okay',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // we will perform a quick little unauthentication trick
+                                sessionStorage.clear()
+                                window.location.reload(false)
+                                // and then redirect the user to the login page (while maintaing the route)
+                                // should be sweet
+                            } else if (result.isDenied) {
+                            }
+                        })
+                        // if its another error, just show the error
+                    } else {
+                        alert.error(error.response.status, "There was an error importing your quiz, please try again later")
+                    }
+                })
+            xhr.onreadystatechange = function (e) {
+
 
             }
             // send a null response
@@ -224,7 +259,32 @@ export default function CreateGoogleClass(props) {
         )
 
         // else component isn't looking for data
+    } else if (error) {
+        return (
+            <>
+                {/* return button and loading spinner */}
+                <button className='generic-button' onClick={() => setOpen(true)}>Choose from your Google Classroom classes</button>
+                <div className="loading-container">
+                    <div className="loading-container-content">
+                        <div className="loading-container-content-inner">
+                            <ErrorOutlineIcon />
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
     } else {
+        function loadStudentTest() {
+            axios.get('https://classroom.googleapis.com/v1/courses/466309248441/students?access_token=' + sessionStorage.authToken + '&pageSize=100')
+                .then(function (response) {
+                    // handle success
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+        }
         // for each class in array, create a card
         const classList = classes.map((classObj, index) =>
             <Card sx={{ minWidth: 275 }}>
@@ -289,6 +349,7 @@ export default function CreateGoogleClass(props) {
                         <Button onClick={() => navigate('/class/' + classId)}>No thanks</Button>
                     </DialogActions>
                 </Dialog>
+                <button onClick={() => loadStudentTest()}>Load Data</button>
             </div>
         );
     }

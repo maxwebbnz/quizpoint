@@ -185,8 +185,11 @@ export default function ClassPage() {
                         classArray.push(studentID)
                     }
                     return (
-                        <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
+                        <>
+                            <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
+                            <button className="generic-button sml" onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</button>
 
+                        </>
                     )
                 } else if (user.role === undefined) {
                     return

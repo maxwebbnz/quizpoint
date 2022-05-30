@@ -24,6 +24,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import AssignQuiz from "../teachingsuite/AssignQuiz"
 // responsive design
 import { useMediaQuery } from 'react-responsive'
 
@@ -39,6 +40,7 @@ export default function ClassPage() {
     const [toBeat, setToBeat] = useState(0)
     const [shouldFade, fadeEnabled] = useState(true)
     // const []
+    let classArray = []
     let { classId } = useParams()
     console.log(classId)
     useEffect(() => {
@@ -47,7 +49,6 @@ export default function ClassPage() {
 
         } else {
             document.title = 'Loading Class | QuizPoint'
-
 
             function loadData() {
                 console.log("loading class data")
@@ -145,8 +146,10 @@ export default function ClassPage() {
             }
             loadData()
 
+
         }
     })
+
     //! I CANNOT GET THIS WORKING, Allan did you want to have a try?
     if (loading === true) {
         if (isTabletOrMobile) {
@@ -174,6 +177,21 @@ export default function ClassPage() {
                 </Fade>
             )
         } else {
+            function returnTeacherActions() {
+                console.log(user)
+                if (user.role === 'teacher') {
+                    console.log(classObject)
+                    for (var studentID in classObject.students) {
+                        classArray.push(studentID)
+                    }
+                    return (
+                        <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
+
+                    )
+                } else if (user.role === undefined) {
+                    return
+                }
+            }
             console.log(quizCards)
             return (
                 <Fade in={shouldFade}>
@@ -184,9 +202,7 @@ export default function ClassPage() {
                             <hr></hr>
                         </div>
                         <div className="class-body">
-                            {user.role === 'teacher' &&
-                                <button className="generic-button" onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</button>
-                            }
+                            {returnTeacherActions()}
                             <div className="quizassigned">
                                 <h2>Quizzes Assigned</h2>
                                 {quizCards}
@@ -196,7 +212,7 @@ export default function ClassPage() {
                                 <h2>Quizzes Completed</h2>
                             </div>
                         </div>
-
+                        <AssignQuiz classList={classArray}></AssignQuiz>
                     </div>
                 </Fade>
             )

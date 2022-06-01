@@ -25,6 +25,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import AssignQuiz from "../teachingsuite/AssignQuiz"
+import GenerateInvite from "../teachingsuite/GenerateInvite"
 // responsive design
 import { useMediaQuery } from 'react-responsive'
 
@@ -188,7 +189,7 @@ export default function ClassPage() {
                         <>
                             <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
                             <button className="generic-button sml" onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</button>
-
+                            <GenerateInvite classObject={classObject} classId={classId}></GenerateInvite>
                         </>
                     )
                 } else if (user.role === undefined) {

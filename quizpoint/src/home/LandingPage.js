@@ -13,6 +13,8 @@ import mobileLogo from './media/appbranding-itt4withtext.svg'
 import schoolMedia from './media/background.jpg'
 import { useMediaQuery } from 'react-responsive'
 import { useState, useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+
 // Material UI
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
@@ -29,7 +31,7 @@ import CopyrightIcon from '@mui/icons-material/Copyright';
  *?  What does it do? UI for Landing Page
  *=============================================**/
 export default function LandingPage() {
-
+    const [logInStarted, setLogin] = useState(false)
     const login = useGoogleLogin({
         onSuccess: tokenResponse => startLogin(tokenResponse),
         scope: 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.photos.readonly https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.announcements https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
@@ -37,7 +39,14 @@ export default function LandingPage() {
     });
 
     function startLogin(_token) {
+        setLogin(true)
         newSignInModel(_token.access_token)
+    }
+
+    function checkLoadingStatus() {
+        if (logInStarted) {
+            return <CircularProgress />
+        }
     }
 
     // return HTML
@@ -47,6 +56,8 @@ export default function LandingPage() {
                 <div className="logo"><img src={logo} alt="QuizPoint Logo"></img></div>
                 <div className="loginText"><h1>QuizPoint</h1></div>
                 <div className="loginButtons">
+                    {checkLoadingStatus}
+
                     <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
                 </div>
                 <div className='footer'>

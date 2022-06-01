@@ -558,8 +558,8 @@ export default function StudentReport() {
                 // paper for styling and nice looks
                 <Paper elevation={3} className="paper-fix">
                     {/* Export buttons */}
-                    <button onClick={() => generatePDF()}>Generate PDF</button>
-                    <button onClick={() => generateExcel()}>Generate Excel</button>
+                    <button className='generic-button sml' onClick={() => generatePDF()}>Generate PDF</button>
+                    <button className='generic-button sml' onClick={() => generateExcel()}>Generate Excel</button>
                     {/* Table for viewing */}
                     <GenerateTable columns={columns} data={tableData} />
                     {/* Table for behind the scenes */}

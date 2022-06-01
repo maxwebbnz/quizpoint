@@ -51,6 +51,7 @@ export default function Invite() {
         // create a new class object to push to student obj
         let dataToWriteToUser = {
             classCode: id,
+            quizzes: classObject.quizzes
         }
         // set up updates
         const updates = {};

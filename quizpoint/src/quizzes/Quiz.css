@@ -44,7 +44,21 @@
         justify-content:center;
     }
     .smallButtonGroup{
+        display:inline-grid;
+        grid-template-columns:auto auto;
     }
+    .quizButtons{
+        flex-direction:column;
+        align-items:center;
+        
+    }
+    .quizAnswerButtonsMoreThanFour{
+        display:inline-grid;
+        grid-template-columns:auto auto auto auto !important;
+    }
+    /* .smallButtonGroup > Button{
+        font-size:2vw;
+    } */
 }
 
 @media only screen and (min-width:900px) {
@@ -76,6 +90,10 @@
     .smallButtonGroup{
         display:none;
     }
+    .quizButtons{
+        align-items:end;
+        align-self:flex-end;
+    }
 }
 
 .quizPage{
@@ -88,8 +106,8 @@
     display:flex;
     flex-wrap:wrap;
     justify-content:space-between;
-    align-self:flex-end;
-    align-items:end;
+
+
 }
 
 .quizContainer{

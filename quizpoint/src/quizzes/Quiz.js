@@ -15,6 +15,8 @@ import { Navigate, Route } from "react-router-dom";
 import { user } from '../firebase/fb.user.js';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box'
 
 // styling
 import './Quiz.css'
@@ -70,7 +72,10 @@ export default function Quiz() {
                     }
                 })
                 return
+
             }
+            var dogAge = '5' + 5;
+            console.log(dogAge)
             setCurrentQuestion(currentQuestion + 1);
         },
         //When "Back" is clicked, cycle through to the last question
@@ -118,16 +123,29 @@ export default function Quiz() {
             <div className="quizContainer">
                 <div className="quizQuestionTitle">
                     <p>{quiz.questions[currentQuestion].name}</p>
-                    <p>{currentQuestion + 1} / {quiz.questions.length}</p>
+                    <p class="quizQuestionCounter">{currentQuestion + 1} / {quiz.questions.length}</p>
                 </div>
                 <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
                 <div className="quizButtons">
                     <div className="quizQuestionAnswers">
-                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                        
+                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             {quiz.questions[currentQuestion].choices.map(answer => {
-                                return <Button className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
-                            })}
-                        </ButtonGroup>
+                                        return <div className="largeButtonGroup"><Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> </div>
+                            })} 
+                            </ButtonGroup>
+                        
+                            {quiz.questions[currentQuestion].choices.length > 4 && 
+                                quiz.questions[currentQuestion].choices.map(answer => {
+                                    return <Button className="quizAnswerButtons quizAnswerButtonsMoreThanFour" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                                })
+                            }
+                            {quiz.questions[currentQuestion].choices.length <= 4 &&
+                                quiz.questions[currentQuestion].choices.map(answer => {
+                                    return <div className="smallButtonGroup"> <Button className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> </div>
+                                })
+                            }           
+                        
                     </div>
                     <div className="quizNavigationButtons">
                         <Button variant="outlined" style={{textTransform: "none"}} onClick={quizHandler.lastQuestion}>Back</Button>

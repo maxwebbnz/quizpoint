@@ -74,7 +74,7 @@ export default function InputGoogleForm() {
                     // create a new quiz object to use
                     let newQuizObject = {
                         title: response.data.info.title,
-                        numOfQuestions: response.data.items.length,
+                        numofquestions: response.data.items.length,
                         questions: []
                     }
 

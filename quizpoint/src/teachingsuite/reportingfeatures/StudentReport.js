@@ -116,13 +116,10 @@ export default function StudentReport() {
                 console.log(quizReference)
                 let optionArray = []
                 for (const property in quizReference) {
-                    console.log(`${property}: ${quizReference[property].name}`);
-                    optionArray.push({ name: quizReference[property].name, id: property, code: quizReference[property].code })
+                    console.log(`${property}: ${quizReference[property].details.name}`);
+                    optionArray.push({ name: quizReference[property].details.name, id: property, code: quizReference[property].details.code })
                 }
-                for (const property in quizReferenceCompleted) {
-                    console.log(`${property}: ${quizReferenceCompleted[property].name}`);
-                    optionArray.push({ name: quizReferenceCompleted[property].name, id: property, code: quizReferenceCompleted[property].code })
-                }
+
                 let quizSelect = optionArray.map((quiz, index) => {
                     return (
                         <MenuItem key={quiz.code + index} value={quiz.code}>{quiz.name}</MenuItem>
@@ -329,7 +326,7 @@ export default function StudentReport() {
                             name: snapshot.val().name,
                             studentId: snapshot.val().studentID
                         }
-                        if (snapshot.val().quizzes.active[currentQuiz].progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
+                        if (snapshot.val().quizzes.active[currentQuiz].details.progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
                             dataForUser.completed = 'complete'
                         } else {
                             dataForUser.completed = 'incomplete'
@@ -350,15 +347,18 @@ export default function StudentReport() {
                             tableData.push(dataForUser)
                         } else {
                             let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
-                            console.log(quizReference)
-                            for (var index = 0; index < quizReference.length; index++) {
-                                if (quizReference[index] === undefined) {
+                            if (quizReference === undefined) { } else {
+                                console.log(quizReference)
+                                for (var index = 0; index < quizReference.length; index++) {
+                                    if (quizReference[index] === undefined) {
 
-                                } else {
-                                    console.log(quizReference[index])
-                                    dataForUser['question' + index] = quizReference[index].status
+                                    } else {
+                                        console.log(quizReference[index])
+                                        dataForUser['question' + index] = quizReference[index].status
 
+                                    }
                                 }
+
                             }
                             tableData.push(dataForUser)
                         }
@@ -468,7 +468,6 @@ export default function StudentReport() {
                 format: 'a2'
             })
             autoTable(doc, { html: '#reportTableToExport' })
-            doc.addImage(logo, 'SVG', 10, 0, 50, 50);
 
             doc.text(`QuizPoint | ${currentStudent.name} report for ${quizIdToView} `, 10, 10);
             doc.setFontSize(9);

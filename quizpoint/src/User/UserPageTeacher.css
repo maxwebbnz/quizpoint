@@ -1,4 +1,4 @@
-body{
+body {
     overflow: auto;
     overflow-x: hidden;
 }
@@ -18,6 +18,7 @@ body{
 
 .user-page-container {
     margin-top: 2%;
+    padding-top: 2%;
     margin-left: 2%;
     margin-right: 2%;
     background-color: white;
@@ -37,9 +38,11 @@ body{
 
 }
 
-.user-page-actions{
+.user-page-actions {
     margin-bottom: 1%;
+    margin-top: 1%;
 }
+
 .banner-quiz {
     border-radius: 5px;
     margin-right: 2%;
@@ -49,6 +52,7 @@ body{
     color: white;
 
 }
+
 .banner-class {
     border-radius: 5px;
     margin-right: 2%;
@@ -60,16 +64,22 @@ body{
 }
 
 
-.user-classcards{
+.user-classcards {
     margin-bottom: 2%;
     margin-right: 2%;
 }
-.classCards-row{
+
+
+.class-card {
+    margin-right: 10%;
+}
+
+.classCards-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 2%;
 }
 
-.user-quizhistory{
+.user-quizhistory {
     padding-bottom: 2%;
 }

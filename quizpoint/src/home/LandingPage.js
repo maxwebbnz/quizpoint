@@ -31,32 +31,39 @@ import CopyrightIcon from '@mui/icons-material/Copyright';
  *?  What does it do? UI for Landing Page
  *=============================================**/
 export default function LandingPage() {
+    // states
     const [logInStarted, setLogin] = useState(false)
+    /**======================
+     **   login -> useGoogleLogin
+     *?   login with google
+     *========================**/
     const login = useGoogleLogin({
+        // if login success -> start login process
         onSuccess: tokenResponse => startLogin(tokenResponse),
+        // scopes for permissons
         scope: 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.photos.readonly https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.announcements https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/classroom.rosters.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos',
 
     });
 
+    /**======================
+     **   startLogin
+     *?  start login process
+     *========================**/
     function startLogin(_token) {
+        // set state
         setLogin(true)
+        // start process with session storage
         newSignInModel(_token.access_token)
     }
 
-    function checkLoadingStatus() {
-        if (logInStarted) {
-            return <CircularProgress />
-        }
-    }
 
-    // return HTML
+    // return JSX
     return (
         <div id="landingPage" className="loginPage" style={{ backgroundImage: `url(${schoolMedia})` }}>
             <div className="loginContainer">
                 <div className="logo"><img src={logo} alt="QuizPoint Logo"></img></div>
                 <div className="loginText"><h1>QuizPoint</h1></div>
                 <div className="loginButtons">
-                    {checkLoadingStatus}
 
                     <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
                 </div>

@@ -30,13 +30,13 @@ import GenerateInvite from "../teachingsuite/GenerateInvite"
 import { useMediaQuery } from 'react-responsive'
 
 // array for
-let quizActive = []
 export default function ClassPage() {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const navigate = useNavigate()
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
+    const [quizActive, setQuizActive] = useState([])
     const [currentNum, setCurrentNum] = useState(0)
     const [toBeat, setToBeat] = useState(0)
     const [shouldFade, fadeEnabled] = useState(true)
@@ -76,56 +76,26 @@ export default function ClassPage() {
                             dataComplete(true)
 
                         } else {
+                            Object.keys(data.quizzes).forEach((key) => {
+                                if (data.quizzes[key].name === undefined) {
+                                    // skip
+                                } else {
+                                    console.log(key)
+                                    let quiz = data.quizzes[key]
+                                    quizActive.push(quiz)
+                                }
 
-                            for (var a in user.quizzes.active) {
-                                setToBeat(toBeat + 1)
-                            }
-                            function loadActiveQuiz() {
-                                Object.keys(user.quizzes.active).forEach(function (key) {
-                                    if (data.quizzes.active[key] === undefined) {
-                                        console.log("error")
-                                    } else if (data.quizzes.active[key] !== undefined) {
-                                        console.log(key + " match, loading data")
-                                        let quizRef = ref(db, `/schools/hvhs/quizzes/${key}`);
-                                        onValue(quizRef, (snapshot) => {
-                                            console.log(currentNum)
-
-                                            if (snapshot.val() === undefined || snapshot.val() === null) {
-                                            } else {
-                                                const data = snapshot.val()
-                                                console.log(data)
-                                                quizActive.push(data)
-                                                setCurrentNum(currentNum + 1)
-                                                if (toBeat > currentNum) {
-                                                    console.log(currentNum)
-                                                } else {
-                                                    dataComplete(true)
-                                                    console.log('Still loading ' + currentNum + ' of ' + toBeat)
-
-                                                }
-                                            }
-
-                                        })
-                                    }
-                                })
-                            }
-                            if (toBeat === 0) {
-
-                            } else {
-
-                            }
-                            dataComplete(true)
-
+                            })
                             addQuizCard(quizActive.map((qz) =>
-                                <div>
+                                <div className="quiz-card">
                                     <Card sx={{ minWidth: 275 }}>
                                         <CardContent>
-                                            <Typography variant="h3">
-                                                {qz.title}
+                                            <Typography variant="h6">
+                                                {qz.name}
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button size="small">Start Quiz</Button>
+                                            <Button size="small" onClick={() => navigate(`/quiz/${qz.code}`)}>Start Quiz</Button>
                                         </CardActions>
                                     </Card>
                                 </div>
@@ -134,7 +104,7 @@ export default function ClassPage() {
                             console.log(data)
 
                             console.log(quizActive)
-
+                            dataComplete(true)
 
                         }
 
@@ -149,7 +119,7 @@ export default function ClassPage() {
 
 
         }
-    })
+    }, [loading])
 
     //! I CANNOT GET THIS WORKING, Allan did you want to have a try?
     if (loading === true) {
@@ -209,14 +179,17 @@ export default function ClassPage() {
                             {returnTeacherActions()}
                             <div className="quizassigned">
                                 <h2>Quizzes Assigned</h2>
-                                {quizCards}
+                                <div className="quiz-grid">
+                                    {quizCards}
+
+                                </div>
                             </div>
                             <hr></hr>
                             <div className="quizcompleted">
                                 <h2>Quizzes Completed</h2>
+                                <p>Feature not yet complete</p>
                             </div>
                         </div>
-                        <AssignQuiz classList={classArray}></AssignQuiz>
                     </div>
                 </Fade>
             )

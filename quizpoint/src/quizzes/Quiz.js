@@ -58,6 +58,7 @@ export default function Quiz() {
     let quizHandler = {
         // When "Next" is clicked, cycle through to the next question
         nextQuestion: () => {
+            console.log("Next Question");
             if (currentQuestion === (quiz.questions.length - 1)) {
                 set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
                 Swal.fire({
@@ -75,8 +76,6 @@ export default function Quiz() {
                 return
 
             }
-            var dogAge = '5' + 5;
-            console.log(dogAge)
             setCurrentQuestion(currentQuestion + 1);
         },
         //When "Back" is clicked, cycle through to the last question
@@ -124,14 +123,15 @@ export default function Quiz() {
             <div className="quizContainer">
                 <div className="quizQuestionTitle">
                     <p>{quiz.questions[currentQuestion].name}</p>
-                    <p class="quizQuestionCounter">{currentQuestion + 1} / {quiz.questions.length}</p>
+                    <p className="quizQuestionCounter">{currentQuestion + 1} / {quiz.questions.length}</p>
                 </div>
                 <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
-                <div className="quizButtons">
+                {quiz.questions[currentQuestion].inputtype === "multichoice" &&
+                    <div className="quizButtons">
                     <div className="quizQuestionAnswers">
                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             {quiz.questions[currentQuestion].choices.map(answer => {
-                                        return <div className="largeButtonGroup"><Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> </div>
+                                        return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
                             })} 
                             </ButtonGroup>
                             {/* If there are more than four buttons on a small screen */}
@@ -152,6 +152,15 @@ export default function Quiz() {
                             </div>    
                         
                     </div>
+                    </div>
+                }
+                {quiz.questions[currentQuestion].inputtype === "imageupload" && 
+                    <div className="quizImageUpload">
+                        <input type="file" id="file" name="file" accept="image/*" />
+                        <label htmlFor="file">Upload Image</label>
+                    </div>
+                }
+                <div className="quizButtons">
                     <div className="quizNavigationButtons">
                         <Button variant="outlined" style={{textTransform: "none"}} onClick={quizHandler.lastQuestion}>Back</Button>
                         <Button variant="contained" color="success" style={{textTransform: "none"}} onClick={quizHandler.nextQuestion}>Next</Button>

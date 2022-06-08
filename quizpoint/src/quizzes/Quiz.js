@@ -11,16 +11,20 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import { dbFunctions, auth, storage, dbFunctionsSync } from "../services/firebase.js"
 import { Navigate, Route } from "react-router-dom";
+
 // user model
 import { user } from '../firebase/fb.user.js';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box'
 
 // styling
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
 import { ref, onValue, set } from "firebase/database";
+import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import Swal from 'sweetalert2';
 
 
@@ -38,7 +42,6 @@ export default function Quiz() {
     let studentPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
     // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
-
     // useEffect operates when the page loads. This finds the quiz in firebase and sets it to the state 'quiz'
     useEffect(() => {
         onValue(quizPath, (snapshot) => {
@@ -70,7 +73,10 @@ export default function Quiz() {
                     }
                 })
                 return
+
             }
+            var dogAge = '5' + 5;
+            console.log(dogAge)
             setCurrentQuestion(currentQuestion + 1);
         },
         //When "Back" is clicked, cycle through to the last question
@@ -118,16 +124,33 @@ export default function Quiz() {
             <div className="quizContainer">
                 <div className="quizQuestionTitle">
                     <p>{quiz.questions[currentQuestion].name}</p>
-                    <p>{currentQuestion + 1} / {quiz.questions.length}</p>
+                    <p class="quizQuestionCounter">{currentQuestion + 1} / {quiz.questions.length}</p>
                 </div>
                 <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
                 <div className="quizButtons">
                     <div className="quizQuestionAnswers">
-                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             {quiz.questions[currentQuestion].choices.map(answer => {
-                                return <Button className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
-                            })}
-                        </ButtonGroup>
+                                        return <div className="largeButtonGroup"><Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> </div>
+                            })} 
+                            </ButtonGroup>
+                            {/* If there are more than four buttons on a small screen */}
+                            <div className="smallButtonGroupLarge">
+                                {quiz.questions[currentQuestion].choices.length > 4 && 
+                                    quiz.questions[currentQuestion].choices.map(answer => {
+                                        return <Button variant="contained" className="quizAnswerButtons quizAnswerButtonsMoreThanFour" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                                    })
+                                }
+                            </div>
+                            {/* If <= 4 buttons on a small screen */}
+                            <div className="smallButtonGroup">
+                                {quiz.questions[currentQuestion].choices.length <= 4 &&
+                                    quiz.questions[currentQuestion].choices.map(answer => {
+                                        return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> 
+                                    })
+                                }       
+                            </div>    
+                        
                     </div>
                     <div className="quizNavigationButtons">
                         <Button variant="outlined" style={{textTransform: "none"}} onClick={quizHandler.lastQuestion}>Back</Button>

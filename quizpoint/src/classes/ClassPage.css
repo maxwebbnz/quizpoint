@@ -17,6 +17,11 @@
     text-align: center;
 }
 
+.class-body {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
 /* mobile design */
 .class-cards-mobile {
     margin-left: 11%;
@@ -39,7 +44,17 @@
     color: white;
 }
 
-.quizassigned-mobile{
-        margin-top: 4%;
+.quizassigned-mobile {
+    margin-top: 4%;
 
+}
+
+.quiz-card {
+    width: 100%;
+}
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr;
+    gap: 2%;
 }

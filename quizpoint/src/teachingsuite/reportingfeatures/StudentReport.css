@@ -30,7 +30,12 @@
 .user-content {
     display: grid;
     grid-template-columns: 1fr 10fr;
+    margin-right: 2%;
     /* grid-gap: 0%; */
+}
+
+.user-content-right {
+    margin-left: 2%;
 }
 
 .banner-details {

@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 // user reference
 import { user } from "../firebase/fb.user";
 // firebase
-import { db } from '../services/firebase'
+import { db, dbFunctions } from '../services/firebase'
 import { ref, onValue, update } from "firebase/database";
 
 // styling
@@ -56,9 +56,9 @@ export default function Invite() {
         // set up updates
         const updates = {};
         // update data in class at class id in path students
-        updates['/schools/hvhs/classes/' + id + '/students/'] = dataToWrite;
+        dbFunctions.write('/schools/hvhs/classes/' + id + '/students/', dataToWrite)
         // update data in student at student id in path class
-        updates['/schools/hvhs/users/' + userId + '/classes/' + id] = dataToWriteToUser;
+        dbFunctions.write('/schools/hvhs/users/' + userId + '/classes/' + id, dataToWriteToUser)
         // navigate home
         navigate('/classes')
         // update data in firebase

@@ -106,6 +106,12 @@ export default function CreateGoogleClass(props) {
         update(ref(db, 'schools/hvhs/users/' + user.uid + '/classes/' + classRef.id), {
             code: classRef.id
         });
+        update(ref(db, 'schools/hvhs/classes/' + classRef.id + '/teachers'), {
+            [user.uid]: user.uid
+        });
+        update(ref(db, 'schools/hvhs/classes/' + classRef.id + '/students'), {
+            [user.uid]: user.uid
+        });
         // set up class id reference
         setClassId(classRef.id)
         // if teacher has not made any classes any more (bug fix)

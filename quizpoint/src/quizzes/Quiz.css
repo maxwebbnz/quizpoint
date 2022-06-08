@@ -26,13 +26,15 @@
         object-fit:cover;
     }
     .quizQuestionTitle > p{
-        font-size:4vw;
+        font-size:30px;
+        overflow:hidden !important;
+        white-space:nowrap;
     }
     .largeButtonGroup{
         display:none !important;
     }
     .quizTitle{
-        font-size:4.5vw;
+        font-size:30px;
     }
     .quizPage{
         height:85vh;
@@ -52,10 +54,7 @@
         align-items:center;
         
     }
-    .quizAnswerButtonsMoreThanFour{
-        display:inline-grid;
-        grid-template-columns:auto auto auto auto !important;
-    }
+
     /* .smallButtonGroup > Button{
         font-size:2vw;
     } */
@@ -93,6 +92,9 @@
     .quizButtons{
         align-items:end;
         align-self:flex-end;
+    }
+    .smallButtonGroupLarge{
+        display:none;
     }
 }
 

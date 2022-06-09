@@ -24,7 +24,7 @@ import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
 import { ref, onValue, set } from "firebase/database";
-import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, uploadBytesResumable, getStorage, ref as sRef } from "firebase/storage";
 import Swal from 'sweetalert2';
 
 
@@ -58,7 +58,7 @@ export default function Quiz() {
     let quizHandler = {
         // When "Next" is clicked, cycle through to the next question
         nextQuestion: () => {
-            console.log("Next Question");
+            console.log("quizHandler.nextQuestion(): Called");
             if (currentQuestion === (quiz.questions.length - 1)) {
                 set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
                 Swal.fire({
@@ -80,20 +80,30 @@ export default function Quiz() {
         },
         //When "Back" is clicked, cycle through to the last question
         lastQuestion: () => {
+            console.log("quizHandler.lastQuestion(): Called");
             if (currentQuestion === 0) return
             setCurrentQuestion(currentQuestion - 1);
         },
         recordAnswer: (answer) => {
+            console.log("quizHandler.recordAnswer(): Called");
             console.log(chosenAnswers)
             if (answer == quiz.questions[currentQuestion].answer) {
                 chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
             } else if (answer != quiz.questions[currentQuestion].answer) {
                 chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
+            }else{
+                chosenAnswers.details[currentQuestion] = {
+                    answer: quiz.questions[currentQuestion].answer,
+                    question: quiz.questions[currentQuestion].name,
+                    status: "correct"
+                }
             }
             chosenAnswers.details = { code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length }
             quizHandler.nextQuestion()
         },
+
         generateImage: () => {
+            console.log("quizHandler.generateImage(): Called");
             if (quiz.questions[currentQuestion].image){
                 return <img  alt="Quiz Question Image" src={quiz.questions[currentQuestion].image}></img>
             }else{
@@ -126,41 +136,62 @@ export default function Quiz() {
                     <p className="quizQuestionCounter">{currentQuestion + 1} / {quiz.questions.length}</p>
                 </div>
                 <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
-                {quiz.questions[currentQuestion].inputtype === "multichoice" &&
-                    <div className="quizButtons">
-                    <div className="quizQuestionAnswers">
-                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                            {quiz.questions[currentQuestion].choices.map(answer => {
-                                        return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
-                            })} 
-                            </ButtonGroup>
-                            {/* If there are more than four buttons on a small screen */}
-                            <div className="smallButtonGroupLarge">
-                                {quiz.questions[currentQuestion].choices.length > 4 && 
-                                    quiz.questions[currentQuestion].choices.map(answer => {
-                                        return <Button variant="contained" className="quizAnswerButtons quizAnswerButtonsMoreThanFour" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
-                                    })
-                                }
-                            </div>
-                            {/* If <= 4 buttons on a small screen */}
-                            <div className="smallButtonGroup">
-                                {quiz.questions[currentQuestion].choices.length <= 4 &&
-                                    quiz.questions[currentQuestion].choices.map(answer => {
-                                        return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> 
-                                    })
-                                }       
-                            </div>    
-                        
-                    </div>
-                    </div>
-                }
-                {quiz.questions[currentQuestion].inputtype === "imageupload" && 
-                    <div className="quizImageUpload">
-                        <input type="file" id="file" name="file" accept="image/*" />
-                        <label htmlFor="file">Upload Image</label>
-                    </div>
-                }
                 <div className="quizButtons">
+                    {quiz.questions[currentQuestion].inputtype === "multichoice" &&
+                        <div className="quizQuestionAnswers">
+                                <div className="largeButtonGroup">
+                                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                    {quiz.questions[currentQuestion].choices.map(answer => {
+                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                                    })} 
+                                    </ButtonGroup>
+                                </div>
+                                {/* If there are more than four buttons on a small screen */}
+                                <div className="smallButtonGroupLarge">
+                                    {quiz.questions[currentQuestion].choices.length > 4 && 
+                                        quiz.questions[currentQuestion].choices.map(answer => {
+                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                                        })
+                                    }
+                                </div>
+                                {/* If <= 4 buttons on a small screen */}
+                                <div className="smallButtonGroup">
+                                    {quiz.questions[currentQuestion].choices.length <= 4 &&
+                                        quiz.questions[currentQuestion].choices.map(answer => {
+                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> 
+                                        })
+                                    }       
+                                </div>    
+                        </div>
+                    }
+                    {quiz.questions[currentQuestion].inputtype === "imageupload" && 
+                        <div className="quizImageUpload">
+                            //upload an image and save it as an answer
+                            <input type="file" id="file" name="file" accept="image/*" onChange={(e) => {
+                                const file = e.target.files[0];
+                                const storage = getStorage();
+                                // const storageRef = firebase.storage().ref(`schools/hvhs/quizzes/${quizId}/images/${file.name}`);
+                                const storageRef = ref(storage, file.name);
+                                const task = storageRef.put(file);
+                                task.on('state_changed',
+                                    function progress(snapshot) {
+                                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                        console.log('Upload is ' + percentage + '% done');
+                                    },
+                                    function error(err) {
+                                        console.log(err)
+                                    },
+                                    function complete() {
+                                        console.log('Upload complete')
+                                        task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                                            console.log('File available at', downloadURL);
+                                            quizHandler.recordAnswer(downloadURL)
+                                        });
+                                    }
+                                );
+                            }}/>
+                        </div>
+                    }
                     <div className="quizNavigationButtons">
                         <Button variant="outlined" style={{textTransform: "none"}} onClick={quizHandler.lastQuestion}>Back</Button>
                         <Button variant="contained" color="success" style={{textTransform: "none"}} onClick={quizHandler.nextQuestion}>Next</Button>

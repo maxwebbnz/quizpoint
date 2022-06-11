@@ -27,14 +27,12 @@
     }
     .quizQuestionTitle > p{
         font-size:30px;
-        overflow:hidden !important;
-        white-space:nowrap;
     }
     .largeButtonGroup{
         display:none !important;
     }
     .quizTitle{
-        font-size:30px;
+        font-size:35px;
     }
     .quizPage{
         height:85vh;
@@ -77,7 +75,7 @@
         object-fit:cover;
     }
     .quizTitle{
-        font-size:3rem;
+        font-size:2.5rem;
     }
     .quizPage{
         height:85vh;
@@ -95,6 +93,10 @@
     }
     .smallButtonGroupLarge{
         display:none;
+    }
+    .quizQuestionCounter{
+        min-width: 130px;
+        text-decoration:underline;
     }
 }
 

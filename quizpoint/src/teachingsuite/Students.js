@@ -6,7 +6,7 @@
 // styling
 import './Students.css'
 // react hooks
-
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
@@ -14,7 +14,7 @@ import { db } from '../services/firebase'
 import { ref, onValue } from "firebase/database";
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -24,15 +24,20 @@ import { DataGrid } from '@mui/x-data-grid';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 // array placeholder
-let allStudents = []
 
-// header for the table
-const columns = [
-    { field: 'id', headerName: 'App UID', width: 100, hide: true },
-    { field: 'firstName', headerName: 'Name', width: 400 },
-    { field: 'studentID', headerName: 'Student ID', width: 130 },
-    { field: 'email', headerName: 'Email', width: 200 },
-];
+// Material UI for Styled Components
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import Tooltip from '@mui/material/Tooltip';
 
 const rows = []
 
@@ -42,10 +47,17 @@ const rows = []
  *@return type
  *=============================================**/
 export default function Students() {
+    const navigate = useNavigate()
     let { type } = useParams()
+    const [searchValue, setSearchValue] = useState("")
+    const [selectedStudentUID, setUID] = useState("")
     // state holder data fetching
     const [loading, dataFetch] = useState(false)
+    const [userLoaded, setUserLoaded] = useState({})
+    const [allStudents, setStudentList] = useState([])
     const [select, setSelection] = React.useState([]);
+    const [userActiveQuiz, setActiveQuiz] = useState([])
+    const [userClasses, setClasses] = useState([])
     const handleRowSelection = (e) => {
         // prints correct indexes of selected rows
         console.log("adding", e);
@@ -98,9 +110,9 @@ export default function Students() {
                                 // push to placeholder array
                                 rows.push({
                                     id: key,
+                                    name: data[key].name,
                                     studentID: data[key].studentID,
-                                    firstName: data[key].name,
-                                    email: data[key].email,
+                                    uid: data[key].uid
                                 })
                                 allStudents.push(data[key])
                             });
@@ -114,7 +126,142 @@ export default function Students() {
 
             }
         }
-    })
+    }, [loading])
+
+
+    function TeacherStudent() {
+        function loadData() {
+            if (selectedStudentUID === '') {
+
+            } else {
+                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
+                onValue(pathRef, (snapshot) => {
+                    if (snapshot.val() === null) {
+                        console.log("no user found")
+                    } else {
+                        setUserLoaded(snapshot.val())
+                        let data = snapshot.val()
+                        console.log(data)
+                        console.log(data.classes)
+
+                        Object.keys(data.classes).forEach(key => {
+                            let classPath = ref(db, `/schools/hvhs/classes/${key}`)
+                            onValue(classPath, (snapshot) => {
+                                if (snapshot.val() === null) { } else {
+                                    setClasses(prevClasses => [...prevClasses, snapshot.val()])
+                                }
+                            })
+                        })
+                        console.log(data.quizzes.active)
+                        Object.keys(data.quizzes.active).forEach(key => {
+                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
+                        })
+                    }
+                })
+            }
+        }
+        loadData()
+        return (
+            <div className='user-page-container'>
+                <div className='banner-details'>
+                    <InfoOutlinedIcon></InfoOutlinedIcon> {userLoaded.name}
+                </div>
+                <div className="user-page-actions">
+                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                        <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
+                        <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
+                        <Button><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
+                    </ButtonGroup>
+                </div>
+                <div className="user-content">
+                    <div className="user-content-left">
+                        {/* User Profile Picture */}
+                        <Tooltip title="Image taken from students google account">
+                            {/* On image hover, message displayed */}
+                            <img alt='User profile' src={userLoaded.picture}></img>
+                        </Tooltip>
+                    </div>
+                    <div className="user-content-right">
+                        {/* Basic Student information */}
+                        <p>Name: {userLoaded.name}</p>
+                        <p>Student ID: {userLoaded.studentID}</p>
+                        {/* when you click on link, it will send email */}
+                        <p>Email: <a href={'mailto:' + userLoaded.email}>{userLoaded.email}</a></p>
+                    </div>
+
+                </div>
+                <div className="banner-class">
+                    {/* Banner 2 - Class */}
+                    <h5><SchoolOutlinedIcon></SchoolOutlinedIcon> Classes</h5>
+                </div>
+                <div className="user-classcards">
+                    <div className="classCards-row">
+                        {/* Mapped Class Cards */}
+                        {userClasses.map((classData, index) => {
+                            // just some JSX!
+                            return (
+                                <div className="class-card" key={index}>
+                                    <Card className="class-card-content">
+                                        <CardContent>
+                                            <h1>{classData.className}</h1>
+                                        </CardContent>
+                                        <CardActions>
+                                            <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
+                                                <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
+                                                <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
+                                                <Button><SchoolOutlinedIcon /></Button>
+                                                <Button><PersonRemoveOutlinedIcon /></Button>
+                                            </ButtonGroup>
+                                        </CardActions>
+                                    </Card>
+                                </div>
+                            )
+                        })
+                        }
+                    </div>
+                </div>
+                <div className="banner-quiz">
+                    {/* Banner 3 - Quiz */}
+                    <h5><QuizOutlinedIcon></QuizOutlinedIcon> Quiz History</h5>
+                </div>
+                <div className="user-quizhistory">
+                    {/* Quiz Section */}
+                    <h4>Currently Assigned</h4>
+                    <div className="classCards-row">
+                        {/* Mapped Quiz Active Cards */}
+                        {userActiveQuiz.map((quizData, index) => {
+                            // just some JSX!
+                            return (
+                                <div className="class-card" key={index}>
+                                    <Card className="class-card-content">
+                                        <CardContent>
+                                            <h6>{quizData.details.name}</h6>
+                                        </CardContent>
+                                        <CardActions>
+                                            <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
+                                                <Button><AssessmentOutlinedIcon /></Button>
+                                            </ButtonGroup>
+                                        </CardActions>
+                                    </Card>
+                                </div>
+                            )
+                        })
+                        }
+                    </div>
+                </div>
+
+            </div>
+        )
+
+    }
+    const [search, setSearch] = useState(allStudents);
+    const handleInputChange = (e) => {
+        var dm = e.target.value;
+        var str = dm.toLowerCase();
+        var debug = allStudents.filter(x => x["name"].toLowerCase().includes(str));
+        setSearch(debug);
+    };
+
     // if loading
     if (loading === false) {
         // feed that back to user
@@ -139,48 +286,30 @@ export default function Students() {
         return (
             <Fade in={shouldFade}>
                 <div clasName='studentPage'>
-                    {/* reload data on click */}
-                    <div className='actions'>
-                        <h4 className='header'>Actions</h4>
-                        <br></br>
-                        <button onClick={() => window.location.reload(false)} className='reload-button'>
-                            <i className="bi bi-arrow-clockwise"></i> Reload Data
-                        </button>
-                        <Stack spacing={2} sx={{ width: 300 }}>
-                            <Autocomplete
-                                freeSolo
-                                id="searchStudentName"
-                                disableClearable
-                                options={allStudents.map((option) => option.name)}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Search for a student"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            type: 'search',
-                                        }}
-                                    />
-                                )}
-                            />
+                    <div className='studentgrid'>
+                        <div className='studentpage-search'>
+                            <div className='studentpage-search-header'>
+                                <p>Search for a student</p>
+                                <TextField id="outlined-basic" onChange={handleInputChange} label="Student Name" variant="outlined" />
 
-                        </Stack>
-                        <Stack spacing={2} direction="row">
-                            <Button variant="contained" onClick={() => window.location.replace('/tcs/user/' + select)}>View Selected Students</Button>
-                        </Stack>
-                    </div>
+                            </div>
+                            <hr></hr>
+                            <div className='search-results'>
+                                <p>Results</p>
 
-                    {/* Material UI Table */}
-                    <div style={{ height: 600, width: '90%' }} className='dataTable'>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={10}
-                            rowsPerPageOptions={[5]}
-                            checkboxSelection
-                            onSelectionModelChange={handleRowSelection}
+                                {search.map((item) => (
+                                    <div className='search-result' key={item.id} onClick={() => setUID(item.uid)}>
+                                        <hr />
+                                        {item.name} - {item.studentID}
+                                    </div>
+                                ))}
+                            </div>
 
-                        />
+                        </div>
+                        <div className='studentpage-userview'>
+                            <h2>User: {selectedStudentUID} </h2>
+                            <TeacherStudent />
+                        </div>
                     </div>
                 </div>
             </Fade>

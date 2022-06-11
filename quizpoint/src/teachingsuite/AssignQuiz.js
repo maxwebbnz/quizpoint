@@ -3,10 +3,13 @@
  * All rights reserved.
  */
 import { useState, useEffect } from 'react'
-import { db, dbFunctions } from '../services/firebase'
 
+// data services
+import { db, dbFunctions } from '../services/firebase'
 import { set, ref, onValue, update } from 'firebase/database'
+// UI
 import { alert } from '../services/Alert';
+// MUI components
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -14,6 +17,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+
+
 export default function AssignQuiz(props) {
     const [loading, setloading] = useState(true)
     const [allQuizzes, setQuizzes] = useState([])
@@ -45,7 +50,6 @@ export default function AssignQuiz(props) {
     })
 
     function setQuizToAssign(_qzId) {
-        console.log(_qzId)
         let studentsArray = props.classList
         let classId = props.classId
         if (classId !== undefined) {
@@ -108,7 +112,8 @@ export default function AssignQuiz(props) {
                 <DialogActions>
                     <button className='generic-button' onClick={() => setQuizToAssign(selectedQzId)}>Assign</button>
                 </DialogActions>
-            </Dialog >            <button className='generic-button sml' onClick={() => setDialog(true)}>Assign Quiz</button>
+            </Dialog >
+            <button className='generic-button sml' onClick={() => setDialog(true)}>Assign Quiz</button>
         </>
     )
 

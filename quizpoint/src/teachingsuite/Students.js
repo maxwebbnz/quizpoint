@@ -5,8 +5,8 @@
 
 // styling
 import './Students.css'
+import Swal from 'sweetalert2'
 // react hooks
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
@@ -109,7 +109,7 @@ export default function Students() {
             } else {
                 setUserLoaded({})
             }
-            document.title = `${userLoaded.name}'s Profile | QuizPoint`
+            document.title = `Students | QuizPoint`
             console.log('Loading')
 
             // Currently fetching data
@@ -188,8 +188,30 @@ export default function Students() {
 
             }
         }
-    }, [loading, selectedStudentUID, allStudents, type, userLoaded])
+    }, [loading, selectedStudentUID])
 
+    function deleteStudent() {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Delete Student',
+            denyButtonText: `Nevermind`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
+                pathRef.remove()
+                setUID("")
+                Swal.fire('Deleted!', '', 'success')
+                window.location.reload()
+            } else if (result.isDenied) {
+                Swal.fire('Student has not been deleted', '', 'info')
+            }
+        })
+
+
+    }
 
 
     const [search, setSearch] = useState(allStudents);
@@ -210,7 +232,6 @@ export default function Students() {
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={shouldFade}
                 >
-                    <CircularProgress color="inherit" />
                 </Backdrop>
             </div>
         )
@@ -241,7 +262,7 @@ export default function Students() {
 
                         </div>
                         <div className='studentpage-userview'>
-                            {userLoaded.name === undefined ? <h1 className='selectuser-text'>Select a user</h1> :
+                            {userLoaded.name === undefined ? <h1 className='selectuser-text'>Select a student</h1> :
                                 <Fade in={shouldFade}>
                                     <div className='user-page-container'>
                                         <div className='banner-details'>
@@ -251,7 +272,7 @@ export default function Students() {
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                                 <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
                                                 <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
-                                                <Button><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
+                                                <Button onClick={() => deleteStudent()}><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
                                             </ButtonGroup>
                                         </div>
                                         <div className="user-content">

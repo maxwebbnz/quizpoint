@@ -3,8 +3,6 @@
 
 }
 
-
-
 .studentpage-search {
     background-color: white;
     border-radius: 2px;
@@ -33,10 +31,15 @@
 
 .search-result {
     transition-duration: 0.4s;
+    margin-left: 0 !important;
 }
 
 .search-result:hover {
-    font-weight: bold;
+    cursor: pointer;
+
+    color: black;
+    filter: drop-shadow(0 0 0.75rem #4E83C2);
+    transform: translateY(-3px);
 
 }
 
@@ -63,7 +66,7 @@
     display: grid;
     margin-left: 4%;
     grid-template-columns: 1fr 3fr;
-    gap: 5%;
+    gap: 1%;
     margin-bottom: 2%;
 }
 

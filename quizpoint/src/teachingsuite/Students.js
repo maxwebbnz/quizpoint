@@ -22,6 +22,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { DataGrid } from '@mui/x-data-grid';
 // material ui
 import Backdrop from '@mui/material/Backdrop';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 // array placeholder
 
@@ -74,8 +75,41 @@ export default function Students() {
     useEffect(() => {
         // LOADING DATA, FETCHING FROM DB.
         if (loading === true) {
+            if (selectedStudentUID !== "") {
+                setActiveQuiz([])
+                setClasses([])
+                console.log(allStudents)
+                let foundStudent = allStudents.find(element => element.uid === selectedStudentUID);
+                console.log(foundStudent)
+                setUserLoaded(foundStudent)
+                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
+                onValue(pathRef, (snapshot) => {
+                    if (snapshot.val() === null) {
+                        console.log("no user found")
+                    } else {
+                        setUserLoaded(snapshot.val())
+                        let data = snapshot.val()
+                        console.log(data)
+                        console.log(data.classes)
 
-            document.title = ' Students | QuizPoint'
+                        Object.keys(data.classes).forEach(key => {
+                            let classPath = ref(db, `/schools/hvhs/classes/${key}`)
+                            onValue(classPath, (snapshot) => {
+                                if (snapshot.val() === null) { } else {
+                                    setClasses(prevClasses => [...prevClasses, snapshot.val()])
+                                }
+                            })
+                        })
+                        console.log(data.quizzes.active)
+                        Object.keys(data.quizzes.active).forEach(key => {
+                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
+                        })
+                    }
+                })
+            } else {
+                setUserLoaded({})
+            }
+            document.title = `${userLoaded.name}'s Profile | QuizPoint`
             console.log('Loading')
 
             // Currently fetching data
@@ -116,6 +150,34 @@ export default function Students() {
                                 })
                                 allStudents.push(data[key])
                             });
+                            if (selectedStudentUID === '') {
+
+                            } else {
+                                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
+                                onValue(pathRef, (snapshot) => {
+                                    if (snapshot.val() === null) {
+                                        console.log("no user found")
+                                    } else {
+                                        setUserLoaded(snapshot.val())
+                                        let data = snapshot.val()
+                                        console.log(data)
+                                        console.log(data.classes)
+
+                                        Object.keys(data.classes).forEach(key => {
+                                            let classPath = ref(db, `/schools/hvhs/classes/${key}`)
+                                            onValue(classPath, (snapshot) => {
+                                                if (snapshot.val() === null) { } else {
+                                                    setClasses(prevClasses => [...prevClasses, snapshot.val()])
+                                                }
+                                            })
+                                        })
+                                        console.log(data.quizzes.active)
+                                        Object.keys(data.quizzes.active).forEach(key => {
+                                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
+                                        })
+                                    }
+                                })
+                            }
                             // finished loading, we can show page now
                             dataFetch(true)
                         }
@@ -126,134 +188,10 @@ export default function Students() {
 
             }
         }
-    }, [loading])
+    }, [loading, selectedStudentUID, allStudents, type, userLoaded])
 
 
-    function TeacherStudent() {
-        function loadData() {
-            if (selectedStudentUID === '') {
 
-            } else {
-                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
-                onValue(pathRef, (snapshot) => {
-                    if (snapshot.val() === null) {
-                        console.log("no user found")
-                    } else {
-                        setUserLoaded(snapshot.val())
-                        let data = snapshot.val()
-                        console.log(data)
-                        console.log(data.classes)
-
-                        Object.keys(data.classes).forEach(key => {
-                            let classPath = ref(db, `/schools/hvhs/classes/${key}`)
-                            onValue(classPath, (snapshot) => {
-                                if (snapshot.val() === null) { } else {
-                                    setClasses(prevClasses => [...prevClasses, snapshot.val()])
-                                }
-                            })
-                        })
-                        console.log(data.quizzes.active)
-                        Object.keys(data.quizzes.active).forEach(key => {
-                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
-                        })
-                    }
-                })
-            }
-        }
-        loadData()
-        return (
-            <div className='user-page-container'>
-                <div className='banner-details'>
-                    <InfoOutlinedIcon></InfoOutlinedIcon> {userLoaded.name}
-                </div>
-                <div className="user-page-actions">
-                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                        <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
-                        <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
-                        <Button><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
-                    </ButtonGroup>
-                </div>
-                <div className="user-content">
-                    <div className="user-content-left">
-                        {/* User Profile Picture */}
-                        <Tooltip title="Image taken from students google account">
-                            {/* On image hover, message displayed */}
-                            <img alt='User profile' src={userLoaded.picture}></img>
-                        </Tooltip>
-                    </div>
-                    <div className="user-content-right">
-                        {/* Basic Student information */}
-                        <p>Name: {userLoaded.name}</p>
-                        <p>Student ID: {userLoaded.studentID}</p>
-                        {/* when you click on link, it will send email */}
-                        <p>Email: <a href={'mailto:' + userLoaded.email}>{userLoaded.email}</a></p>
-                    </div>
-
-                </div>
-                <div className="banner-class">
-                    {/* Banner 2 - Class */}
-                    <h5><SchoolOutlinedIcon></SchoolOutlinedIcon> Classes</h5>
-                </div>
-                <div className="user-classcards">
-                    <div className="classCards-row">
-                        {/* Mapped Class Cards */}
-                        {userClasses.map((classData, index) => {
-                            // just some JSX!
-                            return (
-                                <div className="class-card" key={index}>
-                                    <Card className="class-card-content">
-                                        <CardContent>
-                                            <h1>{classData.className}</h1>
-                                        </CardContent>
-                                        <CardActions>
-                                            <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
-                                                <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
-                                                <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
-                                                <Button><SchoolOutlinedIcon /></Button>
-                                                <Button><PersonRemoveOutlinedIcon /></Button>
-                                            </ButtonGroup>
-                                        </CardActions>
-                                    </Card>
-                                </div>
-                            )
-                        })
-                        }
-                    </div>
-                </div>
-                <div className="banner-quiz">
-                    {/* Banner 3 - Quiz */}
-                    <h5><QuizOutlinedIcon></QuizOutlinedIcon> Quiz History</h5>
-                </div>
-                <div className="user-quizhistory">
-                    {/* Quiz Section */}
-                    <h4>Currently Assigned</h4>
-                    <div className="classCards-row">
-                        {/* Mapped Quiz Active Cards */}
-                        {userActiveQuiz.map((quizData, index) => {
-                            // just some JSX!
-                            return (
-                                <div className="class-card" key={index}>
-                                    <Card className="class-card-content">
-                                        <CardContent>
-                                            <h6>{quizData.details.name}</h6>
-                                        </CardContent>
-                                        <CardActions>
-                                            <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
-                                                <Button><AssessmentOutlinedIcon /></Button>
-                                            </ButtonGroup>
-                                        </CardActions>
-                                    </Card>
-                                </div>
-                            )
-                        })
-                        }
-                    </div>
-                </div>
-
-            </div>
-        )
-
-    }
     const [search, setSearch] = useState(allStudents);
     const handleInputChange = (e) => {
         var dm = e.target.value;
@@ -261,6 +199,7 @@ export default function Students() {
         var debug = allStudents.filter(x => x["name"].toLowerCase().includes(str));
         setSearch(debug);
     };
+
 
     // if loading
     if (loading === false) {
@@ -276,11 +215,6 @@ export default function Students() {
             </div>
         )
     } else {
-        //? here for testing
-        // const listItems = allStudents.map((student) =>
-        //     // console.log(student.name),
-        //     <li> {student.name}</li>
-        // );
 
         // return HTML component
         return (
@@ -289,26 +223,117 @@ export default function Students() {
                     <div className='studentgrid'>
                         <div className='studentpage-search'>
                             <div className='studentpage-search-header'>
-                                <p>Search for a student</p>
+                                <p><SearchOutlinedIcon></SearchOutlinedIcon> Student Search Filter</p>
                                 <TextField id="outlined-basic" onChange={handleInputChange} label="Student Name" variant="outlined" />
 
                             </div>
                             <hr></hr>
                             <div className='search-results'>
-                                <p>Results</p>
+                                <p>Search Results</p>
 
                                 {search.map((item) => (
                                     <div className='search-result' key={item.id} onClick={() => setUID(item.uid)}>
                                         <hr />
-                                        {item.name} - {item.studentID}
+                                        <p>{item.name} - {item.studentID}</p>
                                     </div>
                                 ))}
                             </div>
 
                         </div>
                         <div className='studentpage-userview'>
-                            <h2>User: {selectedStudentUID} </h2>
-                            <TeacherStudent />
+                            {userLoaded.name === undefined ? <h1 className='selectuser-text'>Select a user</h1> :
+                                <Fade in={shouldFade}>
+                                    <div className='user-page-container'>
+                                        <div className='banner-details'>
+                                            <InfoOutlinedIcon></InfoOutlinedIcon> {userLoaded.name}
+                                        </div>
+                                        <div className="user-page-actions">
+                                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                                <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
+                                                <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
+                                                <Button><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
+                                            </ButtonGroup>
+                                        </div>
+                                        <div className="user-content">
+                                            <div className="user-content-left">
+                                                {/* User Profile Picture */}
+                                                <Tooltip title="Image taken from students google account">
+                                                    {/* On image hover, message displayed */}
+                                                    <img alt='User profile' src={userLoaded.picture}></img>
+                                                </Tooltip>
+                                            </div>
+                                            <div className="user-content-right">
+                                                {/* Basic Student information */}
+                                                <p>Name: {userLoaded.name}</p>
+                                                <p>Student ID: {userLoaded.studentID}</p>
+                                                {/* when you click on link, it will send email */}
+                                                <p>Email: <a href={'mailto:' + userLoaded.email}>{userLoaded.email}</a></p>
+                                            </div>
+
+                                        </div>
+                                        <div className="banner-class">
+                                            {/* Banner 2 - Class */}
+                                            <h5><SchoolOutlinedIcon></SchoolOutlinedIcon> Classes</h5>
+                                        </div>
+                                        <div className="user-classcards">
+                                            <div className="classCards-row">
+                                                {/* Mapped Class Cards */}
+                                                {userClasses.map((classData, index) => {
+                                                    // just some JSX!
+                                                    return (
+                                                        <div className="class-card" key={index}>
+                                                            <Card className="class-card-content">
+                                                                <CardContent>
+                                                                    <h1>{classData.className}</h1>
+                                                                </CardContent>
+                                                                <CardActions>
+                                                                    <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
+                                                                        <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
+                                                                        <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
+                                                                        <Button><SchoolOutlinedIcon /></Button>
+                                                                        <Button><PersonRemoveOutlinedIcon /></Button>
+                                                                    </ButtonGroup>
+                                                                </CardActions>
+                                                            </Card>
+                                                        </div>
+                                                    )
+                                                })
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="banner-quiz">
+                                            {/* Banner 3 - Quiz */}
+                                            <h5><QuizOutlinedIcon></QuizOutlinedIcon> Quiz History</h5>
+                                        </div>
+                                        <div className="user-quizhistory">
+                                            {/* Quiz Section */}
+                                            <h4>Currently Assigned</h4>
+                                            <div className="classCards-row">
+                                                {/* Mapped Quiz Active Cards */}
+                                                {userActiveQuiz.map((quizData, index) => {
+                                                    // just some JSX!
+                                                    return (
+                                                        <div className="class-card" key={index}>
+                                                            <Card className="class-card-content">
+                                                                <CardContent>
+                                                                    <h6>{quizData.details.name}</h6>
+                                                                </CardContent>
+                                                                <CardActions>
+                                                                    <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
+                                                                        <Button><AssessmentOutlinedIcon /></Button>
+                                                                    </ButtonGroup>
+                                                                </CardActions>
+                                                            </Card>
+                                                        </div>
+                                                    )
+                                                })
+                                                }
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </Fade>
+                            }
                         </div>
                     </div>
                 </div>

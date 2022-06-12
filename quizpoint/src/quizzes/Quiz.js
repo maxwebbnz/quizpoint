@@ -168,13 +168,12 @@ export default function Quiz() {
                     }
                     {quiz.questions[currentQuestion].inputtype === "imageupload" && 
                         <div className="quizImageUpload">
-                            //upload an image and save it as an answer
                             <input type="file" id="file" name="file" accept="image/*" onChange={(e) => {
-                                //upload image to firebase storage from input
                                 let file = e.target.files[0];
-                                let storageRef = sRef(storage, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId + '/' + currentQuestion + '/QUIZPOINT_QUIZ_' + quizId + '_' + currentQuestion);
+                                let storagePath = 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId + '/' + currentQuestion + '/QUIZPOINT_QUIZ_' + quizId + '_' + currentQuestion;
+                                let storageRef = sRef(storage, storagePath);
                                 uploadBytes(storageRef, file).then((snapshot) => {
-                                    console.log("Uploaded Image to Storage");
+                                    console.log("Uploaded Image to " + storagePath);
                                 })
                             }}/>
                         </div>

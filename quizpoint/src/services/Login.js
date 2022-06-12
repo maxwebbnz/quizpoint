@@ -55,6 +55,7 @@ function newSignInModel(_token) {
     console.log('loaded data from Google Services API')
     // db ref
     const dbRef = ref(getDatabase());
+    console.log(xhr.response)
     // lets start some of this logic....
     get(child(dbRef, `schools/hvhs/users/${xhr.response.id}`)).then((snapshot) => {
       // if user exists
@@ -64,6 +65,7 @@ function newSignInModel(_token) {
         // register
       } else {
         registerUser(xhr.response)
+        console.log(xhr.response)
         console.log("No data available");
       }
     }).catch((error) => {
@@ -82,7 +84,32 @@ function newSignInModel(_token) {
  *@param _userObj object
  *=============================================**/
 function registerUser(_userObj) {
-
+  if(_userObj.hd === undefined) {
+  // new user object
+  let userObject = {
+    name: _userObj.name,
+    email: _userObj.email,
+    hd: 'none',
+    picture: _userObj.picture,
+    studentID: _userObj.email.split('@')[0],
+    role: 'student',
+    uid: _userObj.id,
+    classes: {
+      notEnrolled: true
+    },
+    quizzes: {
+      active: {
+        notEnrolled: true
+      },
+      turnedin: {
+        notEnrolled: true
+      }
+    }
+  }
+  const db = getDatabase();
+  set(ref(db, 'schools/hvhs/users/' + userObject.uid), userObject);
+  setUserObjectLocal(userObject)
+  }else{
   // new user object
   let userObject = {
     name: _userObj.name,
@@ -107,6 +134,8 @@ function registerUser(_userObj) {
   const db = getDatabase();
   set(ref(db, 'schools/hvhs/users/' + userObject.uid), userObject);
   setUserObjectLocal(userObject)
+  }
+
 }
 /**==============================================
  **              LogOut()

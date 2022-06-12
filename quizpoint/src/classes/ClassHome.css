@@ -1,15 +1,19 @@
-.class-home{
+/* Main container style */
+.class-home {
     margin-left: 4%;
     margin-top: 2%;
 }
 
-.class-header{
-      text-align: center;
-      color: white;
+/* 'Your classes' text and div */
+.class-header {
+    text-align: center;
+    color: white;
 }
 
-.class-cards{
-        margin-left: 4%;
+/* Class cards (div row) */
+
+.class-cards {
+    margin-left: 4%;
     margin-top: 2%;
     display: grid;
     grid-template-columns: 3fr 3fr 3fr;
@@ -18,7 +22,7 @@
 }
 
 /* mobile design */
-.class-cards-mobile{
+.class-cards-mobile {
     margin-left: 11%;
     margin-top: 2%;
     display: grid;

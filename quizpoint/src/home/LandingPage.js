@@ -3,28 +3,32 @@
  * All rights reserved.
  */
 
-// Base Declerations
-import './LandingPage.css';
-import { LoginFunction, oauthSignIn, newSignInModel } from '../services/Login'
+/**======================
+ **   React Imports
+ *========================**/
+import { useState, useEffect } from 'react';
+
+/**======================
+ **   Data Service/Auth model Imports
+ *========================**/
+import { newSignInModel } from '../services/Login'
+import { useGoogleLogin } from '@react-oauth/google';
+
+/**======================
+ **   Image and media Imports
+ *========================**/
 import logo from './media/appicon-itt6.svg'
 import googleButton from './media/googleButton.svg'
-import { useGoogleLogin } from '@react-oauth/google';
-import mobileLogo from './media/appbranding-itt4withtext.svg'
 import schoolMedia from './media/background.jpg'
-import { useMediaQuery } from 'react-responsive'
-import { useState, useEffect } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
 
-// Material UI
-import Backdrop from '@mui/material/Backdrop';
-import Fade from '@mui/material/Fade';
-import Grow from '@mui/material/Grow';
-import Collapse from '@mui/material/Collapse';
-// or
-import { getDatabase, ref, child, get, set } from "firebase/database";
-import { setUserObjectLocal } from "../firebase/fb.user"
+/**======================
+ **   MUI Imports
+ *========================**/
 import Button from 'react-bootstrap/Button';
-import CopyrightIcon from '@mui/icons-material/Copyright';
+/**======================
+ **   Stylesheet Imports
+ *========================**/
+import './LandingPage.css';
 
 /**==============================================
  **              LandingPage

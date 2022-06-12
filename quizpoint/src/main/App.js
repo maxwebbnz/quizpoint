@@ -3,23 +3,29 @@
  * All rights reserved.
  */
 
+/**======================
+ **   React Imports
+ *========================**/
 import * as React from "react";
 import { useEffect, useState } from 'react';
 import ReactPWAInstallProvider, { useReactPWAInstall } from "react-pwa-install";
-
-import myLogo from "./components/icon.svg";
-
-// removing link cause not used yet...
 import { Routes, Route } from "react-router-dom";
 
-import "./App.css";
-// import { useLocation } from 'react-router-dom'
+/**======================
+ **   Media Imports
+ *========================**/
+import myLogo from "./components/icon.svg";
+
+/**======================
+ **   Data service Imports
+ *========================**/
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { user } from '../firebase/fb.user.js';
+import { getDatabase, ref, onValue } from "firebase/database";
 
-// km
-import { user, updateUserData } from '../firebase/fb.user.js';
-
-// Pages
+/**======================
+ **   Page/Component Imports
+ *========================**/
 import { LogOut } from '../services/Login'
 import ClassHome from '../classes/ClassHome'
 import LandingPage from "../home/LandingPage";
@@ -29,47 +35,48 @@ import Quiz from '../quizzes/Quiz'
 import TeachingHome from '../teachingsuite/Dashboard'
 import NotFoundPage from './404'
 import Invite from '../services/invite'
+import NavBar from './components/NavBar'
 
-// TeachingSuite
+/**======================
+ *?   Teaching Suite components
+ *========================**/
 import Students from "../teachingsuite/Students";
 import Classes from "../teachingsuite/Classes";
 import Quizzes from "../teachingsuite/Quizzes";
 import Reporting from "../teachingsuite/Reporting";
-// Components for template
-import NavBar from './components/NavBar'
-import Button from '@mui/material/Button';
-import { getDatabase, ref, onValue } from "firebase/database";
-
-// Components
 import RedirectLegacy from '../services/RedirectLegacy'
 import TeacherStudent from "../User/UserPageTeacher";
 import CreateClass from "../teachingsuite/CreateClass";
 import CreateQuiz from "../teachingsuite/CreateQuiz";
 import EditQuiz from "../teachingsuite/EditQuiz";
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import NavigationIcon from '@mui/icons-material/Navigation';
-import { useMediaQuery } from 'react-responsive'
 import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
+
+/**======================
+ **   MUI Imports
+ *========================**/
+import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import InputGoogleForm from "../teachingsuite/InputForm";
 
+/**======================
+ **   Stylesheet Imports
+ *========================**/
+import "./App.css";
 
 /**==============================================
  **              App()
  *?  What does it do? Main renderer for application
  *=============================================**/
 function App() {
+  // progressive web app definition
   const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
 
-  // Same config object passed to `gapi.auth2.init`
-  // https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams
-
-  // const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  //  dialog states
   const [openDialog, setDialog] = useState(false)
   let action
+  // handle install click
   const handleClick = () => {
     pwaInstall({
       title: "QuizPoint",
@@ -87,6 +94,7 @@ function App() {
 
   // user not logged in
   if (user.authed === false) {
+    // return less than full components
     return (
       <ReactPWAInstallProvider enableLogging>
         <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
@@ -106,6 +114,7 @@ function App() {
 
     // if user is authed
   } else {
+    // on value update
     const db = getDatabase();
     const userPath = ref(db, 'schools/hvhs/users/' + user.uid);
     onValue(userPath, (snapshot) => {
@@ -115,15 +124,15 @@ function App() {
           lorem ipsum dolorem
         </Button>
       )
-      // updateUserData(snapshot.v al());
-
+      // updateUserData(snapshot.val());
     });
+
+    // if the user is a teacher
     if (user.role === 'teacher') {
+      // return full components, with full access
       return (
         <ReactPWAInstallProvider enableLogging>
-
           <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
-
             <div className="App">
               <Snackbar open={openDialog} autoHideDuration={6000}>
                 <SnackbarContent message="I love snacks." action={action} />

@@ -3,28 +3,31 @@
  * All rights reserved.
  */
 
-// react and local db functions
-import { useParams, useNavigate } from "react-router-dom"
+/**======================
+ **  React Imports
+ *========================**/import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
-// user reference
+/**======================
+ **   Data service Imports
+ *========================**/
 import { user } from "../firebase/fb.user";
-// firebase
 import { db, dbFunctions } from '../services/firebase'
 import { ref, onValue, update } from "firebase/database";
-
-// styling
-import './Invite.css'
-// compenets from ui
+/**======================
+ **   MUI Imports
+ *========================**/
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from "@mui/material/Button";
-
+/**======================
+ **   Stylesheet Imports
+ *========================**/
+import './Invite.css'
 
 
 /**========================================================================
  *                             Invite Module
  *========================================================================**/
-
 export default function Invite() {
 
     // references

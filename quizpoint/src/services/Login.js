@@ -4,29 +4,27 @@
  */
 
 // Import Statements
-import async from 'async'
 
-import { auth } from "./firebase";
+
+/**======================
+ **   Data service Imports
+ *========================**/
 import { setUserObjectLocal } from "../firebase/fb.user"
-import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
-import { Image, Button } from 'react-bootstrap'
 import { useGoogleLogout } from 'react-google-login';
-import './LogOut.css'
-const clientId =
-  '616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com/';
 
-/**==============================================
- **              LoginFunction()
- *?  What does it do? Logs the user in
- *=============================================**/
-function LoginFunction() {
-  // setup references
-  const googleProvider = new GoogleAuthProvider();
-  /**======================
-   **   signInWithGoogle
-   *========================**/
-}
+/**======================
+ **   Bootstrap? Imports
+ *! Needs to be refactored
+ *========================**/
+import { Image, Button } from 'react-bootstrap'
+
+/**======================
+ **   Stylesheet Imports
+ *========================**/
+import './LogOut.css'
+
+
 
 /**==============================================
  **              newSignInModel()
@@ -131,7 +129,6 @@ function LogOut() {
 
 //* export all modules out
 export {
-  LoginFunction,
   LogOut,
   newSignInModel
 

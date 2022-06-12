@@ -4,89 +4,131 @@
  */
 
 
-import { useParams, useNavigate } from "react-router-dom"
-import { user } from '../firebase/fb.user'
+/**======================
+ **   React Imports
+ *========================**/
 import React, { useState, useEffect } from 'react'
-import './ClassPage.css'
-// database
+import { useParams, useNavigate } from "react-router-dom"
+/**======================
+ **   Data service Imports
+ *========================**/
 import { db } from '../services/firebase'
-import { alert } from '../services/Alert'
-// components from libs
+import { user } from '../firebase/fb.user'
 import { ref, onValue } from "firebase/database";
-// compenets from ui
+/**======================
+ **   MUI Imports
+ *========================**/
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
 import Fade from '@mui/material/Fade';
-
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+/**======================
+ **   Teacher Module Imports
+ *========================**/
 import AssignQuiz from "../teachingsuite/AssignQuiz"
 import GenerateInvite from "../teachingsuite/GenerateInvite"
-// responsive design
+/**======================
+ **   Misc Imports
+ *========================**/
 import { useMediaQuery } from 'react-responsive'
+import { alert } from '../services/Alert'
+/**======================
+ **   Stylesheet Imports
+ *========================**/
+import './ClassPage.css'
 
-// array for
+/**========================================================================
+ **                           ClassPage
+ *?  What does it do? Shows the class page for a class based on ID provided.
+ *@return JSX, HTML page content
+ *========================================================================**/
 export default function ClassPage() {
+    // media query for mobile
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    // reference to navigate function
     const navigate = useNavigate()
-    const [loading, dataComplete] = useState(false)
+    // state declerations
+    // program loading state
+    const [loading, dataComplete] = useState(true)
+    // class Object state (current loaded class)
     const [classObject, setClass] = useState()
+    // quiz card state, array where each element is a quiz card
     const [quizCards, addQuizCard] = useState([])
+    // quizActive state, array where each element is a quiz card
     const [quizActive, setQuizActive] = useState([])
-    const [currentNum, setCurrentNum] = useState(0)
-    const [toBeat, setToBeat] = useState(0)
+    // shouldFade check if content should fade -> default true
     const [shouldFade, fadeEnabled] = useState(true)
-    // const []
+    // each student in the class exists in the class array, unless a teacher
     let classArray = []
+    // reference to the params object
     let { classId } = useParams()
-    console.log(classId)
+    // useeffect loop, loading data
     useEffect(() => {
-        if (loading === true) {
+        // if program has loaded, show different title in DOM
+        if (loading === false) {
+            // change document title
             document.title = classObject.className + ' | QuizPoint'
 
+            // else program is loading
         } else {
+            // change document title
             document.title = 'Loading Class | QuizPoint'
+            /**==============================================
+            **              loadData()
+            *?  What does it do? Load data from Firebase for the classs
+            *=============================================**/
 
             function loadData() {
-                console.log("loading class data")
+                // reference to class object
                 const pathRef = ref(db, `/schools/hvhs/classes/${classId}`);
                 // wait for data
                 onValue(pathRef, (snapshot) => {
                     // if there is no students, something definelty went wrong.
                     if (snapshot.val() === null) {
-                        console.log('ERROR - NO DATA FOUND')
+                        // handle error
+                        // styled alert
                         alert.error('Class not found', 'No data found for this class, probably does not exist')
                         fadeEnabled(false)
-                        // if students do exist
+
+                        // if class does exist
                     } else {
-                        // set placeholder to object of students
+                        // data reference for later
                         const data = snapshot.val()
+                        // set class object to data grabbed
                         setClass(data)
+                        // if there are no quizzes
                         if (data.quizzes === false) {
+                            // set up array
                             let plceholderArrary = [{ error: 'No quizzes avaliable' }]
+                            // map JSX
                             addQuizCard(plceholderArrary.map((qz) =>
                                 <div>
                                     <p>{qz.error}</p>
                                 </div>
                             ))
+                            // finished data loading, set container.
                             dataComplete(true)
-
+                            // if there are quizzes
                         } else {
+                            // for each quiz
                             Object.keys(data.quizzes).forEach((key) => {
+                                // if the quiz does not have a name, its legacy and won't work
                                 if (data.quizzes[key].name === undefined) {
                                     // skip
                                 } else {
-                                    console.log(key)
+                                    // add quiz to array
                                     let quiz = data.quizzes[key]
                                     quizActive.push(quiz)
                                 }
-
                             })
+                            // map JSX
                             addQuizCard(quizActive.map((qz) =>
+                                // quiz cad
                                 <div className="quiz-card">
                                     <Card sx={{ minWidth: 275 }}>
                                         <CardContent>
@@ -100,31 +142,25 @@ export default function ClassPage() {
                                     </Card>
                                 </div>
                             ))
-                            // for each student value
-                            console.log(data)
-
-                            console.log(quizActive)
-                            dataComplete(true)
-
+                            // finished data loading
+                            dataComplete(false)
                         }
-
-
-
-                        // finished loading, we can show page now
                     }
                 })
 
             }
+            // load data trigger
             loadData()
 
 
         }
-    }, [loading])
+    }, [])
 
-    //! I CANNOT GET THIS WORKING, Allan did you want to have a try?
-    if (loading === true) {
+    // if program is finshed loading, show page content
+    if (!loading) {
+        // if client is on a mobile
         if (isTabletOrMobile) {
-            console.log(quizCards)
+            // return JSX
             return (
                 <Fade in={shouldFade}>
                     <div className="class">
@@ -147,9 +183,15 @@ export default function ClassPage() {
                     </div>
                 </Fade>
             )
+            // if client is on a desktop
         } else {
+            /**==============================================
+             **              returnTeacherActions
+             *?  What does it do? Returns the teacher actions for the class
+             *@return JSX, HTML page content
+             *=============================================**/
             function returnTeacherActions() {
-                console.log(user)
+                // if the user is a teacher
                 if (user.role === 'teacher') {
                     console.log(classObject)
                     for (var studentID in classObject.students) {
@@ -162,11 +204,12 @@ export default function ClassPage() {
                             <GenerateInvite classObject={classObject} classId={classId}></GenerateInvite>
                         </>
                     )
+                    // if not, no need to show actions
                 } else if (user.role === undefined) {
                     return
                 }
             }
-            console.log(quizCards)
+            // return JSX
             return (
                 <Fade in={shouldFade}>
                     <div className="class">
@@ -194,7 +237,10 @@ export default function ClassPage() {
                 </Fade>
             )
         }
+
+        // else if loading, show loading screen
     } else {
+        // return JSX, html content
         return (
             <div>
                 <Backdrop

@@ -3,11 +3,26 @@
  * All rights reserved.
  */
 
+/**======================
+ **  Stylesheet Imports
+ *========================**/
 import './errorpage.css'
+/**======================
+ **   Media service Imports
+ *========================**/
 import logo from './components/appicon-itt6.svg'
-
+/**======================
+ **   Bootstrap? Imports
+ *! Needs to be refactored to MUI
+ *========================**/
 import { Image, Button } from 'react-bootstrap'
+/**========================================================================
+ **                           errorPageNotFound
+ *?  What does it do? Shows error page when not found
+ *@return JSX, html rendered content
+ *========================================================================**/
 const errorPageNotFound = () => {
+    // return JSX
     return (
         <div className="error-page">
             <div className='branding'>
@@ -21,5 +36,6 @@ const errorPageNotFound = () => {
     )
 }
 
+// export page
 export default errorPageNotFound
 

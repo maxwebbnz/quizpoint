@@ -113,8 +113,6 @@
     display:flex;
     flex-wrap:wrap;
     justify-content:space-between;
-
-
 }
 
 .quizContainer{
@@ -140,7 +138,23 @@
     text-shadow: 2px 1px 4px rgba(120,132,144,1);
 }
 
-
+.smallButtonGroup > button > p{
+    display:flex;
+    align-items:center;
+    width:100%;
+    margin-bottom:0rem !important;
+    height:100%;
+    justify-content:center;
+    font-size:15px;
+}
+.largeButtonGroup > div > button > p {
+    display:flex;
+    align-items:center;
+    width:100%;
+    margin-bottom:0rem !important;
+    height:100%;
+    font-size:15px !important;
+}
 
 .quizAnswerButtons , .quizNavigationButtons Button{
     min-width: 20% !important;

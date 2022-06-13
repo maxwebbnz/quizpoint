@@ -144,7 +144,7 @@ export default function Quiz() {
                                 <div className="largeButtonGroup">
                                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                     {quiz.questions[currentQuestion].choices.map(answer => {
-                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}><p>{answer}</p></Button>
                                     })} 
                                     </ButtonGroup>
                                 </div>
@@ -152,7 +152,7 @@ export default function Quiz() {
                                 <div className="smallButtonGroupLarge">
                                     {quiz.questions[currentQuestion].choices.length > 4 && 
                                         quiz.questions[currentQuestion].choices.map(answer => {
-                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button>
+                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}><p>{answer}</p></Button>
                                         })
                                     }
                                 </div>
@@ -160,7 +160,7 @@ export default function Quiz() {
                                 <div className="smallButtonGroup">
                                     {quiz.questions[currentQuestion].choices.length <= 4 &&
                                         quiz.questions[currentQuestion].choices.map(answer => {
-                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}>{answer}</Button> 
+                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}><p>{answer}</p></Button> 
                                         })
                                     }       
                                 </div>    

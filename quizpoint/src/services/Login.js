@@ -183,12 +183,12 @@ function registerUser(_userObj) {
  *?  What does it do? Logs the user out
  *=============================================**/
 function LogOut() {
-  // const auth = getAuth();
-  // signOut(auth).then(() => {
-  //   sessionStorage.clear()
-  // }).catch((error) => {
-  //   // An error happened.
-  // });
+  const auth = getAuth();
+  signOut(auth).then(() => {
+    sessionStorage.clear()
+  }).catch((error) => {
+    // An error happened.
+  });
   return (
     <div className="logoutPage" style={{ backgroundImage: `url(${logOutBack})` }}>
       <div className="logout">

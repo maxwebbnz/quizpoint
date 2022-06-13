@@ -1,15 +1,18 @@
 {
-  "short_name": "QuizPoint",
-  "name": "QuizPoint NZ",
+
+  "name": "QuizPoint",
+  "short_name": "QZNZ",
+  "theme_color": "#4e83c2",
+  "background_color": "#6fa8dc",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "media/icon512.jpg",
       "type": "image/png",
-      "sizes": "50x50"
+      "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }

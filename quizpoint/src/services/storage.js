@@ -3,7 +3,10 @@
  * All rights reserved.
  */
 
-
+/**==============================================
+ *                NOT COMMENTED
+ *  ! Probably needs to be removed....
+ *=============================================**/
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 

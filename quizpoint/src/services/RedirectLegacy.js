@@ -3,6 +3,11 @@
  * All rights reserved.
  */
 
+
+/**==============================================
+ *                NOT COMMENTED
+ *  ! Probably needs to be removed....
+ *=============================================**/
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function RedirectLegacy() {

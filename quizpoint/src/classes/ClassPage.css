@@ -1,13 +1,16 @@
+/* Main container */
 .class-home {
     margin-left: 4%;
     margin-top: 2%;
 }
 
+/* Main class header */
 .class-header {
     text-align: center;
     color: white;
 }
 
+/* each class card */
 .class-cards {
     margin-left: 4%;
     margin-top: 2%;
@@ -17,6 +20,7 @@
     text-align: center;
 }
 
+/* body of class page */
 .class-body {
     padding-left: 2%;
     padding-right: 2%;
@@ -39,20 +43,24 @@
     color: white;
 }
 
+/* class body for mobile */
 .class-body-mobile {
     text-align: center;
     color: white;
 }
 
+/* quiz assigned cards for mobile */
 .quizassigned-mobile {
     margin-top: 4%;
 
 }
 
+/* generic quiz card */
 .quiz-card {
     width: 100%;
 }
 
+/* container used for quiz cards in a grid */
 .quiz-grid {
     display: grid;
     grid-template-columns: 3fr 3fr 3fr;

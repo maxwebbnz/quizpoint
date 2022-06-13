@@ -24,7 +24,7 @@ import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
 import { ref, onValue, set } from "firebase/database";
-import { getDownloadURL, uploadBytesResumable, getStorage, ref as sRef } from "firebase/storage";
+import { getDownloadURL, uploadBytesResumable, getStorage, ref as sRef, uploadBytes } from "firebase/storage";
 import Swal from 'sweetalert2';
 
 
@@ -99,6 +99,8 @@ export default function Quiz() {
                 }
             }
             chosenAnswers.details = { code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length }
+            console.log("Uploading Results...")
+            set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
             quizHandler.nextQuestion()
         },
 
@@ -166,29 +168,13 @@ export default function Quiz() {
                     }
                     {quiz.questions[currentQuestion].inputtype === "imageupload" && 
                         <div className="quizImageUpload">
-                            //upload an image and save it as an answer
                             <input type="file" id="file" name="file" accept="image/*" onChange={(e) => {
-                                const file = e.target.files[0];
-                                const storage = getStorage();
-                                // const storageRef = firebase.storage().ref(`schools/hvhs/quizzes/${quizId}/images/${file.name}`);
-                                const storageRef = ref(storage, file.name);
-                                const task = storageRef.put(file);
-                                task.on('state_changed',
-                                    function progress(snapshot) {
-                                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                                        console.log('Upload is ' + percentage + '% done');
-                                    },
-                                    function error(err) {
-                                        console.log(err)
-                                    },
-                                    function complete() {
-                                        console.log('Upload complete')
-                                        task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                                            console.log('File available at', downloadURL);
-                                            quizHandler.recordAnswer(downloadURL)
-                                        });
-                                    }
-                                );
+                                let file = e.target.files[0];
+                                let storagePath = 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId + '/' + currentQuestion + '/QUIZPOINT_QUIZ_' + quizId + '_' + currentQuestion;
+                                let storageRef = sRef(storage, storagePath);
+                                uploadBytes(storageRef, file).then((snapshot) => {
+                                    console.log("Uploaded Image to " + storagePath);
+                                })
                             }}/>
                         </div>
                     }

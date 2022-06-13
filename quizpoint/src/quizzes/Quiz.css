@@ -26,7 +26,8 @@
         object-fit:cover;
     }
     .quizQuestionTitle > p{
-        font-size:30px;
+        font-size:30px; 
+        text-align:center;
     }
     .largeButtonGroup{
         display:none !important;
@@ -52,7 +53,9 @@
         align-items:center;
         
     }
-
+    .quizTitle > p{
+        text-align:center;
+    }
     /* .smallButtonGroup > Button{
         font-size:2vw;
     } */

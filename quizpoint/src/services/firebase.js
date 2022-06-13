@@ -3,14 +3,15 @@
  * All rights reserved.
  */
 
-//? Import components
-import { initializeApp } from "firebase/app";
+/**======================
+ **   Data service Imports
+ *========================**/import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue, update, get, set } from "firebase/database";
 import { getStorage } from "firebase/storage";
-
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+
 
 //* Firebase configuration
 const firebaseConfig = {
@@ -103,7 +104,7 @@ let dbFunctionsSync = {
     })
   },
   write: (_path, _data) => {
-    set(ref(db,_path), (_data))
+    set(ref(db, _path), (_data))
     console.log("dbFunctionsSync.write: Writing To => " + _path)
   }
 }

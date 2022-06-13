@@ -4,16 +4,11 @@
  */
 
 // Import Statements
-import async from 'async'
 
 import { setUserObjectLocal } from "../firebase/fb.user"
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, signInWithCustomToken } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
-import { Image, Button } from 'react-bootstrap'
 import { useGoogleLogout } from 'react-google-login';
-import './LogOut.css'
-const clientId =
-  '616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com/';
 
 /**==============================================
  **              LoginFunction()
@@ -127,31 +122,58 @@ function newSignInModel(_token) {
  *@param _userObj object
  *=============================================**/
 function registerUser(_userObj) {
-
-  // new user object
-  let userObject = {
-    name: _userObj.name,
-    email: _userObj.email,
-    hd: _userObj.hd,
-    picture: _userObj.picture,
-    studentID: _userObj.email.split('@')[0],
-    role: 'student',
-    uid: _userObj.id,
-    classes: {
-      notEnrolled: true
-    },
-    quizzes: {
-      active: {
+  if (_userObj.hd === undefined) {
+    // new user object
+    let userObject = {
+      name: _userObj.name,
+      email: _userObj.email,
+      hd: 'none',
+      picture: _userObj.picture,
+      studentID: _userObj.email.split('@')[0],
+      role: 'student',
+      uid: _userObj.id,
+      classes: {
         notEnrolled: true
       },
-      turnedin: {
-        notEnrolled: true
+      quizzes: {
+        active: {
+          notEnrolled: true
+        },
+        turnedin: {
+          notEnrolled: true
+        }
       }
     }
+    const db = getDatabase();
+    set(ref(db, 'schools/hvhs/users/' + userObject.uid), userObject);
+    setUserObjectLocal(userObject)
+  } else {
+    // new user object
+    let userObject = {
+      name: _userObj.name,
+      email: _userObj.email,
+      hd: _userObj.hd,
+      picture: _userObj.picture,
+      studentID: _userObj.email.split('@')[0],
+      role: 'student',
+      uid: _userObj.id,
+      classes: {
+        notEnrolled: true
+      },
+      quizzes: {
+        active: {
+          notEnrolled: true
+        },
+        turnedin: {
+          notEnrolled: true
+        }
+      }
+    }
+    const db = getDatabase();
+    set(ref(db, 'schools/hvhs/users/' + userObject.uid), userObject);
+    setUserObjectLocal(userObject)
   }
-  const db = getDatabase();
-  set(ref(db, 'schools/hvhs/users/' + userObject.uid), userObject);
-  setUserObjectLocal(userObject)
+
 }
 /**==============================================
  **              LogOut()
@@ -174,8 +196,8 @@ function LogOut() {
 
 //* export all modules out
 export {
-  LoginFunction,
   LogOut,
+  LoginFunction,
   newSignInModel
 
 }

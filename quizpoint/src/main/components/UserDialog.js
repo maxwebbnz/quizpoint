@@ -3,9 +3,18 @@
  * All rights reserved.
  */
 
-import { user } from '../../firebase/fb.user'
+
+/**======================
+ **   React Imports
+ *========================**/
 import { useNavigate } from "react-router-dom"
-import { useState } from 'react';
+/**======================
+ **   Data service Imports
+ *========================**/
+import { user } from '../../firebase/fb.user'
+/**======================
+ **   MUI Imports
+ *========================**/
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';

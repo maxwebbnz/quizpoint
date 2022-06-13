@@ -7,23 +7,27 @@
  * All rights reserved.
  *
  */
-// import statements
-import { user } from '../firebase/fb.user.js';
+
+
+/**======================
+ **   React Imports
+ *========================**/
 import React, { useState, useEffect } from 'react'
-// import { db, ref } from '../services/firebase.js';
-// database
+/**======================
+ **   Data service Imports
+ *========================**/
 import { db } from '../services/firebase'
-// components from libs
+import { user } from '../firebase/fb.user.js';
 import { ref, onValue } from "firebase/database";
-import './ClassHome.css'
-// material ui
+/**======================
+ **   MUI Imports
+ *========================**/
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import Fade from '@mui/material/Fade';
-
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -31,27 +35,44 @@ import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
-// responsive design
+/**======================
+ **   Media Query Imports
+ *========================**/
 import { useMediaQuery } from 'react-responsive'
+/**======================
+ **   Stylesheet Imports
+ *========================**/
+import './ClassHome.css'
 
-let foundClasses = []
 
-
-
+/**========================================================================
+ **                           Classes
+ *?  What does it do? Shows all classes, and handles home page when authed
+ *@return JSX, html rendered content
+ *========================================================================**/
 export default function Classes() {
+    // found classes array definition
+    let foundClasses = []
+    // mobile device detection
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-
+    // states defined
+    // loading state
     const [loading, dataFetch] = useState(false)
+    // enrollment state
     const [enrolled, setEnrollment] = useState(true)
+    // should program fade content? yes
     const shouldFade = true;
 
+    // useEffect to fetch data
     useEffect(() => {
+        // if loading data has finished
         if (loading === true) {
+            // set document title
             document.title = ' Classes | QuizPoint'
-            console.log('Loaded')
+
         } else {
+            // set document title
             document.title = 'Loading Students | QuizPoint'
-            console.log('Loading')
 
 
             /**==============================================
@@ -59,74 +80,76 @@ export default function Classes() {
              *?  What does it do? Load data from Firebase for each student
              *=============================================**/
             function loadData() {
-                // console log
-                console.log('loading all students data')
-                //! this should check for each users role before pushing to array
-                // // wait for data
-                // onValue(pathRef, (snapshot) => {
-                //     // if there is no students, something definelty went wrong.
-                //     if (snapshot === undefined) {
-                //         console.log('ERROR - NO DATA FOUND')
-
-                //         // if students do exist
-                //     } else {
-                //         // set placeholder to object of students
-                //         const data = snapshot.val()
-                //         // for each student value
-
-
-                //         // finished loading, we can show page now
-                //
-                //     }
-                // })
+                // base declerations
+                // toBeat => classes to load
                 var toBeat = 0;
+                //  currentNum => current number of classes loaded
                 var currentNum = 0
+                // for each class in the class list locally
                 for (var a in user.classes) {
+                    // increment toBeat
                     ++toBeat
                 }
 
+                // for each class in the class list locally
                 Object.keys(user.classes).forEach(function (key) {
-                    console.log(key)
+                    // if user is not enrolled
                     if (key === 'notEnrolled') {
+                        // finished here
                         setEnrollment(false)
                         dataFetch(true)
+                        // user is enrolled in a class
                     } else {
+                        // set state properly
                         setEnrollment(true)
+                        // trim class key
                         let trimmedKey = key.trim()
+                        // get class from firebase
+                        // path reference to class
                         let pathRef = ref(db, `/schools/hvhs/classes/${trimmedKey}`);
-                        console.log(`/schools/hvhs/classes/${trimmedKey
-                            }`)
+                        // get class from firebase (on value event)
                         onValue(pathRef, (snapshot) => {
+                            // content exists -> false
                             if (snapshot.val() === undefined || snapshot.val() === null) {
+                                // error handle
                                 console.log("invalid class code")
+
+                                // content exists -> true
                             } else {
+                                // set data
                                 const data = snapshot.val()
+                                // if data is again, invaild
                                 if (data === null) {
                                     console.log("invalid class code")
+
+                                    // it isn't, we can move on
                                 } else {
-                                    console.log(data)
+                                    // push to array
                                     foundClasses.push(data)
+                                    // increment currentNum
                                     ++currentNum
                                 }
                             }
-
+                            // if all classes have been loaded -> false
                             if (currentNum < toBeat) {
                                 console.log('not loaded yet' + currentNum + ' ' + toBeat)
                                 console.log(foundClasses)
+
+                                // if all classes have been loaded -> true
                             } else {
                                 dataFetch(true)
                             }
                         })
                     }
-
-
                 });
             }
             // trigger function
             loadData()
         }
-    }, [loading])
+    }, [])
+    // if program is loading?
     if (loading === false) {
+        // return loading screen and dialog
         return (
             <div>
                 <Backdrop
@@ -135,51 +158,17 @@ export default function Classes() {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
-                <div className="class-home">
-                    <div className="class-header">
-                        <h2>Your Classes</h2>
-                    </div>
-                    <div className="class-body">
-                        <div className="class-cards">
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>
-                            <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={300} height={200} />
-                            </Stack>                        </div>
-
-                    </div>
-
-                </div>
-
             </div>
         );
 
-
+        // finished loading
     } else {
+        // base decleration for class cards
         let classCards
+        // if user is enrolled
         if (enrolled === true) {
+            // for each class in array
+            // generate card
             classCards = foundClasses.map((classInfo) =>
                 <div>
 
@@ -209,11 +198,13 @@ export default function Classes() {
 
                 </div>
             );
+            // user is not enrolled
         } else {
             classCards = <div>
                 <p>No classes</p>
             </div>
         }
+        // if user uses a mobile
         if (isTabletOrMobile) {
             return (
                 <Fade in={shouldFade}>
@@ -232,8 +223,10 @@ export default function Classes() {
                 </Fade>
             )
         }
+        // return desktop application
         else {
 
+            // JSX
             return (
                 <Fade in={shouldFade}>
                     <div className="class-home">

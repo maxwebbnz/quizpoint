@@ -50,6 +50,7 @@ export default function LandingPage() {
      *?  start login process
      *========================**/
     function startLogin(_token) {
+        console.log(_token)
         // set state
         setLogin(true)
         // start process with session storage
@@ -65,7 +66,7 @@ export default function LandingPage() {
                 <div className="loginText"><h1>QuizPoint</h1></div>
                 <div className="loginButtons">
 
-                    <Button variant="light" size="lg" className="googleLoginButton" onClick={() => login()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
+                    <Button variant="light" size="lg" className="googleLoginButton" onClick={() => LoginFunction()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
                 </div>
                 <div className='footer'>
                     <p>Copyright 2022</p>

@@ -187,8 +187,89 @@ export default function Students() {
                 loadData()
 
             }
+            else if (type !== 'all') {
+                console.log(type)
+                document.title = 'Loading Students | QuizPoint'
+                console.log('Loading')
+
+                /**==============================================
+                 **              loadData()
+                 *?  What does it do? Load data from Firebase for each student
+                 *=============================================**/
+                function loadData() {
+                    // console log
+                    console.log('loading all students data')
+                    //! this should check for each users role before pushing to array
+                    // where type = to class id
+                    const pathRef = ref(db, `/schools/hvhs/classes/${type}/students`);
+                    // wait for data
+                    onValue(pathRef, (snapshot) => {
+                        // if there is no students, something definelty went wrong.
+                        if (snapshot === undefined) {
+                            console.log('ERROR - NO DATA FOUND')
+
+                            // if students do exist
+                        } else {
+                            console.log(snapshot.val())
+                            snapshot.forEach(function (childSnapshot) {
+                                console.log(childSnapshot.key)
+                                const pathRef = ref(db, `/schools/hvhs/users/${childSnapshot.key}`);
+                                // wait for data
+                                onValue(pathRef, (sn) => {
+                                    console.log(sn.val())
+                                    rows.push({
+                                        id: sn.key,
+                                        name: sn.val().name,
+                                        studentID: sn.val().studentID,
+                                        uid: sn.uid
+                                    })
+                                    allStudents.push(sn.val())
+
+                                })
+
+                            })
+
+                            dataFetch(true)
+
+                            if (selectedStudentUID === '') {
+
+                            } else {
+                                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
+                                onValue(pathRef, (snapshot) => {
+                                    if (snapshot.val() === null) {
+                                        console.log("no user found")
+                                    } else {
+                                        setUserLoaded(snapshot.val())
+                                        let data = snapshot.val()
+                                        console.log(data)
+                                        console.log(data.classes)
+
+                                        Object.keys(data.classes).forEach(key => {
+                                            let classPath = ref(db, `/schools/hvhs/classes/${key}`)
+                                            onValue(classPath, (snapshot) => {
+                                                if (snapshot.val() === null) { } else {
+                                                    setClasses(prevClasses => [...prevClasses, snapshot.val()])
+                                                }
+                                            })
+                                        })
+                                        console.log(data.quizzes.active)
+                                        Object.keys(data.quizzes.active).forEach(key => {
+                                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
+                                        })
+                                    }
+                                })
+                            }
+                            // finished loading, we can show page now
+                        }
+
+                    })
+                }
+                // trigger function
+                loadData()
+
+            }
         }
-    }, [loading, selectedStudentUID])
+    }, [loading, selectedStudentUID, allStudents])
 
     function deleteStudent() {
         Swal.fire({
@@ -253,7 +334,7 @@ export default function Students() {
                                 <p>Search Results</p>
 
                                 {search.map((item) => (
-                                    <div className='search-result' key={item.id} onClick={() => setUID(item.uid)}>
+                                    <div className='search-result' key={item.uid} onClick={() => setUID(item.uid)}>
                                         <hr />
                                         <p>{item.name} - {item.studentID}</p>
                                     </div>
@@ -305,7 +386,7 @@ export default function Students() {
                                                         <div className="class-card" key={index}>
                                                             <Card className="class-card-content">
                                                                 <CardContent>
-                                                                    <h1>{classData.className}</h1>
+                                                                    <h6>{classData.className}</h6>
                                                                 </CardContent>
                                                                 <CardActions>
                                                                     <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
@@ -328,7 +409,7 @@ export default function Students() {
                                         </div>
                                         <div className="user-quizhistory">
                                             {/* Quiz Section */}
-                                            <h4>Currently Assigned</h4>
+                                            <h6>Currently Assigned</h6>
                                             <div className="classCards-row">
                                                 {/* Mapped Quiz Active Cards */}
                                                 {userActiveQuiz.map((quizData, index) => {

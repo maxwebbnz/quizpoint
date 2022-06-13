@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react'
 // database
 import { db } from '../services/firebase'
 // components from libs
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, set, update } from "firebase/database";
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import { useParams, useNavigate } from "react-router-dom"
@@ -39,6 +39,13 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import Tooltip from '@mui/material/Tooltip';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+
 
 const rows = []
 
@@ -53,6 +60,11 @@ export default function Students() {
     const [searchValue, setSearchValue] = useState("")
     const [selectedStudentUID, setUID] = useState("")
     // state holder data fetching
+    const [classes, setAllClass] = useState([])
+    const [classOptions, setClassOptions] = useState([])
+    const [classOpen, setClassOpen] = useState(false);
+    const [selectedOption, setOption] = useState('')
+
     const [loading, dataFetch] = useState(false)
     const [userLoaded, setUserLoaded] = useState({})
     const [allStudents, setStudentList] = useState([])
@@ -105,6 +117,23 @@ export default function Students() {
                             setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
                         })
                     }
+                })
+                // then load classes
+                const pathRef2 = ref(db, `/schools/hvhs/classes/`);
+                // wait for data
+                onValue(pathRef2, (snapshot) => {
+                    // for each class
+                    snapshot.forEach(childSnapshot => {
+                        // add class to class array
+                        setAllClass(prevClasses => [...prevClasses, childSnapshot.val()])
+                        // create an option
+                        let newClass = {
+                            label: childSnapshot.val().className,
+                            value: childSnapshot.key
+                        }
+                        // add option to class options
+                        classOptions.push(newClass)
+                    })
                 })
             } else {
                 setUserLoaded({})
@@ -287,7 +316,7 @@ export default function Students() {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
-                pathRef.remove()
+                set(pathRef, null)
                 setUID("")
                 Swal.fire('Deleted!', '', 'success')
                 window.location.reload()
@@ -299,6 +328,95 @@ export default function Students() {
 
     }
 
+    function ClassDialog(_id) {
+        /**======================
+         **   handleClose
+        *?  What does it do? Closes the dialog
+         *========================**/
+
+        const handleClose = () => {
+            if (selectedOption === '') {
+
+            } else {
+                console.log(selectedOption)
+                // need to read class to get current quizzes
+                let classRef = ref(db, `/schools/hvhs/classes/${selectedOption}`)
+                onValue(classRef, (snapshot) => {
+                    if (snapshot.val() === null) {
+                        console.error('Something happened here')
+                    } else {
+                        let quizObject = snapshot.val().quizzes
+                        // assign to class first
+                        let pathRef = ref(db, `/schools/hvhs/classes/${selectedOption}/students`)
+                        update(pathRef, {
+                            [selectedStudentUID]: selectedStudentUID
+                        })
+                        // assign to user
+                        let pathRef2 = ref(db, `/schools/hvhs/users/${selectedStudentUID}/classes/${selectedOption}/`)
+                        update(pathRef2, {
+                            classCode: selectedOption
+                        })
+                        setClassOpen(false)
+                        // sweet alert out!
+                        Swal.fire({
+                            title: 'Class assigned!',
+                            text: "We just need to tidy up, please let us refresh the page",
+                            icon: 'info',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'All good'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload()
+
+                            }
+                        })
+                    }
+                })
+            }
+
+        };
+
+        // return JSX dialog
+        return (
+            <Dialog
+                open={classOpen}
+                onClose={handleClose}
+                fullWidth={true}
+
+                maxWidth={'md'}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Select a class"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <FormControl fullWidth>
+                            <Autocomplete
+                                onChange={(event, newValue) => {
+                                    setOption(newValue.value)
+                                    handleClose()
+                                }}
+                                getOptionLabel={option => option.label}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={classOptions}
+                                renderInput={(params) => <TextField {...params} label="Class" />}
+                            />
+                        </FormControl>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        Select
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
 
     const [search, setSearch] = useState(allStudents);
     const handleInputChange = (e) => {
@@ -357,7 +475,7 @@ export default function Students() {
                                         <div className="user-page-actions">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                                 <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
-                                                <Button><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
+                                                <Button onClick={() => setClassOpen(true)}><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
                                                 <Button onClick={() => deleteStudent()}><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
                                             </ButtonGroup>
                                         </div>
@@ -444,7 +562,7 @@ export default function Students() {
                                                 }
                                             </div>
                                         </div>
-
+                                        <ClassDialog></ClassDialog>
                                     </div>
                                 </Fade>
                             }

@@ -248,7 +248,8 @@ export default function Classes() {
             <Fade in={shouldFade}>
                 <div className="class-home">
                     <div className="class-header">
-                        <h2>Classes created by you</h2>
+                        <h2>Your Classes</h2>
+                        <p>Classes you are enrolled in/apart of.</p>
                     </div>
                     <div className="class-body">
                         <div className="class-cards">

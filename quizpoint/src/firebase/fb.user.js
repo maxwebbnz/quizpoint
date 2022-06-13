@@ -22,7 +22,6 @@ if (sessionStorage.user === undefined) {
     // if user is authed, get user data from session storage
 } else {
     user = JSON.parse(sessionStorage.user);
-
 }
 
 

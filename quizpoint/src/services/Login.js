@@ -6,6 +6,8 @@
 // Import Statements
 
 import { setUserObjectLocal } from "../firebase/fb.user"
+import { Image, Button } from 'react-bootstrap'
+
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, signInWithCustomToken } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { useGoogleLogout } from 'react-google-login';
@@ -125,13 +127,13 @@ function registerUser(_userObj) {
   if (_userObj.hd === undefined) {
     // new user object
     let userObject = {
-      name: _userObj.name,
+      name: _userObj.displayName,
       email: _userObj.email,
       hd: 'none',
-      picture: _userObj.picture,
+      picture: _userObj.photoURL,
       studentID: _userObj.email.split('@')[0],
       role: 'student',
-      uid: _userObj.id,
+      uid: _userObj.uid,
       classes: {
         notEnrolled: true
       },
@@ -180,8 +182,12 @@ function registerUser(_userObj) {
  *?  What does it do? Logs the user out
  *=============================================**/
 function LogOut() {
-  sessionStorage.clear()
-
+  const auth = getAuth();
+  signOut(auth).then(() => {
+    sessionStorage.clear()
+  }).catch((error) => {
+    // An error happened.
+  });
   return (
     <div className="logout">
       <Image src="media/branding/appicon-itt6.svg" width='100'></Image>

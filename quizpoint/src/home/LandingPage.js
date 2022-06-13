@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 /**======================
  **   Data Service/Auth model Imports
  *========================**/
-import { newSignInModel } from '../services/Login'
+import { newSignInModel, LoginFunction } from '../services/Login'
 import { useGoogleLogin } from '@react-oauth/google';
 
 /**======================

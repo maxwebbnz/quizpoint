@@ -115,17 +115,26 @@ export default function StudentReport() {
                 setStudentObject(snapshot.val())
                 console.log(quizReference)
                 let optionArray = []
-                for (const property in quizReference) {
-                    console.log(`${property}: ${quizReference[property].details.name}`);
-                    optionArray.push({ name: quizReference[property].details.name, id: property, code: quizReference[property].details.code })
+
+                if (quizReference.notEnrolled === true) {
+                    let placholder = <MenuItem>No Quizzes</MenuItem>
+
+                    setSelect(placholder)
+                } else {
+                    for (const property in quizReference) {
+                        console.log(`${property}: ${quizReference[property].details.name}`);
+                        optionArray.push({ name: quizReference[property].details.name, id: property, code: quizReference[property].details.code })
+                    }
+
+                    let quizSelect = optionArray.map((quiz, index) => {
+                        return (
+                            <MenuItem key={quiz.code + index} value={quiz.code}>{quiz.name}</MenuItem>
+                        )
+                    })
+                    setSelect(quizSelect)
+
                 }
 
-                let quizSelect = optionArray.map((quiz, index) => {
-                    return (
-                        <MenuItem key={quiz.code + index} value={quiz.code}>{quiz.name}</MenuItem>
-                    )
-                })
-                setSelect(quizSelect)
                 console.log(quizToSelect)
                 setLoading(false)
             })

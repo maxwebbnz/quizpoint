@@ -172,9 +172,14 @@ export default function Students() {
                                             })
                                         })
                                         console.log(data.quizzes.active)
-                                        Object.keys(data.quizzes.active).forEach(key => {
-                                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
-                                        })
+                                        if (data.quizzes.active.notEnrolled) {
+
+                                        } else {
+                                            Object.keys(data.quizzes.active).forEach(key => {
+                                                setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
+                                            })
+                                            console.log(userActiveQuiz)
+                                        }
                                     }
                                 })
                             }
@@ -347,7 +352,7 @@ export default function Students() {
                                 <Fade in={shouldFade}>
                                     <div className='user-page-container'>
                                         <div className='banner-details'>
-                                            <InfoOutlinedIcon></InfoOutlinedIcon> {userLoaded.name}
+                                            <InfoOutlinedIcon></InfoOutlinedIcon> {userLoaded.name ? userLoaded.name : 'No Name'}
                                         </div>
                                         <div className="user-page-actions">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
@@ -414,20 +419,27 @@ export default function Students() {
                                                 {/* Mapped Quiz Active Cards */}
                                                 {userActiveQuiz.map((quizData, index) => {
                                                     // just some JSX!
-                                                    return (
-                                                        <div className="class-card" key={index}>
-                                                            <Card className="class-card-content">
-                                                                <CardContent>
-                                                                    <h6>{quizData.details.name}</h6>
-                                                                </CardContent>
-                                                                <CardActions>
-                                                                    <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
-                                                                        <Button><AssessmentOutlinedIcon /></Button>
-                                                                    </ButtonGroup>
-                                                                </CardActions>
-                                                            </Card>
-                                                        </div>
-                                                    )
+                                                    console.log(quizData)
+                                                    if (quizData !== true) {
+                                                        return (
+                                                            <div className="class-card" key={index}>
+                                                                <Card className="class-card-content">
+                                                                    <CardContent>
+                                                                        <h6>{quizData.details.name}</h6>
+                                                                    </CardContent>
+                                                                    <CardActions>
+                                                                        <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
+                                                                            <Button><AssessmentOutlinedIcon /></Button>
+                                                                        </ButtonGroup>
+                                                                    </CardActions>
+                                                                </Card>
+                                                            </div>
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <p>No quizzes assigned</p>
+                                                        )
+                                                    }
                                                 })
                                                 }
                                             </div>

@@ -51,7 +51,7 @@ import CreateQuiz from "../teachingsuite/CreateQuiz";
 import EditQuiz from "../teachingsuite/EditQuiz";
 import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
-
+import ReAuthenticateTeacher from "../teachingsuite/ReAuthTeacher";
 /**======================
  **   MUI Imports
  *========================**/
@@ -148,20 +148,26 @@ function App() {
                 <Route path="/invite/:id" element={<Invite />} />
                 <Route path="/user/:id" element={<UserPage />} />
                 {/* Teaching Suite routes */}
-                <Route path="/tcs" element={<TeachingHome />} />
-                <Route path="/tcs/students/:type" element={<Students />} />
-                <Route path="/tcs/user/:id" element={<TeacherStudent />} />
-                <Route path="/tcs/classes" element={<Classes />} />
-                <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
-                <Route path="/tcs/quizzes" element={<Quizzes />} />
-                <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
-                <Route path="/tcs/quizzes/import" element={< InputGoogleForm />} />
-                <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
-                <Route path="/tcs/reporting" element={<Reporting />} />
-                <Route path="/tcs/reporting/:field" element={<Reporting />} />
-                <Route path="/tcs/reports/class/:id" element={<ClassReport />} />
-                <Route path="/tcs/reports/student/:id" element={<StudentReport />} />
-                <Route path="/tcs" element={<TeachingHome />} />
+                {sessionStorage.authToken ?
+                  <>
+                    <Route path="/tcs" element={<TeachingHome />} />
+                    <Route path="/tcs/students/:type" element={<Students />} />
+                    <Route path="/tcs/user/:id" element={<TeacherStudent />} />
+                    <Route path="/tcs/classes" element={<Classes />} />
+                    <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
+                    <Route path="/tcs/quizzes" element={<Quizzes />} />
+                    <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
+                    <Route path="/tcs/quizzes/import" element={< InputGoogleForm />} />
+                    <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
+                    <Route path="/tcs/reporting" element={<Reporting />} />
+                    <Route path="/tcs/reporting/:field" element={<Reporting />} />
+                    <Route path="/tcs/reports/class/:id" element={<ClassReport />} />
+                    <Route path="/tcs/reports/student/:id" element={<StudentReport />} />
+                    <Route path="/tcs" element={<TeachingHome />} />
+                  </>
+                  :
+                  <Route path='/tcs/*' element={<ReAuthenticateTeacher />} />
+                }
                 <Route path="/logout" element={<LogOut />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

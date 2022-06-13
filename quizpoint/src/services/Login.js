@@ -7,11 +7,12 @@
 
 import { setUserObjectLocal } from "../firebase/fb.user"
 import { Image, Button } from 'react-bootstrap'
-
+import logOutBack from './media/logoutback.png'
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, signInWithCustomToken } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { useGoogleLogout } from 'react-google-login';
 
+import './LogOut.css'
 /**==============================================
  **              LoginFunction()
  *?  What does it do? Logs the user in
@@ -182,17 +183,20 @@ function registerUser(_userObj) {
  *?  What does it do? Logs the user out
  *=============================================**/
 function LogOut() {
-  const auth = getAuth();
-  signOut(auth).then(() => {
-    sessionStorage.clear()
-  }).catch((error) => {
-    // An error happened.
-  });
+  // const auth = getAuth();
+  // signOut(auth).then(() => {
+  //   sessionStorage.clear()
+  // }).catch((error) => {
+  //   // An error happened.
+  // });
   return (
-    <div className="logout">
-      <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
-      <h2><b>You have been signed out</b></h2>
-      <Button href="/">Log Back In</Button>
+    <div className="logoutPage" style={{ backgroundImage: `url(${logOutBack})` }}>
+      <div className="logout">
+        <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
+        <h2><b>Haere rā</b></h2>
+        <h3>See you next time.</h3>
+        <button className="generic-button" href="/">Log Back In</button>
+      </div>
     </div>
   )
 };

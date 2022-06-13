@@ -5,4 +5,18 @@
     left: 50% !important;
     margin-right: -50%;
     transform: translate(-50%, -50%) !important;
+    background-color: #6FA8DC;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1%;
+    border-radius: 10px;
+    padding-bottom: 1%;
+}
+
+.logoutPage {
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }

@@ -1,15 +1,42 @@
+
 @media only screen and (max-width:768px) {
+    .loginPage {
+        background-image: none !important;
+    }
+    .loginContainer img {
+        width: 110px !important;
+        height: 110px !important;
+    }
+    .loginText{
+        padding-top: 20px !important;
+    }
+    .logo {
+        padding-top:80px !important;
+    }
+    .loginButtons{
+        padding-top:45px !important;
+    }
+    .loginButtons,
+    .loginButtons button{
+        height:75px !important;
+    }
+    .loginButtons img {
+        width:50px !important;
+        height:60px !important;
+    }
+}
+
+@media only screen and (min-width:768px) {
     .loginPage {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: right;
     }
 
     .loginContainer {
         float: none;
         height: 70vh;
         padding: 20px;
-        border-radius: 10px;
     }
 
     .loginFooter {
@@ -17,7 +44,7 @@
     }
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width:900px) {
     .loginContainer {
         float: right;
         height: 100vh;

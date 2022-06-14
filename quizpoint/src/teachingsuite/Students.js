@@ -169,15 +169,19 @@ export default function Students() {
                             // for each student value
 
                             Object.keys(data).forEach(function (key) {
-                                // console.log(data[key])
-                                // push to placeholder array
-                                rows.push({
-                                    id: key,
-                                    name: data[key].name,
-                                    studentID: data[key].studentID,
-                                    uid: data[key].uid
-                                })
-                                allStudents.push(data[key])
+                                if (data[key].role === 'teacher') {
+
+                                } else {
+                                    // console.log(data[key])
+                                    // push to placeholder array
+                                    rows.push({
+                                        id: key,
+                                        name: data[key].name,
+                                        studentID: data[key].studentID,
+                                        uid: data[key].uid
+                                    })
+                                    allStudents.push(data[key])
+                                }
                             });
                             if (selectedStudentUID === '') {
 

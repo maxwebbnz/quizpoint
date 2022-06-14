@@ -125,7 +125,7 @@ export default function Classes() {
             // trigger function
             loadData()
         }
-    }, [loading])
+    }, [])
     if (loading === false) {
         return (
             <div>

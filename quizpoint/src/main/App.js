@@ -59,7 +59,8 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import InputGoogleForm from "../teachingsuite/InputForm";
-
+import Stack from '@mui/material/Stack';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 /**======================
  **   Stylesheet Imports
  *========================**/
@@ -105,7 +106,7 @@ function isObject(object) {
 function App() {
   // progressive web app definition
   const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
-
+  const [openDataUpdated, setOpenDataUpdated] = useState(false);
   //  dialog states
   const [openDialog, setDialog] = useState(false)
   let action
@@ -210,9 +211,10 @@ function App() {
                 <Route path="/logout" element={<LogOut />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
+
             </div>
-          </GoogleOAuthProvider>
-        </ReactPWAInstallProvider>
+          </GoogleOAuthProvider >
+        </ReactPWAInstallProvider >
 
       );
     } else {

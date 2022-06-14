@@ -69,13 +69,11 @@ export default function LandingPage() {
                 <div className="logo"><img src={logo} alt="QuizPoint Logo"></img></div>
                 <div className="loginText"><h1>QuizPoint</h1></div>
                 <div className="loginButtons">
-
                     <Button variant="light" size="lg" className="googleLoginButton" onClick={() => LoginFunction()} id="authButton"><img src={googleButton}></img>Sign In with Google</Button>
                 </div>
-                <div className='footer'>
+                <div className='loginFooter'>
                     <p>Copyright 2022</p>
                     <p>Created by Max Webb and Alan McIlwaine</p>
-
                 </div>
 
 

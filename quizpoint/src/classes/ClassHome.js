@@ -182,27 +182,23 @@ export default function Classes() {
         if (enrolled === true) {
             classCards = foundClasses.map((classInfo) =>
                 <div>
-
-                    <Card sx={{ width: 275 }}>
+                    <Card sx={{ width: 280, height:310  }} className="class-cards-element" href={'/class/' + classInfo.code}>
                         <CardActionArea>
                             <CardMedia
                                 component="img"
-                                height="100"
+                                height="120"
                                 image="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg"
                                 alt="green iguana"
                             />
                             <CardContent>
                                 <Typography variant="h5" component="div">
                                 </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Taught by {classInfo.classCreator}
-                                </Typography>
                                 <Typography variant="h4">
                                     {classInfo.className}
                                 </Typography>
                             </CardContent>
-                            <CardActions>
-                                <Button size="small" href={'/class/' + classInfo.code}>View Class</Button>
+                            <CardActions className="class-card-footer">
+                                <Typography variant="h6" component="p">{classInfo.classCreator}</Typography>
                             </CardActions>
                         </CardActionArea>
                     </Card>

@@ -3,6 +3,9 @@
     .loginPage {
         background-image: none !important;
     }
+    .loginContainer { 
+        margin: 0 2% 0 2%;
+    }
     .loginContainer img {
         width: 110px !important;
         height: 110px !important;
@@ -19,6 +22,7 @@
     .loginButtons,
     .loginButtons button{
         height:75px !important;
+        white-space: nowrap;
     }
     .loginButtons img {
         width:50px !important;

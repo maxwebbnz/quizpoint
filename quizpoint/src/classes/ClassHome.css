@@ -1,8 +1,3 @@
-/* Main container style */
-.class-home {
-    margin-left: 4%;
-    margin-top: 2%;
-}
 
 /* 'Your classes' text and div */
 .class-header {
@@ -11,7 +6,9 @@
 }
 
 /* Class cards (div row) */
-
+.class-cards-element{
+    border-radius:15px !important;
+}
 .class-cards {
     margin-left: 4%;
     margin-top: 2%;
@@ -20,7 +17,12 @@
     grid-gap: 3%;
     text-align: center;
 }
-
+.class-card-footer{
+    margin-top:9%;
+}
+.class-card-footer > p {
+    text-decoration:none !important;
+}
 /* mobile design */
 .class-cards-mobile {
     margin-left: 11%;

@@ -19,7 +19,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, update } from "firebase/database";
 import { ref as sRef, uploadBytes } from "firebase/storage";
 import Swal from 'sweetalert2';
 
@@ -56,7 +56,7 @@ export default function Quiz() {
         nextQuestion: () => {
             console.log("quizHandler.nextQuestion(): Called");
             if (currentQuestion === (quiz.questions.length - 1)) {
-                set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
+                update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
                 Swal.fire({
                     title: 'Do you want to finish quiz?',
                     showDenyButton: true,
@@ -80,23 +80,40 @@ export default function Quiz() {
             if (currentQuestion === 0) return
             setCurrentQuestion(currentQuestion - 1);
         },
-        recordAnswer: (answer) => {
+        recordAnswer: (answer, isImage) => {
             console.log("quizHandler.recordAnswer(): Called");
             console.log(chosenAnswers)
-            if (answer == quiz.questions[currentQuestion].answer) {
-                chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
-            } else if (answer != quiz.questions[currentQuestion].answer) {
-                chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
-            }else{
-                chosenAnswers.details[currentQuestion] = {
+            if (isImage === true) {
+                console.log("Answer is an image")
+                chosenAnswers.answers[currentQuestion] = {
                     answer: quiz.questions[currentQuestion].answer,
                     question: quiz.questions[currentQuestion].name,
                     status: "correct"
                 }
+            }else if (isImage === false){
+                console.log("Running isImage === false")
+                console.log(quiz.questions[currentQuestion].answer.isArray())
+                if (quiz.questions[currentQuestion].answer.isArray() === true) {
+                    console.log("Answer is in an array");
+                    for (let i = 0; i < quiz.questions[currentQuestion].answer.length; i++) {
+                        if (quiz.questions[currentQuestion].answer[i] == answer) {
+                            chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
+                        }else if (quiz.questions[currentQuestion].answer[i] != answer) {
+                            chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
+                        }
+                    }
+                }else if (quiz.questions[currentQuestion].answer.isArray() === false){
+                    console.log("Answer is not in an array");
+                    if(quiz.questions[currentQuestion].answer == answer) {
+                        chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
+                    }else if (quiz.questions[currentQuestion].answer != answer) {
+                        chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
+                    }
+                } 
             }
             chosenAnswers.details = { code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length }
             console.log("Uploading Results...")
-            set(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
+            update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
             quizHandler.nextQuestion()
         },
 
@@ -140,7 +157,7 @@ export default function Quiz() {
                                 <div className="largeButtonGroup">
                                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                     {quiz.questions[currentQuestion].choices.map(answer => {
-                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}><p>{answer}</p></Button>
+                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                     })} 
                                     </ButtonGroup>
                                 </div>
@@ -148,7 +165,7 @@ export default function Quiz() {
                                 <div className="smallButtonGroupLarge">
                                     {quiz.questions[currentQuestion].choices.length > 4 && 
                                         quiz.questions[currentQuestion].choices.map(answer => {
-                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}><p>{answer}</p></Button>
+                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                         })
                                     }
                                 </div>
@@ -156,7 +173,7 @@ export default function Quiz() {
                                 <div className="smallButtonGroup">
                                     {quiz.questions[currentQuestion].choices.length <= 4 &&
                                         quiz.questions[currentQuestion].choices.map(answer => {
-                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer)} key={answer}><p>{answer}</p></Button> 
+                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button> 
                                         })
                                     }       
                                 </div>    
@@ -171,6 +188,7 @@ export default function Quiz() {
                                 uploadBytes(storageRef, file).then((snapshot) => {
                                     console.log("Uploaded Image to " + storagePath);
                                 })
+                                quizHandler.recordAnswer(storagePath, true);
                             }}/>
                         </div>
                     }

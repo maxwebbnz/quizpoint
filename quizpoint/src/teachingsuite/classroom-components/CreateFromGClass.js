@@ -63,6 +63,7 @@ export default function CreateGoogleClass(props) {
     // navigate reference
     const navigate = useNavigate()
     // states
+    let id = props.currentId
     // is dialog open?
     const [open, setOpen] = useState(false);
     // is loading?
@@ -226,8 +227,8 @@ export default function CreateGoogleClass(props) {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 // we will perform a quick little unauthentication trick
-                                sessionStorage.clear()
-                                window.location.reload(false)
+                                navigate('/tcs/globalreauth/classes,create,' + id)
+
                                 // and then redirect the user to the login page (while maintaing the route)
                                 // should be sweet
                             } else if (result.isDenied) {
@@ -355,7 +356,6 @@ export default function CreateGoogleClass(props) {
                         <Button onClick={() => navigate('/class/' + classId)}>No thanks</Button>
                     </DialogActions>
                 </Dialog>
-                <button onClick={() => loadStudentTest()}>Load Data</button>
             </div>
         );
     }

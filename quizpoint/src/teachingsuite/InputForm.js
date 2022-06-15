@@ -35,11 +35,13 @@ import { alert } from '../services/Alert';
 import './InputForm.css'
 
 
+import { useNavigate } from 'react-router-dom'
 /**========================================================================
  **                           InputGoogleForm
  *?  What does it do? Handles inputting of google form (ui and data)
  *========================================================================**/
 export default function InputGoogleForm() {
+    const navigate = useNavigate()
     // states
     // determine if dialog open?
     const [openDialog, setOpenDialog] = useState(false)
@@ -150,8 +152,8 @@ export default function InputGoogleForm() {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // we will perform a quick little unauthentication trick
-                                    sessionStorage.clear()
-                                    window.location.reload(false)
+
+                                    navigate('/tcs/globalreauth/quizzes,import')
                                     // and then redirect the user to the login page (while maintaing the route)
                                     // should be sweet
                                 } else if (result.isDenied) {

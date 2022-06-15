@@ -52,6 +52,7 @@ import EditQuiz from "../teachingsuite/EditQuiz";
 import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
 import ReAuthenticateTeacher from "../teachingsuite/ReAuthTeacher";
+import GlobalReAuthTeacher from "../teachingsuite/GlobalReAuth"
 /**======================
  **   MUI Imports
  *========================**/
@@ -203,6 +204,7 @@ function App() {
                     <Route path="/tcs/reporting/:field" element={<Reporting />} />
                     <Route path="/tcs/reports/class/:id" element={<ClassReport />} />
                     <Route path="/tcs/reports/student/:id" element={<StudentReport />} />
+                    <Route path="/tcs/globalreauth/:path" element={<GlobalReAuthTeacher />} />
                     <Route path="/tcs" element={<TeachingHome />} />
                   </>
                   :

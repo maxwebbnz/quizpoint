@@ -125,8 +125,9 @@ export default function Classes() {
             }
             // trigger function
             loadData()
+            document.title = 'Your Classes | QuizPoint'
         }
-    }, [])
+    }, [loading])
     if (loading === false) {
         return (
             <div>

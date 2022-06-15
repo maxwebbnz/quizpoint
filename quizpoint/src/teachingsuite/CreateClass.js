@@ -125,7 +125,7 @@ export default function CreateClass() {
                     <img src={icon} width='50' height='50' alt="Classroom logo"></img>
                     <h3>Already made a Google Classroom?</h3>
                     <h2>Use it as a template!</h2>
-                    <CreateGoogleClass open={gClassOpen}></CreateGoogleClass>
+                    <CreateGoogleClass currentId={id} open={gClassOpen}></CreateGoogleClass>
 
                 </div>
             </div>

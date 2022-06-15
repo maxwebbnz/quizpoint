@@ -10,6 +10,7 @@
 // import statements
 import { user } from '../firebase/fb.user.js';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 // import { db, ref } from '../services/firebase.js';
 // database
 import { db } from '../services/firebase'
@@ -40,7 +41,7 @@ let foundClasses = []
 
 export default function Classes() {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-
+    const navigate = useNavigate()
     const [loading, dataFetch] = useState(false)
     const [enrolled, setEnrollment] = useState(true)
     const shouldFade = true;
@@ -182,7 +183,7 @@ export default function Classes() {
         if (enrolled === true) {
             classCards = foundClasses.map((classInfo) =>
                 <div>
-                    <Card sx={{ width: 280, height:310  }} className="class-cards-element" href={'/class/' + classInfo.code}>
+                    <Card sx={{ width: 280, height: 310 }} className="class-cards-element" onClick={() => navigate('/class/' + classInfo.code)}>
                         <CardActionArea>
                             <CardMedia
                                 component="img"

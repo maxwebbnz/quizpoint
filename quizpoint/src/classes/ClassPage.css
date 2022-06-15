@@ -18,7 +18,7 @@
 }
 
 /* body of class page */
-.class-body {
+.class-body, .class-body-mobile{
     padding-left: 2%;
     padding-right: 2%;
 }
@@ -32,17 +32,17 @@
     grid-gap: 3%;
     text-align: center;
 }
-
+.class-body > div > h2 {
+    color:white;
+}
 /* mobile */
 .class-header-mobile {
-    margin-top: 5%;
+    margin-top: 2%;
     text-align: center;
     color: white;
 }
-
 /* class body for mobile */
 .class-body-mobile {
-    text-align: center;
     color: white;
 }
 
@@ -51,12 +51,22 @@
     margin-top: 4%;
 
 }
-
+.css-46bh2p-MuiCardContent-root{
+    /* set background color to red */
+    background-color: var(--secondary-color);
+}
 /* generic quiz card */
 .quiz-card {
-    width: 100%;
+    margin-top: 2%;
+    text-align: center;
+    font-family: var(--main-font);
 }
-
+.css-46bh2p-MuiCardContent-root{
+    color:white;
+}
+.quiz-card > div {
+    border-radius:25px !important;
+}
 /* container used for quiz cards in a grid */
 .quiz-grid {
     display: grid;

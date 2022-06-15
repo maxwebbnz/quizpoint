@@ -88,7 +88,7 @@ export default function ClassPage() {
                             })
                             addQuizCard(quizActive.map((qz) =>
                                 <div className="quiz-card">
-                                    <Card sx={{ minWidth: 275 }}>
+                                    <Card sx={{ width:280, height:310}}>
                                         <CardContent>
                                             <Typography variant="h6">
                                                 {qz.name}
@@ -130,12 +130,11 @@ export default function ClassPage() {
                     <div className="class">
                         <div className="class-header-mobile">
                             <h1>{classObject.className}</h1>
-                            <h3>Created by {classObject.classCreator}</h3>
-                            <hr></hr>
                         </div>
                         <div className="class-body-mobile">
                             <div className="quizassigned-mobile">
                                 <h2>Quizzes Assigned</h2>
+                                <hr></hr>
                                 {quizCards}
                             </div>
                             <hr></hr>
@@ -172,7 +171,6 @@ export default function ClassPage() {
                     <div className="class">
                         <div className="class-header">
                             <h1>{classObject.className}</h1>
-                            <h3>Created by {classObject.classCreator}</h3>
                             <hr></hr>
                         </div>
                         <div className="class-body">

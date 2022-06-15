@@ -3,8 +3,14 @@
 .class-header {
     text-align: center;
     color: white;
+    padding-top:1%;
 }
-
+.css-5lbw0b-MuiTypography-root, .css-2ulfj5-MuiTypography-root{
+    font-family: 'Montserrat', sans-serif !important;
+}
+.css-46bh2p-MuiCardContent-root{
+    padding:24px 16px 16px 16px !important;
+}
 /* Class cards (div row) */
 .class-cards-element{
     border-radius:15px !important;
@@ -16,6 +22,7 @@
     grid-template-columns: 3fr 3fr 3fr;
     grid-gap: 3%;
     text-align: center;
+    font-family: var(--main-font)
 }
 .class-card-footer{
     margin-top:9%;

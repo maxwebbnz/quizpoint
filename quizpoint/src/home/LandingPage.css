@@ -2,6 +2,7 @@
 @media only screen and (max-width:768px) {
     .loginPage {
         background-image: none !important;
+
     }
     .loginContainer { 
         margin: 0 2% 0 2%;
@@ -59,7 +60,11 @@
         display: none;
     }
 }
-
+.css-1t6e9jv-MuiCardActions-root{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .loginPage {
     height: 100vh;
     width: 100vw;

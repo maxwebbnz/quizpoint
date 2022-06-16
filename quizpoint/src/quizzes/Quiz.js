@@ -70,7 +70,6 @@ export default function Quiz() {
                     }
                 })
                 return
-
             }
             setCurrentQuestion(currentQuestion + 1);
         },
@@ -82,18 +81,16 @@ export default function Quiz() {
         },
         recordAnswer: (answer, isImage) => {
             console.log("quizHandler.recordAnswer(): Called");
-            console.log(chosenAnswers)
             if (isImage === true) {
-                console.log("Answer is an image")
                 chosenAnswers.answers[currentQuestion] = {
-                    answer: quiz.questions[currentQuestion].answer,
+                    input: answer,
                     question: quiz.questions[currentQuestion].name,
                     status: "correct"
                 }
             }else if (isImage === false){
-                console.log("Answer is not an image")
+                // Check if multiple answers to quiz
                 if (Array.isArray(quiz.questions[currentQuestion].answer) === true) {
-                    console.log("Answer is an array");
+                    // Checks if answer matches any of the multi choice
                     for (let i = 0; i < quiz.questions[currentQuestion].answer.length; i++) {
                         console.log("Answers: " + quiz.questions[currentQuestion].answer[i].value);
                         if (quiz.questions[currentQuestion].answer[i].value == answer) {
@@ -102,10 +99,13 @@ export default function Quiz() {
                             chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
                         }
                     }
+                // If only one answer to quiz
                 }else if (Array.isArray(quiz.questions[currentQuestion].answer) === false){
                     console.log("Answer is not in an array");
+                    // Correct Answer
                     if(quiz.questions[currentQuestion].answer == answer) {
                         chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
+                    // Wrong Answer
                     }else if (quiz.questions[currentQuestion].answer != answer) {
                         chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
                     }
@@ -119,10 +119,9 @@ export default function Quiz() {
 
         generateImage: () => {
             console.log("quizHandler.generateImage(): Called");
+
             if (quiz.questions[currentQuestion].image){
                 return <img  alt="Quiz Question Image" src={quiz.questions[currentQuestion].image}></img>
-            }else{
-                return
             }
         }
     }
@@ -152,7 +151,7 @@ export default function Quiz() {
                 </div>
                 <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
                 <div className="quizButtons">
-                    {quiz.questions[currentQuestion].inputtype === "multichoice" &&
+                    {quiz.questions[currentQuestion].inputtype != "imageupload" &&
                         <div className="quizQuestionAnswers">
                                 <div className="largeButtonGroup">
                                     <ButtonGroup variant="contained" aria-label="outlined primary button group">

@@ -91,18 +91,18 @@ export default function Quiz() {
                     status: "correct"
                 }
             }else if (isImage === false){
-                console.log("Running isImage === false")
-                console.log(quiz.questions[currentQuestion].answer.isArray())
-                if (quiz.questions[currentQuestion].answer.isArray() === true) {
-                    console.log("Answer is in an array");
+                console.log("Answer is not an image")
+                if (Array.isArray(quiz.questions[currentQuestion].answer) === true) {
+                    console.log("Answer is an array");
                     for (let i = 0; i < quiz.questions[currentQuestion].answer.length; i++) {
-                        if (quiz.questions[currentQuestion].answer[i] == answer) {
+                        console.log("Answers: " + quiz.questions[currentQuestion].answer[i].value);
+                        if (quiz.questions[currentQuestion].answer[i].value == answer) {
                             chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
-                        }else if (quiz.questions[currentQuestion].answer[i] != answer) {
+                        }else if (quiz.questions[currentQuestion].answer[i].value != answer) {
                             chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
                         }
                     }
-                }else if (quiz.questions[currentQuestion].answer.isArray() === false){
+                }else if (Array.isArray(quiz.questions[currentQuestion].answer) === false){
                     console.log("Answer is not in an array");
                     if(quiz.questions[currentQuestion].answer == answer) {
                         chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };

@@ -139,7 +139,7 @@ export default function Classes() {
                 </Backdrop>
                 <div className="class-home">
                     <div className="class-header">
-                        <h2>Your Classes</h2>
+                        <h1>Your Classes</h1>
                     </div>
                     <div className="class-body">
                         <div className="class-cards">
@@ -217,7 +217,7 @@ export default function Classes() {
                 <Fade in={shouldFade}>
                     <div className="class-home">
                         <div className="class-header">
-                            <h2>Your Classes</h2>
+                            <h1>Your Classes</h1>
                         </div>
                         <div className="class-body">
                             <div className="class-cards-mobile">
@@ -236,7 +236,7 @@ export default function Classes() {
                 <Fade in={shouldFade}>
                     <div className="class-home">
                         <div className="class-header">
-                            <h2>Your Classes</h2>
+                            <h1>Your Classes</h1>
                         </div>
                         <div className="class-body">
                             <div className="class-cards">

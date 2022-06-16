@@ -3,7 +3,6 @@
 .class-header {
     text-align: center;
     color: white;
-    padding-top:1%;
 }
 .css-5lbw0b-MuiTypography-root, .css-2ulfj5-MuiTypography-root{
     font-family: 'Montserrat', sans-serif !important;
@@ -20,7 +19,7 @@
     margin-top: 2%;
     display: grid;
     grid-template-columns: 3fr 3fr 3fr;
-    grid-gap: 3%;
+    grid-gap: 1%;
     text-align: center;
     font-family: var(--main-font)
 }

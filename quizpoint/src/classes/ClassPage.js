@@ -23,6 +23,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 import AssignQuiz from "../teachingsuite/AssignQuiz"
 import GenerateInvite from "../teachingsuite/GenerateInvite"
@@ -127,7 +128,7 @@ export default function ClassPage() {
             console.log(quizCards)
             return (
                 <Fade in={shouldFade}>
-                    <div className="class">
+                    <div className="class-page-mobile">
                         <div className="class-header-mobile">
                             <h1>{classObject.className}</h1>
                         </div>
@@ -156,9 +157,11 @@ export default function ClassPage() {
                     }
                     return (
                         <>
-                            <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
-                            <button className="generic-button sml" onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</button>
-                            <GenerateInvite classObject={classObject} classId={classId}></GenerateInvite>
+                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
+                                <Button  onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</Button>
+                                <GenerateInvite classObject={classObject} classId={classId}></GenerateInvite>
+                            </ButtonGroup>
                         </>
                     )
                 } else if (user.role === undefined) {
@@ -168,7 +171,7 @@ export default function ClassPage() {
             console.log(quizCards)
             return (
                 <Fade in={shouldFade}>
-                    <div className="class">
+                    <div className="class-page">
                         <div className="class-header">
                             <h1>{classObject.className}</h1>
                             <hr></hr>

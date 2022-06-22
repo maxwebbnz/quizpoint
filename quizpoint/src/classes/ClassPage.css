@@ -5,6 +5,7 @@
 .class-header {
     text-align: center;
     color: white;
+    margin-top:1.5%;
 }
 
 /* each class card */
@@ -17,12 +18,10 @@
     text-align: center;
 }
 
-/* body of class page */
-.class-body, .class-body-mobile{
-    padding-left: 2%;
-    padding-right: 2%;
+.class-page-mobile, .class-page{
+    padding-left: 6%;
+    padding-right: 6%;
 }
-
 /* mobile design */
 .class-cards-mobile {
     margin-left: 11%;

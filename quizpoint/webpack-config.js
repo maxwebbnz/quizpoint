@@ -1,0 +1,4 @@
+module: {
+    exprContextCritical: false,
+     ...
+}

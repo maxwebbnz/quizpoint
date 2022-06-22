@@ -17,7 +17,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-
+import Button from '@mui/material/Button'
 
 export default function AssignQuiz(props) {
     const [loading, setloading] = useState(true)
@@ -112,10 +112,10 @@ export default function AssignQuiz(props) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <button className='generic-button' onClick={() => setQuizToAssign(selectedQzId)}>Assign</button>
+                    <Button onClick={() => setQuizToAssign(selectedQzId)}>Assign</Button>
                 </DialogActions>
             </Dialog >
-            <button className='generic-button sml' onClick={() => setDialog(true)}>Assign Quiz</button>
+            <Button onClick={() => setDialog(true)}>Assign Quiz</Button>
         </>
     )
 

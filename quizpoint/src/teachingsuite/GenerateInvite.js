@@ -8,7 +8,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useState } from "react"
+import { useState } from "react";
+import Button from '@mui/material/Button';
 
 export default function GenerateInvite(props) {
     const [openDialog, setDialog] = useState(false)
@@ -38,11 +39,11 @@ export default function GenerateInvite(props) {
                 </DialogContent>
 
                 <DialogActions>
-                    <button className='generic-button' onClick={() => setDialog(false)}>Ka pai</button>
+                    <Button onClick={() => setDialog(false)}>Ka pai</Button>
                 </DialogActions>
             </Dialog >
 
-            <button className="generic-button sml" onClick={() => setDialog(true)}>Invite Link</button>
+            <Button onClick={() => setDialog(true)}>Invite Link</Button>
         </>
     )
 }

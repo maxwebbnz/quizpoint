@@ -24,7 +24,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
-
 import AssignQuiz from "../teachingsuite/AssignQuiz"
 import GenerateInvite from "../teachingsuite/GenerateInvite"
 // responsive design
@@ -44,6 +43,7 @@ export default function ClassPage() {
     // const []
     let classArray = []
     let { classId } = useParams()
+
     console.log(classId)
     useEffect(() => {
         if (loading === true) {
@@ -156,13 +156,13 @@ export default function ClassPage() {
                         classArray.push(studentID)
                     }
                     return (
-                        <>
+                        <div class="quick-actions">
                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                 <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
                                 <Button  onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</Button>
                                 <GenerateInvite classObject={classObject} classId={classId}></GenerateInvite>
                             </ButtonGroup>
-                        </>
+                        </div>
                     )
                 } else if (user.role === undefined) {
                     return

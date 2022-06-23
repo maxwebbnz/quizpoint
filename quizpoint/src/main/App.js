@@ -62,7 +62,6 @@ import SnackbarContent from '@mui/material/SnackbarContent';
 import InputGoogleForm from "../teachingsuite/InputForm";
 import Stack from '@mui/material/Stack';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 /**======================
  **   Stylesheet Imports
  *========================**/
@@ -111,16 +110,7 @@ function App() {
   const [openDataUpdated, setOpenDataUpdated] = useState(false);
   //  dialog states
   const [openDialog, setDialog] = useState(false)
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#6FA8DC',
-      },
-      secondary: {
-        main: '#4E83C2',
-      },
-    },
-  });
+
   
   let action
   // handle install click

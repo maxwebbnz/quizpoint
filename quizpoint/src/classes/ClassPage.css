@@ -7,7 +7,22 @@
     color: white;
     margin-top:1.5%;
 }
-
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+    background-color:#4E83C2 !important;
+    text-decoration:none !important;
+}
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover{
+    background-color:#4e79c2 !important;
+}
+.quick-actions{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.quick-actions > div > button {
+    text-decoration:none !important;
+    height:50px;
+}
 /* each class card */
 .class-cards {
     margin-left: 4%;
@@ -17,7 +32,9 @@
     grid-gap: 3%;
     text-align: center;
 }
-
+hr {
+    color:white;
+}
 .class-page-mobile, .class-page{
     padding-left: 6%;
     padding-right: 6%;

@@ -153,31 +153,44 @@ export default function Quiz() {
                 <div className="quizButtons">
                     {quiz.questions[currentQuestion].inputtype != "imageupload" &&
                         <div className="quizQuestionAnswers">
+                            {/* If there are four or less buttons */}
+                            {quiz.questions[currentQuestion].choices.length <= 4  &&
                                 <div className="largeButtonGroup">
                                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                    {quiz.questions[currentQuestion].choices.map(answer => {
-                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
-                                    })} 
+                                        {quiz.questions[currentQuestion].choices.map(answer => {
+                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
+                                        })}
                                     </ButtonGroup>
                                 </div>
-                                {/* If there are more than four buttons on a small screen */}
-                                <div className="smallButtonGroupLarge">
-                                    {quiz.questions[currentQuestion].choices.length > 4 && 
-                                        quiz.questions[currentQuestion].choices.map(answer => {
+                            }
+                            {/* If there are more than four buttons (Needed to fit neatly onto page) */}
+                            {quiz.questions[currentQuestion].choices.length > 4 && 
+                                <div className="largeButtonGroup hasMoreThanFourButtons">
+                                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                        {quiz.questions[currentQuestion].choices.map(answer => {
                                             return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
-                                        })
-                                    }
-                                </div>
-                                {/* If <= 4 buttons on a small screen */}
-                                <div className="smallButtonGroup">
-                                    {quiz.questions[currentQuestion].choices.length <= 4 &&
-                                        quiz.questions[currentQuestion].choices.map(answer => {
-                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button> 
-                                        })
-                                    }       
-                                </div>    
+                                        })}
+                                    </ButtonGroup>
+                                </div> 
+                            }
+                            {/* If there are more than four buttons on a small screen */}
+                            <div className="smallButtonGroupLarge">
+                                {quiz.questions[currentQuestion].choices.length > 4 && 
+                                    quiz.questions[currentQuestion].choices.map(answer => {
+                                        return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
+                                    })
+                                }
+                            </div>
+                            {/* If <= 4 buttons on a small screen */}
+                            <div className="smallButtonGroup">
+                                {quiz.questions[currentQuestion].choices.length <= 4 &&
+                                    quiz.questions[currentQuestion].choices.map(answer => {
+                                        return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button> 
+                                    })
+                                }       
+                            </div>    
                         </div>
-                    }
+}
                     {quiz.questions[currentQuestion].inputtype === "imageupload" && 
                         <div className="quizImageUpload">
                             <input type="file" id="file" name="file" accept="image/*" onChange={(e) => {

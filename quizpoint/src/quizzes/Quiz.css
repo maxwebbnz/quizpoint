@@ -156,6 +156,10 @@
     font-size:15px !important;
 }
 
+.largeButtonGroup > div > button {
+    height:130px;
+}
+
 .quizAnswerButtons , .quizNavigationButtons Button{
     min-width: 20% !important;
     height:110px;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -43,16 +43,6 @@ function setUserObjectLocal(_userObj, _token) {
     window.location.reload(false);
 
 }
-
-
-//? old code that never worked
-// function updateUserData(_newObject) {
-//     let oldData = user;
-//     user = _newObject
-//     sessionStorage.setItem('user', JSON.stringify(user));
-//     window.location.reload(false);
-//     console.log('User updated from ', oldData, ' to ', user);
-// }
 
 // export functions
 export {

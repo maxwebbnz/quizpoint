@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -89,7 +89,7 @@ export default function ClassPage() {
                             })
                             addQuizCard(quizActive.map((qz) =>
                                 <div className="quiz-card">
-                                    <Card sx={{ width:280, height:310}}>
+                                    <Card sx={{ width: 280, height: 310 }}>
                                         <CardContent>
                                             <Typography variant="h6">
                                                 {qz.name}
@@ -150,7 +150,7 @@ export default function ClassPage() {
         } else {
             function returnTeacherActions() {
                 console.log(user)
-                if (user.role === 'teacher') {
+                if (user.role === 'teacher' || user.role === 'hod') {
                     console.log(classObject)
                     for (var studentID in classObject.students) {
                         classArray.push(studentID)
@@ -159,7 +159,7 @@ export default function ClassPage() {
                         <div class="quick-actions">
                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                 <AssignQuiz classList={classArray} classId={classId}></AssignQuiz>
-                                <Button  onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</Button>
+                                <Button onClick={() => { navigate('/tcs/reports/class/' + classId) }} >View Report</Button>
                                 <GenerateInvite classObject={classObject} classId={classId}></GenerateInvite>
                             </ButtonGroup>
                         </div>

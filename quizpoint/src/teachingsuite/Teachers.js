@@ -33,8 +33,8 @@ import CardContent from '@mui/material/CardContent';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
-import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
@@ -46,17 +46,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
-import { user } from '../firebase/fb.user';
 
 
 const rows = []
 
 /**==============================================
- **              Students
- *?  What does it do? Component for handling student list on teaching suite
+ **              Teachers
+ *?  What does it do? Component for handling Teachers list on teaching suite
  *@return type
  *=============================================**/
-export default function Students() {
+export default function Teachers() {
     const navigate = useNavigate()
     let { type } = useParams()
     const [searchValue, setSearchValue] = useState("")
@@ -140,38 +139,38 @@ export default function Students() {
             } else {
                 setUserLoaded({})
             }
-            document.title = `Students | QuizPoint`
+            document.title = `Teachers | QuizPoint`
             console.log('Loading')
 
             // Currently fetching data
         } else {
             if (type === 'all') {
-                document.title = 'Loading Students | QuizPoint'
+                document.title = 'Loading Teachers | QuizPoint'
                 console.log('Loading')
 
                 /**==============================================
                  **              loadData()
-                 *?  What does it do? Load data from Firebase for each student
+                 *?  What does it do? Load data from Firebase for each teacher
                  *=============================================**/
                 function loadData() {
                     // console log
-                    console.log('loading all students data')
+                    console.log('loading all teachers data')
                     //! this should check for each users role before pushing to array
                     const pathRef = ref(db, `/schools/hvhs/users/`);
                     // wait for data
                     onValue(pathRef, (snapshot) => {
-                        // if there is no students, something definelty went wrong.
+                        // if there is no teachers, something definelty went wrong.
                         if (snapshot === undefined) {
                             console.log('ERROR - NO DATA FOUND')
 
                             // if students do exist
                         } else {
-                            // set placeholder to object of students
+                            // set placeholder to object of teachers
                             const data = snapshot.val()
                             // for each student value
 
                             Object.keys(data).forEach(function (key) {
-                                if (data[key].role === 'teacher') {
+                                if (data[key].role === 'student') {
 
                                 } else {
                                     // console.log(data[key])
@@ -234,7 +233,7 @@ export default function Students() {
 
                 /**==============================================
                  **              loadData()
-                 *?  What does it do? Load data from Firebase for each student
+                 *?  What does it do? Load data from Firebase for each teachers
                  *=============================================**/
                 function loadData() {
                     // console log
@@ -316,7 +315,7 @@ export default function Students() {
             title: 'Do you want to save the changes?',
             showDenyButton: true,
             showCancelButton: false,
-            confirmButtonText: 'Delete Student',
+            confirmButtonText: 'Delete Teacher',
             denyButtonText: `Nevermind`,
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
@@ -327,33 +326,32 @@ export default function Students() {
                 Swal.fire('Deleted!', '', 'success')
                 window.location.reload()
             } else if (result.isDenied) {
-                Swal.fire('Student has not been deleted', '', 'info')
+                Swal.fire('Teacher has not been deleted', '', 'info')
             }
         })
 
 
     }
 
-    function promoteSelectedStudent() {
-        if (user.role === 'hod' || user.role === 'teacher') {
-            Swal.fire({
-                title: 'Do you want to promote this student to teacher?',
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: 'Promote Student',
-                denyButtonText: `Nevermind`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
-                    update(pathRef,
-                        { role: 'teacher' })
-                    Swal.fire('Promoted!', '', 'success')
-                } else if (result.isDenied) {
-                    Swal.fire('Student has not been promoted', '', 'info')
-                }
-            })
-        }
+    function demoteTeacher() {
+        Swal.fire({
+            title: 'Do you want to demote this teacher?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Demote Teacher',
+            denyButtonText: `Nevermind`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                let pathRef = ref(db, `/schools/hvhs/users/${selectedStudentUID}`)
+                update(pathRef, {
+                    role: 'student'
+                })
+                Swal.fire('Demoted!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Teacher has not been demoted', '', 'info')
+            }
+        })
     }
 
     function ClassDialog(_id) {
@@ -375,7 +373,7 @@ export default function Students() {
                     } else {
                         let quizObject = snapshot.val().quizzes
                         // assign to class first
-                        let pathRef = ref(db, `/schools/hvhs/classes/${selectedOption}/students`)
+                        let pathRef = ref(db, `/schools/hvhs/classes/${selectedOption}/teachers`)
                         update(pathRef, {
                             [selectedStudentUID]: selectedStudentUID
                         })
@@ -476,8 +474,8 @@ export default function Students() {
                     <div className='studentgrid'>
                         <div className='studentpage-search'>
                             <div className='studentpage-search-header'>
-                                <p><SearchOutlinedIcon></SearchOutlinedIcon> Student Search Filter</p>
-                                <TextField id="outlined-basic" onChange={handleInputChange} label="Student Name" variant="outlined" />
+                                <p><SearchOutlinedIcon></SearchOutlinedIcon>Search Filter</p>
+                                <TextField id="outlined-basic" onChange={handleInputChange} label="Teacher Name" variant="outlined" />
 
                             </div>
                             <hr></hr>
@@ -494,7 +492,7 @@ export default function Students() {
 
                         </div>
                         <div className='studentpage-userview'>
-                            {userLoaded.name === undefined ? <h1 className='selectuser-text'>Select a student</h1> :
+                            {userLoaded.name === undefined ? <h1 className='selectuser-text'>Select a teacher</h1> :
                                 <Fade in={shouldFade}>
                                     <div className='user-page-container'>
                                         <div className='banner-details'>
@@ -502,7 +500,7 @@ export default function Students() {
                                         </div>
                                         <div className="user-page-actions">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                                {user.role === 'hod' ? <Button onClick={() => promoteSelectedStudent()}><ArrowUpwardOutlinedIcon></ArrowUpwardOutlinedIcon> Promote Student</Button> : null}
+                                                <Button onClick={() => demoteTeacher()}><ArrowDownwardOutlinedIcon></ArrowDownwardOutlinedIcon>Demote Teacher</Button>
                                                 <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
                                                 <Button onClick={() => setClassOpen(true)}><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
                                                 <Button onClick={() => deleteStudent()}><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
@@ -520,6 +518,7 @@ export default function Students() {
                                                 {/* Basic Student information */}
                                                 <p>Name: {userLoaded.name}</p>
                                                 <p>Student ID: {userLoaded.studentID}</p>
+                                                <p>User ID: {userLoaded.uid}</p>
                                                 {/* when you click on link, it will send email */}
                                                 <p>Email: <a href={'mailto:' + userLoaded.email}>{userLoaded.email}</a></p>
                                             </div>

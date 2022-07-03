@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -53,6 +53,13 @@ import ClassReport from "../teachingsuite/reportingfeatures/ClassReport";
 import StudentReport from "../teachingsuite/reportingfeatures/StudentReport";
 import ReAuthenticateTeacher from "../teachingsuite/ReAuthTeacher";
 import GlobalReAuthTeacher from "../teachingsuite/GlobalReAuth"
+import Setup from '../teachingsuite/Setup'
+/**======================
+ *?   Teaching Suite components
+ *========================**/
+import HODHome from '../hod/Home'
+import Teachers from "../teachingsuite/Teachers";
+
 /**======================
  **   MUI Imports
  *========================**/
@@ -111,7 +118,7 @@ function App() {
   //  dialog states
   const [openDialog, setDialog] = useState(false)
 
-  
+
   let action
   // handle install click
   const handleClick = () => {
@@ -171,7 +178,7 @@ function App() {
     });
 
     // if the user is a teacher
-    if (user.role === 'teacher') {
+    if (user.role === 'teacher' || user.role === 'hod') {
       // return full components, with full access
       return (
         <ReactPWAInstallProvider enableLogging>
@@ -196,6 +203,61 @@ function App() {
                     <Route path="/tcs" element={<TeachingHome />} />
                     <Route path="/tcs/students/:type" element={<Students />} />
                     <Route path="/tcs/user/:id" element={<TeacherStudent />} />
+                    <Route path="/tcs/teachers/:type" element={<Teachers />} />
+
+                    <Route path="/tcs/classes" element={<Classes />} />
+                    <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
+                    <Route path="/tcs/quizzes" element={<Quizzes />} />
+                    <Route path="/tcs/quizzes/create/:id" element={<CreateQuiz />} />
+                    <Route path="/tcs/quizzes/import" element={< InputGoogleForm />} />
+                    <Route path="/tcs/quizzes/edit/:id" element={<EditQuiz />} />
+                    <Route path="/tcs/reporting" element={<Reporting />} />
+                    <Route path="/tcs/reporting/:field" element={<Reporting />} />
+                    <Route path="/tcs/reports/class/:id" element={<ClassReport />} />
+                    <Route path="/tcs/reports/student/:id" element={<StudentReport />} />
+                    <Route path="/tcs/globalreauth/:path" element={<GlobalReAuthTeacher />} />
+                    {user.role === 'hod' && <Route path="/tcs/setup" element={<Setup />} />}
+
+                    <Route path="/tcs" element={<TeachingHome />} />
+                  </>
+                  :
+                  <Route path='/tcs/*' element={<ReAuthenticateTeacher />} />
+                }
+                <Route path="/logout" element={<LogOut />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+
+            </div>
+          </GoogleOAuthProvider >
+        </ReactPWAInstallProvider >
+
+      );
+    } else if (user.role === 'hod') {
+      // return full components, with full access
+      return (
+        <ReactPWAInstallProvider enableLogging>
+          <GoogleOAuthProvider clientId="616231612574-unh76pn0grtjqdj5ggqg2fq7b6rti4gi.apps.googleusercontent.com">
+            <div className="App">
+              <Snackbar open={openDialog} autoHideDuration={6000}>
+                <SnackbarContent message="I love snacks." action={action} />
+
+              </Snackbar>
+              {/* < NavBar /> */}
+              <NavBar />
+              <Routes>
+                <Route path="/" element={<ClassHome />} />
+                <Route path="/classes" element={<ClassHome />} />
+                <Route path="/class/:classId" element={<ClassPage />} />
+                <Route path="/quiz/:quizId" element={<Quiz />} />
+                <Route path="/invite/:id" element={<Invite />} />
+                <Route path="/user/:id" element={<UserPage />} />
+                {/* Teaching Suite routes */}
+                {sessionStorage.authToken ?
+                  <>
+                    <Route path="/tcs" element={<TeachingHome />} />
+                    <Route path="/tcs/students/:type" element={<Students />} />
+                    <Route path="/tcs/teachers/:type" element={<Teachers />} />
+                    <Route path="/tcs/user/:id" element={<TeacherStudent />} />
                     <Route path="/tcs/classes" element={<Classes />} />
                     <Route path="/tcs/classes/create/:id" element={<CreateClass />} />
                     <Route path="/tcs/quizzes" element={<Quizzes />} />
@@ -208,9 +270,15 @@ function App() {
                     <Route path="/tcs/reports/student/:id" element={<StudentReport />} />
                     <Route path="/tcs/globalreauth/:path" element={<GlobalReAuthTeacher />} />
                     <Route path="/tcs" element={<TeachingHome />} />
+                    {/* HOD Roles */}
+                    <Route path="/hod" element={<HODHome />} />
+
                   </>
                   :
-                  <Route path='/tcs/*' element={<ReAuthenticateTeacher />} />
+                  <>
+                    <Route path='/tcs/*' element={<ReAuthenticateTeacher />} />
+                    <Route path='/hod/*' element={<ReAuthenticateTeacher />} />
+                  </>
                 }
                 <Route path="/logout" element={<LogOut />} />
                 <Route path="*" element={<NotFoundPage />} />

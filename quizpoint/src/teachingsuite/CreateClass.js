@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -148,7 +148,7 @@ export default function CreateClass() {
                     <DialogContentText>
                         or you can share out the link
                     </DialogContentText>
-                    <h2><a href={'localhost:3000/invite/' + id} alt="Join Link">localhost:3000/invite/{id}</a></h2>
+                    <h2><a href={'https://quizpointnz.netlify.app/invite/' + id} alt="Join Link">https://quizpointnz.netlify.app/invite/{id}</a></h2>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Class Page</Button>

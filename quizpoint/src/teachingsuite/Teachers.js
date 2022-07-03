@@ -453,6 +453,20 @@ export default function Teachers() {
     };
 
 
+    /**======================
+     **   Translate Role
+     *?  What does it do? Translates the role to a string
+     *@param string string
+     *@return string
+     *========================**/
+    function translateRole(string) {
+        if (string === 'hod') {
+            return 'Head of Department'
+        } else {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+
+        }
+    }
     // if loading
     if (loading === false) {
         // feed that back to user
@@ -517,6 +531,7 @@ export default function Teachers() {
                                             <div className="user-content-right">
                                                 {/* Basic Student information */}
                                                 <p>Name: {userLoaded.name}</p>
+                                                <p>Role: {translateRole(userLoaded.role)}</p>
                                                 <p>Student ID: {userLoaded.studentID}</p>
                                                 <p>User ID: {userLoaded.uid}</p>
                                                 {/* when you click on link, it will send email */}

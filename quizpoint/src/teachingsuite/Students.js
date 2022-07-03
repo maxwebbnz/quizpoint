@@ -502,7 +502,7 @@ export default function Students() {
                                         </div>
                                         <div className="user-page-actions">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                                {user.role === 'hod' ? <Button onClick={() => promoteSelectedStudent()}><ArrowUpwardOutlinedIcon></ArrowUpwardOutlinedIcon> Promote Student</Button> : null}
+                                                {user.role === 'hod' ? <Button onClick={() => promoteSelectedStudent()}><ArrowUpwardOutlinedIcon></ArrowUpwardOutlinedIcon>  Promote Student</Button> : null}
                                                 <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
                                                 <Button onClick={() => setClassOpen(true)}><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
                                                 <Button onClick={() => deleteStudent()}><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>
@@ -544,8 +544,6 @@ export default function Students() {
                                                                     <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
                                                                         <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
                                                                         <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
-                                                                        <Button><SchoolOutlinedIcon /></Button>
-                                                                        <Button><PersonRemoveOutlinedIcon /></Button>
                                                                     </ButtonGroup>
                                                                 </CardActions>
                                                             </Card>

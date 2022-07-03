@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 // import statements
 import { user } from '../firebase/fb.user.js';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 // import { db, ref } from '../services/firebase.js';
 // database
 import { db } from '../services/firebase'
@@ -31,8 +32,6 @@ import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
-let userClasses = []
-let foundClasses = []
 
 /**========================================================================
  **                           Generate Push ID
@@ -82,9 +81,14 @@ let generatePushID = (function () {
 
 export default function Classes() {
     const [loading, dataFetch] = useState(false)
+    const [userClasses, setUserClasses] = useState([])
     const [noClasses, setClassStatus] = useState(false)
+    const [allClasses, setAllClasses] = useState([])
+    const [foundClasses, setFoundClasses] = useState([])
     const shouldFade = true;
 
+
+    const navigate = useNavigate()
     useEffect(() => {
         if (loading === true) {
             document.title = ' Classes | QuizPoint'
@@ -119,6 +123,8 @@ export default function Classes() {
                 //
                 //     }
                 // })
+
+
                 var toBeat = 0;
                 var currentNum = 0
                 for (var a in user.classes) {
@@ -126,8 +132,21 @@ export default function Classes() {
                 }
                 console.log(user.classes)
                 if (user.classes.notEnrolled) {
-                    dataFetch(true)
-                    setClassStatus(true)
+                    let pathRef = ref(db, '/schools/hvhs/classes')
+                    onValue(pathRef, (snapshot) => {
+                        if (snapshot.val() === null) {
+                            // no classes
+                        } else {
+                            snapshot.forEach(snap => {
+                                // console.log(snap.val())
+                                allClasses.push(snap.val())
+                            })
+                            dataFetch(true)
+                            setClassStatus(true)
+
+
+                        }
+                    })
                 } else {
                     Object.keys(user.classes).forEach(function (key) {
                         console.log(key)
@@ -153,7 +172,20 @@ export default function Classes() {
                             if (currentNum < toBeat) {
                                 console.log('not loaded yet' + currentNum + ' ' + toBeat)
                             } else {
-                                dataFetch(true)
+                                let pathRef = ref(db, '/schools/hvhs/classes')
+                                onValue(pathRef, (snapshot) => {
+                                    if (snapshot.val() === null) {
+                                        // no classes
+                                    } else {
+                                        snapshot.forEach(snap => {
+                                            // console.log(snap.val())
+                                            allClasses.push(snap.val())
+                                        })
+                                        dataFetch(true)
+
+                                    }
+                                })
+                                console.log(allClasses)
                             }
                         })
 
@@ -164,6 +196,8 @@ export default function Classes() {
             }
             // trigger function
             loadData()
+            console.log(allClasses)
+
         }
     })
     if (loading === false) {
@@ -244,41 +278,112 @@ export default function Classes() {
 
             </div>
         );
+        const allClassCards = allClasses.map((classInfo) =>
+            <div>
+                <Card sx={{ width: 275 }}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            height="100"
+                            image="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg"
+                            alt="green iguana"
+                        />
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Taught by {classInfo.classCreator}
+                            </Typography>
+                            <Typography variant="h4">
+                                {classInfo.className}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small" href={'/class/' + classInfo.code}>View Class</Button>
+                        </CardActions>
+                    </CardActionArea>
+                </Card>
+
+            </div>
+        );
         return (
             <Fade in={shouldFade}>
                 <div className="class-home">
                     <div className="class-header">
                         <h2>Your Classes</h2>
                         <p>Classes you are enrolled in/apart of.</p>
+                        <button className='generic-button sml' onClick={() => navigate('/tcs/classes/create/' + generatePushID())}>Create Class</button>
                     </div>
                     <div className="class-body">
                         <div className="class-cards">
                             {classCards}
                         </div>
                     </div>
-                    <Box sx={{ '& > :not(style)': { m: 1 }, position: 'absolute', bottom: 16, right: 16 }}>
-                        <Fab color="primary" aria-label="add" href={'/tcs/classes/create/' + generatePushID()}>
-                            <h3><i className="bi bi-plus"></i></h3>
-                        </Fab>
-                    </Box>
+                    <div className="class-header">
+                        <h2>All Classes</h2>
+                        <p>All classes in your school directory.</p>
+                    </div>
+                    <div className="class-body">
+                        <div className="class-cards">
+                            {allClassCards}
+                        </div>
+                    </div>
+
                 </div>
             </Fade>
         )
     } else {
+        const allClassCards = allClasses.map((classInfo) =>
+            <div>
+                <Card sx={{ width: 275 }}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            height="100"
+                            image="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg"
+                            alt="green iguana"
+                        />
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Taught by {classInfo.classCreator}
+                            </Typography>
+                            <Typography variant="h4">
+                                {classInfo.className}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small" href={'/class/' + classInfo.code}>View Class</Button>
+                        </CardActions>
+                    </CardActionArea>
+                </Card>
+
+            </div>
+        );
         return (
             <Fade in={shouldFade}>
                 <div className="class-home">
                     <div className="class-header">
                         <h2>Classes created by you</h2>
+                        <button className='generic-button sml' onClick={() => navigate('/tcs/classes/create/' + generatePushID())}>Create Class</button>
+
                     </div>
                     <div className="class-body">
                         <p>You have no classes</p>
                     </div>
-                    <Box sx={{ '& > :not(style)': { m: 1 }, position: 'absolute', bottom: 16, right: 16 }}>
-                        <Fab color="primary" aria-label="add" href={'/tcs/classes/create/' + generatePushID()}>
-                            <h3><i className="bi bi-plus"></i></h3>
-                        </Fab>
-                    </Box>
+                    <div className="class-header">
+                        <h2>All Classes</h2>
+                        <p>All classes in your school directory.</p>
+                    </div>
+                    <div className="class-body">
+                        <div className="class-cards">
+                            {allClassCards}
+                        </div>
+                    </div>
+
+
+
                 </div>
             </Fade>
         )

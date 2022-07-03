@@ -86,6 +86,7 @@
     }
     .quizQuestionTitle{
         justify-content:space-between;
+
     }
     .smallButtonGroup{
         display:none;
@@ -101,12 +102,20 @@
         min-width: 130px;
         text-decoration:underline;
     }
+    .quizContent{
+        display:flex;
+    }
 }
 
 .quizPage{
     display:flex;
     align-items:center;
     flex-direction:column;
+}
+
+.hasMoreThanFourButtons{
+    display:grid;
+    grid-template-columns:auto auto;
 }
 
 .quizButtons{

@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 import { Input } from '@mui/material'
 
 import './Setup.css'
+import { db } from '../services/firebase'
+import { onValue, ref, get, getDatabase } from 'firebase/database';
 export default function Setup() {
     const [currentName, setName] = useState('')
     const [currentDomain, setDomain] = useState('')
@@ -20,6 +22,30 @@ export default function Setup() {
 
         }
     }, [loadingInformation])
+
+
+    function exportData() {
+        // variables for pdfs and excel documents
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = dd + '-' + mm + '-' + yyyy;
+        let pathRef = ref(db, `/schools/hvhs`);
+        onValue(pathRef, (snapshot) => {
+            let dataStr = JSON.stringify(snapshot.val());
+            let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+            let exportFileDefaultName = `QuizPoint Backup on ${today}.json`;
+
+            let linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        })
+    }
+
     return (
         <div className='cont'>
             <h1>QuizPoint Setup</h1>
@@ -39,6 +65,7 @@ export default function Setup() {
                 </div>
             </div>
             <button className='generic-button sml'>Save Information</button>
+            <button className='generic-button sml' onClick={() => exportData()}>Export Data</button>
         </div>
     )
 }

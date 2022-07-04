@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -50,7 +50,7 @@ export default function UserDialog(props) {
     return (
         // Dialog
         <Dialog fullWidth={true} maxWidth={'sm'} open={open} onClose={onClose}>
-            <DialogTitle>{user.name}</DialogTitle>
+            <DialogTitle>Kia ora, {user.name}.</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     <List>

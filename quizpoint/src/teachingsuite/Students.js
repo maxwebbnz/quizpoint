@@ -532,7 +532,8 @@ export default function Students() {
                                         <div className="user-classcards">
                                             <div className="classCards-row">
                                                 {/* Mapped Class Cards */}
-                                                {userClasses.map((classData, index) => {
+                                                {userClasses.length < 1 ? <p>{userLoaded.name} is not enrolled in any classes</p> : userClasses.map((classData, index) => {
+
                                                     // just some JSX!
                                                     return (
                                                         <div className="class-card" key={index}>

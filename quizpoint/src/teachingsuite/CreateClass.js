@@ -123,10 +123,9 @@ export default function CreateClass() {
                 </div>
                 <div className="createClass-googleClassroomBump">
                     <img src={icon} width='50' height='50' alt="Classroom logo"></img>
-                    <h3>Already made a Google Classroom?</h3>
-                    <h2>Use it as a template!</h2>
+                    <h3>Got a Google Classroom for it?</h3>
+                    <h4>Use it as a template.</h4>
                     <CreateGoogleClass currentId={id} open={gClassOpen}></CreateGoogleClass>
-
                 </div>
             </div>
             <Dialog

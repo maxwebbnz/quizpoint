@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 /**======================
@@ -172,6 +172,8 @@ export default function InputGoogleForm() {
                     } else {
                         // Something happened in setting up the request that triggered an Error
                         console.log('Error', error.message);
+                        alert.error(error.message, "There was an error importing your quiz, please try again later")
+                        setOpenDialog(false)
                     }
                     console.log(error.config);
                 })
@@ -193,8 +195,8 @@ export default function InputGoogleForm() {
         <div className='inputform-feature'>
             <div className='inputform-feature-title'>
                 <h5>Migrating from Google Forms?</h5>
-                <h1>We have made it simple.</h1>
-                <h5>You can now create quizzes from Google Forms without having to edit anything.</h5>
+                <h3>We have made it simple.</h3>
+                <h5>You can now create quizzes from Google Forms without having to do a thing.</h5>
             </div>
             <div className='inputform-feature-steps'>
                 <div className='1'>

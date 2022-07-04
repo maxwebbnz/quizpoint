@@ -544,9 +544,11 @@ export default function Teachers() {
                                             <h5><SchoolOutlinedIcon></SchoolOutlinedIcon> Classes</h5>
                                         </div>
                                         <div className="user-classcards">
+                                            {/* Mapped Class Cards */}
                                             <div className="classCards-row">
                                                 {/* Mapped Class Cards */}
-                                                {userClasses.map((classData, index) => {
+                                                {userClasses.length < 1 ? <p>{userLoaded.name} is not enrolled in any classes</p> : userClasses.map((classData, index) => {
+
                                                     // just some JSX!
                                                     return (
                                                         <div className="class-card" key={index}>
@@ -558,8 +560,6 @@ export default function Teachers() {
                                                                     <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
                                                                         <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
                                                                         <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
-                                                                        <Button><SchoolOutlinedIcon /></Button>
-                                                                        <Button><PersonRemoveOutlinedIcon /></Button>
                                                                     </ButtonGroup>
                                                                 </CardActions>
                                                             </Card>

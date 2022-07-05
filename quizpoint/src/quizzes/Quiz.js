@@ -19,7 +19,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
-import { ref, onValue, set, update } from "firebase/database";
+import { ref, onValue, set, update,  get, child, remove} from "firebase/database";
 import { ref as sRef, uploadBytes } from "firebase/storage";
 import Swal from 'sweetalert2';
 
@@ -35,6 +35,7 @@ export default function Quiz() {
     let { quizId } = useParams()
     let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
+    let quizInStudentPath = ref(db, `schools/hvhs/users/${user.uid}/quizzes/active/${quizId}`);
     let studentPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
     // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
@@ -55,6 +56,7 @@ export default function Quiz() {
         // When "Next" is clicked, cycle through to the next question
         nextQuestion: () => {
             console.log("quizHandler.nextQuestion(): Called");
+            // If last question
             if (currentQuestion === (quiz.questions.length - 1)) {
                 update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
                 Swal.fire({
@@ -64,7 +66,19 @@ export default function Quiz() {
                     confirmButtonText: "Finish",
                 }) .then ((result) => {
                     if (result.isConfirmed) {
-                        console.log("Quiz Completed")
+                        console.log("quizHandler.nextQuestion(), User Finished Quiz")
+                        get(quizInStudentPath).then ((snapshot) => {
+                            if (snapshot.exists()) {
+                                let quizSave = {};
+                                quizSave[quizId] = snapshot.val();
+                                console.log(quizSave)
+                                update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/turnedin'), quizSave).then(() => {
+                                    remove(quizInStudentPath);
+                                });
+                            } else {
+                                console.log("Snapshot does not exist")
+                            }
+                        })
                     }else if (result.isDenied) {
                         console.log("Quiz Not Completed")
                     }

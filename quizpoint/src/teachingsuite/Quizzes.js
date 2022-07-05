@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 // import statements
@@ -26,9 +26,9 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Fab from '@mui/material/Fab';
 
-let allQuizzes = []
 
 /**========================================================================
  **                           Generate Push ID
@@ -79,6 +79,7 @@ let generatePushID = (function () {
 
 
 export default function Quizzes() {
+    const [allQuizzes, setQuizzes] = useState([])
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const shouldFade = true;
@@ -95,7 +96,9 @@ export default function Quizzes() {
                         if (childSnapshot.cache) {
                             return;
                         } else {
-                            allQuizzes.push(childSnapshot.val())
+                            let quiztoPush = childSnapshot.val()
+                            quiztoPush.code = childSnapshot.key
+                            allQuizzes.push(quiztoPush)
                         }
                     })
                     setLoading(true)
@@ -135,6 +138,7 @@ export default function Quizzes() {
                             <CardActions>
                                 <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
                                     <Button><AssessmentOutlinedIcon /></Button>
+                                    <Button onClick={() => navigate('/tcs/quizzes/edit/' + quizData.code)}><EditOutlinedIcon /></Button>
                                 </ButtonGroup>
                             </CardActions>
                         </Card>

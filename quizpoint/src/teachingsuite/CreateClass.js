@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -123,10 +123,9 @@ export default function CreateClass() {
                 </div>
                 <div className="createClass-googleClassroomBump">
                     <img src={icon} width='50' height='50' alt="Classroom logo"></img>
-                    <h3>Already made a Google Classroom?</h3>
-                    <h2>Use it as a template!</h2>
+                    <h3>Got a Google Classroom for it?</h3>
+                    <h4>Use it as a template.</h4>
                     <CreateGoogleClass currentId={id} open={gClassOpen}></CreateGoogleClass>
-
                 </div>
             </div>
             <Dialog
@@ -148,7 +147,7 @@ export default function CreateClass() {
                     <DialogContentText>
                         or you can share out the link
                     </DialogContentText>
-                    <h2><a href={'localhost:3000/invite/' + id} alt="Join Link">localhost:3000/invite/{id}</a></h2>
+                    <h2><a href={'https://quizpointnz.netlify.app/invite/' + id} alt="Join Link">https://quizpointnz.netlify.app/invite/{id}</a></h2>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Class Page</Button>

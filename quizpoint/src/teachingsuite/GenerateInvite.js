@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 // import { useParams, useNavigate } from "react-router-dom"
@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 
 export default function GenerateInvite(props) {
     const [openDialog, setDialog] = useState(false)
-    let inviteLink = `https://quizpoint.hvhs.school.nz/invite/${props.classId}`
+    let inviteLink = `https://quizpointnz.netlify.app/invite/${props.classId}`
 
     function generateInviteLink() {
         console.log(inviteLink)

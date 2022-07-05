@@ -453,6 +453,20 @@ export default function Teachers() {
     };
 
 
+    /**======================
+     **   Translate Role
+     *?  What does it do? Translates the role to a string
+     *@param string string
+     *@return string
+     *========================**/
+    function translateRole(string) {
+        if (string === 'hod') {
+            return 'Head of Department'
+        } else {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+
+        }
+    }
     // if loading
     if (loading === false) {
         // feed that back to user
@@ -517,6 +531,7 @@ export default function Teachers() {
                                             <div className="user-content-right">
                                                 {/* Basic Student information */}
                                                 <p>Name: {userLoaded.name}</p>
+                                                <p>Role: {translateRole(userLoaded.role)}</p>
                                                 <p>Student ID: {userLoaded.studentID}</p>
                                                 <p>User ID: {userLoaded.uid}</p>
                                                 {/* when you click on link, it will send email */}
@@ -529,9 +544,11 @@ export default function Teachers() {
                                             <h5><SchoolOutlinedIcon></SchoolOutlinedIcon> Classes</h5>
                                         </div>
                                         <div className="user-classcards">
+                                            {/* Mapped Class Cards */}
                                             <div className="classCards-row">
                                                 {/* Mapped Class Cards */}
-                                                {userClasses.map((classData, index) => {
+                                                {userClasses.length < 1 ? <p>{userLoaded.name} is not enrolled in any classes</p> : userClasses.map((classData, index) => {
+
                                                     // just some JSX!
                                                     return (
                                                         <div className="class-card" key={index}>
@@ -543,8 +560,6 @@ export default function Teachers() {
                                                                     <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
                                                                         <Button onClick={() => navigate('/tcs/reports/class/' + classData.code)}><AssessmentOutlinedIcon /></Button>
                                                                         <Button onClick={() => navigate('/class/' + classData.code)}><OpenInNewOutlinedIcon /></Button>
-                                                                        <Button><SchoolOutlinedIcon /></Button>
-                                                                        <Button><PersonRemoveOutlinedIcon /></Button>
                                                                     </ButtonGroup>
                                                                 </CardActions>
                                                             </Card>

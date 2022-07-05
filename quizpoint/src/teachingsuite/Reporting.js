@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 /**========================================================================
@@ -153,7 +153,7 @@ export default function Reporting() {
                 onClose={handleClose}
                 fullWidth={true}
 
-                maxWidth={'md'}
+                maxWidth={'lg'}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -216,7 +216,7 @@ export default function Reporting() {
                 onClose={handleClose}
                 fullWidth={true}
 
-                maxWidth={'md'}
+                maxWidth={'lg'}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >

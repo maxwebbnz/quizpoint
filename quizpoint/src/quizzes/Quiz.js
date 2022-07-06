@@ -31,11 +31,13 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
-    const [chosenAnswers, setChosenAnswers] = useState({ answers: {}, details: {} })
+    const [chosenAnswers, setChosenAnswers] = useState({ answers: {}, details: {}, score: {}})
+    const [correctAnswers, setCorrectAnswers] = useState()
     let { quizId } = useParams()
     let studentId = user.uid
     let quizPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
     let quizInStudentPath = ref(db, `schools/hvhs/users/${user.uid}/quizzes/active/${quizId}`);
+    let quizAnswersInStudentPath = ref(db, `schools/hvhs/users/${user.uid}/quizzes/active/${quizId}/answers`)
     let studentPath = ref(db, `/schools/hvhs/quizzes/${quizId}`);
     // `schools/users/${studentId}/quizzes/turnedin/${quizId}`
     // Stepper Variables
@@ -72,6 +74,19 @@ export default function Quiz() {
                                 let quizSave = {};
                                 quizSave[quizId] = snapshot.val();
                                 console.log(quizSave)
+                                let correctAnswers = 0;
+                                let wrongAnswers = 0;
+                                for (const key in quizSave[quizId].answers) {
+                                    if(`${quizSave[quizId].answers[key].status}` === "correct"){
+                                        correctAnswers++
+                                        quizSave[quizId].score = {correct: correctAnswers}
+                                    }
+                                    if(`${quizSave[quizId].answers[key].status}` === "incorrect"){
+                                        wrongAnswers++
+                                        quizSave[quizId].score = {correct: wrongAnswers}
+                                    }
+
+                                }
                                 update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/turnedin'), quizSave).then(() => {
                                     remove(quizInStudentPath);
                                 });
@@ -79,6 +94,7 @@ export default function Quiz() {
                                 console.log("Snapshot does not exist")
                             }
                         })
+                        
                     }else if (result.isDenied) {
                         console.log("Quiz Not Completed")
                     }
@@ -100,7 +116,7 @@ export default function Quiz() {
                     input: answer,
                     question: quiz.questions[currentQuestion].name,
                     status: "correct"
-                }
+            }
             }else if (isImage === false){
                 // Check if multiple answers to quiz
                 if (Array.isArray(quiz.questions[currentQuestion].answer) === true) {
@@ -108,7 +124,7 @@ export default function Quiz() {
                     for (let i = 0; i < quiz.questions[currentQuestion].answer.length; i++) {
                         console.log("Answers: " + quiz.questions[currentQuestion].answer[i].value);
                         if (quiz.questions[currentQuestion].answer[i].value == answer) {
-                            chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
+                            chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };  
                         }else if (quiz.questions[currentQuestion].answer[i].value != answer) {
                             chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
                         }
@@ -125,7 +141,8 @@ export default function Quiz() {
                     }
                 } 
             }
-            chosenAnswers.details = { code: quizId, name: quiz.title, progress: Object.keys(chosenAnswers.answers).length }
+            chosenAnswers.details = { code: quizId, name: quiz.title }
+
             console.log("Uploading Results...")
             update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
             quizHandler.nextQuestion()

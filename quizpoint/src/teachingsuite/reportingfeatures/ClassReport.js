@@ -508,7 +508,8 @@ export default function StudentReport() {
                             name: snapshot.val().name,
                             studentId: snapshot.val().studentID
                         }
-                        if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined) {
+                        console.log(dataForUser.name)
+                        if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined && snapshot.val().quizzes.turnedIn[currentQuiz] !== undefined) {
                             dataForUser.completed = 'incomplete'
                             // finished here, push to table
                             tableData.push(dataForUser)

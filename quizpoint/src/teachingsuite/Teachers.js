@@ -494,7 +494,7 @@ export default function Teachers() {
                             </div>
                             <hr></hr>
                             <div className='search-results'>
-                                <p>Search Results</p>
+                                <p>Search Results ({search.length} match)</p>
 
                                 {search.map((item) => (
                                     <div className='search-result' key={item.uid} onClick={() => setUID(item.uid)}>

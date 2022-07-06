@@ -482,7 +482,7 @@ export default function Students() {
                             </div>
                             <hr></hr>
                             <div className='search-results'>
-                                <p>Search Results</p>
+                                <p>Search Results ({search.length} match)</p>
 
                                 {search.map((item) => (
                                     <div className='search-result' key={item.uid} onClick={() => setUID(item.uid)}>
@@ -560,7 +560,6 @@ export default function Students() {
                                         </div>
                                         <div className="user-quizhistory">
                                             {/* Quiz Section */}
-                                            <h6>Currently Assigned</h6>
                                             <div className="classCards-row">
                                                 {/* Mapped Quiz Active Cards */}
                                                 {userActiveQuiz.map((quizData, index) => {

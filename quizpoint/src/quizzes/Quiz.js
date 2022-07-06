@@ -79,13 +79,11 @@ export default function Quiz() {
                                 for (const key in quizSave[quizId].answers) {
                                     if (`${quizSave[quizId].answers[key].status}` === "correct") {
                                         correctAnswers++
-                                        quizSave[quizId].score = { correct: correctAnswers }
                                     }
                                     if (`${quizSave[quizId].answers[key].status}` === "incorrect") {
                                         wrongAnswers++
-                                        quizSave[quizId].score = { correct: wrongAnswers }
                                     }
-
+                                    quizSave[quizId].score = { correct: correctAnswers, incorrect: wrongAnswers }  
                                 }
 
                                 update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/turnedin'), quizSave).then(() => {
@@ -144,7 +142,6 @@ export default function Quiz() {
                 }
             }
             chosenAnswers.details = { code: quizId, name: quiz.title }
-
             console.log("Uploading Results...")
             update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/active/' + quizId), chosenAnswers);
             quizHandler.nextQuestion()

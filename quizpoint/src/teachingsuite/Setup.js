@@ -46,6 +46,11 @@ export default function Setup() {
         })
     }
 
+    function handleInput(e) {
+        console.log(e.target.files)
+        console.log(JSON.parse(e.target.files[0]))
+
+    }
     return (
         <div className='cont'>
             <h1>QuizPoint Setup</h1>
@@ -66,6 +71,7 @@ export default function Setup() {
             </div>
             <button className='generic-button sml'>Save Information</button>
             <button className='generic-button sml' onClick={() => exportData()}>Export Data</button>
+            <input type={'file'} id={'import-file'} onChange={handleInput} />
         </div>
     )
 }

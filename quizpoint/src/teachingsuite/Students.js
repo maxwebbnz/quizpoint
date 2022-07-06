@@ -502,7 +502,7 @@ export default function Students() {
                                         </div>
                                         <div className="user-page-actions">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                                {user.role === 'hod' ? <Button onClick={() => promoteSelectedStudent()}><ArrowUpwardOutlinedIcon></ArrowUpwardOutlinedIcon>  Promote Student</Button> : null}
+                                                <Button onClick={() => promoteSelectedStudent()}><ArrowUpwardOutlinedIcon></ArrowUpwardOutlinedIcon>  Promote Student</Button>
                                                 <Button onClick={() => navigate('/tcs/reports/student/' + userLoaded.uid)}><AssessmentOutlinedIcon></AssessmentOutlinedIcon> View Report</Button>
                                                 <Button onClick={() => setClassOpen(true)}><SchoolOutlinedIcon></SchoolOutlinedIcon> Add Class</Button>
                                                 <Button onClick={() => deleteStudent()}><PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon> Remove Student</Button>

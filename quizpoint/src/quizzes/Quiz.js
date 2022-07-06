@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -19,7 +19,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import './Quiz.css'
 // firebase and db stuff
 import { db } from '../services/firebase'
-import { ref, onValue, set, update,  get, child, remove} from "firebase/database";
+import { ref, onValue, set, update, get, child, remove } from "firebase/database";
 import { ref as sRef, uploadBytes } from "firebase/storage";
 import Swal from 'sweetalert2';
 
@@ -31,7 +31,7 @@ export default function Quiz() {
     const [quiz, setQuiz] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [loadingStatus, setLoadingStatus] = useState(true)
-    const [chosenAnswers, setChosenAnswers] = useState({ answers: {}, details: {}, score: {}})
+    const [chosenAnswers, setChosenAnswers] = useState({ answers: {}, details: {}, score: {} })
     const [correctAnswers, setCorrectAnswers] = useState()
     let { quizId } = useParams()
     let studentId = user.uid
@@ -66,10 +66,10 @@ export default function Quiz() {
                     showDenyButton: true,
                     denyButtonText: "Back",
                     confirmButtonText: "Finish",
-                }) .then ((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
                         console.log("quizHandler.nextQuestion(), User Finished Quiz")
-                        get(quizInStudentPath).then ((snapshot) => {
+                        get(quizInStudentPath).then((snapshot) => {
                             if (snapshot.exists()) {
                                 let quizSave = {};
                                 quizSave[quizId] = snapshot.val();
@@ -77,25 +77,27 @@ export default function Quiz() {
                                 let correctAnswers = 0;
                                 let wrongAnswers = 0;
                                 for (const key in quizSave[quizId].answers) {
-                                    if(`${quizSave[quizId].answers[key].status}` === "correct"){
+                                    if (`${quizSave[quizId].answers[key].status}` === "correct") {
                                         correctAnswers++
-                                        quizSave[quizId].score = {correct: correctAnswers}
+                                        quizSave[quizId].score = { correct: correctAnswers }
                                     }
-                                    if(`${quizSave[quizId].answers[key].status}` === "incorrect"){
+                                    if (`${quizSave[quizId].answers[key].status}` === "incorrect") {
                                         wrongAnswers++
-                                        quizSave[quizId].score = {correct: wrongAnswers}
+                                        quizSave[quizId].score = { correct: wrongAnswers }
                                     }
 
                                 }
+
                                 update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/turnedin'), quizSave).then(() => {
+                                    // update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/turnedin/', { notEnrolled: false }))
                                     remove(quizInStudentPath);
                                 });
                             } else {
                                 console.log("Snapshot does not exist")
                             }
                         })
-                        
-                    }else if (result.isDenied) {
+
+                    } else if (result.isDenied) {
                         console.log("Quiz Not Completed")
                     }
                 })
@@ -116,30 +118,30 @@ export default function Quiz() {
                     input: answer,
                     question: quiz.questions[currentQuestion].name,
                     status: "correct"
-            }
-            }else if (isImage === false){
+                }
+            } else if (isImage === false) {
                 // Check if multiple answers to quiz
                 if (Array.isArray(quiz.questions[currentQuestion].answer) === true) {
                     // Checks if answer matches any of the multi choice
                     for (let i = 0; i < quiz.questions[currentQuestion].answer.length; i++) {
                         console.log("Answers: " + quiz.questions[currentQuestion].answer[i].value);
                         if (quiz.questions[currentQuestion].answer[i].value == answer) {
-                            chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };  
-                        }else if (quiz.questions[currentQuestion].answer[i].value != answer) {
+                            chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
+                        } else if (quiz.questions[currentQuestion].answer[i].value != answer) {
                             chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
                         }
                     }
-                // If only one answer to quiz
-                }else if (Array.isArray(quiz.questions[currentQuestion].answer) === false){
+                    // If only one answer to quiz
+                } else if (Array.isArray(quiz.questions[currentQuestion].answer) === false) {
                     console.log("Answer is not in an array");
                     // Correct Answer
-                    if(quiz.questions[currentQuestion].answer == answer) {
+                    if (quiz.questions[currentQuestion].answer == answer) {
                         chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "correct" };
-                    // Wrong Answer
-                    }else if (quiz.questions[currentQuestion].answer != answer) {
+                        // Wrong Answer
+                    } else if (quiz.questions[currentQuestion].answer != answer) {
                         chosenAnswers.answers[currentQuestion] = { input: answer, question: quiz.questions[currentQuestion].name, status: "incorrect" };
                     }
-                } 
+                }
             }
             chosenAnswers.details = { code: quizId, name: quiz.title }
 
@@ -151,8 +153,8 @@ export default function Quiz() {
         generateImage: () => {
             console.log("quizHandler.generateImage(): Called");
 
-            if (quiz.questions[currentQuestion].image){
-                return <img  alt="Quiz Question Image" src={quiz.questions[currentQuestion].image}></img>
+            if (quiz.questions[currentQuestion].image) {
+                return <img alt="Quiz Question Image" src={quiz.questions[currentQuestion].image}></img>
             }
         }
     }
@@ -181,35 +183,35 @@ export default function Quiz() {
                     <p className="quizQuestionCounter">{currentQuestion + 1} / {quiz.questions.length}</p>
                 </div>
                 <div className="quizContent">
-                <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
+                    <div className="quizQuestionImage">{quizHandler.generateImage()}</div>
                     <div className="quizButtons">
                         {quiz.questions[currentQuestion].inputtype != "imageupload" &&
                             <div className="quizQuestionAnswers">
                                 {/* If there are four or less buttons */}
-                                {quiz.questions[currentQuestion].choices.length <= 4  &&
+                                {quiz.questions[currentQuestion].choices.length <= 4 &&
                                     <div className="largeButtonGroup">
                                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                             {quiz.questions[currentQuestion].choices.map(answer => {
-                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
+                                                return <Button variant="contained" className="quizAnswerButtons" style={{ textTransform: "none" }} onClick={() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                             })}
                                         </ButtonGroup>
                                     </div>
                                 }
                                 {/* If there are more than four buttons (Needed to fit neatly onto page) */}
-                                {quiz.questions[currentQuestion].choices.length > 4 && 
+                                {quiz.questions[currentQuestion].choices.length > 4 &&
                                     <div className="largeButtonGroup hasMoreThanFourButtons">
                                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                             {quiz.questions[currentQuestion].choices.map(answer => {
-                                                return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
+                                                return <Button variant="contained" className="quizAnswerButtons" style={{ textTransform: "none" }} onClick={() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                             })}
                                         </ButtonGroup>
-                                    </div> 
+                                    </div>
                                 }
                                 {/* If there are more than four buttons on a small screen */}
                                 <div className="smallButtonGroupLarge">
-                                    {quiz.questions[currentQuestion].choices.length > 4 && 
+                                    {quiz.questions[currentQuestion].choices.length > 4 &&
                                         quiz.questions[currentQuestion].choices.map(answer => {
-                                            return <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
+                                            return <Button variant="contained" className="quizAnswerButtons" style={{ textTransform: "none" }} onClick={() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                         })
                                     }
                                 </div>
@@ -217,13 +219,13 @@ export default function Quiz() {
                                 <div className="smallButtonGroup">
                                     {quiz.questions[currentQuestion].choices.length <= 4 &&
                                         quiz.questions[currentQuestion].choices.map(answer => {
-                                            return  <Button variant="contained" className="quizAnswerButtons" style={{textTransform: "none"}} onClick = {() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button> 
+                                            return <Button variant="contained" className="quizAnswerButtons" style={{ textTransform: "none" }} onClick={() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                         })
-                                    }       
-                                </div>    
+                                    }
+                                </div>
                             </div>
-    }
-                        {quiz.questions[currentQuestion].inputtype === "imageupload" && 
+                        }
+                        {quiz.questions[currentQuestion].inputtype === "imageupload" &&
                             <div className="quizImageUpload">
                                 <input type="file" id="file" name="file" accept="image/*" onChange={(e) => {
                                     let file = e.target.files[0];
@@ -233,12 +235,12 @@ export default function Quiz() {
                                         console.log("Uploaded Image to " + storagePath);
                                     })
                                     quizHandler.recordAnswer(storagePath, true);
-                                }}/>
+                                }} />
                             </div>
                         }
                         <div className="quizNavigationButtons">
-                            <Button variant="outlined" style={{textTransform: "none"}} onClick={quizHandler.lastQuestion}>Back</Button>
-                            <Button variant="contained" color="success" style={{textTransform: "none"}} onClick={quizHandler.nextQuestion}>Next</Button>
+                            <Button variant="outlined" style={{ textTransform: "none" }} onClick={quizHandler.lastQuestion}>Back</Button>
+                            <Button variant="contained" color="success" style={{ textTransform: "none" }} onClick={quizHandler.nextQuestion}>Next</Button>
                         </div>
                     </div>
                 </div>

@@ -36,7 +36,9 @@ export default function ClassPage() {
     const [loading, dataComplete] = useState(false)
     const [classObject, setClass] = useState()
     const [quizCards, addQuizCard] = useState([])
+    const [quizTurnedCards, addQuizTurnedInCard] = useState([])
     const [quizActive, setQuizActive] = useState([])
+    const [quizTurnedIn, setQuizTurnedIn] = useState([])
     const [currentNum, setCurrentNum] = useState(0)
     const [toBeat, setToBeat] = useState(0)
     const [shouldFade, fadeEnabled] = useState(true)
@@ -82,8 +84,14 @@ export default function ClassPage() {
                                     // skip
                                 } else {
                                     console.log(key)
-                                    let quiz = data.quizzes[key]
-                                    quizActive.push(quiz)
+                                    if (user.quizzes.turnedin[key] === undefined) {
+                                        let quiz = data.quizzes[key]
+                                        quizActive.push(quiz)
+                                    } else {
+                                        let quiz = data.quizzes[key]
+                                        quizTurnedIn.push(quiz)
+                                    }
+
                                 }
 
                             })
@@ -97,6 +105,20 @@ export default function ClassPage() {
                                         </CardContent>
                                         <CardActions>
                                             <Button size="small" onClick={() => navigate(`/quiz/${qz.code}`)}>Start Quiz</Button>
+                                        </CardActions>
+                                    </Card>
+                                </div>
+                            ))
+                            addQuizTurnedInCard(quizTurnedIn.map((qz) =>
+                                <div className="quiz-card">
+                                    <Card sx={{ width: 280, height: 310 }}>
+                                        <CardContent>
+                                            <Typography variant="h6">
+                                                {qz.name}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button size="small">You have finished this quiz.</Button>
                                         </CardActions>
                                     </Card>
                                 </div>
@@ -188,7 +210,10 @@ export default function ClassPage() {
                             <hr></hr>
                             <div className="quizcompleted">
                                 <h2>Quizzes Completed</h2>
-                                <p>Feature not yet complete</p>
+                                <div className="quiz-grid">
+                                    {quizTurnedCards}
+
+                                </div>
                             </div>
                         </div>
                     </div>

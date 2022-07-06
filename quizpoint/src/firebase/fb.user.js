@@ -16,12 +16,12 @@ let user = {
 };
 
 // if session storage -> empty
-if (sessionStorage.user === undefined) {
+if (localStorage.user === undefined) {
     user.authed = false;
 
     // if user is authed, get user data from session storage
 } else {
-    user = JSON.parse(sessionStorage.user);
+    user = JSON.parse(localStorage.user);
 }
 
 
@@ -38,7 +38,7 @@ function setUserObjectLocal(_userObj, _token) {
     // set google api token
     _userObj.accessToken = _token
     // set user object in session storage
-    sessionStorage.setItem('user', JSON.stringify(_userObj));
+    localStorage.setItem('user', JSON.stringify(_userObj));
     // reload page
     window.location.reload(false);
 

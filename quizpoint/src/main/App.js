@@ -167,7 +167,7 @@ function App() {
 
       } else {
         console.log('updated data')
-        sessionStorage.setItem('user', JSON.stringify(snapshot.val()))
+        localStorage.setItem('user', JSON.stringify(snapshot.val()))
       }
       action = (
         <Button color="secondary" size="small">
@@ -198,7 +198,7 @@ function App() {
                 <Route path="/invite/:id" element={<Invite />} />
                 <Route path="/user/:id" element={<UserPage />} />
                 {/* Teaching Suite routes */}
-                {sessionStorage.authToken ?
+                {localStorage.authToken ?
                   <>
                     <Route path="/tcs" element={<TeachingHome />} />
                     <Route path="/tcs/students/:type" element={<Students />} />
@@ -252,7 +252,7 @@ function App() {
                 <Route path="/invite/:id" element={<Invite />} />
                 <Route path="/user/:id" element={<UserPage />} />
                 {/* Teaching Suite routes */}
-                {sessionStorage.authToken ?
+                {localStorage.authToken ?
                   <>
                     <Route path="/tcs" element={<TeachingHome />} />
                     <Route path="/tcs/students/:type" element={<Students />} />

@@ -145,7 +145,7 @@ export default function CreateGoogleClass(props) {
             ]
         };
         // send announcment with a HTTP post to the api
-        axios.post('https://classroom.googleapis.com/v1/courses/' + classId + '/announcements?' + 'access_token=' + sessionStorage.authToken, data)
+        axios.post('https://classroom.googleapis.com/v1/courses/' + classId + '/announcements?' + 'access_token=' + localStorage.authToken, data)
             .then((res) => {
                 console.log(`Status: ${res.status}`);
                 console.log('Body: ', res.data);
@@ -171,18 +171,18 @@ export default function CreateGoogleClass(props) {
             var xhr = new XMLHttpRequest();
             // we want a object back please
             xhr.responseType = 'json';
-            if (sessionStorage.authToken === undefined) {
+            if (localStorage.authToken === undefined) {
                 console.log("No auth token")
                 setLoading(false)
             }
             // send a get request to classroom.googleapis.com API
             xhr.open('GET',
                 'https://classroom.googleapis.com/v1/courses?' +
-                'access_token=' + sessionStorage.authToken);
+                'access_token=' + localStorage.authToken);
             // on load
             xhr.addEventListener('error', handleError);
 
-            axios.get('https://classroom.googleapis.com/v1/courses?access_token=' + sessionStorage.authToken)
+            axios.get('https://classroom.googleapis.com/v1/courses?access_token=' + localStorage.authToken)
                 .then(function (response) {
                     console.log(response.data);
                     // no need to do anything if response is null
@@ -282,7 +282,7 @@ export default function CreateGoogleClass(props) {
         )
     } else {
         function loadStudentTest() {
-            axios.get('https://classroom.googleapis.com/v1/courses/466309248441/students?access_token=' + sessionStorage.authToken + '&pageSize=100')
+            axios.get('https://classroom.googleapis.com/v1/courses/466309248441/students?access_token=' + localStorage.authToken + '&pageSize=100')
                 .then(function (response) {
                     // handle success
                     console.log(response.data);

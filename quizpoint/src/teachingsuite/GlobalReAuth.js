@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -41,7 +41,7 @@ export default function GlobalReAuthTeacher(_locationPost) {
     function startLogin(_token) {
         console.log(_token)
         // set state
-        sessionStorage.setItem('authToken', _token.access_token)
+        localStorage.setItem('authToken', _token.access_token)
         console.log(path)
         let newString = path.replace(/,/g, '/');
         // start process with session storage

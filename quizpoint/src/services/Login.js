@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
 
@@ -11,7 +11,7 @@ import logOutBack from './media/logoutback.png'
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, signInWithCustomToken } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { useGoogleLogout } from 'react-google-login';
-
+import { useNavigate } from "react-router-dom";
 import './LogOut.css'
 /**==============================================
  **              LoginFunction()
@@ -69,7 +69,7 @@ function newSignInModel(_token) {
       console.log(user)
       console.log('Sign in model started')
       // set auth token up in browser
-      sessionStorage.setItem('authToken', _token)
+      localStorage.setItem('authToken', _token)
       // then, we need to pull user id first.
       var xhr = new XMLHttpRequest();
       // we want a object
@@ -183,9 +183,10 @@ function registerUser(_userObj) {
  *?  What does it do? Logs the user out
  *=============================================**/
 function LogOut() {
+  const navigate = useNavigate()
   const auth = getAuth();
   signOut(auth).then(() => {
-    sessionStorage.clear()
+    localStorage.clear()
   }).catch((error) => {
     // An error happened.
   });
@@ -195,7 +196,7 @@ function LogOut() {
         <Image src="media/branding/appicon-itt6.svg" width='100'></Image>
         <h2><b>Haere rā</b></h2>
         <h3>See you next time.</h3>
-        <button className="generic-button" href="/">Log Back In</button>
+        <button className="generic-button" onClick={() => window.location.replace('/')}>Log Back In</button>
       </div>
     </div>
   )

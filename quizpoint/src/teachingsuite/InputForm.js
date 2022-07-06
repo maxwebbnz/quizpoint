@@ -62,13 +62,13 @@ export default function InputGoogleForm() {
             // reference from legacy code
             let fileId = formId
             // if for some reason we don't have token, this won't work.
-            if (sessionStorage.authToken === undefined) {
+            if (localStorage.authToken === undefined) {
                 console.log("No auth token")
             }
             // send a get request to google form API to pull data for a form with the id of formID
             axios({
                 method: 'get',
-                url: 'https://forms.googleapis.com/v1/forms/' + fileId + '?access_token=' + sessionStorage.authToken,
+                url: 'https://forms.googleapis.com/v1/forms/' + fileId + '?access_token=' + localStorage.authToken,
                 responseType: 'json'
             })
                 // on response

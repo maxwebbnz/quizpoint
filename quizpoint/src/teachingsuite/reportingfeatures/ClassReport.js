@@ -505,15 +505,61 @@ export default function StudentReport() {
                     } else {
                         // set up the users information
                         let dataForUser = {
-                            name: snapshot.val().name,
+                            name: snapshot.val().uid,
                             studentId: snapshot.val().studentID
                         }
                         console.log(dataForUser.name)
-                        if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined && snapshot.val().quizzes.turnedIn[currentQuiz] !== undefined) {
-                            dataForUser.completed = 'incomplete'
-                            // finished here, push to table
-                            tableData.push(dataForUser)
+                        if (snapshot.val().quizzes.turnedin[currentQuiz] !== undefined) {
+                            console.log(snapshot.val().name + 'has turned in the quiz' + currentQuiz)
+
+                            // if there progress matches the number of questions for the current quiz, they have completed it
+                            if (snapshot.val().quizzes.turnedin[currentQuiz].details.progress === snapshot.val().quizzes.turnedin[currentQuiz].numofquestions) {
+                                dataForUser.completed = 'complete'
+                            } else {
+                                // they have not completed it
+                                dataForUser.completed = 'incomplete'
+                            }
+                            // if it only exists in their turned in directory
+                            if (snapshot.val().quizzes.turnedin[currentQuiz] === undefined || snapshot.val().quizzes.turnedin[currentQuiz] === undefined) {
+                                // set a reference to prevent me from writng it out all the time
+                                let quizReference = snapshot.val().quizzes.turnedin[currentQuiz].answers
+                                // for each question
+                                for (var index = 0; index < quizReference.length; index++) {
+                                    // if it doesn't exist, skip!
+                                    if (quizReference[index] === undefined) {
+                                        console.log('no reference at ' + index)
+                                    } else {
+                                        // set up status for table
+                                        dataForUser['question' + index] = quizReference[index].status
+
+                                    }
+                                }
+                                // finished here, push to table
+                                console.log(dataForUser)
+                                tableData.push(dataForUser)
+                            } else {
+                                console.log('else code is being excuted son')
+
+                                // set a reference to prevent me from writng it out all the time
+                                let qzRef = snapshot.val().quizzes.turnedin[currentQuiz].answers
+                                // for each question
+                                for (var index = 0; index < qzRef.length; index++) {
+                                    // if it doesn't exist, skip!
+                                    if (qzRef[index] === undefined) {
+                                        console.log('no reference at ' + index)
+                                    } else {
+                                        // set up status for table
+                                        dataForUser['question' + index] = qzRef[index].status
+                                        console.log(dataForUser)
+                                    }
+                                }
+                                // finished here, push to table
+                                console.log(dataForUser)
+                                tableData.push(dataForUser)
+                            }
+
                         } else {
+
                             // if there progress matches the number of questions for the current quiz, they have completed it
                             if (snapshot.val().quizzes.active[currentQuiz].details.progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
                                 dataForUser.completed = 'complete'
@@ -538,6 +584,7 @@ export default function StudentReport() {
                                 }
                                 // finished here, push to table
                                 tableData.push(dataForUser)
+
                             } else {
                                 // if it exists in the active directory
                                 let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
@@ -551,7 +598,7 @@ export default function StudentReport() {
                                         } else {
                                             // set up status for table
                                             dataForUser['question' + index] = quizReference[index].status
-
+                                            console.log(dataForUser)
                                         }
                                     }
                                 }
@@ -560,6 +607,7 @@ export default function StudentReport() {
                             }
                         }
                     }
+
                 })
             }
             // return components for reporting

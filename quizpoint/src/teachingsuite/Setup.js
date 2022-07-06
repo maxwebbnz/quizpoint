@@ -6,7 +6,6 @@
 
 import { useState, useEffect } from 'react';
 import { Input } from '@mui/material'
-
 import './Setup.css'
 import { db } from '../services/firebase'
 import { onValue, ref, get, getDatabase } from 'firebase/database';

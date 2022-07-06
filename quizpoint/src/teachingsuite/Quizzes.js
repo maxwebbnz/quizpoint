@@ -18,7 +18,7 @@ import './Quizzes.css'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-
+import Tooltip from '@mui/material/Tooltip';
 // Material UI for Styled Components
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -137,8 +137,11 @@ export default function Quizzes() {
                             </CardContent>
                             <CardActions>
                                 <ButtonGroup size="small" variant="text" color="primary" aria-label="text primary button group">
-                                    <Button><AssessmentOutlinedIcon /></Button>
-                                    <Button onClick={() => navigate('/tcs/quizzes/edit/' + quizData.code)}><EditOutlinedIcon /></Button>
+                                    {/* <Button><AssessmentOutlinedIcon /></Button> */}
+                                    <Tooltip title={"Edit " + quizData.title} >
+                                        <Button onClick={() => navigate('/tcs/quizzes/edit/' + quizData.code)}><EditOutlinedIcon /></Button>
+
+                                    </Tooltip>
                                 </ButtonGroup>
                             </CardActions>
                         </Card>

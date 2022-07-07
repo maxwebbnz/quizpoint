@@ -83,7 +83,7 @@ export default function Quiz() {
                                     if (`${quizSave[quizId].answers[key].status}` === "incorrect") {
                                         wrongAnswers++
                                     }
-                                    quizSave[quizId].score = { correct: correctAnswers, incorrect: wrongAnswers }  
+                                    quizSave[quizId].score = { correct: correctAnswers, incorrect: wrongAnswers, total: quiz.questions.length }  
                                 }
 
                                 update(ref(db, 'schools/hvhs/users/' + user.uid + '/quizzes/turnedin'), quizSave).then(() => {

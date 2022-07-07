@@ -25,6 +25,7 @@ const Dashboard = () => {
                     <Button href={'/tcs/quizzes/'}>View a Quiz</Button>
                     <Button href={'/tcs/reporting'}>Generate Reports</Button>
                 </ButtonGroup>
+                  <h4>Need a hand with QuizPoint? <a href={'https://sites.google.com/hvhs.school.nz/quizpoint/teaching-suite'}>Check out the documentation</a></h4>
             </div>
         </div>
     )

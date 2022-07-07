@@ -107,7 +107,7 @@
     }
     .quizQuestionTitle{
         justify-content:space-between;
-
+        height:122px;
     }
     .smallButtonGroup{
         display:none;
@@ -129,10 +129,8 @@
         height:300px;
         display:flex;
     }
-    .css-zqcytf-MuiButtonGroup-root{
-        display:grid;
-        grid-template-columns:auto auto auto;
-        height:300px;
+    .css-sghohy-MuiButtonBase-root-MuiButton-root{
+        word-wrap:break-word;
     }
 }
 
@@ -144,7 +142,8 @@
 
 .hasMoreThanFourButtons{
     display:grid;
-    grid-template-columns:auto auto;
+    grid-template-columns:250px 250px !important;
+    align-items:flex-end;
 }
 
 .quizButtons{
@@ -184,17 +183,21 @@
     height:100%;
     justify-content:center;
 }
-.largeButtonGroup > div > button > p {
+.largeButtonGroup > button > p {
     display:flex;
     align-items:center;
+    justify-content:center;
     width:100%;
     margin-bottom:0rem !important;
     height:100%;
-    font-size:15px !important;
+    font-size:calc(16px + 0.03vw) !important;
 }
-
+.largeButtonGroup{
+    display:grid;
+    grid-template-columns: 250px 250px;
+}
 .largeButtonGroup > div > button {
-    height:130px;
+    height:150px;
 }
 
 .quizAnswerButtons , .quizNavigationButtons Button{
@@ -210,6 +213,7 @@
 }
 .css-zqcytf-MuiButtonGroup-root button {
     width:120px;
+    padding:2px;
 }
 .quizQuestionAnswers {
     max-width:70%;

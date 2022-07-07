@@ -187,21 +187,17 @@ export default function Quiz() {
                                 {/* If there are four or less buttons */}
                                 {quiz.questions[currentQuestion].choices.length <= 4 &&
                                     <div className="largeButtonGroup">
-                                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                             {quiz.questions[currentQuestion].choices.map(answer => {
                                                 return <Button variant="contained" className="quizAnswerButtons" style={{ textTransform: "none" }} onClick={() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                             })}
-                                        </ButtonGroup>
                                     </div>
                                 }
                                 {/* If there are more than four buttons (Needed to fit neatly onto page) */}
                                 {quiz.questions[currentQuestion].choices.length > 4 &&
                                     <div className="largeButtonGroup hasMoreThanFourButtons">
-                                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                             {quiz.questions[currentQuestion].choices.map(answer => {
                                                 return <Button variant="contained" className="quizAnswerButtons" style={{ textTransform: "none" }} onClick={() => quizHandler.recordAnswer(answer, false)} key={answer}><p>{answer}</p></Button>
                                             })}
-                                        </ButtonGroup>
                                     </div>
                                 }
                                 {/* If there are more than four buttons on a small screen */}

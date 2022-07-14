@@ -296,6 +296,9 @@ export default function Students() {
                                         Object.keys(data.quizzes.active).forEach(key => {
                                             setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.active[key]])
                                         })
+                                        Object.keys(data.quizzes.turnedin).forEach(key => {
+                                            setActiveQuiz(prevQuiz => [...prevQuiz, data.quizzes.turnedin[key]])
+                                        })
                                     }
                                 })
                             }

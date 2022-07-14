@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2022 QuizPoint
+ * Copyright (c) 2022 Bounce developed by alanmcilwaine and maxwebbnz
  * All rights reserved.
  */
+
 /*
 * Copyright (c) 2022 QuizPoint
 * All rights reserved.
@@ -116,14 +117,11 @@ export default function StudentReport() {
                 console.log(quizReference)
                 let optionArray = []
 
-                if (quizReference.notEnrolled === true) {
-                    let placholder = <MenuItem>No Quizzes</MenuItem>
-
-                    setSelect(placholder)
-                } else {
-                    for (const property in quizReference) {
-                        console.log(`${property}: ${quizReference[property].details.name}`);
-                        optionArray.push({ name: quizReference[property].details.name, id: property, code: quizReference[property].details.code })
+                if (quizReference === null) {
+                    console.log(quizReferenceCompleted)
+                    for (const property in quizReferenceCompleted) {
+                        console.log(`${property}: ${quizReferenceCompleted[property].details.name}`);
+                        optionArray.push({ name: quizReferenceCompleted[property].details.name, id: property, code: quizReferenceCompleted[property].details.code })
                     }
 
                     let quizSelect = optionArray.map((quiz, index) => {
@@ -132,11 +130,33 @@ export default function StudentReport() {
                         )
                     })
                     setSelect(quizSelect)
+                    console.log(quizSelect)
+                    setLoading(false)
+                } else {
+                    for (const property in quizReference) {
+                        console.log(`${property}: ${quizReference[property].details.name}`);
+                        optionArray.push({ name: quizReference[property].details.name, id: property, code: quizReference[property].details.code })
+                    }
+                    if (quizReferenceCompleted !== null) {
+                        for (const property in quizReferenceCompleted) {
+                            console.log(`${property}: ${quizReferenceCompleted[property].details.name}`);
+                            optionArray.push({ name: quizReferenceCompleted[property].details.name, id: property, code: quizReferenceCompleted[property].details.code })
+                        }
+                    }
+                    let quizSelect = optionArray.map((quiz, index) => {
+                        return (
+                            <MenuItem key={quiz.code + index} value={quiz.code}>{quiz.name}</MenuItem>
+                        )
+                    })
+                    setSelect(quizSelect)
+                    console.log(quizSelect)
+                    setLoading(false)
 
                 }
 
-                console.log(quizToSelect)
-                setLoading(false)
+
+
+
             })
 
         } else {
@@ -335,28 +355,36 @@ export default function StudentReport() {
                             name: snapshot.val().name,
                             studentId: snapshot.val().studentID
                         }
-                        if (snapshot.val().quizzes.active[currentQuiz].details.progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
-                            dataForUser.completed = 'complete'
-                        } else {
-                            dataForUser.completed = 'incomplete'
-                        }
-                        if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined) {
+                        if (snapshot.val().quizzes.turnedin[currentQuiz]) {
+                            if (snapshot.val().quizzes.turnedin[currentQuiz].details.progress === snapshot.val().quizzes.turnedin[currentQuiz].numofquestions) {
+                                dataForUser.completed = 'complete'
+                            } else {
+                                dataForUser.completed = 'incomplete'
+                            }
                             console.log('Hello!' + currentQuiz)
                             let quizReference = snapshot.val().quizzes.turnedin[currentQuiz].answers
                             console.log(quizReference)
-                            for (var index = 0; index < quizReference.length; index++) {
-                                if (quizReference[index] === undefined) {
 
+                            for (var index = 0; index < snapshot.val().quizzes.turnedin[currentQuiz].answers.length; index++) {
+                                console.log(snapshot.val().quizzes.turnedin[currentQuiz].answers[index])
+                                if (snapshot.val().quizzes.turnedin[currentQuiz].answers[index] === undefined) {
+                                    console.log(index)
                                 } else {
-                                    console.log(quizReference[index])
-                                    dataForUser['question' + index] = quizReference[index].status
+                                    console.log(snapshot.val().quizzes.turnedin[currentQuiz].answers[index])
+                                    dataForUser['question' + index] = snapshot.val().quizzes.turnedin[currentQuiz].answers[index].status
 
                                 }
                             }
                             tableData.push(dataForUser)
                         } else {
-                            let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
-                            if (quizReference === undefined) { } else {
+                            if (snapshot.val().quizzes.active[currentQuiz].details.progress === snapshot.val().quizzes.active[currentQuiz].numofquestions) {
+                                dataForUser.completed = 'complete'
+                            } else {
+                                dataForUser.completed = 'incomplete'
+                            }
+                            if (snapshot.val().quizzes.active[currentQuiz] === undefined || snapshot.val().quizzes.active[currentQuiz] === undefined) {
+                                console.log('Hello!' + currentQuiz)
+                                let quizReference = snapshot.val().quizzes.turnedin[currentQuiz].answers
                                 console.log(quizReference)
                                 for (var index = 0; index < quizReference.length; index++) {
                                     if (quizReference[index] === undefined) {
@@ -367,9 +395,26 @@ export default function StudentReport() {
 
                                     }
                                 }
+                                tableData.push(dataForUser)
+                            } else {
+                                let quizReference = snapshot.val().quizzes.active[currentQuiz].answers
+                                if (quizReference === undefined) { } else {
+                                    console.log(quizReference)
+                                    for (var index = 0; index < quizReference.length; index++) {
+                                        console.log(quizReference[index])
 
+                                        if (quizReference[index] === undefined) {
+
+                                        } else {
+                                            console.log(quizReference[index])
+                                            dataForUser['question' + index] = quizReference[index].status
+
+                                        }
+                                    }
+
+                                }
+                                tableData.push(dataForUser)
                             }
-                            tableData.push(dataForUser)
                         }
                     }
                 })
